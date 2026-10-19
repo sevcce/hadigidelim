@@ -1,0 +1,2952 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <title>Koh Phangan</title>
+    <link rel="icon" type="image/png" sizes="64x64" href="resimler/logoooo 2.jpeg" />
+    <link rel="icon" type="image/x-icon" href="resimler/logoooo.ico" />
+
+    <style>
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            background: rgb(24, 24, 24);
+            flex-direction: column;
+            font-family: sans-serif;
+            overflow-x: hidden;
+        }
+
+        nav {
+            background-color: rgb(31, 31, 31);
+            color: rgb(202, 200, 200);
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            height: 70px;
+            z-index: 1000;
+            width: 100%;
+            position: sticky;
+            top: 0;
+            transition: transform 0.3s ease;
+      padding: 0 20px;
+      border-bottom: 3px solid rgb(187, 186, 186);
+    }
+    .nav-gizli {
+            transform: translateY(-100%);
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            margin-right: 80px;
+            margin-left: 50px;
+        }
+
+        .nav-logo img {
+            width: 56px;
+            height: 70px;
+            object-fit: cover;
+            margin-right: 5px;
+        }
+
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+            margin-left: 6px;
+        }
+
+        .logo-text .main-title {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: rgb(251, 187, 69);
+        }
+
+        .logo-text .sub-title {
+            font-size: 0.9em;
+            font-style: italic;
+            color: rgb(202, 200, 200);
+            margin-top: -3px;
+            margin-left: 9px;
+            margin-right: 10px;
+        }
+
+        .menu-toggle,
+        .menu-close,
+        .menu-back {
+            display: none;
+            /* Masaüstünde gizli */
+            font-size: 32px;
+            cursor: pointer;
+            color: white;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 1100;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            font-family: 'Times New Roman', Times, serif;
+            align-items: center;
+            flex: 1;
+        }
+
+        .nav-item {
+            position: relative;
+        }
+
+        .nav-links>.nav-item>a {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            text-decoration: none;
+            color: rgba(255, 255, 255, 0.879);
+            font-weight: 500;
+            font-size: 1em;
+            padding: 6px 12px;
+            border: 2px solid transparent;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-item>a.has-arrow::after {
+            content: "";
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            border-right: 2px solid rgba(255, 255, 255, 0.879);
+            border-bottom: 2px solid rgba(255, 255, 255, 0.879);
+            transform: rotate(45deg);
+        }
+
+        .dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: -30px;
+            background-color: rgb(242, 181, 68);
+            min-width: 180px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            text-align: left;
+            margin-left: 35px;
+            transition: all 0.5s ease-in-out;
+        }
+
+        .dropdown a {
+            display: block;
+            padding: 10px 16px;
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .dropdown a:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown a:hover {
+            background-color: rgb(249, 210, 136);
+        }
+
+        .dropdown-sub {
+            display: none;
+            position: absolute;
+            top: 0;
+            /* ASYA linki ile aynı hizada başlar */
+            left: 100%;
+            /* sağa açılır */
+            background-color: rgb(242, 181, 68);
+            min-width: 150px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: all 0.5s ease-in-out;
+        }
+
+        /* ASYA alt dropdown linkleri */
+        .dropdown-sub a {
+            display: block;
+            padding: 10px 16px;
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .dropdown-sub a:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown-sub a:hover {
+            background-color: rgb(249, 210, 136);
+        }
+
+        /* ASYA üzerine gelince alt dropdown açılır */
+        .nav-item.has-submenu:hover>.dropdown-sub {
+            display: block;
+        }
+
+        .nav-item.has-submenu {
+            position: relative;
+            /* ASYA'nın alt dropdown'u buna göre konumlanacak */
+        }
+
+        @media (min-width: 769px) {
+            .nav-item:hover .dropdown {
+                display: block;
+            }
+        }
+
+        .nav-search {
+            margin-left: auto;
+            margin-right: 50px;
+            display: flex;
+            align-items: center;
+            position: relative;
+            gap: 5px;
+        }
+
+        .nav-search input {
+            padding: 6px 36px 6px 12px;
+            border-radius: 3px;
+            border: 3px solid rgba(200, 200, 200, 0.5);
+            background-color: rgb(31, 31, 31);
+            color: white;
+            font-size: 0.9em;
+            outline: none;
+            width: 180px;
+            font-family: monospace;
+        }
+
+        .nav-search input::placeholder {
+            color: rgba(200, 200, 200, 0.7);
+        }
+
+        .nav-search input:focus {
+            color: rgba(200, 200, 200, 0.769);
+            border-color: rgba(200, 200, 200, 0.769);
+        }
+
+        .nav-search input:focus::placeholder {
+            color: rgba(200, 200, 200, 0.769);
+            /* placeholder beyazın açık tonu */
+        }
+
+        .nav-search .clear-btn,
+        .nav-search .go-btn {
+            position: absolute;
+            background: none;
+            border: none;
+            color: rgba(200, 200, 200, 0.9);
+            cursor: pointer;
+            font-size: 1em;
+            padding: 0;
+        }
+
+        .nav-search .clear-btn {
+            right: 30px;
+            /* oku biraz sola it */
+            display: none;
+            /* boşken gizle */
+
+        }
+
+        .nav-search .go-btn {
+            right: 20px;
+
+        }
+
+        /* Hover efektleri */
+        .nav-search .clear-btn:hover,
+        .nav-search .go-btn:hover {
+            color: white;
+        }
+
+        .dropdown-sub {
+            display: none;
+            position: absolute;
+            top: 0;
+            /* Ana dropdown ile aynı üst hizada */
+            left: 100%;
+            /* ASYA'nın sağında açılır */
+            background-color: rgb(242, 181, 68);
+            min-width: 180px;
+            /* Ana dropdown ile aynı genişlik */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+
+            text-align: left;
+            z-index: 1;
+            margin-top: 0;
+        }
+
+
+        .has-submenu:hover .dropdown-sub {
+            display: block;
+        }
+
+        .dropdown-sub a {
+            display: block;
+            padding: 10px 16px;
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .dropdown-sub a:hover {
+            background-color: rgb(249, 210, 136);
+        }
+
+        /* ASYA alt menüsü yan açılır */
+        .nav-item.has-submenu {
+            position: relative;
+        }
+
+        .dropdown-sub {
+            display: none;
+            position: absolute;
+            top: 0;
+            /* ASYA ile aynı hizada */
+            left: 100%;
+            /* ASYA’nın hemen sağında açılır */
+            background-color: rgb(242, 181, 68);
+            min-width: 180px;
+            /* ASYA dropdown ile aynı genişlik */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 10;
+        }
+
+        .nav-item.has-submenu:hover .dropdown-sub {
+            display: block;
+        }
+
+        .dropdown-sub a {
+            display: block;
+            padding: 10px 16px;
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+
+
+        .dropdown-sub a:hover {
+            background-color: rgb(249, 210, 136);
+        }
+
+
+        /* ----- Mobil için Hamburger ----- */
+        .menu-toggle {
+            font-size: 28px;
+            cursor: pointer;
+            display: none;
+        }
+
+        /* Overlay */
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0e0e0e;
+            color: #fff;
+            z-index: 2000;
+            flex-direction: column;
+            padding-top: 5px;
+            /* header boşluğu */
+            padding-left: 20px;
+            padding-right: 20px;
+
+        }
+
+        .overlay.active {
+            display: flex;
+        }
+
+        .overlay-header {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            /* ortalamak için */
+            width: 80%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 20px;
+            border: 1px solid rgb(187, 186, 186);
+            /* çerçeve */
+            background: transparent;
+            /* arka planı şeffaf */
+            border-radius: 6px;
+            /* hafif köşeler, istersen kaldırabilirsin */
+        }
+
+
+        .overlay-header .title {
+            font-size: 13px;
+            font-weight: 100;
+            font-family: monospace;
+            letter-spacing: 2px;
+        }
+
+
+
+        .overlay-links {
+            margin-top: 70px;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            font-size: 20px;
+            margin-left: 30px;
+        }
+
+        .overlay-links a {
+            text-decoration: none;
+            color: rgb(202, 200, 200);
+            font-family: monospace;
+            font-size: 500;
+        }
+
+        #istikametMenu .overlay-links {
+            margin-top: 150px;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            /* normal menüden biraz daha dar boşluk */
+            font-size: 20px;
+            /* biraz daha küçük */
+            margin-left: 30px;
+            /* girinti */
+        }
+
+        #istikametMenu .overlay-links a {
+            text-decoration: none;
+            color: rgb(202, 200, 200);
+            font-family: monospace;
+            transition: color 0.3s ease;
+            font-size: 500;
+            letter-spacing: 2px;
+        }
+
+        @media (max-width: 900px) {
+
+            .nav-links,
+            .nav-search {
+                display: none;
+            }
+
+            .menu-toggle {
+                display: block;
+                margin-right: 20px;
+            }
+        }
+
+        body.menu-open {
+            overflow: hidden;
+        }
+
+        /*overlay-search*/
+        .overlay-box {
+            position: relative;
+
+
+            left: 47%;
+            transform: translateX(-50%);
+            width: 81.5%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px;
+            border: 1px solid rgb(187, 186, 186);
+            background: transparent;
+            border-radius: 6px;
+            box-sizing: border-box;
+        }
+
+        .overlay-search input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            color: #fff;
+            font-size: 14px;
+            font-family: monospace;
+            letter-spacing: 1px;
+            outline: none;
+        }
+
+
+        .overlay-search .clear-btn,
+        .overlay-search .go-btn {
+            background: none;
+            border: none;
+            color: rgba(200, 200, 200, 0.9);
+            cursor: pointer;
+            font-size: 18px;
+            margin-left: 10px;
+        }
+
+        .overlay-search .clear-btn {
+            right: 32px;
+            /* input padding ile aynı */
+            display: none;
+        }
+
+        .overlay-search .go-btn {
+            right: 10px;
+            /* input padding ile aynı */
+        }
+
+
+        .overlay-content {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            /* container tüm yüksekliği kaplasın */
+            justify-content: space-between;
+            /* linkler üstte, arama kutusu altta */
+            margin-top: 70px;
+            /* overlay-header kadar boşluk */
+            padding-bottom: 50px;
+        }
+
+        /* ----- ASYA Overlay ----- */
+        #asyaMenu {
+            display: none;
+            /* başlangıçta gizli */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0e0e0e;
+            color: #fff;
+            z-index: 2000;
+            flex-direction: column;
+            padding-top: 5px;
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+        #asyaMenu.active {
+            display: flex;
+        }
+
+        #asyaMenu .overlay-header {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 20px;
+            border: 1px solid rgb(187, 186, 186);
+            background: transparent;
+            border-radius: 6px;
+        }
+
+        #asyaMenu .overlay-header .title {
+            font-size: 13px;
+            font-weight: 100;
+            font-family: monospace;
+            letter-spacing: 2px;
+        }
+
+        #asyaMenu .overlay-links {
+            margin-top: 150px;
+            /* İSTİKAMET overlay’ine uyumlu */
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            font-size: 20px;
+            margin-left: 30px;
+        }
+
+        #asyaMenu .overlay-links a {
+            text-decoration: none;
+            color: rgb(202, 200, 200);
+            font-family: monospace;
+            font-size: 500;
+            letter-spacing: 2px;
+            transition: color 0.3s ease;
+        }
+
+        #asyaMenu .overlay-links a:hover {
+            color: rgb(242, 181, 68);
+        }
+
+        #asyaMenu .overlay-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            flex: 1;
+            justify-content: flex-start;
+            margin-top: 70px;
+            /* header boşluğu */
+            padding-bottom: 50px;
+        }
+
+        #asyaMenu .overlay-search {
+            margin-top: auto;
+            /* search box’u en alta it */
+        }
+
+        .nav-logo {
+            text-decoration: none;
+            /* alt çizgiyi kaldır */
+            border: none;
+            /* varsa border kaldır */
+            color: inherit;
+            /* renk navbar ile uyumlu */
+        }
+
+        .nav-logo:hover {
+            text-decoration: none;
+            /* hover'da da çizgi olmasın */
+        }
+
+        .istikamet-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .plus-btn {
+            font-size: 18px;
+            cursor: pointer;
+            padding: 0 55px;
+            color: rgb(202, 200, 200);
+            transition: transform 0.2s ease, color 0.2s ease;
+        }
+
+        .plus-btn:hover {
+            transform: scale(1.2);
+            color: rgb(242, 181, 68);
+            /* hover rengi */
+        }
+
+        .temalar-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .asya-item,
+        .avrupa-item,
+        .turkiye-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .top-menu {
+            margin-top: 20px;
+            gap: 20px;
+            font-family: monospace;
+            font-weight: 500;
+            font-size: 14px;
+            margin-bottom: 16px;
+
+        }
+
+        .top-menu a {
+            text-decoration: none;
+            color: grey;
+            transition: color 0.3s ease;
+        }
+
+        .top-menu a:hover {
+            color: orange;
+            /* hover olunca altın rengi gibi */
+        }
+
+        .top-menu span {
+            color: grey;
+        }
+
+        /* Container */
+        .container {
+            display: flex;
+            flex-direction: column;
+            /* alt alta sıralama */
+            align-items: center;
+            /* kutuları ortala */
+            gap: 20px;
+            /* kutular arası boşluk px ile */
+            width: 600px;
+            /* container genişliği */
+            margin: 40px auto;
+            /* sayfada ortala */
+        }
+
+        /* Ortak kart */
+        .card {
+
+            border: 1px solid #ddd;
+
+            width: 900px;
+            /* ✅ sabit genişlik */
+            height: 600px;
+            /* ✅ sabit yükseklik */
+            padding: 24px;
+            /* ✅ px padding */
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+
+        }
+
+        .shop-link {
+            position: fixed;
+            right: 60px;
+            /* sağdan boşluk */
+            top: 50%;
+            /* dikey ortala */
+            transform: translateY(-50%) rotate(-90deg);
+            /* ters döndür */
+            transform-origin: top right;
+            /* dönüş merkezi */
+            font-size: 16px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.899);
+            background: none;
+            /* arka plan yok */
+            border: none;
+            font-family: monospace;
+            text-decoration: none;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: color 0.3s ease;
+            display: flex;
+            gap: 20px;
+        }
+
+        .shop-arrow {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-top: 2px solid rgba(255, 255, 255, 0.899);
+            border-left: 2px solid rgba(255, 255, 255, 0.899);
+            transform: rotate(90deg);
+            /* kuzeybatıya yön */
+            position: relative;
+        }
+
+        .shop-arrow::after {
+            content: '';
+            position: absolute;
+            width: 2px;
+            /* çizgi kalınlığı */
+            height: 14px;
+            /* ok uzunluğu */
+            background-color: currentColor;
+            left: 50%;
+            top: -2px;
+            transform: translateX(-50%) rotate(-45deg);
+            /* ok açısına hizala */
+        }
+
+        @media (max-width: 900px) {
+            .shop-link {
+                display: none;
+                /* mobilde mağazamız kaybolsun */
+            }
+        }
+
+
+
+
+        /* Sol içerik */
+        .content.card {
+            padding: 0;
+            overflow: hidden;
+            border: none;
+        }
+
+        .content-img {
+            width: 100%;
+            height: 70%;
+            object-fit: cover;
+            display: block;
+            object-position: center 75%;
+            filter: contrast(1.2) brightness(1.05);
+        }
+
+        .content-textbox {
+            /* ✅ metin alanına padding eklendi */
+            height: 40%;
+            /* kalan kısmı metin kaplasın */
+            box-sizing: border-box;
+            color: rgba(255, 255, 255, 0.85);
+            font-family: monospace;
+        }
+
+        .content-title {
+            font-size: 28px;
+            margin-bottom: 15px;
+        }
+
+        .content-text {
+            font-size: 16px;
+            line-height: 22px;
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+
+
+        .toc-widget {
+            border: 0.25px solid grey;
+            width: 900px;
+            font-family: monospace;
+            font-size: 25px;
+            margin: 20px 0;
+        }
+
+        .toc-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            padding: 40px;
+            color: rgba(255, 255, 255, 0.85);
+            border-bottom: 2px solid grey;
+            font-size: 24px;
+        }
+
+        .toc-header span:first-child {
+            margin-left: 20px;
+            /* yazıyı sağa kaydırır */
+        }
+
+        .toc-toggle {
+            display: inline-block;
+            transition: transform 0.3s ease;
+            font-size: 25px;
+        }
+
+        .toc-list {
+            list-style: none;
+            margin: 0;
+            padding: 50px 65px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            display: none;
+        }
+
+        .toc-list li {
+            margin-bottom: 1px;
+        }
+
+        .toc-list li a {
+            text-decoration: none;
+            color: grey;
+            font-size: 13px;
+        }
+
+        .toc-list li::before {
+            content: "■";
+            /* küçük kare işareti */
+            display: inline-block;
+            width: 12px;
+            /* kare boyutu */
+            margin-right: 8px;
+            /* yazı ile kare arasındaki boşluk */
+            color: grey;
+            /* kare rengi */
+            font-size: 12px;
+        }
+
+        /* Hover efekti */
+        .toc-list li a:hover {
+            color: orange;
+            /* yazı rengi değişir */
+            text-decoration: underline;
+            /* alt çizgi eklenir */
+        }
+
+        .toc-widget.open .toc-list {
+            max-height: 500px;
+            display: block;
+            /* açıldığında görünür */
+        }
+
+        .toc-widget.open .toc-toggle {
+            transform: rotate(180deg);
+        }
+
+
+        /* ✅ Mobil uyumluluk (Tablet ve telefonlar için) */
+        @media (max-width: 1024px) {
+
+            .container {
+                width: 90%;
+                gap: 16px;
+                margin: 20px auto;
+            }
+
+            .card {
+                width: 100%;
+                height: auto;
+                /* sabit yükseklik kalktı */
+                padding: 16px;
+            }
+
+            .content-img {
+                height: 200px;
+                /* görsel yüksekliği azaltıldı */
+            }
+
+            .content-title {
+                font-size: 22px;
+            }
+
+            .content-text {
+                font-size: 14px;
+                line-height: 20px;
+            }
+
+            .toc-widget {
+                width: 100%;
+                font-size: 20px;
+            }
+
+            .toc-header {
+                padding: 20px;
+                font-size: 20px;
+            }
+
+            .toc-toggle {
+                font-size: 20px;
+            }
+
+            .toc-list {
+                padding: 20px;
+            }
+
+            .toc-list li a {
+                font-size: 12px;
+            }
+        }
+
+        /* ✅ Telefonlar (dar ekranlar, <600px) */
+        @media (max-width: 600px) {
+
+            .container {
+                width: 95%;
+                gap: 12px;
+            }
+
+            .card {
+                width: 100%;
+                height: auto;
+                padding: 12px;
+            }
+
+            .content-img {
+                height: 180px;
+            }
+
+            .content-title {
+                font-size: 20px;
+            }
+
+            .content-text {
+                font-size: 13px;
+                line-height: 18px;
+            }
+
+            .toc-widget {
+                width: 100%;
+                font-size: 18px;
+            }
+
+            .toc-header {
+                padding: 16px;
+                font-size: 18px;
+            }
+
+            .toc-toggle {
+                font-size: 18px;
+            }
+
+            .toc-list {
+                padding: 16px;
+            }
+
+            .toc-list li a {
+                font-size: 12px;
+            }
+        }
+
+
+        .content-sections {
+            width: 900px;
+            margin: 40px 20px;
+            color: #ffffffba;
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            letter-spacing: 1px;
+            line-height: 28px;
+        }
+
+        .content-sections section {
+            font-size: 18px;
+            padding: 40px 0;
+        }
+
+        .content-sections h2 {
+            margin-bottom: 30px;
+            font-size: 30px;
+            color: rgb(237, 217, 182);
+            font-family: monospace;
+        }
+
+        .content-sections h4 {
+            color: whitesmoke;
+            font-size: 20px;
+        }
+
+        /* ✅ Mobil uyumluluk: content-sections */
+        @media (max-width: 1024px) {
+            .content-sections {
+                width: 90%;
+                margin: 30px auto;
+                line-height: 24px;
+            }
+
+            .content-sections section {
+                font-size: 16px;
+                padding: 30px 0;
+            }
+
+            .content-sections h2 {
+                font-size: 26px;
+                margin-bottom: 40px;
+            }
+
+            .content-sections h4 {
+                font-size: 16px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .content-sections {
+                width: 95%;
+                margin: 20px auto;
+                line-height: 22px;
+            }
+
+            .content-sections section {
+                font-size: 14px;
+                padding: 20px 0;
+            }
+
+            .content-sections h2 {
+                font-size: 22px;
+                margin-bottom: 30px;
+            }
+
+            .content-sections h4 {
+                font-size: 15px;
+            }
+        }
+
+
+        /* Üçlü resim satırı */
+        .image-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            /* resimler arası boşluk */
+            margin: 20px 0;
+
+        }
+
+        .image-row img {
+            width: 32%;
+            /* üç resim yan yana sığacak şekilde */
+            aspect-ratio: 1 / 1;
+            /* kare yapmak için */
+            object-fit: cover;
+            /* kırpmadan dolgu yap */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            filter: contrast(1.2) brightness(1.05);
+            object-position: center 85%;
+
+
+        }
+
+        @media (min-width: 769px) {
+            .image-row img:hover {
+                transform: scale(1.50);
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+                z-index: 1;
+            }
+        }
+
+        /* Mobil uyumlu */
+        @media (max-width: 768px) {
+            .image-row {
+                flex-direction: column;
+                gap: 40px;
+            }
+
+            .image-row img {
+                width: 100%;
+                aspect-ratio: 1 / 1;
+                transform: none;
+                /* mobilde büyüme yok */
+                box-shadow: none;
+                /* gölge kapalı */
+            }
+        }
+
+        .image-row-2 {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .image-row-2 img {
+            width: 49%;
+            /* iki resim yan yana sığacak şekilde */
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            filter: contrast(1.2) brightness(1.05);
+        }
+
+
+
+
+        /* Mobil uyumlu */
+        @media (max-width: 768px) {
+            .image-row-2 {
+                flex-direction: column;
+                gap: 40px;
+            }
+
+            .image-row-2 img {
+                width: 100%;
+                aspect-ratio: 1 / 1;
+                transform: none;
+                box-shadow: none;
+            }
+        }
+
+
+
+
+        .text-image-row {
+            display: flex;
+            align-items: center;
+            /* metin ve resmi üstten hizala */
+            gap: 20px;
+            /* aradaki boşluk */
+            margin: 40px 0;
+        }
+
+
+
+
+        .text-image-row p {
+            flex: 1;
+            /* yazı alanı esnek */
+            font-size: 18px;
+            line-height: 28px;
+            color: #ffffffba;
+        }
+
+        .text-image-row img {
+            width: 300px;
+            /* istediğin genişlik */
+            height: auto;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+            /* hover efekti */
+            filter: contrast(1.2) brightness(1.05);
+
+        }
+
+        .text-image-row img:hover {
+            transform: scale(1.05);
+            /* hafif büyüme */
+        }
+
+        /* Mobil uyumluluk */
+        @media (max-width: 768px) {
+            .text-image-row {
+                flex-direction: column;
+                /* alt alta geç */
+                align-items: center;
+                text-align: left;
+            }
+
+            .text-image-row img {
+                width: 100%;
+                /* tam genişlik */
+                max-width: 400px;
+                order: -1;
+            }
+
+            .text-image-row p {
+                font-size: 14px;
+                /* mobilde yazı boyutunu küçült */
+                line-height: 24px;
+                /* satır yüksekliği ile uyumlu */
+            }
+        }
+
+        /* Section resimleri */
+        .section-img {
+            width: 100%;
+            max-width: 900px;
+            /* orijinal section genişliği ile uyumlu */
+            height: 500px;
+            /* orantılı boyutlandırma */
+            margin: 20px 0;
+            /* başlık ve paragraf arasında boşluk */
+            object-fit: cover;
+            object-position: center 55%;
+            filter: contrast(1.2) brightness(1.05);
+
+        }
+
+        /* Mobil uyumlu */
+        @media (max-width: 600px) {
+            .section-img {
+                width: 100%;
+
+                margin: 15px 0;
+                height: auto;
+                /* yüksekliği otomatik yap */
+                object-fit: cover;
+            }
+        }
+
+        strong {
+            font-weight: 1000;
+            color: white;
+
+            font-family: monospace;
+
+        }
+
+        .pai-map {
+            margin-top: 40px;
+            padding: 20px;
+
+            font-size: 30px;
+        }
+
+        .map-container {
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-start;
+            gap: 30px;
+            flex-wrap: nowrap;
+            margin-top: 20px;
+
+        }
+
+        .map-container iframe {
+            flex: 1 1 600px;
+            max-width: 700px;
+            height: 500px;
+        }
+
+        .map-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            text-align: left;
+            justify-content: center;
+            font-size: 1rem;
+        }
+
+        .point {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: whitesmoke;
+            font-weight: 500;
+        }
+
+        .circle {
+            width: 26px;
+            height: 26px;
+            background-color: #0097b2;
+            /* Mavi yuvarlak */
+            color: white;
+            border-radius: 50%;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+
+        @media (max-width: 768px) {
+            .map-list {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                /* 2 sütun */
+                gap: 12px 24px;
+                margin-top: 15px;
+            }
+
+            .map-container {
+                flex-direction: column;
+            }
+
+            .map-container iframe {
+                width: 100%;
+                height: 300px;
+            }
+
+            .point {
+                justify-content: flex-start;
+            }
+        }
+
+        .symbolized {
+            position: relative;
+            display: inline-block;
+            /* önemli: hem satır içinde kalır hem referans olur */
+            /* hiç padding/left/margin eklemiyoruz — paragraf bozulmaz */
+        }
+
+
+        .symbolized::before {
+            content: "✦";
+            position: absolute;
+            left: -35px;
+            top: -0.2em;
+            transform: translateY(0);
+            font-size: 30px;
+            line-height: 1;
+            color: orange;
+            pointer-events: none;
+            white-space: nowrap;
+        }
+
+        /* Responsive ince ayar: ekran daralınca sembolü daha az sola al */
+        @media (max-width: 600px) {
+            .symbolized::before {
+                left: -24px;
+                font-size: 18px;
+            }
+        }
+
+        #temalarMenu .overlay-links {
+            margin-top: 150px;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            font-size: 20px;
+            margin-left: 30px;
+        }
+
+        #temalarMenu .overlay-links a {
+            text-decoration: none;
+            color: rgb(202, 200, 200);
+            font-family: monospace;
+            letter-spacing: 2px;
+        }
+
+        .kaynaklar-item,
+        .ekosistem-item,
+        .gastronomi-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .rota-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 12px 24px;
+            border: 2px solid #F4A621;
+            border-radius: 8px;
+
+            color: #F4A621 !important;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            text-decoration: none;
+
+            transition: .25s ease;
+        }
+
+        .rota-btn:hover {
+            background: #F4A621;
+            color: #1e1e1e !important;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(244, 166, 33, .35);
+        }
+
+        .desktop-br {
+            display: inline;
+        }
+
+        @media (max-width: 900px) {
+            .desktop-br {
+                display: none;
+            }
+        }
+        .circle--food {
+    background-color: #e98235;
+}
+    </style>
+</head>
+
+<body>
+    <nav id="navbar">
+        <a href="index.html" class="nav-logo">
+            <img src="resimler/logoooo 2.jpeg" alt="Logo">
+            <div class="logo-text">
+                <span class="main-title">HadiGidelim</span>
+                <span class="sub-title">Kendi Ritmini Keşfet</span>
+            </div>
+        </a>
+
+        <div class="menu-toggle" id="menuToggle">&#9776;</div>
+
+        <div class="nav-links" id="navLinks">
+            <div class="nav-item"><a href="index.html" class="nav-link">ANA SAYFA</a></div>
+
+            <div class="nav-item">
+                <a href="IstikametleriGor.html" class="nav-link has-arrow">İSTİKAMET</a>
+                <div class="dropdown">
+                    <div class="nav-item has-submenu">
+                        <a href="asya.html" class="nav-link">ASYA</a>
+                        <div class="dropdown-sub">
+                            <a href="tayland.html">Tayland</a>
+                            <a href="endonezya.html">Endonezya</a>
+                        </div>
+                    </div>
+                    <a href="#">AVRUPA</a>
+                    <a href="#">TÜRKİYE</a>
+                </div>
+            </div>
+
+            <div class="nav-item"><a href="temalar.html" class="nav-link has-arrow">TEMALAR</a>
+                <div class="dropdown">
+                    <div class="nav-item has-submenu">
+                        <a href="seyahatkaynaklari.html" class="nav-link">SEYAHAT KAYNAKLARI</a>
+                    </div>
+                    <a href="#">EKOSİSTEM</a>
+                </div>
+
+
+            </div>
+
+            <div class="nav-item"><a href="aboutus.html" class="nav-link">HAKKIMDA</a></div>
+            <div class="nav-item"><a href="#" class="nav-link rota-btn">ROTA PLANLAYICI</a></div>
+        </div>
+        <div class="nav-search">
+            <input type="text" id="searchInput" placeholder="Keşfet..." />
+            <button class="clear-btn" id="clearBtn">&times;</button>
+            <button class="go-btn" id="goBtn">&#8594;</button>
+        </div>
+    </nav>
+
+    <!-- Ana Menü Overlay (Mobil) -->
+    <div class="overlay" id="mainMenu">
+        <div class="overlay-header">
+            <div></div>
+            <div class="btn-box" id="closeMain">&times;</div>
+        </div>
+
+        <div class="overlay-content">
+            <div class="overlay-links">
+                <a href="index.html">ANA SAYFA</a>
+                <div class="istikamet-item">
+                    <a href="istikametlerigor.html" class="istikamet-link">İSTİKAMET</a>
+                    <span class="plus-btn" id="openIstikamet">
+                        <i class="fas fa-plus"></i>
+                    </span>
+                </div>
+                <div class="temalar-item">
+                    <a href="temalarigor.html" class="temalar-link">TEMALAR</a>
+                    <span class="plus-btn" id="openTemalar">
+                        <i class="fas fa-plus"></i>
+                    </span>
+                </div>
+                <a href="aboutus.html">HAKKIMDA</a>
+                <a href="#">ROTA PLANLAYICI</a>
+                <a href="#">MAĞAZAMIZ <i class="fas fa-shopping-cart"></i></a>
+            </div>
+            <div class="overlay-search overlay-box">
+                <input type="text" id="searchInputMobile" placeholder="Keşfet..." />
+                <button class="clear-btn" id="clearBtnMobile">&times;</button>
+                <button class="go-btn" id="goBtnMobile">&#8594;</button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- İstikamet Overlay -->
+    <div class="overlay" id="istikametMenu">
+        <div class="overlay-header">
+            <div class="btn-box" id="backIstikamet">&#8592;</div>
+            <div class="title">İSTİKAMET</div>
+            <div></div>
+        </div>
+
+        <div class="overlay-content">
+            <div class="overlay-links">
+
+                <div class="asya-item">
+                    <a href="asya.html" class="asya-link">ASYA</a>
+                    <span class="plus-btn" id="openAsya">
+                        <i class="fas fa-plus"></i>
+                    </span>
+                </div>
+
+                <div class="avrupa-item">
+                    <a href="avrupa.html" class="avrupa-link">AVRUPA</a>
+                    <span class="plus-btn" id="openAvrupa"><i class="fas fa-plus"></i></span>
+                </div>
+
+                <div class="turkiye-item">
+                    <a href="turkiye.html" class="turkiye-link">TÜRKİYE</a>
+                    <span class="plus-btn" id="openTurkiye"><i class="fas fa-plus"></i></span>
+                </div>
+            </div>
+            <div class="overlay-search overlay-box">
+                <input type="text" id="searchInputIstikamet" placeholder="Bir istikamet ara..." />
+                <button class="clear-btn" id="clearBtnIstikamet">&times;</button>
+                <button class="go-btn" id="goBtnIstikamet">&#8594;</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="overlay" id="asyaMenu">
+        <div class="overlay-header">
+            <div class="btn-box" id="backAsya">&#8592;</div>
+            <div class="title">ASYA</div>
+            <div></div>
+        </div>
+
+        <div class="overlay-content">
+            <div class="overlay-links">
+                <a href="tayland.html">Tayland</a>
+                <a href="#">Endonezya</a>
+            </div>
+            <div class="overlay-search overlay-box">
+                <input type="text" id="searchInputAsya" placeholder="Keşfet..." />
+                <button class="clear-btn" id="clearBtnAsya">&times;</button>
+                <button class="go-btn" id="goBtnAsya">&#8594;</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="overlay" id="temalarMenu">
+        <div class="overlay-header">
+            <div class="btn-box" id="backTemalar">&#8592;</div>
+            <div class="title">TEMALAR</div>
+            <div></div>
+        </div>
+
+        <div class="overlay-content">
+            <div class="overlay-links">
+
+                <div class="kaynaklar-item">
+                    <a href="seyahatkaynaklari.html">SEYAHAT KAYNAKLARI</a>
+                    <span class="plus-btn" id="openKultur">
+                        <i class="fas fa-plus"></i>
+                    </span>
+                </div>
+
+                <div class="ekosistem-item">
+                    <a href="#">EKOSİSTEM</a>
+                    <span class="plus-btn" id="openDoga">
+                        <i class="fas fa-plus"></i>
+                    </span>
+                </div>
+
+                <div class="gastronomi-item">
+                    <a href="#">GASTRONOMİ</a>
+                    <span class="plus-btn" id="openGastronomi">
+                        <i class="fas fa-plus"></i>
+                    </span>
+                </div>
+
+            </div>
+
+            <div class="overlay-search overlay-box">
+                <input type="text" id="searchInputTemalar" placeholder="Bir tema ara..." />
+                <button class="clear-btn" id="clearBtnTemalar">&times;</button>
+                <button class="go-btn" id="goBtnTemalar">&#8594;</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+
+        <div class="content card">
+            <img src="resimler/kophangancard2.jpeg" alt="Örnek Görsel" class="content-img">
+            <div class="top-menu">
+                <a href="index.html">ANA SAYFA</a>
+                <span>|</span>
+                <a href="asya.html">ASYA</a>
+                <span>|</span>
+                <a href="tayland.html">TAYLAND</a>
+
+            </div>
+
+            <div>
+                <a href="https://magazamiz.com" class="shop-link" target="_blank">
+                    MAĞAZAMIZ
+                    <span class="shop-arrow"></span>
+                </a>
+            </div>
+            <div class="content-textbox">
+                <h3 class="content-title">Bu Adaya Aşık Olacaksınız: Koh Phangan</h3>
+                <p class="content-text">
+                    Yüzmeden partilere, sabah koşularından yoga ve ritüellere, en güzel kafelerden unutulmaz lezzetlere
+                    kadar bir adada her şey mi olur? Evet, olur. Koh Phangan tam olarak böyle bir ada!
+                </p>
+            </div>
+        </div>
+
+        <div class="toc-widget" id="tocWidget">
+            <div class="toc-header" id="tocHeader">
+                <span>İçindekiler</span>
+                <span class="toc-toggle">&#9660;</span>
+            </div>
+            <ul class="toc-list" id="tocList">
+                <li><a href="#section1">Koh Phangan Seyahat Rehberi</a></li>
+                <li><a href="#section2">Koh Phangan Gezi Haritası</a></li>
+                <li><a href="#section3">Koh Phangan Muhteşem Plajları</a></li>
+                <li><a href="#section4">Koh Phangan Şelaleleri</a></li>
+                <li><a href="#section5">Adanın Zirvesine Tırmanın: Khao Ra</a></li>
+                <li><a href="#section6">Than Sadet Koh Phangan National Park</a></li>
+                <li><a href="#section7">Yoga ve Ruhsal İnziva</a></li>
+                <li><a href="#section8">Koh Phangan Night Market</a></li>
+                <li><a href="#section9">Haad Rin Walking Street</a></li>
+                <li><a href="#section10">Koh Phangan Full Moon Party ve Half Moon Party</a></li>
+                <li><a href="#section11">Amsterdam Bar</a></li>
+                <li><a href="#section12">LightHouse Koh Phangan</a></li>
+                <li><a href="#section13">Koh Phangan'da Yeme - İçme Tavsiyeleri</a></li>
+                <li><a href="#section14">Keşfet, Ritmi Yakala, Gün Batımını İzle: Koh Phangan</a></li>
+
+
+
+            </ul>
+        </div>
+
+        <div class="content-sections">
+            <section id="section1">
+                <h2>Koh Phangan Seyahat Rehberi</h2>
+                <p>
+                    <strong>Koh Phangan</strong>, Tayland Körfezi’nde yer alan ve geldiğiniz anda ada moduna
+                    sokan yerlerden biri. Uzun uzun plajları, bolca palmiyesi, küçük koyları ve gün batımlarıyla
+                    keşfetmesi inanılmaz keyifli. Adanın her tarafı da birbirinden farklı. Bazı yerlerde
+                    sakin sakin denize girip dinlenirken, bazı yerlerde müzik ve kalabalıkla karşılaşıyorsunuz.
+                    <br><br>
+
+                    Koh Phangan denince tabii ki akla bir de <strong>parti tarafı</strong> geliyor. Ada, özellikle
+                    <strong>Full Moon Party</strong> ile dünyaca ünlü olsa da aslında olay sadece dolunay gecesinden
+                    ibaret değil. Haftanın farklı günlerinde düzenlenen beach party’ler, jungle party’ler ve
+                    çeşitli etkinlikler sayesinde adada neredeyse her akşam farklı bir atmosfer oluyor.
+                    <br><br>
+
+                    Güzel olan şu ki, tüm bu hareketliliğe rağmen ada tamamen parti adası gibi hissettirmiyor.
+                    Gündüzleri sakin koylarda denize girebilir, gün batımını izleyebilir; akşam olunca isterseniz
+                    müziğin ve kalabalığın arasına karışabilirsiniz. Bence Koh Phangan’ı özel yapan şeylerden biri
+                    de bu denge.
+                    <br><br>
+
+                    <strong>Koh Phangan’ın en sevdiğim tarafı da bu oldu;</strong> tek bir tatil şekline
+                    bağlı kalmak zorunda değilsiniz. Bir gününüzü denize girerek, ertesi günü motorla ada
+                    keşfederek, başka bir akşamı gün batımını izleyerek ya da dans ederek geçirebilirsiniz.
+                </p><br>
+
+                <h4>Para Birimi ve Fiyatlar</h4>
+                <p>Tayland’ın resmi para birimi <strong>Baht (THB)</strong>’dir ve çoğu yerde nakit veya kredi kartıyla
+                    ödeme
+                    yapılabiliyor. Bankamatiklerden para çekerken ise işlem başına komisyon alınıyor. Bu ücret,
+                    kullandığınız bankaya ve karta göre değişiklik gösterebiliyor.
+                    [Tayland’da Dikkat Etmeniz Gerekenler] bölümünü mutlaka okuyun.<br><br>
+                    2025 itibarıyla ortalama kurlar yaklaşık olarak:<br><br>
+
+                    1 Tayland Baht ≈ 1,29 TL (yaklaşık değer)<br>
+
+                    1 USD ≈ 33-36 THB civarındadır.<br><br>
+
+                    Koh Phangan’da yeme-içme, konaklama ve günlük harcamalar için her bütçeye uygun seçenek
+                    bulmak mümkün. Gece pazarlarında ve yerel restoranlarda <strong>uygun fiyatlı</strong>
+                    yemekler bulabilirken, deniz manzaralı restoranlar ve popüler beach barlarda fiyatlar biraz
+                    daha yükseliyor. Genel olarak ada, bütçenize göre rahatça şekillendirebileceğiniz bir yer.
+                </p><br><br>
+
+                <h4>Koh Phangan'a Ne Zaman Gidilir?</h4>
+                <p>
+                    Koh Phangan’ı ziyaret etmek için en ideal dönem genellikle <strong>Aralık – Nisan</strong>
+                    arası. Hava daha güneşli, yağışlar daha az ve deniz çoğunlukla sakin oluyor. <br><br>
+
+                    <strong>Mayıs – Eylül</strong> arasında kısa süreli yağmurlar görülebilir ama genellikle
+                    adayı keşfetmeye engel olmuyor. <strong>Ekim – Kasım</strong> ise yağışların en yoğun olduğu
+                    dönem, bu yüzden daha kuru bir tatil istiyorsanız bu ayları tercih etmemenizi öneririm.
+
+                </p><br><br>
+
+                <h4>Koh Phangan’da Yeme - İçme</h4>
+                <p> Koh Phangan’da yemek konusunda seçenek sıkıntısı çekmiyorsunuz. Sokak tezgahlarında hızlıca
+                    bir şeyler yiyebilir, küçük Tay restoranlarında yerel yemekleri deneyebilir ya da sahil
+                    kenarında uzun uzun oturabilirsiniz. Gece pazarları da özellikle farklı Tay yemeklerini
+                    denemek için güzel bir alternatif ve çok lezzetli.
+                </p><br><br>
+
+                <h4>Koh Phangan’a Ulaşım</h4>
+                <p> Koh Phangan’a direkt uçuş bulunmadığı için adaya ulaşım genellikle <strong>feribot</strong>
+                    ile sağlanıyor. En yaygın seçenekler <strong>Koh Samui</strong> veya
+                    <strong>Surat Thani</strong> üzerinden adaya geçmek. Koh Samui’den feribot yolculuğu yaklaşık
+                    <strong>30–45 dakika</strong> sürerken, Surat Thani tarafından yolculuk
+                    <strong>2–2,5 saat</strong> civarında sürüyor. <br><br>
+
+                    <strong>Ada içi ulaşım</strong> için ise adada en pratik yöntem
+                    <strong>motor kiralamak</strong>. Ada yolları genellikle iyi durumda ve
+                    motor ile plajlar, kafeler, gece pazarları ve yoga merkezleri gibi noktalar
+                    kolayca ulaşılabilir. Motor kiralamayı düşünüyorsanız,
+                    <a href="motorkiralama.html" style="color:#ff7a00; text-decoration: underline;" target="_blank"
+                        rel="noopener noreferrer">Tayland'da motor kiralama rehberime</a>
+                    göz atabilirsiniz. <br><br>
+
+                    Motor kullanmak istemeyenler içinse taksi ve adada sıkça kullanılan küçük servisler
+                    var. Özellikle birkaç kişi seyahat ediyorsanız bu seçenekler de işinize yarayabilir.
+                </p><br><br>
+
+
+                <h4>Koh Phangan’da Nerede Kalınır?</h4>
+                <p>
+                    Koh Phangan’da nerede kalacağınız biraz nasıl bir tatil istediğinize bağlı. Ada büyük
+                    olduğu için bölge seçimi önemli. Sakinlik, yoga ve wellness merkezlerine yakın olmak
+                    istiyorsanız <strong>Sri Thanu</strong> tarafı güzel bir seçenek. Bölgede küçük kafeler,
+                    restoranlar ve daha sakin plajlar bulunuyor. <br><br>
+
+                    Daha hareketli bir ortam istiyorsanız <strong>Haad Rin</strong> tarafına bakabilirsiniz.
+                    Özellikle <strong>Full Moon Party</strong> döneminde ada oldukça kalabalıklaştığı için
+                    burada konaklamayı düşünüyorsanız yerinizi önceden ayırtmanız iyi olur. <br><br>
+
+                    Bunların dışında adanın farklı bölgelerinde bungalovlardan butik otellere ve resortlara
+                    kadar pek çok seçenek var. Bence Koh Phangan’da konaklama seçerken otelden çok, adanın hangi
+                    tarafında vakit geçirmek istediğinize karar vermek önemli, aklınızda bulusunsun.
+                </p><br><br>
+
+                <h4>Seyahatinizi Planlayın(Kullanışlı Bağlantılar)</h4>
+                <p>Seyahatlerimizi planlarken kullandığımız araçlara göz atın.
+                    Burada yer alan bağlantılar bağlı kuruluş (affiliate) linkleridir.
+                    Bu linkleri kullanarak blogumuzu sürdürmemize yardımcı oluyorsunuz.
+                    Sizin için herhangi bir ek maliyet oluşturmaz, ancak bizim misyonumuzda büyük fark yaratabilir.
+                    🌿<br><br>
+                    🏨Size en uygun oteli bulun. Rezervasyonlarınızı Booking.com üzerinden yapabilirsiniz.<br>
+                    ✈️En uygun uçuş fiyatlarını Skyscanner.com adresinden bulabilirsiniz.<br>
+                    🎟️Çevrim içi tur ve etkinlik rezervasyonları için GetYourGuide.com kullanın.<br>
+                    🏕️Yürüyüş, kamp, bisiklet ve daha fazlası için Decathlon.com geniş bir yelpaze sunuyor.
+
+                </p>
+            </section>
+
+            <section id="section2" class="kohphangan-map">
+                <h2>Koh Phangan Gezi Haritası</h2>
+                <p><strong>Koh Phangan</strong>’ı keşfetmenin en güzel yolu adanın farklı köşelerine
+                    uğrayarak kendi rotanızı oluşturmak. Hazırladığım haritada en sevdiğimiz plajları,
+                    gün batımı noktalarını, kafeleri ve keşiflerimi bulabilirsiniz.
+                    İsterseniz bu noktaları takip ederek kendi Koh Phangan rotanızı kolayca planlayabilirsiniz. Hadi
+                    bakalım! </p>
+
+
+                <div class="map-container">
+                    <iframe src="https://www.google.com/maps/d/embed?mid=1ONHR75xKdOEc49J4ZHhecxzQ_LyNNd0&ehbc=2E312F"
+                        width="640" height="480"></iframe>
+
+
+
+
+                    <div class="map-list">
+
+                        <div class="map-list-group">
+                            <h4>Gezilecek Yerler</h4>
+                            <div class="point"><span class="circle circle--place">1</span> Zen Beach</div>
+                            <div class="point"><span class="circle circle--place">2</span> Sunrise Beach (Haad Rin)
+                            </div>
+                            <div class="point"><span class="circle circle--place">3</span> Sunset Beach (Haad Rin)</div>
+                            <div class="point"><span class="circle circle--place">4</span> Bottle Beach</div>
+                            <div class="point"><span class="circle circle--place">5</span> Mae Haad Beach</div>
+                            <div class="point"><span class="circle circle--place">6</span> Nude Beach</div>
+                            <div class="point"><span class="circle circle--place">7</span> Secret Beach</div>
+                            <div class="point"><span class="circle circle--place">8</span> Hin Kong Beach</div>
+                            <div class="point"><span class="circle circle--place">9</span> Paradise Waterfall</div>
+                            <div class="point"><span class="circle circle--place">10</span> Phaeng Waterfall</div>
+                            <div class="point"><span class="circle circle--place">11</span> Dom Sila Viewpoint</div>
+                            <div class="point"><span class="circle circle--place">12</span> Than Sadet Waterfall</div>
+                            <div class="point"><span class="circle circle--place">13</span> Khao Ra</div>
+                            <div class="point"><span class="circle circle--place">14</span> Xantiva Health Club</div>
+                            <div class="point"><span class="circle circle--place">15</span> Orion Healing Centre</div>
+                            <div class="point"><span class="circle circle--place">16</span> Koh Phangan Night Market
+                            </div>
+                            <div class="point"><span class="circle circle--place">17</span> Haad Rin Walking Street
+                            </div>
+                            <div class="point"><span class="circle circle--place">18</span> Amsterdam Bar</div>
+                            <div class="point"><span class="circle circle--place">19</span> LightHouse</div>
+
+                        </div>
+                        <div class="map-list-group">
+                            <h4>Yeme İçme</h4>
+                            <div class="point"><span class="circle circle--food">1</span> Blue Ocean Coffee Restaurant
+                            </div>
+                            <div class="point"><span class="circle circle--food">2</span> Cafe 2401 and Guesthouse
+                            </div>
+                            <div class="point"><span class="circle circle--food">3</span> Common Grounds Coffee</div>
+                            <div class="point"><span class="circle circle--food">4</span> Bubba's Coffee</div>
+                            <div class="point"><span class="circle circle--food">5</span> Top Rock Bar</div>
+                        </div>
+
+                    </div>
+                </div><br><br><br>
+
+
+            </section>
+
+            <section id="section3">
+                <h2>Koh Phangan Muhteşem Plajları</h2>
+                <p>Birbirinden keyifli, eğlenceli ve yeri geldiğinde huzur dolu plajlarını mutlaka keşfetmenizi
+                    istiyorum. Gün doğumunda denizin üzerinde beliren ilk ışıkları ve gün batımında gökyüzünü turuncuya
+                    boyayan manzaralarıyla ada sizi kendine hayran bırakacak.</p> <br><br>
+
+                <h4>1. Zen Beach</h4>
+                <img src="resimler/zenbeach5.jpeg" alt="Zen Beach" class="section-img">
+                <p>Benim 1 numaralı plajımız olan <strong>Zen Beach</strong>, Koh Phangan’ın en özgün ve ruhu olan
+                    plajlarından biri.
+                    Adanın kuzeybatısında, Srithanu bölgesine yakın konumda bulunuyor ve özellikle gün batımı
+                    saatlerinde bambaşka bir atmosfere bürünüyor.</p>
+
+                <img src="resimler/zenbeach.jpeg" alt="Zen Beach" class="section-img">
+
+                <p>
+                    Özellikle hafta sonlarında gün batımı etkinlikleri düzenleniyor. Müzik başladığında insanlar
+                    sahilde toplanıyor, kimisi dans ediyor, kimisi kumlara oturup gün batımını izliyor. Bazen
+                    DJ performansları, davul çemberleri veya küçük gösteriler de oluyor. Ortam oldukça rahat;
+                    kimse kimseyi umursamadan kendi halinde eğleniyor.
+                    <br><br>
+
+                    Srithanu’nun yoga ve wellness kültürü nedeniyle burada meditasyon yapan veya yoga pratiği
+                    gerçekleştiren insanlara da sıkça rastlayabilirsiniz. Yani burası klasik anlamda bir parti
+                    plajından biraz farklı. <strong>Müzik, gün batımı ve sakin ada havası bir arada.</strong>
+                </p>
+
+                <img src="resimler/zenbeach1.jpeg" alt="Zen Beach" class="section-img">
+
+                <p>Zen Beach tam olarak arada bir yerde: Full Moon tarzı çılgın bir parti yok ama müzik, dans ve
+                    topluluk enerjisi hep hissediliyor. Daha bilinçli, özgür ruhlu ve alternatif bir ortam
+                    düşünebilirsiniz. <br><br>
+
+                    Plajda küçük bir beach bar da bulunuyor. Atıştırmalıklar, yemekler, taze meyve suları,
+                    smoothie’ler ve soğuk içecekler bulabilirsiniz. Gün batımını beklerken bir şeyler içip
+                    sahilde oturmak için gayet keyifli.
+                </p>
+
+                <img src="resimler/zenbeach3.jpeg" alt="Zen Beach" class="section-img">
+                <strong>Ve size küçük bir uyarı:</strong> Eğer motorla gittiyseniz, bıraktığınız yeri
+                mutlaka aklınızda tutun veya fotoğrafını çekin. Öğlen saatlerinde oldukça sakin görünen
+                otopark, akşam olduğunda yüzlerce motorla doluyor. Ben ilk gittiğimde bunu düşünmediğim
+                için çıkışta yaklaşık <strong>1 saat motorumu aradım. 😄</strong>
+                </p><br><br>
+
+                <h4>2. Haad Rin</h4>
+
+                Haad Rin ikiye ayrılıyor: <br><br>
+
+                <span class="symbolized"> <strong> Sunrise Beach (Haad Rin Nok) → Doğuya bakan, Full Moon Party’nin
+                        olduğu taraf</strong> </span> <br>
+                <img src="resimler/sunrise.jpeg" alt="Haad Rin" class="section-img">
+
+                <p>
+                    Haad Rin’in doğuya bakan tarafı olan <strong>Sunrise Beach</strong>, Koh Phangan’ın en
+                    bilinen plajlarından biri. Burası aynı zamanda dünyaca ünlü <strong>Full Moon Party</strong>’nin
+                    yapıldığı yer. Ama sadece parti döneminde gidilecek bir plaj değil; özellikle sabah saatlerinde
+                    oldukça sakin oluyor. <br><br>
+
+                    Adından da anlaşıldığı gibi burası <strong>gün doğumunu izlemek için güzel noktalardan
+                        biri.</strong>
+                    Uzun ve geniş sahili sayesinde sabah yürüyüşü veya koşu yapmak da oldukça keyifli. Ben de
+                    kaldığım süre boyunca sabahları burada düşük tempolu koşularımı yaptım. Kalabalık henüz
+                    uyanmamışken sahilde koşun ve sonrasında denize girerek güne başlamayın mutlaka bir gün.
+                    <br><br>
+
+                    Deniz tamamen kum ve sabah saatlerinde genellikle daha sakin oluyor. Gün ilerledikçe plaj yavaş
+                    yavaş hareketleniyor. Sahil boyunca şezlonglu beach barlar, restoranlar ve kafeler de var. Böylece
+                    gün boyu plajda takılıp, denize girip, acıktıkça bir şeyler yiyerek keyfinize
+                    bakabilirsiniz.<br><br>
+
+                <p>
+                    <strong>Full Moon Party</strong> döneminde ise buranın havası tamamen değişiyor. Sahil,
+                    büyük bir açık hava partisine dönüşüyor. Eğer özellikle parti için gelmiyorsanız,
+                    <strong>seyahat tarihinizi Full Moon Party tarihine denk getirmemeye</strong> dikkat etmenizi
+                    öneririm. Güncel parti tarihlerini kontrol etmek ve parti hakkında daha fazla bilgi almak
+                    için <a href="https://www.fullmoonpartythailand.com/" target="_blank" rel="noopener noreferrer"
+                        style="color:#ff7a00; text-decoration: underline;">buraya</a> göz atabilirsiniz.
+                </p>
+                </p> <br><br>
+
+
+
+                <span class="symbolized"><strong>Sunset Beach (Haad Rin Nai) → Güneybatıya / güneye bakan, daha sakin
+                        taraf</strong></span>
+                <img src="resimler/haadrin.jpeg" alt="Haad Rin" class="section-img">
+
+                <p>
+                    <strong>Haad Rin’in Sunset Beach tarafı</strong>, adanın benim en sevdiğim plajlarından biri oldu.
+                    Haad Rin denince çoğu kişinin aklına Full Moon Party geliyor ama partinin yapıldığı taraf
+                    Sunrise Beach. Buradan biraz uzaklaşıp Sunset Beach’e geçtiğinizde ise ortam tamamen değişiyor.
+                    Çok daha sakin, sessiz ve rahat bir plajla karşılaşıyorsunuz.
+                </p>
+
+                <img src="resimler/haadrin1.jpeg" alt="Haad Rin" class="section-img">
+                <p>Sahil incecik ve tertemiz kumlara sahip. Deniz tamamen kum ve su pırıl pırıl. En sevdiğim detaylardan
+                    biri ise sahil boyunca denizin içine doğru uzanan ağaçlar oldu. Bazıları
+                    suya doğru eğilmiş, bazıları neredeyse denizin içinden çıkıyormuş gibi duruyor. İsterseniz
+                    gölgelerinde oturun, isterseniz sahil boyunca yürüyün; burada uzun uzun vakit geçirmek gerçekten
+                    keyifli.</p>
+
+                <img src="resimler/haadrin2.png" alt="Haad Rin" class="section-img">
+                <p>Deniz sığ ve genellikle sakin olduğu için çocuklu aileler için de uygun. Plaja
+                    <strong>The Cabin Beach Resort</strong> tarafındaki girişten girdim. O taraf daha sakin olduğu
+                    için motoru bırakacak yer bulmakta da hiç zorlanmadım. <br><br>
+
+                </p>
+
+                <img src="resimler/haadrin4.jpeg" alt="Haad Rin" class="section-img">
+
+                <p>Sahil boyunca denize girip çıktım, uzun uzun yürüyüş yaptım. Yol üzerinde <strong>CocoHut Restaurant
+                        & Bar</strong>’a
+                    denk geldim. Sakin tam mola vermelik ağaçların arasına kurulmuş bir mekan.
+                    Yemekleri ve coconut suyu çok lezzetliydi.</p>
+
+                <img src="resimler/haadrin5.jpeg" alt="Haad Rin" class="section-img">
+
+                <p>Gün ilerledikçe kalabalık dağılmaya başladı ve gün batımı saatlerinde ortam tamamen sakinleşti.
+                    Gökyüzünün yavaş yavaş renk değiştirmesi, denizin üzerindeki yansımalar… Günün sonunda o rahatlama
+                    hissi gerçekten tarif edilemezdi. <br><br>
+                    <strong>Ancak küçük bir uyarı</strong>: Güneş battıktan sonra çok geç kalmamaya çalışın. Dönüş yolu
+                    kısa bir mesafe olsa da,
+                    yer yer dik ve
+                    dönemeçli, ayrıca bazı bölümlerde aydınlatma oldukça az. Motorla dönecekseniz, karanlık iyice
+                    çökmeden yola çıkmak çok daha güvenli ve rahat olacaktır.
+
+                </p><br><br>
+
+                <h4>3.Bottle Beach</h4>
+
+                <p><strong>Bottle Beach</strong>, Koh Phangan’ın en bakir ve en izole plajlarından biri. Adanın
+                    kuzeyinde yer alıyor ve
+                    ulaşımı biraz zahmetli olduğu için hala o “<strong>keşfedilmemiş</strong>” hissini koruyor. Zaten
+                    belki de en güzel
+                    tarafı bu.</p>
+
+                <img src="resimler/bottlebeach.jpeg" alt="Bottle Beach" class="section-img">
+
+                <p>
+                    Buraya tekneyle gidebilir ya da motorla ulaşabilirsiniz. Adanın genelinde yollar
+                    gayet güzel ve motorla ulaşım oldukça rahat. Ancak <strong>Bottle Beach sapağından
+                        döndükten sonra yol bir anda kötüleşiyor</strong>; toprak ve oldukça engebeli bir hale
+                    geliyor. Motorla bir noktaya kadar gittim ama sonrasında devam etmek pek mümkün değildi.
+                    Motoru bırakıp yaklaşık <strong>2 kilometrelik bir yürüyüş</strong> yaptım. Daha kolay bir
+                    seçenek isteyenler için plaja arazi araçlarıyla ulaşım da var. Ücreti 100 THB.
+                </p>
+
+                <img src="resimler/bottle1.jpeg" alt="Bottle Beach" class="section-img">
+                <p> Bottle Beach’e geldiğinizde diğer plajlardaki hareketliliği burada pek görmüyorsunuz. Büyük
+                    beach barlar, yüksek sesli müzik veya kalabalık yerine daha çok deniz, kum ve doğa var.
+                    Birkaç küçük bungalow ve salaş restoran bulunuyor. Lüks bir yer arıyorsanız burası size göre
+                    olmayabilir ama <strong>biraz kafa dinlemek ve birkaç saat gerçekten hiçbir şey yapmamak</strong>
+                    için oldukça müsait.
+                    <br><br>
+
+                <p>
+                    Açıkçası Bottle Beach’te konaklama olduğunu gitmeden önce bilmiyordum. Bungalovları görünce
+                    <strong>“Keşke bunu önceden bilseydim”</strong> dedim. Denize birkaç adım mesafede,
+                    doğanın içinde uyanmak gerçekten çok güzel olurdu. Eğer planınızı biraz esnetebiliyorsanız,
+                    burada en az bir gece kalmayı değerlendirebilirsiniz.
+                    <br><br>
+
+                    Bottle Beach’teki konaklama seçeneklerine göz atmak isterseniz
+                    <a href="https://www.booking.com/city/th/bottle-beach.tr.html" target="_blank"
+                        rel="noopener noreferrer" style="color:#ff7a00; text-decoration: underline;">
+                        Booking.com’daki yerlere buradan bakabilirsiniz.
+                    </a>
+                </p> <br><br>
+
+                <img src="resimler/bottleview.jpeg" alt="Bottle Beach" class="section-img">
+                <p>Bottle Beach’e kadar gelmişken <strong>seyir tepesine</strong> çıkmadan olmaz dedim. İyi ki de
+                    demişim. Yukarı vardığınız anda bütün koy ayaklarınızın altına seriliyor. O hilal
+                    şeklindeki sahil, turkuaz deniz ve etrafını saran yemyeşil tepeler… Manzara tam anlamıyla kartpostal
+                    gibi. <br><br>
+
+                    <strong>Viewpoint’e iki farklı şekilde ulaşabiliyorsunuz</strong>: Bottle Beach’e doğru yürüyüş
+                    yaparken tabelaları
+                    takip ederek ya da plajdan yukarı doğru çıkan patikayı kullanarak. Ben plajdan çıkan patikayı tercih
+                    ettim. Yürüyüş çok uzun değil ama hafife alınacak gibi de değil; yer yer dik ve kayalık. Ortalama 45
+                    dakika kadar sürdü ama sıcak havada efor
+                    istiyor. Spor ayakkabı giymek ve yanınıza su almak kesinlikle önemli. <br><br>
+
+                    Ben sabah erken saatlerde çıktım ve ışık gerçekten çok güzeldi. Güneş yükseldikçe denizin
+                    rengi turkuazdan maviye, tepelerin yeşili ise daha da belirginleşiyor. <strong>Bottle Beach’e
+                        kadar gelmişken bu manzarayı görmeden dönmeyin.</strong>
+
+
+                </p>
+
+                </p> <br><br>
+
+
+                <h4>4. Mae Haad Beach</h4>
+                <img src="resimler/maehaad.jpeg" alt="Mae Haad" class="section-img">
+                <p>
+                    <strong>Mae Haad Beach</strong>, özellikle <strong>şnorkel yapmak isteyenler</strong> için güzel
+                    plajlardan biri. Sahilden biraz açıldığınızda başlayan kayalık bölgelerde küçük balıklar ve
+                    mercanlar görmek mümkün.
+                    <br><br>
+
+                    Deniz genellikle sığ ve sakin. Plajın en güzel detaylarından biri ise gelgit durumuna göre
+                    ortaya çıkan <strong>kum seti (sandbar)</strong>. Sular çekildiğinde küçük adaya yürüyerek
+                    geçebiliyorsunuz. <br><br>
+
+                    Şnorkel yapacaksanız hava durumuna mutlaka bakın; güneşli havalarda su çok daha berrak oluyor.
+                    Kayalık bölgeler için deniz ayakkabısı da işinizi kolaylaştıracaktır.
+                </p>
+
+                <img src="resimler/nudebeach.jpeg" alt="Nude Beach" class="section-img">
+                <p>Mae Haad Beach’te yürüyüş yaparken tamamen tesadüfen küçük bir keşif daha yaptım.
+                    Sahilin biraz ilerisine doğru yürürken oldukça sakin ve neredeyse boş bir koya denk geldim.
+                    Sahilde kimsecikler yoktu; denizin sesi ve doğanın içinde sanki adada yalnız kalmışım
+                    gibi hissettim. </p>
+
+                <img src="resimler/nudebeach1.jpeg" alt="Nude Beach" class="section-img">
+
+
+                <p>Saatlerce oturup yüzdüm, eğlendim ve bu huzurlu atmosferin tadını çıkardım.
+                    Sonradan öğrendim ki burası aslında adadaki gizli <strong>nude beach</strong>lerden biriymiş.
+                    Açıkçası burası biraz gizli kalsa fena olmaz gibi ama yolunuz düşerse siz de bir uğrayın derim 🙂
+                </p>
+
+
+
+
+                <br><br>
+
+                <h4>5. Secret Beach</h4>
+
+                <img src="resimler/secretbeach.jpeg" alt="Secret Beach" class="section-img">
+
+                <p>
+                    <strong>Secret Beach</strong>, Koh Phangan’ın batı kıyısında yer alan küçük ve keyifli
+                    plajlardan biri. Adı Secret Beach ama açıkçası o kadar da secret değil. Yine de
+                    sakin ve samimi bir havası var. <br><br>
+
+                    Plaj küçük, deniz genellikle sakin ve berrak. Sahil boyunca birkaç beach bar ve restoran
+                    bulunuyor; gün içinde denize girip biraz takılabilir, bir şeyler yiyip içebilirsiniz.
+                    Özellikle gün batımına doğru ortam daha da güzelleşiyor.
+                    <br><br>
+
+                    Ulaşımı da oldukça kolay. Ana yoldan kısa bir yürüyüşle plaja inebiliyorsunuz. Yani
+                    <strong>Bottle Beach gibi ulaşmak için maceraya atılmanıza gerek yok.😄</strong>
+                    Çok izole bir yer aramıyor ama kalabalık ve parti havasından da uzak durmak istiyorsanız
+                    Secret Beach güzel bir seçenek.
+                </p><br><br>
+
+                <h4>6. Hin Kong Beach</h4>
+
+                <img src="resimler/hinkong1.jpeg" alt="Hin Kong" class="section-img">
+                <p>
+                    <strong>Hin Kong Beach</strong>, Koh Phangan’ın batı tarafında özellikle <strong>gün batımı</strong>
+                    için sevdiğim plajlardan biri. Deniz oldukça sığ ve gelgitten dolayı gün içinde görüntüsü
+                    sürekli değişiyor. Bu yüzden burası yüzmekten çok manzaraya karşı oturup vakit geçirmek için güzel.
+                    <br><br>
+
+                    Sahil boyunca birkaç beach bar, kafe ve yoga alanı bulunuyor. Akşamüstü insanlar minderlerini
+                    kapıp sahile yerleşiyor, müzik eşliğinde gün batımını izliyor. Ortam oldukça sakin ve rahat;
+                    öyle büyük parti kalabalıkları falan yok.
+                    <br><br>
+
+                    <strong>Denize girmek için değil, gün batımını izlemek için gelin.</strong> Bir şeyler içip
+                    manzaraya karşı oturmak istiyorsanız Hin Kong güzel bir seçenek.
+                </p> <br><br><br>
+
+            </section>
+
+
+
+            <section id="section4">
+                <h2>Koh Phangan Şelaleleri</h2>
+                <p>
+                    Koh Phangan sadece plajlardan ibaret değil. Adanın içlerine doğru ilerledikçe karşınıza
+                    farklı şelaleler ve doğal yüzme alanları çıkıyor. Özellikle sıcak günlerde kısa bir yürüyüş
+                    yapıp biraz serinlemek için güzel bir seçenek.
+                </p><br>
+
+                <h4>1. Paradise Waterfall</h4>
+                <img src="resimler/paradisewaterfall.png" alt="waterfall" class="section-img">
+                <p>
+                    <strong>Paradise Şelalesi’ne</strong> Malibu Beach’e giderken uğradım ve güzel
+                    bir mola oldu. Giriş kişi başı <strong>30 THB</strong>.
+
+                    Adadaki ilk şelale deneyimimim burasıydı. Açıkçası çok büyük bir şelale değil, yani öyle
+                    “vay be” dedirtecek bir tarafı yok. Ama yemyeşil doğası ve serin suyu sayesinde özellikle
+                    sıcak bir günde kısa bir mola vermek için şans verilebilir. Eğer Malibu Beach tarafına yolunuz
+                    düşerse uğrayabilirsiniz.
+                </p> <br>
+
+                <h4>2. Phaeng Waterfall</h4>
+                <img src="resimler/phaengwaterfall.jpeg" alt="waterfall" class="section-img">
+                <p>
+                    <strong>Phaeng Şelalesi</strong> aslında iki bölümden oluşuyor: <strong>Phaeng Noi (küçük)</strong>
+                    ve <strong>Phaeng Yai (büyük)</strong>. Şelaleye ulaşmak için
+                    <strong>Than Sadet Koh Phangan National Park</strong> girişinden giriyorsunuz ve kişi başı
+                    <strong>100 THB</strong> ödüyorsunuz. Parkla ilgili detayları Than Sadet başlığında ayrıca
+                    anlattım.
+                    <br><br>
+
+                    <img src="resimler/thansadetnationalpark.jpeg" alt="Phaeng Şelalesi" class="section-img">
+
+                    İlk olarak <strong>Phaeng Noi</strong> kısmına ulaşıyorsunuz. Kısa bir yürüyüşün ardından
+                    doğal havuzların olduğu alana geliyorsunuz. Biraz daha yukarı çıkarsanız
+                    <strong>Phaeng Yai</strong> tarafına devam edebilirsiniz. Burada yol biraz daha dik ve taşlı
+                    hale geliyor.
+                    <br><br>
+
+                    Şelalenin suyu mevsime göre oldukça değişiyor. Yağışlı dönemde daha güçlü akarken,
+                    <strong>Ocak ayında</strong> gittiğimde su oldukça sakindi. Yürüyüş çok uzun değil ama
+                    bazı bölümlerde dikkatli olmak gerekiyor. Yol boyunca yemyeşil doğanın içinden ilerleyip,
+                    uygun yerlerde suya girerek biraz serinleyebilirsiniz. Yanınıza şapka ve su almayı unutmayın.
+                </p><br>
+
+                <h4>3. Than Sadet Waterfall</h4>
+                <img src="resimler/thansadetwaterfall1.png" alt="waterfall" class="section-img">
+                <p>Than Sadet Waterfall, Koh Phangan’ın en güzel şelalelerinden biri bence. Adanın doğu kıyısına
+                    yakın konumda ve tamamen doğanın içinde, sakin bir atmosferi var. Diğer şelalelere göre daha
+                    geniş bir alana yayılıyor. Tek bir noktadan dökülen yüksek bir şelale değil, kayaların arasından
+                    basamak basamak akan doğal bir yapı düşünün.</p>
+
+                <img src="resimler/thasadetwaterfall2.png" alt="waterfall" class="section-img">
+                <p>Kayaların
+                    üzerinde sekerek, kendinizi doğanın bir parçası gibi hissederek ilerliyorsunuz. Bazı yerlerde
+                    oturup dinlenmek, bazı yerlerde de suya girip serinlemek mümkün. Özellikle etrafta kimse yoksa
+                    biraz oturup suyun sesini dinlemek için oldukça güzel bir yer.</p> <br><br><br>
+
+
+
+            </section>
+
+
+            <section id="section5">
+                <h2 id="khao-ra">Adanın Zirvesine Tırmanın: Khao Ra</h2>
+                <img src="resimler/khaora2.jpeg" alt="Khao Ra" class="section-img">
+
+                <p><strong>Khao Ra yürüyüşü</strong>, adanın en uzun ve en zorlu parkuru çünkü Koh Phangan’ın en yüksek
+                    zirvesine
+                    çıkıyorsunuz. Yani bu rota “kısa bir doğa yürüyüşü yapalım” planından biraz daha fazlası. Gerçekten
+                    hazırlıklı gitmek gerekiyor. <br><br>
+                    Yaklaşık 1,5 - 2 saat sürecek tırmanış, Koh Phangan’ın ormanının içinden başlıyor. Yol boyunca küçük
+                    bir dere ve küçük göletin yanından geçiyorsunuz; sonra rota giderek yükseliyor ve dağın daha yukarı
+                    kısımlarına ulaşıyorsunuz.
+                    <img src="resimler/khaora3.jpeg" alt="Khao Ra" class="section-img">
+
+                    Son bölüm ise biraz daha dik ve yer yer tırmanış gerektiriyor. Ağaç
+                    köklerinin ve
+                    taşların üzerinden geçerek ilerliyorsunuz.
+                </p>
+
+                <img src="resimler/khaora1.jpeg" alt="Khao Ra" class="section-img">
+
+                <p>Tüm parkur (çıkış ve iniş) molalarla birlikte toplamda yaklaşık 4 saat sürdü. Bu yüzden
+                    yanınıza mutlaka yeterli su alın ve sağlam bir yürüyüş ayakkabısı giyin.
+                    <strong>Ayakkabı kesinlikle çok önemli</strong>.
+                </p>
+
+                <img src="resimler/khaora.jpeg" alt="Khao Ra" class="section-img">
+
+                <p>Zirveye vardığınız an, tüm yorgunluk orada bitiyor. <br><br>
+
+                    Bu yürüyüş için en iyi zaman kesinlikle erken sabah saatleri. Hava henüz çok sıcak ve nemli değilken
+                    çıkmak hem daha güvenli hem de çok daha keyifli oluyor. Eğer benim gibi orman yürüyüşlerinin ve
+                    zorlayıcı parkurların hastasıysanız ve “adanın sadece plajlarını değil, zirvesini de görmek
+                    istiyorum” diyorsanız, Khao Ra sizi hem zorlayacak hem de unutulmaz bir deneyim yaşatacak.
+
+
+                </p><br><br><br>
+
+            </section>
+
+
+            <section id="section6">
+                <h2>Than Sadet Koh Phangan National Park</h2>
+
+                <img src="resimler/thansadetnationalpark2.jpeg" alt="Than Sadet National Park" class="section-img">
+
+                <p>
+                    <strong>Than Sadet Koh Phangan National Park</strong>, Koh Phangan’ın plajlardan biraz
+                    uzaklaşıp doğanın içine girebileceğiniz tarafı. Park, adanın doğu kıyısından iç kesimlerine
+                    kadar uzanan geniş bir ormanlık alanı kapsıyor. <br><br>
+
+                    Parkın iki ana girişi bulunuyor. Doğu tarafındaki giriş <strong>Than Sadet Waterfall</strong>
+                    çevresine, kuzeydeki giriş ise <strong>Phaeng Waterfall</strong> ve trekking rotalarına
+                    açılıyor. <strong>Dom Sila Viewpoint</strong> ve adanın en yüksek noktası olan
+                    <strong>Khao Ra</strong> yürüyüşleri de bu taraftan başlıyor.
+                </p>
+
+                <img src="resimler/thansadetnationalpark.jpeg" alt="Than Sadet National Park" class="section-img">
+
+                <p>
+                    Giriş kişi başı <strong>100 THB</strong>. İçeri girdikten sonra kendinizi direkt tropikal
+                    ormanın içinde buluyorsunuz. Parkta kısa bir yürüyüş yapmak isteyenler için
+                    <strong>Dom Sila Viewpoint</strong>, daha uzun ve biraz daha zorlayıcı bir rota isteyenler
+                    için ise <strong>Khao Ra</strong> bulunuyor.
+                </p>
+
+                <img src="resimler/thansadetnationalpark5.jpeg" alt="Than Sadet National Park" class="section-img">
+
+                <p>
+                    <strong>Dom Sila</strong> tarafındaki yürüyüş Phaeng Noi bölgesinden başlıyor. Çok uzun
+                    değil ama yer yer dikleşiyor. Yukarı çıktığınızda adanın kuzey tarafını görebileceğiniz
+                    güzel bir manzara var. <br><br>
+
+                    <strong>Khao Ra</strong> ise biraz daha ciddi bir yürüyüş. Hem daha uzun hem de daha
+                    yorucu ama adanın en yüksek noktasına çıkıyorsunuz. Eğer Koh Phangan’da biraz da
+                    orman ve yürüyüş görmek istiyorsanız, bu parkı listenize ekleyebilirsiniz. 🌿
+                </p>
+            </section>
+
+
+            <section id="section7">
+                <h2>Yoga ve Ruhsal İnziva</h2>
+                <p>Koh Phangan son yıllarda sadece plajlarıyla değil, aynı zamanda yoga, meditasyon ve wellness
+                    kültürüyle de oldukça bilinen bir ada haline gelmiş. Özellikle adanın batı tarafındaki <strong>Sri
+                        Thanu
+                        bölgesi</strong>, yoga merkezleri, sağlıklı kafeler ve spiritüel toplulukların yoğunlaştığı bir
+                    yer olarak
+                    öne çıkıyor. Bu bölgede yürürken neredeyse her köşede bir yoga stüdyosu, meditasyon alanı ya da
+                    detoks merkezi görmek mümkün.</p>
+
+                <img src="resimler/orionhealing.jpeg" alt="Inziva" class="section-img">
+
+
+                <p> Adada birçok merkez günlük yoga dersleri, haftalık retreat programları ve meditasyon seansları
+                    düzenliyor. Sabah gün doğumunda yapılan yoga dersleri ve gün batımına karşı yapılan meditasyonlar
+                    oldukça popüler. Doğanın içinde, deniz manzaralı açık stüdyolarda yoga yapmak da Koh Phangan’daki
+                    deneyimin önemli bir parçası.</p>
+
+                <img src="resimler/icebath.jpeg" alt="Inziva" class="section-img">
+
+                <p>Bienim en sevdiğim deneyimlerden biri ise <strong>ice bath (buz banyosu)</strong> ve <strong>nefes
+                        terapileri</strong> oldu. Adada
+                    birçok wellness merkezinde büyük buz dolu havuzlara giriliyor ve genellikle rehber eşliğinde nefes
+                    egzersizleri yapılıyor. Önce nefes çalışmalarıyla vücudu hazırlıyorsunuz, ardından birkaç dakika buz
+                    gibi suyun içine giriyorsunuz. Bu uygulamanın bağışıklık sistemini güçlendirdiği, kan dolaşımını
+                    hızlandırdığı ve zihinsel dayanıklılığı artırdığı söyleniyor. İlk başta biraz göz korkutucu görünse
+                    de, çıkınca inanılmaz enerjik ve canlı hissettim.
+                </p>
+
+                <img src="resimler/orionhealing1.jpeg" alt="Inziva" class="section-img">
+
+                <p>Bu tür deneyimleri sunan merkezlerden bazıları şunlar: <br><br>
+
+                    - <strong>Orion Healing Centre</strong> (Yin Yoga, Vinyasa Flow, Medicine Song Circle, Self-Sabotage
+                    Healing, Steam Room, Ice Bath and Pool) <br> <br>
+                    - <strong>Ananda Yoga & Detox Center</strong> (Kundalini, Power Vinyasa Flow) <br><br>
+                    - <strong>The Yoga House</strong> (Vinyasa Flow, Belief with Hypnotherapy, Shamanic Breathwork and
+                    Pool) <br><br>
+                    - <strong>Xantiva Health Club</strong> (Ice Bath, Cold Plunge, Sauna, Onsen, Bonfire and Ocean-view
+                    Gym) <br><br>
+                    - <strong>Wild Wood Beach Fitness</strong> (Gym on the beach, Ice Bath, Sauna, Steam Room and Pool)
+                    <br><br><br>
+
+                    Ben <strong>Xantiva Health Club</strong> ve <strong>Orion Healing Centre</strong>’da birer gün
+                    geçirdim ve ikisinde de birbirinden farklı deneyimler yaşadım. Xantiva Koh Phangan’da buzların taş
+                    küvete nasıl yerleştirildiği
+                    sürecine de tanık oluyorsunuz. Buraya direkt gidebiliyorsunuz,
+                    rezervasyon gerekmiyor. Orion Healing Centre ise biraz daha planlı; buraya katılmak için rezervasyon
+                    yapmak gerekiyor.
+                    Günlük, haftalık veya aylık programlar ve fiyat detayları için
+                    <a href="https://www.orionhealing.com/" target="_blank" rel="noopener noreferrer"
+                        style="color: #fff; font-weight: bold; text-decoration: underline;"
+                        onmouseover="this.style.color='#FFA500'" onmouseout="this.style.color='#fff'">
+                        Orion Healing Centre web sitesini
+                    </a>
+                    ziyaret edebilirsiniz. <br><br>
+
+                    Ayrıca burada konaklama imkanı da varmış. Gerçekten buraya bayıldığım için bir dahaki gelişimde
+                    en az 2 gün burada konaklamayı planlıyorum. <br><br>
+                    Yoga ve İnziva merkezlerine yakın Srithanu bölgesindeki konaklamalara buradan göz atabilirsiniz :
+                    www.booking.com <br><br>
+                    <span class="symbolized"> İster bir günlük katılın, ister adada uzun kalıp bir haftalık yoga veya
+                        wellness programlarına dahil
+                        olun. Ama mutlaka dahil olun! Bu inziva merkezleri adeta bir “reset” düğmesi gibi, bedeninizi ve
+                        zihninizi sıfırlamanız için mükemmel bir fırsat, benden söylemesi.. </span>
+
+                </p><br><br><br>
+            </section>
+
+
+            <section id="section8">
+                <h2>Koh Phangan Night Market</h2>
+                <img src="resimler/kohphangannightmrkt.jpeg" alt="Koh Phangan Night Market" class="section-img">
+                <p>Her akşam yolum buraya düştü ve gerçekten inanılmaz keyifliydi. Yemek seçenekleri çok fazla; Tay
+                    yemeklerinden
+                    atıştırmalıklara, taze meyvelerden tatlılara kadar her şeyi bulabiliyorsunuz. Üstelik fiyatlar
+                    da oldukça uygun. <strong>150–200 Baht civarında</strong> gayet güzel bir akşam yemeği
+                    yiyip üzerine tatlınızı da alabilirsiniz.</p>
+
+                <img src="resimler/kohphangannightmrkt3.jpeg" alt="Koh Phangan Night Market" class="section-img">
+                <p>Kimi akşamlar yerel müzik de oluyor, ortam ışıl ışıl ve çok canlı. <br><br>
+
+
+
+                    <span class="symbolized"> Benim favorim <strong>Pineapple Fried Rice</strong> ve <strong>Pad
+                            Thai</strong> oldu; özellikle
+                        Pineapple Fried Rice’ı mutlaka
+                        denemelisiniz. </span>
+                </p>
+
+
+                <br><br><br>
+            </section>
+
+
+            <section id="section9">
+                <h2>Haad Rin Walking Street</h2>
+                <img src="resimler/haadrinwalking.jpeg" alt="Koh Phangan Night Market" class="section-img">
+
+                <p><strong>Haad Rin Walking Street</strong>, adanın en hareketli akşam noktalarından biri. Güneş
+                    batarken sokaklar ışıl
+                    ışıl oluyor, her köşede barlar, kafeler, sokak yemekleri ve hediyelik eşya tezgahları var.
+                </p>
+
+                <img src="resimler/haadrinwalking1.jpeg" alt="Koh Phangan Night Market" class="section-img">
+                <p>Özellikle akşam yürüyüşleri için burayı çok sevdim. Yemek konusunda pek çeşitlilik yok ama
+                    atıştırmalık muhakkak bir şeyler bulabiliyorsunuz. Burada bar keyfi yapıp ortamın tadını çıkardım
+                    çoğunlukla. Müzikler
+                    kesinlikle rahatsız etmiyor; ortam canlı ve keyifli. Sosyalleşmek için çok uygun; sıcak ve samimi.
+                </p>
+
+                <br><br><br>
+            </section>
+
+
+            <section id="section10">
+                <h2>Koh Phangan Full Moon Party ve Half Moon Party</h2>
+
+                <img src="resimler/fullmoonparty.png" alt="Full Moon Party" class="section-img">
+
+                <p>
+                    Koh Phangan denince akla gelen ilk şeylerden biri tabii ki <strong>Full Moon Party</strong>.
+                    Her ay dolunay döneminde <strong>Haad Rin’deki Sunrise Beach</strong> dev bir açık hava
+                    partisine dönüşüyor. Sahil boyunca müzikler, DJ’ler, ateş gösterileri ve sabaha kadar
+                    devam eden bir kalabalık var. Dünyanın dört bir yanından insanlar sırf bu gece için adaya
+                    geliyor.
+                    <br><br>
+
+                    Full Moon Party gerçekten büyük ve oldukça kalabalık bir deneyim, herkese hitap etmeyebilir. Eğer
+                    özellikle parti için
+                    Koh Phangan’a gelecekseniz, <strong>tarihleri önceden kontrol etmenizi ve konaklamanızı erken
+                        ayarlamanızı</strong> tavsiye ederim. Güncel parti tarihlerini
+                    <a href="https://www.fullmoonpartythailand.com/dates" target="_blank" rel="noopener noreferrer"
+                        style="color: orange; font-weight: bold; text-decoration: underline;">
+                        buradan
+                    </a>
+                    kontrol edebilirsiniz.
+                </p>
+
+
+                <img src="resimler/fullmoonparty2.png" alt="Full Moon Party" class="section-img">
+
+
+                <p>
+                    Partiye hazırlığın bir parçası da <strong>neon vücut boyaları</strong>.
+                    Haad Rin boyunca parti öncesinde vücuduna rengarenk desenler yapan birçok kişi ve stant
+                    göreceksiniz. İsterseniz hazır desenlerden birini seçebilir, isterseniz kendi tasarımınızı
+                    yaptırabilirsiniz.
+                    <br><br>
+
+                    Bazı kafe ya da hostellerde parti öncesinde ücretsiz vücut boyama etkinlikleri de oluyor. Hem
+                    hazırlanmak
+                    hem de diğer insanlarla tanışmak için oldukça güzel bir fırsat. İsterseniz neon boyaları
+                    marketlerden
+                    alıp kendi tasarımınızı da kendiniz yapabilirsiniz. <br>
+
+
+                    <strong>Küçük bir uyarı:</strong> Neon boyalar kıyafetlerde kalıcı iz bırakabiliyor.
+                </p>
+
+
+                <img src="resimler/fullmoonparty1.jpeg" alt="Half Moon Party" class="section-img">
+
+
+                <p>
+                    <strong>Half Moon Festival</strong> ise biraz farklı. Full Moon gibi sahilde değil, adanın
+                    iç tarafındaki <strong>jungle alanında</strong> düzenleniyor ve ayda iki kez gerçekleşiyor.
+                    Daha çok festival havasında, farklı sahneler, elektronik müzik, ışık gösterileri ve ormanın
+                    içinde sabaha kadar devam eden bir parti ortamı var.
+                    <br><br>
+
+                    Bence ikisini birbirinden ayıran en önemli şey atmosferi. <strong>Full Moon daha büyük,
+                        daha kalabalık ve daha kaotik</strong>; Half Moon ise daha çok festival havasında. Yani
+                    “Ben büyük bir sahil partisinin içinde olmak istiyorum” diyorsanız Full Moon, “Müzik ve
+                    atmosfer benim için daha önemli” diyorsanız Half Moon daha iyi bir seçenek olabilir.
+                    Half Moon’un güncel tarih ve etkinlik detaylarına
+                    <a href="https://www.halfmoonfestival.com/2026-dates" target="_blank" rel="noopener noreferrer"
+                        style="color: orange; font-weight: bold; text-decoration: underline;">
+                        buradan
+                    </a>
+                    bakabilirsiniz.
+                    <br><br>
+
+                    Açıkçası Koh Phangan’ın güzel tarafı da burada. <strong>Parti yapmak için geldiyseniz
+                        seçenek çok, istemiyorsanız da adanın sakin taraflarında kendi ritminizde
+                        takılabilirsiniz.</strong>
+                    Benim için adayı güzel yapan şey biraz da bu dengeydi.
+                </p>
+
+            </section>
+
+
+            <section id="section11">
+                <h2>Amsterdam Bar</h2>
+                <img src="resimler/amsterdambar2.jpeg" alt="Amsterdam Bar" class="section-img">
+                <p>Koh Phangan’da gün batımını izlemek için gittiğim yerlerden biri de
+                    <strong>Amsterdam Bar</strong>. Mekan tepenin üzerinde olduğu için gün batımını
+                    karşıdan izleyebiliyorsunuz ve manzara gerçekten harika. Her gün farklı
+                    etkinlikler ve müzikler oluyor.
+                </p>
+
+                <img src="resimler/amsterdambar1.jpeg" alt="Amsterdam Bar" class="section-img">
+
+                <p>Ben gittiğimde DJ, elektronik müziğe kemanıyla eşlik ediyordu. Güneş batarken
+                    müzik, manzara ve ortam birleşince gerçekten güzel bir akşam oldu. İsterseniz
+                    minderlerde oturup gün batımını izleyebilir, isterseniz havuza girip biraz
+                    serinleyebilirsiniz.</p>
+
+                <img src="resimler/amsterdambar.png" alt="Amsterdam Bar" class="section-img">
+                <p>Kokteylleri de oldukça başarılı. Özellikle tropikal kokteyllerini çok beğendim.
+                    Fiyatlar da Koh Phangan için normal seviyede. <strong>Her gün 12.00–01.00
+                        arasında açık</strong>, ancak bana sorarsanız buranın en güzel zamanı kesinlikle
+                    gün batımına yakın saatler. <br><br>
+
+                    Eğer Koh Phangan’da
+                    gün batımı için güzel bir mekan arıyorsanız, <strong>Amsterdam Bar’ı listenize
+                        ekleyebilirsiniz.</strong>
+
+                </p><br><br><br>
+
+            </section>
+
+
+            <section id="section12">
+                <h2>LightHouse Koh Phangan</h2>
+                <img src="resimler/lighthouse4.jpeg" alt="LightHouse" class="section-img">
+                <p>Koh Phangan’daki en ikonik gece mekanların biri olan <strong>Lighthouse</strong>, Haad Rin’e
+                    oldukça yakın ama
+                    kalabalığın biraz dışında, küçük bir koyun içinde yer alıyor. Aracınızı bıraktıktan sonra mekana
+                    ulaşmak
+                    için denizin üzerinden uzanan uzun bir tahta iskeleden yürüyorsunuz. Daha o yürüyüş sırasında bile
+                    atmosfer sizi içine çekmeye başlıyor ve içeri girerken sanki gizli bir partiye gidiyormuşsunuz gibi
+                    bir his oluşuyor. Bu da Lighthouse’u daha ilk andan farklı ve özel kılıyor.</p>
+
+                <img src="resimler/lighthouse5.jpeg" alt="LightHouse" class="section-img">
+
+                <p>Lighthouse özellikle <strong>elektronik müziğiyle öne çıkıyor</strong> . Çoğu gece techno,
+                    house ve melodic setler çalan DJ’ler sahne alıyor. Burası büyük mekanlar gibi aşırı kalabalık veya
+                    gürültülü değil. Daha çok müziği gerçekten seven insanların geldiği, samimi ve enerjik bir ortam
+                    var.</p>
+
+                <img src="resimler/lighthouse.jpeg" alt="LightHouse" class="section-img">
+                <p>
+                    Mekanın en güzel taraflarından biri de <strong>konumu</strong>. Küçük bir koyun kenarında
+                    olduğu için bir yanda müzik çalarken diğer yanda denizin sesini duyuyorsunuz. İsterseniz
+                    içeride dans edebilir, isterseniz dışarı çıkıp sahilde biraz hava alabilir ya da yıldızların
+                    altında oturabilirsiniz. Bence Lighthouse’u farklı yapan şeylerden biri de tam olarak bu.
+                    <br><br>
+
+                    Partiler genellikle haftanın belirli günlerinde oluyor. Özellikle <strong>Salı ve Cuma
+                        geceleri</strong> oldukça hareketli. Mekan genellikle <strong>21.00 civarında açılıyor</strong>
+                    ve eğlence gün doğumuna kadar devam ediyor. Bir de küçük bir avantajı var:
+                    <strong>22.00’den önce giriş genellikle ücretsiz</strong>, sonrasında ise kapıda yaklaşık
+                    400 Baht giriş ücreti alınıyor.
+                </p>
+
+                <img src="resimler/lighthouse6.jpeg" alt="LightHouse" class="section-img">
+                <p>Bir diğer güzel tarafı ise burada bungalowlarda konaklama imkanının da olması. Lighthouse’un hemen
+                    arkasında, denize bakan basit ama manzarası harika bungalowlarda kalabiliyorsunuz. Odaların çoğunda
+                    denizi gören balkonlar ve hamaklar var. Sabah uyandığınızda direkt okyanus manzarasıyla güne
+                    başlamak için güzel bir tercih olabilir. Konaklama seçeneklerine buradan göz atabilirsiniz:
+                    www.booking.com
+                    <br><br>
+
+                    Eğer hem daha alternatif ve
+                    kaliteli müzikli bir ortam arıyorsanız hem de biraz daha sakin, doğayla iç içe bir yerde kalmak
+                    istiyorsanız Lighthouse kesinlikle listenizde olmalı.
+                </p><br><br><br>
+
+
+            </section>
+
+
+            <section id="section13">
+                <h2>Koh Phangan'da Yeme - İçme Tavsiyeleri</h2>
+                <p>Adada hem yerel Tay mutfağını deneyebileceğiniz küçük sokak tezgahları hem de manzaraya karşı uzun
+                    uzun vakit geçirebileceğiniz restoran ve kafeler bulunuyor. Özellikle gece pazarları, sahil
+                    restoranları ve gün batımı barları adanın en keyifli yerleri. <br><br>
+
+                    Ben de Koh Phangan’da geçirdiğim süre boyunca farklı yerleri denemeye çalıştım ve en
+                    sevdiklerimi bu listede topladım. Eğer adaya geliyorsanız, hem yerel lezzetleri tatmak hem de
+                    güzel manzaralar eşliğinde keyifli vakit geçirmek için bu önerilere mutlaka göz atmanızı tavsiye
+                    ederim.
+
+                </p>
+
+                <h4>1. Blue Ocean Coffee Restaurant</h4>
+                <img src="resimler/blueocean.jpeg" alt="Blue Ocean" class="section-img">
+                <p>
+                    Koh Phangan’da güzel bir kahvaltı yapmak ve kahvenizi manzaraya karşı içmek
+                    isterseniz <strong>Blue Ocean Coffee Restaurant</strong>’ı listenize ekleyebilirsiniz.
+                    Deniz manzaralı konumuyla güne burada başlamak gerçekten çok keyifli.
+                    <br><br>
+
+                    Adada kaldığım süre boyunca çoğu kahvaltımı burada yaptım. Kahveleri
+                    oldukça güzel, kahvaltı tabakları da hem doyurucu hem de lezzetli.
+                    <br><br>
+
+                    Masaya oturup denizi izlerken kahvenizi yudumlayıp şöyle bir “oh be” çekmelik bu yer, <strong>benim
+                        Koh Phangan’daki favori kahvaltı mekanım oldu.</strong>
+                </p> <br>
+
+                <h4>2. Cafe 2401 and Guesthouse</h4>
+                <img src="resimler/guesthouse.png" alt="Cafe 2401" class="section-img">
+                <p>
+                    Koh Phangan’da uğradığım bir diğer yer de <strong>Cafe 2401 and Guesthouse</strong>.
+                    Küçük, samimi ve rahat bir mekan. Blue Ocean’a göre daha sakin ve fiyatları da daha uygun.
+                </p>
+
+                <img src="resimler/guesthouse1.jpeg" alt="Cafe 2401" class="section-img">
+                <p>
+                    Burada birkaç kez kahve içip bir şeyler atıştırdım. Sandviç ve patates kızartması
+                    benim en çok yediklerim oldu ama açıkçası buraya tekrar tekrar gelmemin sebebi
+                    yemeklerden çok <strong>ortamıydı</strong>. Sabah saatlerinde sakindi
+                    ve manzaraya karşı oturup uzun uzun vakit geçirmek keyifli.
+
+                    Bir de interneti gayet iyi çekiyor. Bilgisayarınızı alıp birkaç saat çalışabilir, arada kahvenizi
+                    içip manzarayı izleyebilirsiniz.</p> <br>
+
+                <h4>3. Common Grounds Coffee</h4>
+                <img src="resimler/commonground.jpeg" alt="Common Ground" class="section-img">
+                <p>Koh Phangan’da kahve içmek ve biraz soluklanmak için sevdiğim bir diğer yer de <strong>Common
+                        Grounds
+                        Coffee</strong> oldu. Burası yemyeşil bitkilerle çevrili oldukça ferah ve sakin bir atmosfere
+                    sahip. Bahçenin
+                    içinde küçük bir havuz ve etrafında oturma alanları bulunuyor. </p>
+
+                <img src="resimler/commonground1.jpeg" alt="Common Ground" class="section-img">
+                <p>
+                    Kahveleri gerçekten güzel. Yanında sandviç, salata, tatlı ve taze meyve suyu gibi
+                    seçenekler de var. Kahvaltı için de birkaç güzel alternatif bulunuyor ve porsiyonlar
+                    gayet doyurucu.
+                    <br><br>
+
+                    Ben buraya bazen kahvaltı, bazen de sadece kahve içmek için uğradım. Adada birçok yere
+                    giderken yolumun üzerinde kaldığı için konumu da oldukça iyi. Ortamı rahat;
+                    bahçede oturabilir ya da havuz kenarında kahvenizi içebilirsiniz. <strong>İnternet ve
+                        çalışma alanları da olduğu için bilgisayarını alıp çalışmak isteyenler için de güzel
+                        bir yer.</strong>
+                    <br><br>
+
+                    Mekan her gün <strong>08.00–17.00</strong> arasında açık. Özellikle sabah kahvesi veya
+                    öğle saatlerinde bir şeyler atıştırmak için uğranabilecek güzel bir yer.
+                </p> <br>
+
+                <h4>4. Bubba's Coffee</h4>
+                <img src="resimler/bubbascoffe.jpeg" alt="Budda's Coffee" class="section-img">
+                <p>Koh Phangan’da kahvaltı ve kahve için en sevilen yerlerden biri kesinlikle <strong>Bubba’s
+                        Coffee</strong>. Ada
+                    genelinde oldukça bilinen bir yer ve özellikle kahvaltı saatlerinde ciddi bir hareketlilik oluyor.
+                    Ben de buraya bir sabah kahvaltı için uğradım ve çok beğendim. <br><br>
+
+                    Kahvaltı menüsü oldukça zengin ve tabaklar gerçekten dolu dolu geliyor. Özellikle <strong>avokadolu
+                        kahvaltılar</strong>, <strong>yumurtalı tabaklar</strong> ve <strong>brunch seçenekleri</strong>
+                    oldukça başarılı. Kahve konusunda da oldukça
+                    iddialılar; çekirdekler genellikle Tayland’ın kuzeyindeki Chiang Mai ve Chiang Rai bölgelerinden
+                    geliyormuş. Bu yüzden kahveler hem taze hem de gerçekten çok lezzetli.
+                </p>
+
+                <img src="resimler/bubbascoffee2.jpeg" alt="Budda's Coffee" class="section-img">
+
+                <p>Mekan genellikle <strong>07.00 – 17.00 saatleri</strong> arasında açık, bu yüzden özellikle kahvaltı
+                    veya brunch için
+                    oldukça ideal. Fiyatlar da adadaki çoğu iyi kahvaltı mekanında olduğu gibi orta seviyede
+                    diyebilirim; ne çok ucuz ne de pahalı. Ama gelen tabakların doluluğunu ve lezzetini düşününce
+                    kesinlikle karşılığını verdiğini söyleyebilirim.</p>
+
+
+
+
+                <img src="resimler/bubbascoffe1.jpeg" alt="Budda's Coffee" class="section-img">
+
+                <p>Ortamı da oldukça ferah ve rahat. Uzun uzun kahvaltı yapıp sohbet edebileceğiniz, kahvenizi içip
+                    biraz vakit geçirebileceğiniz keyifli bir atmosferi var. Zaten bu yüzden çoğu zaman oldukça
+                    kalabalık oluyor. Eğer Koh Phangan’da <strong>güzel bir kahvaltı</strong> ve <strong>iyi bir
+                        kahve</strong> arıyorsanız Bubba’s Coffee
+                    kesinlikle listenizde olması gereken yerlerden biri.</p><br>
+
+                <h4>5. Top Rock Bar</h4>
+                <img src="resimler/toprockbar1.jpeg" alt="Budda's Coffee" class="section-img">
+
+                <p>
+                    Koh Phangan’da gün batımı için keşfettiğim yerlerden biri de <strong>Top Rock Bar</strong>.
+                    Aracınızı park ettikten sonra biraz merdiven çıkmanız gerekiyor. Yukarı
+                    vardığınızda ise sizi güzel bir deniz ve ada manzarası karşılıyor. Tepede olduğu için
+                    palmiyelerle çevrili kıyıyı yukarıdan görebiliyorsunuz.
+                    <br><br>
+
+                    Mekan oldukça sakin ve rahat. Bir şeyler içip manzaraya karşı oturmak için güzel bir yer.
+                    Özellikle gün batımına doğru biraz kalabalıklaşabiliyor, bu yüzden güzel bir yer kapmak
+                    istiyorsanız erken gitmenizi öneririm.
+                    <br><br>
+
+                    <strong>11.00–00.00</strong> saatleri arasında açık. Yemek ve içecek seçenekleri var,
+                    fiyatlar da genel olarak uygun.
+                </p> <br><br>
+
+                <span class="symbolized">Benim en sık gittiğim ve en çok keyif aldığım yerler bu şekildeydi. Ama Koh
+                    Phangan’da alternatif
+                    olarak değerlendirebileceğiniz daha birçok güzel mekan var. Buralara da göz
+                    atabilirsiniz: <br><br>
+                    - ☕️🍰 Rong Cafe <br>
+                    - 🍦 Kilo Frozen Yogurt <br>
+                    - ☕️🍛 Kontainer Coffee & Restaurant <br>
+                    - ☕️🥙 Walu Ban Tai Breakfast & Cafe <br>
+                    - ☕️🍰 Hundred Islands Coffee Bar <br>
+                    - ☕️🍰 You and Me <br>
+                    - 🥭🍚 Mama Noi. Mango Sticky Rice <br>
+                    - 🍹 Lazy Rock <br>
+                    - 🍹 420 Club Phangan <br>
+                    - 🍹 Mae Haad Tree House Bar
+                </span> <br><br><br>
+
+            </section>
+
+
+            <section id="section14">
+                <h2>Keşfet, Ritmi Yakala, Gün Batımını İzle: Koh Phangan</h2>
+
+                <p>
+                    <strong>Koh Phangan</strong>, Tayland’ın en özgür ruhlu adalarından biri. Çoğu kişi burayı
+                    sadece <strong>Full Moon Party</strong> ile tanıyor ama ada bundan çok daha fazlasına
+                    sahip. Masmavi denizi, palmiyelerle çevrili plajları, sakin koyları ve gün batımında
+                    bambaşka bir manzaraya dönüşen tepeleriyle keşfetmesi gerçekten keyifli bir yer.
+                    <br><br>
+
+                    Bir gününüzü gizli bir plajı keşfederek, başka bir gününüzü motorla adayı gezerek
+                    geçirebilirsiniz. Akşam olduğunda ise gece pazarına uğrayabilir, güzel bir barda
+                    gün batımını izleyebilir ya da isterseniz sabaha kadar süren partilere katılabilirsiniz.
+                    Daha sakin bir şeyler arıyorsanız yoga ve wellness merkezleri de adanın başka bir
+                    tarafını gösteriyor.
+                    <br><br>
+
+                    <strong>Bence Koh Phangan’ın en güzel tarafı da tam olarak bu.</strong> Ne yapmak
+                    istediğinize tamamen o gün karar verebiliyorsunuz. Bir gün denizin içinde, ertesi gün
+                    ormanın içinde, başka bir akşam ise müziğin arasında bulabiliyorsunuz kendinizi.
+                    Ada bir süre sonra kendi ritmini size de geçiriyor ve ayrılırken biraz daha kalmış
+                    olmayı istiyorsunuz.
+                    <br><br>
+
+                    <strong>Peki sen Koh Phangan'da en çok nereyi görmek isterdin?</strong> Aklında olan bir yer, merak
+                    ettiğin bir şey ya da kendi ada deneyimin varsa aşağıya yaz. Duymak isterim!
+                </p>
+            </section>
+
+
+
+
+
+            <section id="yorum-yaz"
+                style="background-color: rgb(24, 24, 24); padding: 40px 20px; margin-top: 60px; color: white;">
+                <div style="max-width: 700px; margin: 0 auto;">
+                    <h2 style="text-align: left; margin-bottom: 22px;">Yorum Yaz</h2>
+                    <p style="text-align: left; font-size: 14px; color: #aaa;">
+                        E-posta adresiniz yayımlanmayacaktır. Gerekli alanlar * ile işaretlenmiştir.
+                    </p>
+                    <form action="#" method="post"
+                        style="display: flex; flex-direction: column; gap: 25px; margin-top: 20px;">
+                        <textarea name="yorum" placeholder="Yorumunuz*" required
+                            style="width: 100%; height: 250px; padding: 10px; font-size: 14px; 
+                   border: none; box-shadow: inset 0 0 0 0.5px white; background-color: rgb(24, 24, 24); color: white;"></textarea>
+                        <input type="text" name="isim" placeholder="İsim"
+                            style="width: 100%; height: 50px; padding: 10px; font-size: 14px; 
+                   border: none; box-shadow: inset 0 0 0 0.5px white; background-color: rgb(24, 24, 24); color: white;">
+                        <input type="email" name="email" placeholder="E-posta"
+                            style="width: 100%; height: 50px; padding: 10px; font-size: 14px; 
+                   border: none; box-shadow: inset 0 0 0 0.5px white; background-color: rgb(24, 24, 24); color: white;">
+                        <button type="submit" style="width: 33%; padding: 12px; background-color: transparent; color: white; 
+                   border: none; box-shadow: inset 0 0 0 0.5px white; font-size: 14px; cursor: pointer;">
+                            GÖNDER
+                        </button>
+                    </form>
+                </div>
+            </section>
+
+        </div>
+    </div>
+
+    <script>
+
+        const menuToggle = document.getElementById('menuToggle');
+        const mainMenu = document.getElementById('mainMenu');
+        const closeMain = document.getElementById('closeMain');
+        const openIstikamet = document.getElementById('openIstikamet');
+        const istikametMenu = document.getElementById('istikametMenu');
+        const backIstikamet = document.getElementById('backIstikamet');
+
+        menuToggle.addEventListener('click', () => {
+            mainMenu.classList.add('active');
+        });
+
+        closeMain.addEventListener('click', () => {
+            mainMenu.classList.remove('active');
+        });
+
+        openIstikamet.addEventListener('click', (e) => {
+            e.preventDefault();
+            mainMenu.classList.remove('active');
+            istikametMenu.classList.add('active');
+        });
+
+        backIstikamet.addEventListener('click', () => {
+            istikametMenu.classList.remove('active');
+            mainMenu.classList.add('active');
+        });
+
+        const searchInput = document.getElementById('searchInput');
+        const clearBtn = document.getElementById('clearBtn');
+
+        if (searchInput && clearBtn) {
+            searchInput.addEventListener('input', () => {
+                if (searchInput.value.trim() !== "") {
+                    clearBtn.style.display = 'block';
+                } else {
+                    clearBtn.style.display = 'none';
+                }
+            });
+
+            clearBtn.addEventListener('click', () => {
+                searchInput.value = "";
+                clearBtn.style.display = 'none';
+
+                searchInput.focus();
+            });
+        }
+        const goBtn = document.getElementById('goBtn');
+
+        if (searchInput && clearBtn && goBtn) {
+            searchInput.addEventListener('input', () => {
+                if (searchInput.value.trim() !== "") {
+                    clearBtn.style.display = 'block';
+                    goBtn.style.display = 'none';
+                } else {
+                    clearBtn.style.display = 'none';
+                    goBtn.style.display = 'block';
+                }
+            });
+
+            clearBtn.addEventListener('click', () => {
+                searchInput.value = "";
+                clearBtn.style.display = 'none';
+                goBtn.style.display = 'block';
+                searchInput.focus();
+            });
+        }
+        menuToggle.addEventListener('click', () => {
+            mainMenu.classList.add('active');
+            document.body.classList.add('menu-open');
+        });
+
+        closeMain.addEventListener('click', () => {
+            mainMenu.classList.remove('active');
+            document.body.classList.remove('menu-open');
+        });
+
+        //mobil için nav-search
+        const searchInputMobile = document.getElementById('searchInputMobile');
+        const clearBtnMobile = document.getElementById('clearBtnMobile');
+        const goBtnMobile = document.getElementById('goBtnMobile');
+
+        if (searchInputMobile && clearBtnMobile && goBtnMobile) {
+            searchInputMobile.addEventListener('input', () => {
+                if (searchInputMobile.value.trim() !== "") {
+                    clearBtnMobile.style.display = 'block';
+                    goBtnMobile.style.display = 'none';
+                } else {
+                    clearBtnMobile.style.display = 'none';
+                    goBtnMobile.style.display = 'block';
+                }
+            });
+
+            clearBtnMobile.addEventListener('click', () => {
+                searchInputMobile.value = "";
+                clearBtnMobile.style.display = 'none';
+                goBtnMobile.style.display = 'block';
+                searchInputMobile.focus();
+            });
+        }
+
+        // İstikamet için nav-search
+        const searchInputIstikamet = document.getElementById('searchInputIstikamet');
+        const clearBtnIstikamet = document.getElementById('clearBtnIstikamet');
+        const goBtnIstikamet = document.getElementById('goBtnIstikamet');
+
+        if (searchInputIstikamet && clearBtnIstikamet && goBtnIstikamet) {
+            searchInputIstikamet.addEventListener('input', () => {
+                if (searchInputIstikamet.value.trim() !== "") {
+                    clearBtnIstikamet.style.display = 'block';
+                    goBtnIstikamet.style.display = 'none';
+                } else {
+                    clearBtnIstikamet.style.display = 'none';
+                    goBtnIstikamet.style.display = 'block';
+                }
+            });
+
+            clearBtnIstikamet.addEventListener('click', () => {
+                searchInputIstikamet.value = "";
+                clearBtnIstikamet.style.display = 'none';
+                goBtnIstikamet.style.display = 'block';
+                searchInputIstikamet.focus();
+            });
+        }
+
+        const openAsya = document.getElementById('openAsya');
+        const asyaMenu = document.getElementById('asyaMenu');
+        const backAsya = document.getElementById('backAsya');
+
+        openAsya.addEventListener('click', (e) => {
+            e.preventDefault();
+            istikametMenu.classList.remove('active'); // İSTİKAMET overlay gizle
+            asyaMenu.classList.add('active');         // ASYA overlay göster
+        });
+
+        backAsya.addEventListener('click', () => {
+            asyaMenu.classList.remove('active');      // ASYA overlay gizle
+            istikametMenu.classList.add('active');    // İSTİKAMET overlay göster
+        });
+
+        // ASYA Overlay Search Box
+        const searchInputAsya = document.getElementById('searchInputAsya');
+        const clearBtnAsya = document.getElementById('clearBtnAsya');
+        const goBtnAsya = document.getElementById('goBtnAsya');
+
+        if (searchInputAsya && clearBtnAsya && goBtnAsya) {
+            searchInputAsya.addEventListener('input', () => {
+                if (searchInputAsya.value.trim() !== "") {
+                    clearBtnAsya.style.display = 'block';
+                    goBtnAsya.style.display = 'none';
+                } else {
+                    clearBtnAsya.style.display = 'none';
+                    goBtnAsya.style.display = 'block';
+                }
+            });
+
+            clearBtnAsya.addEventListener('click', () => {
+                searchInputAsya.value = "";
+                clearBtnAsya.style.display = 'none';
+                goBtnAsya.style.display = 'block';
+                searchInputAsya.focus();
+            });
+        }
+
+        const tocWidget = document.querySelector('.toc-widget');
+        const tocHeader = tocWidget.querySelector('.toc-header');
+
+        tocHeader.addEventListener('click', () => {
+            tocWidget.classList.toggle('open');
+        });
+
+        document.querySelectorAll('.toc-list a').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                target.scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+
+        // TEMALAR overlay
+        const openTemalar = document.getElementById('openTemalar');
+        const temalarMenu = document.getElementById('temalarMenu');
+        const backTemalar = document.getElementById('backTemalar');
+
+        if (openTemalar && temalarMenu && backTemalar) {
+
+            openTemalar.addEventListener('click', (e) => {
+                e.preventDefault();
+                mainMenu.classList.remove('active');
+                temalarMenu.classList.add('active');
+            });
+
+            backTemalar.addEventListener('click', () => {
+                temalarMenu.classList.remove('active');
+                mainMenu.classList.add('active');
+            });
+
+        }
+
+
+
+
+    </script>
+    <script>
+        const navbar = document.getElementById('navbar');
+        let oncekiKonum = 0;
+    
+        document.addEventListener('scroll', (e) => {
+            // Kaydırma pencerede mi yoksa body'de mi oluyor, ikisini de yakala
+            const hedef = e.target === document ? document.documentElement : e.target;
+            if (hedef !== document.documentElement && hedef !== document.body) return;
+    
+            const konum = hedef.scrollTop;
+    
+            // Çok küçük hareketleri yok say
+            if (Math.abs(konum - oncekiKonum) < 5) return;
+    
+            if (konum > oncekiKonum && konum > 70) {
+                navbar.classList.add('nav-gizli');      // aşağı iniyor: gizle
+            } else {
+                navbar.classList.remove('nav-gizli');   // yukarı çıkıyor: göster
+            }
+    
+            oncekiKonum = konum;
+        }, true);
+    </script>
+</body>
+
+</html>

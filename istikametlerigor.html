@@ -1,0 +1,1890 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <title>ISTIKAMETLER</title>
+    <link rel="icon" type="image/png" sizes="64x64" href="resimler/logoooo 2.jpeg" />
+    <link rel="icon" type="image/x-icon" href="resimler/logoooo.ico" />
+
+    <style>
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            background: rgb(24, 24, 24);
+            flex-direction: column;
+            font-family: sans-serif;
+            overflow-x: hidden;
+        }
+
+        nav {
+            background-color: rgb(31, 31, 31);
+            color: rgb(202, 200, 200);
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            height: 70px;
+            z-index: 1000;
+            width: 100%;
+            position: sticky;
+            top: 0;
+            transition: transform 0.3s ease;
+      padding: 0 20px;
+      border-bottom: 3px solid rgb(187, 186, 186);
+    }
+    .nav-gizli {
+            transform: translateY(-100%);
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            margin-right: 80px;
+            margin-left: 50px;
+        }
+
+        .nav-logo img {
+            width: 56px;
+            height: 70px;
+            object-fit: cover;
+            margin-right: 5px;
+        }
+
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+            margin-left: 6px;
+        }
+
+        .logo-text .main-title {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: rgb(251, 187, 69);
+        }
+
+        .logo-text .sub-title {
+            font-size: 0.9em;
+            font-style: italic;
+            color: rgb(202, 200, 200);
+            margin-top: -3px;
+            margin-left: 9px;
+            margin-right: 10px;
+        }
+
+        .menu-toggle,
+        .menu-close,
+        .menu-back {
+            display: none;
+            /* Masaüstünde gizli */
+            font-size: 32px;
+            cursor: pointer;
+            color: white;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 1100;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            font-family: 'Times New Roman', Times, serif;
+            align-items: center;
+            flex: 1;
+        }
+
+        .nav-item {
+            position: relative;
+        }
+
+        .nav-links>.nav-item>a {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            text-decoration: none;
+            color: rgba(255, 255, 255, 0.879);
+            font-weight: 500;
+            font-size: 1em;
+            padding: 6px 12px;
+            border: 2px solid transparent;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-item>a.has-arrow::after {
+            content: "";
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            border-right: 2px solid rgba(255, 255, 255, 0.879);
+            border-bottom: 2px solid rgba(255, 255, 255, 0.879);
+            transform: rotate(45deg);
+        }
+
+        .dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: -30px;
+            background-color: rgb(242, 181, 68);
+            min-width: 180px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            text-align: left;
+            margin-left: 35px;
+            transition: all 0.5s ease-in-out;
+        }
+
+        .dropdown a {
+            display: block;
+            padding: 10px 16px;
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .dropdown a:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown a:hover {
+            background-color: rgb(249, 210, 136);
+        }
+
+        .dropdown-sub {
+            display: none;
+            position: absolute;
+            top: 0;
+            /* ASYA linki ile aynı hizada başlar */
+            left: 100%;
+            /* sağa açılır */
+            background-color: rgb(242, 181, 68);
+            min-width: 150px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: all 0.5s ease-in-out;
+        }
+
+        /* ASYA alt dropdown linkleri */
+        .dropdown-sub a {
+            display: block;
+            padding: 10px 16px;
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .dropdown-sub a:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown-sub a:hover {
+            background-color: rgb(249, 210, 136);
+        }
+
+        /* ASYA üzerine gelince alt dropdown açılır */
+        .nav-item.has-submenu:hover>.dropdown-sub {
+            display: block;
+        }
+
+        .nav-item.has-submenu {
+            position: relative;
+            /* ASYA'nın alt dropdown'u buna göre konumlanacak */
+        }
+
+        @media (min-width: 769px) {
+            .nav-item:hover .dropdown {
+                display: block;
+            }
+        }
+
+        .nav-search {
+            margin-left: auto;
+            margin-right: 50px;
+            display: flex;
+            align-items: center;
+            position: relative;
+            gap: 5px;
+        }
+
+        .nav-search input {
+            padding: 6px 36px 6px 12px;
+            border-radius: 3px;
+            border: 3px solid rgba(200, 200, 200, 0.5);
+            background-color: rgb(31, 31, 31);
+            color: white;
+            font-size: 0.9em;
+            outline: none;
+            width: 180px;
+            font-family: monospace;
+        }
+
+        .nav-search input::placeholder {
+            color: rgba(200, 200, 200, 0.7);
+        }
+
+        .nav-search input:focus {
+            color: rgba(200, 200, 200, 0.769);
+            border-color: rgba(200, 200, 200, 0.769);
+        }
+
+        .nav-search input:focus::placeholder {
+            color: rgba(200, 200, 200, 0.769);
+            /* placeholder beyazın açık tonu */
+        }
+
+        .nav-search .clear-btn,
+        .nav-search .go-btn {
+            position: absolute;
+            background: none;
+            border: none;
+            color: rgba(200, 200, 200, 0.9);
+            cursor: pointer;
+            font-size: 1em;
+            padding: 0;
+        }
+
+        .nav-search .clear-btn {
+            right: 30px;
+            /* oku biraz sola it */
+            display: none;
+            /* boşken gizle */
+
+        }
+
+        .nav-search .go-btn {
+            right: 20px;
+
+        }
+
+        /* Hover efektleri */
+        .nav-search .clear-btn:hover,
+        .nav-search .go-btn:hover {
+            color: white;
+        }
+
+        .dropdown-sub {
+            display: none;
+            position: absolute;
+            top: 0;
+            /* Ana dropdown ile aynı üst hizada */
+            left: 100%;
+            /* ASYA'nın sağında açılır */
+            background-color: rgb(242, 181, 68);
+            min-width: 180px;
+            /* Ana dropdown ile aynı genişlik */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+
+            text-align: left;
+            z-index: 1;
+            margin-top: 0;
+            
+        }
+
+
+        .has-submenu:hover .dropdown-sub {
+            display: block;
+        }
+
+        .dropdown-sub a {
+            display: block;
+            padding: 10px 16px;
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .dropdown-sub a:hover {
+            background-color: rgb(249, 210, 136);
+        }
+
+        /* ASYA alt menüsü yan açılır */
+        .nav-item.has-submenu {
+            position: relative;
+        }
+
+        .dropdown-sub {
+            display: none;
+            position: absolute;
+            top: 0;
+            /* ASYA ile aynı hizada */
+            left: 100%;
+            /* ASYA’nın hemen sağında açılır */
+            background-color: rgb(242, 181, 68);
+            min-width: 180px;
+            /* ASYA dropdown ile aynı genişlik */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 10;
+        }
+
+        .nav-item.has-submenu:hover .dropdown-sub {
+            display: block;
+        }
+
+        .dropdown-sub a {
+            display: block;
+            padding: 10px 16px;
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+
+
+        .dropdown-sub a:hover {
+            background-color: rgb(249, 210, 136);
+        }
+
+
+        /* ----- Mobil için Hamburger ----- */
+        .menu-toggle {
+            font-size: 28px;
+            cursor: pointer;
+            display: none;
+        }
+
+        /* Overlay */
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0e0e0e;
+            color: #fff;
+            z-index: 2000;
+            flex-direction: column;
+            padding-top: 5px;
+            /* header boşluğu */
+            padding-left: 20px;
+            padding-right: 20px;
+
+        }
+
+        .overlay.active {
+            display: flex;
+        }
+
+        .overlay-header {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            /* ortalamak için */
+            width: 80%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 20px;
+            border: 1px solid rgb(187, 186, 186);
+            /* çerçeve */
+            background: transparent;
+            /* arka planı şeffaf */
+            border-radius: 6px;
+            /* hafif köşeler, istersen kaldırabilirsin */
+        }
+
+
+        .overlay-header .title {
+            font-size: 13px;
+            font-weight: 100;
+            font-family: monospace;
+            letter-spacing: 2px;
+        }
+
+
+
+        .overlay-links {
+            margin-top: 70px;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            font-size: 20px;
+            margin-left: 30px;
+        }
+
+        .overlay-links a {
+            text-decoration: none;
+            color: rgb(202, 200, 200);
+            font-family: monospace;
+            font-size: 500;
+        }
+
+        #istikametMenu .overlay-links {
+            margin-top: 150px;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            /* normal menüden biraz daha dar boşluk */
+            font-size: 20px;
+            /* biraz daha küçük */
+            margin-left: 30px;
+            /* girinti */
+        }
+
+        #istikametMenu .overlay-links a {
+            text-decoration: none;
+            color: rgb(202, 200, 200);
+            font-family: monospace;
+            transition: color 0.3s ease;
+            font-size: 500;
+            letter-spacing: 2px;
+        }
+
+        @media (max-width: 900px) {
+
+            .nav-links,
+            .nav-search {
+                display: none;
+            }
+
+            .menu-toggle {
+                display: block;
+                margin-right: 20px;
+            }
+        }
+
+        body.menu-open {
+            overflow: hidden;
+        }
+
+        /*overlay-search*/
+        .overlay-box {
+            position: relative;
+
+
+            left: 47%;
+            transform: translateX(-50%);
+            width: 81.5%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px;
+            border: 1px solid rgb(187, 186, 186);
+            background: transparent;
+            border-radius: 6px;
+            box-sizing: border-box;
+        }
+
+        .overlay-search input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            color: #fff;
+            font-size: 14px;
+            font-family: monospace;
+            letter-spacing: 1px;
+            outline: none;
+        }
+
+
+        .overlay-search .clear-btn,
+        .overlay-search .go-btn {
+            background: none;
+            border: none;
+            color: rgba(200, 200, 200, 0.9);
+            cursor: pointer;
+            font-size: 18px;
+            margin-left: 10px;
+        }
+
+        .overlay-search .clear-btn {
+            right: 32px;
+            /* input padding ile aynı */
+            display: none;
+        }
+
+        .overlay-search .go-btn {
+            right: 10px;
+            /* input padding ile aynı */
+        }
+
+
+        .overlay-content {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            /* container tüm yüksekliği kaplasın */
+            justify-content: space-between;
+            /* linkler üstte, arama kutusu altta */
+            margin-top: 70px;
+            /* overlay-header kadar boşluk */
+            padding-bottom: 50px;
+        }
+
+        /* ----- ASYA Overlay ----- */
+        #asyaMenu {
+            display: none;
+            /* başlangıçta gizli */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0e0e0e;
+            color: #fff;
+            z-index: 2000;
+            flex-direction: column;
+            padding-top: 5px;
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+        #asyaMenu.active {
+            display: flex;
+        }
+
+        #asyaMenu .overlay-header {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 20px;
+            border: 1px solid rgb(187, 186, 186);
+            background: transparent;
+            border-radius: 6px;
+        }
+
+        #asyaMenu .overlay-header .title {
+            font-size: 13px;
+            font-weight: 100;
+            font-family: monospace;
+            letter-spacing: 2px;
+        }
+
+        #asyaMenu .overlay-links {
+            margin-top: 150px;
+            /* İSTİKAMET overlay’ine uyumlu */
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            font-size: 20px;
+            margin-left: 30px;
+        }
+
+        #asyaMenu .overlay-links a {
+            text-decoration: none;
+            color: rgb(202, 200, 200);
+            font-family: monospace;
+            font-size: 500;
+            letter-spacing: 2px;
+            transition: color 0.3s ease;
+        }
+
+        #asyaMenu .overlay-links a:hover {
+            color: rgb(242, 181, 68);
+        }
+
+        #asyaMenu .overlay-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            flex: 1;
+            justify-content: flex-start;
+            margin-top: 70px;
+            /* header boşluğu */
+            padding-bottom: 50px;
+        }
+
+        #asyaMenu .overlay-search {
+            margin-top: auto;
+            /* search box’u en alta it */
+        }
+
+        .nav-logo {
+  text-decoration: none; /* alt çizgiyi kaldır */
+  border: none;          /* varsa border kaldır */
+  color: inherit;        /* renk navbar ile uyumlu */
+}
+
+.nav-logo:hover {
+  text-decoration: none; /* hover'da da çizgi olmasın */
+}
+
+.istikamet-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.plus-btn {
+  font-size: 18px;
+  cursor: pointer;
+  padding: 0 55px;
+  color: rgb(202, 200, 200);
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.plus-btn:hover {
+  transform: scale(1.2);
+  color: rgb(242, 181, 68); /* hover rengi */
+}
+
+.temalar-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.asya-item,
+.avrupa-item,
+.turkiye-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+
+
+        #main-content {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            height: 100vh;
+            gap: 60px;
+            margin: 0;
+            padding: 0;
+        }
+
+        #info-container {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            background: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), url(resimler/web2.jpeg) no-repeat center center;
+            background-size: cover;
+            background-position: center 50%;
+            min-height: 90vh;
+            filter: contrast(1.2) brightness(1.05);
+        }
+
+        .title-text {
+            margin-top: auto;
+            /* bütün grup aşağıya itilir */
+            margin-left: 90px;
+            margin-bottom: -10px;
+        }
+
+        #info-container h1 {
+            font-size: 46px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.85);
+            line-height: 0.6;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+
+
+        }
+
+        #info-container p {
+            font-size: 15px;
+            font-weight: 400;
+            font-family: monospace;
+            color: rgba(255, 255, 255, 0.85);
+            line-height: 1.6;
+            margin-top: 25px;
+        }
+
+
+        .destination-box {
+            position: absolute;
+            /* kutuyu mutlak konumlandır */
+            right: 30px;
+            /* sağdan boşluk */
+            bottom: 10px;
+            /* alttan boşluk */
+            margin-right: 60px;
+            padding: 13px 23px;
+            /* İç boşluk */
+            border: 2px solid rgba(255, 255, 255, 0.85);
+            border-radius: 3px;
+            /* Köşeleri yuvarlatır */
+            background-color: none;
+            color: rgba(255, 255, 255, 0.85);
+            /* Yazı rengi */
+            width: 270px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: monospace;
+            letter-spacing: 3px;
+            display: inline-flex;
+            /* Yazı ve ok yan yana olsun */
+            align-items: center;
+            /* Ortaya hizala */
+            justify-content: center;
+            /* Ortaya hizala */
+            gap: 25px;
+            text-decoration: none;
+        }
+
+
+
+        .destination-arrow {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-right: 2px solid rgba(255, 255, 255, 0.85);
+            border-bottom: 2px solid rgba(255, 255, 255, 0.85);
+            transform: rotate(45deg);
+            /* Güneydoğu yönü */
+            transition: transform 0.3s ease;
+        }
+
+
+
+        .destination-arrow::after {
+            content: '';
+            position: absolute;
+            width: 2px;
+            /* Çizgi kalınlığı */
+            height: 14px;
+            /* Ok uzunluğu */
+            background-color: currentColor;
+            left: 50%;
+            top: -2px;
+            transform: translateX(-50%) rotate(-45deg);
+            /* Ok açısı */
+        }
+
+        .shop-link {
+            position: absolute;
+            right: 60px;
+            /* sağdan boşluk */
+            top: 50%;
+            /* dikey ortala */
+            transform: translateY(-50%) rotate(-90deg);
+            /* ters döndür */
+            transform-origin: top right;
+            /* dönüş merkezi */
+            font-size: 16px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.85);
+            background: none;
+            /* arka plan yok */
+            border: none;
+            font-family: monospace;
+            text-decoration: none;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: color 0.3s ease;
+            display: flex;
+            gap: 20px;
+        }
+
+        .shop-arrow {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-top: 2px solid rgba(255, 255, 255, 0.85);
+            border-left: 2px solid rgba(255, 255, 255, 0.85);
+            transform: rotate(90deg);
+            /* kuzeybatıya yön */
+            position: relative;
+        }
+
+        .shop-arrow::after {
+            content: '';
+            position: absolute;
+            width: 2px;
+            /* çizgi kalınlığı */
+            height: 14px;
+            /* ok uzunluğu */
+            background-color: currentColor;
+            left: 50%;
+            top: -2px;
+            transform: translateX(-50%) rotate(-45deg);
+            /* ok açısına hizala */
+        }
+
+        @media (max-width: 900px) {
+            .shop-link {
+                display: none;
+                /* mobilde mağazamız kaybolsun */
+            }
+        }
+
+        @media (max-width: 900px) {
+            .destination-box {
+                position: static;
+                /* paragrafın altına gelsin */
+                margin: 20px auto 0;
+                /* üstten boşluk + ortalama */
+                width: calc(100% - 40px);
+                /* sağdan ve soldan 20px boşluk */
+                max-width: 500px;
+                /* istersen çok büyük ekranda fazla uzamasın */
+                box-sizing: border-box;
+                /* padding dahil */
+                display: block;
+                text-align: center;
+                margin-bottom: 10px;
+            }
+        }
+
+        @media (max-width: 900px) {
+            .title-text {
+                margin-left: 20px;
+                /* sola boşluk */
+                margin-right: 20px;
+                /* sağdan da nefes aldır */
+                text-align: left;
+                /* yazıyı sola yasla */
+            }
+
+            #info-container h1 {
+                font-size: 32px;
+                /* mobilde daha küçük boyut */
+            }
+
+            #info-container p {
+                font-size: 14px;
+                /* mobilde daha okunabilir boyut */
+                line-height: 1.5;
+            }
+        }
+
+        #about-section {
+            padding: 60px 100px;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+
+        #about-section h2 {
+            font-size: 32px;
+            font-weight: 550;
+            color: rgba(255, 255, 255, 0.85);
+            margin-bottom: 15px;
+            font-family: monospace;
+            letter-spacing: 0.5px;
+            line-height: 1.4;
+        }
+
+        .destinations-container {
+            display: flex;
+            gap: 30px;
+            justify-content: space-between;
+
+        }
+
+        .destination-card {
+            flex: 1;
+            height: 600px;
+            position: relative;
+            cursor: pointer;
+            overflow: hidden;
+            display: flex;
+            align-items: flex-end;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .destination-card img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 1;
+            transition: transform 0.5s ease;
+        }
+
+        /* Karanlık efekt için overlay */
+        .destination-card::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.4);
+            /* varsayılan karanlık */
+            transition: background 0.3s ease;
+            z-index: 1;
+        }
+
+        /* Hover olunca hafif aydınlansın */
+        .destination-card:hover::after {
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        html {
+  -webkit-text-size-adjust: 100%;
+}
+
+        .card-content {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            width: 100%;
+        }
+
+        .card-content h3 {
+            margin: 0;
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 20px;
+            font-family: monospace;
+            font-weight: 300px;
+            margin-left: 10px;
+
+        }
+
+        .post-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 40px;
+            color: rgba(255, 255, 255, 0.85);
+            font-weight: 300;
+            text-decoration: none;
+            font-family: monospace;
+            letter-spacing: 3px;
+            margin-right: 10px;
+        }
+
+        .arrow {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-right: 2px solid rgba(255, 255, 255, 0.85);
+            border-bottom: 2px solid rgba(255, 255, 255, 0.85);
+            transform: rotate(-90deg);
+            /* kuzeydoğu ok */
+        }
+
+        .arrow::after {
+            content: '';
+            position: absolute;
+            width: 2px;
+            height: 14px;
+            background-color: currentColor;
+            left: 50%;
+            top: -2px;
+            transform: translateX(-50%) rotate(-45deg);
+        }
+
+        @media (max-width: 900px) {
+            #about-section {
+                padding: 0 15px;
+                /* Bölüm kenarlarından hafif boşluk */
+            }
+
+            #about-section h2 {
+                font-size: 25px;
+                text-align: left;
+                /* Sola yaslı */
+                margin-top: 40px;
+                /* Üstte daha çok boşluk */
+                margin-bottom: 3px;
+                /* Kartlara daha yakın */
+                margin-left: 5px;
+                line-height: 1.2;
+            }
+
+            .destinations-container {
+                flex-direction: column;
+                gap: 35px;
+            }
+
+            .destination-card {
+                width: 100%;
+                /* Tam ekran genişliği */
+                aspect-ratio: 1 / 1;
+                /* Kare görünüm */
+
+            }
+
+            .destination-card img {
+                object-fit: cover;
+                width: 100%;
+                height: 100%;
+            }
+        }
+
+        .section-divider {
+            border: 0;
+            height: 0.5px;
+            background: rgba(200, 200, 200, 0.9);
+            margin: 100px 0;
+            width: 100vw;
+            position: relative;
+            left: 50%;
+            right: 50%;
+            transform: translateX(-50%);
+            margin-bottom: 20px;
+        }
+
+        #contact-section {
+            display: flex;
+            justify-content: space-between;
+            /* Sol ve sağ kutuları ayırır */
+            align-items: flex-start;
+            gap: 20px;
+            padding: 40px 50px;
+            flex-wrap: wrap;
+            /* Küçük ekranlarda alt alta geçmesini sağlar */
+        }
+
+        /* brand-box */
+        .brand-box {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; /* masaüstü: yazı solda */
+    width: 100px;                /* mevcut kutu genişliği */
+    height: 30px;                /* mevcut kutu yüksekliği */
+    border: 2px solid #CAC8C8;
+    border-radius: 2px;
+    background: transparent;
+    text-decoration: none;       /* alt çizgi olmasın */
+    color: rgb(202, 200, 200);   /* yazı rengi */
+    cursor: pointer;             /* fare pointer olsun */
+}
+
+
+
+        .brand-box img {
+            display: block;
+            width: 40px;
+            height: 30px;
+            object-fit: contain;
+            object-position: left center;
+            margin: 0;
+            padding: 0;
+            border: 0;
+        }
+
+        .brand-box span {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 15px;
+            font-weight: 500;
+            color: rgb(202, 200, 200);
+            margin-left: -5px;
+        }
+
+        .brand-box a,
+        .brand-box a:visited,
+        .brand-box a:hover,
+        .brand-box a:active {
+            color: rgb(202, 200, 200);
+            /* hep aynı renk */
+            text-decoration: none;
+            /* alt çizgi yok */
+        }
+
+        .contact-container {
+            display: flex;
+            justify-content: space-between;
+            gap: 50px;
+            padding: 5px;
+            width: 900px;
+            /* Kareye yakın */
+            height: 400px;
+            box-sizing: border-box;
+        }
+
+        /* Sol sütun */
+        .contact-left {
+            flex: 1;
+            color: #eaeaea;
+
+        }
+
+        .contact-left h3 {
+            color: rgb(202, 200, 200);
+            margin-bottom: 25px;
+            margin-top: 5px;
+            font-family: monospace;
+            letter-spacing: 2px;
+            font-size: 20px;
+        }
+
+        .contact-left p {
+            margin-bottom: 25px;
+            font-family: monospace;
+            line-height: 1.6;
+            font-size: 18px;
+            color: rgb(202, 200, 200);
+
+        }
+
+        .contact-info p {
+            margin: 5px 0;
+            color: rgb(202, 200, 200);
+            line-height: 20px;
+        }
+
+        /* Sağ sütun */
+        .contact-right {
+            flex: 1;
+        }
+
+        .contact-right form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            height: 100%;
+        }
+
+        /* İsim ve email yan yana */
+        .input-row {
+            display: flex;
+            gap: 10px;
+        }
+
+        .input-row input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid rgb(202, 200, 200);
+            background-color: transparent;
+            color: rgb(202, 200, 200);
+            border-radius: 2px;
+            outline: none;
+            box-sizing: border-box;
+            font-family: monospace;
+        }
+
+        /* Mesaj kutusu */
+        .contact-right textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid rgb(202, 200, 200);
+            border-radius: 2px;
+            background-color: transparent;
+            color: rgb(202, 200, 200);
+            resize: none;
+            outline: none;
+            box-sizing: border-box;
+            height: 300px;
+            font-family: monospace;
+        }
+
+        /* Gönder butonu */
+        .contact-right button {
+            padding: 10px 20px;
+            border: 1px solid #eaeaea;
+            border-radius: 2px;
+            background-color: transparent;
+            color: rgb(202, 200, 200);
+            font-weight: bold;
+            cursor: pointer;
+            align-self: flex-end;
+            width: 100%;
+            /* Mesaj kutusu genişliğine eşit */
+            box-sizing: border-box;
+            /* Padding dahil genişlik */
+        }
+
+        .contact-right button:hover {
+            background-color: orange;
+        }
+
+        /* Mobil uyum (tablet ve telefon) */
+@media (max-width: 768px) {
+    #contact-section {
+        flex-direction: column;     /* Alt alta gelsin */
+        padding: 20px;             /* Daha dar padding */
+        gap: 20px;
+    }
+
+    .contact-container {
+        flex-direction: column;    /* Sol ve sağ sütun alt alta */
+        width: 100%;              /* Taşmayı engelle */
+        height: auto;             /* Sabit yükseklik olmasın */
+        gap: 20px;
+    }
+
+    .contact-left h3 {
+        font-size: 18px;
+    }
+
+    .contact-left p {
+        font-size: 16px;
+    }
+
+    .input-row {
+        flex-direction: column;    /* Yan yana yerine alt alta */
+        gap: 10px;
+    }
+
+    .input-row input {
+        width: 100%;              /* Tam genişlik */
+    }
+
+    .contact-right textarea {
+        height: 200px;            /* Daha küçük textarea */
+    }
+
+    .brand-box {
+        display: flex;
+        align-items: center;
+        justify-content: center;  /* kutu içinde yazıyı ortala */
+        width: 100px;
+        height: 30px;
+        padding: 0;
+        margin: 0;
+        position: relative;
+    }
+
+    .brand-box img {
+        position: absolute;
+        left: 0;   /* logo kenara yapışık */
+        top: 0;
+        width: 40px;
+        height: 30px;
+        object-fit: contain;
+    }
+
+    .brand-box span {
+        flex: 1;               /* kalan alanı kaplasın */
+        text-align: center;    /* kendi alanında ortalansın */
+        z-index: 1;            /* logonun arkasında kalmasın */
+    }
+
+    .contact-right button {
+        width: 100%;              /* Her zaman tam genişlik */
+    }
+}
+
+#temalarMenu .overlay-links {
+      margin-top: 150px;
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+      font-size: 20px;
+      margin-left: 30px;
+    }
+
+    #temalarMenu .overlay-links a {
+      text-decoration: none;
+      color: rgb(202, 200, 200);
+      font-family: monospace;
+      letter-spacing: 2px;
+    }
+
+    .kaynaklar-item,
+    .ekosistem-item,
+    .gastronomi-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .rota-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 12px 24px;
+    border: 2px solid #F4A621;
+    border-radius: 8px;
+
+    color: #F4A621 !important;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    text-decoration: none;
+
+    transition: .25s ease;
+}
+
+.rota-btn:hover{
+    background:#F4A621;
+    color:#1e1e1e !important;
+    transform:translateY(-2px);
+    box-shadow:0 8px 20px rgba(244,166,33,.35);
+}
+
+.desktop-br {
+    display: inline;
+}
+
+@media (max-width: 900px) {
+    .desktop-br {
+        display: none;
+    }
+}
+
+    </style>
+</head>
+
+
+<body>
+
+    <nav id="navbar">
+        <a href="index.html" class="nav-logo">
+            <img src="resimler/logoooo 2.jpeg" alt="Logo">
+            <div class="logo-text">
+              <span class="main-title">HadiGidelim</span>
+              <span class="sub-title">Kendi Ritmini Keşfet</span>
+            </div>
+          </a>
+
+        <div class="menu-toggle" id="menuToggle">&#9776;</div>
+
+        <div class="nav-links" id="navLinks">
+            <div class="nav-item"><a href="index.html" class="nav-link">ANA SAYFA</a></div>
+
+            <div class="nav-item">
+                <a href="Istikametlerigor.html" class="nav-link has-arrow">İSTİKAMET</a>
+                <div class="dropdown">
+                    <div class="nav-item has-submenu">
+                        <a href="asya.html" class="nav-link">ASYA</a>
+                        <div class="dropdown-sub">
+                            <a href="tayland.html">Tayland</a>
+                            <a href="endonezya.html">Endonezya</a>
+                        </div>
+                    </div>
+                    <a href="#">AVRUPA</a>
+                    <a href="#">TÜRKİYE</a>
+                </div>
+            </div>
+
+            <div class="nav-item"><a href="temalar.html" class="nav-link has-arrow">TEMALAR</a>
+                <div class="dropdown">
+                  <div class="nav-item has-submenu">
+                    <a href="seyahatkaynaklari.html" class="nav-link">SEYAHAT KAYNAKLARI</a>
+                  </div>
+                  <a href="#">EKOSİSTEM</a>
+                </div>
+              
+          
+              </div>
+        
+            <div class="nav-item">
+                <a href="aboutus.html" class="nav-link">HAKKIMDA</a>
+              </div>
+            <div class="nav-item"><a href="iletisim.html" class="nav-link rota-btn">ROTA PLANLAYICI</a></div>
+        </div>
+        <div class="nav-search">
+            <input type="text" id="searchInput" placeholder="Keşfet..." />
+            <button class="clear-btn" id="clearBtn">&times;</button>
+            <button class="go-btn" id="goBtn">&#8594;</button>
+        </div>
+    </nav>
+
+    <!-- Ana Menü Overlay (Mobil) -->
+    <div class="overlay" id="mainMenu">
+        <div class="overlay-header">
+            <div></div>
+            <div class="btn-box" id="closeMain">&times;</div>
+        </div>
+
+        <div class="overlay-content">
+            <div class="overlay-links">
+                <a href="index.html">ANA SAYFA</a>
+                <div class="istikamet-item">
+                    <a href="istikametlerigor.html" class="istikamet-link">İSTİKAMET</a>
+                    <span class="plus-btn" id="openIstikamet">
+                      <i class="fas fa-plus"></i>
+                    </span>
+                  </div>
+                  <div class="temalar-item">
+                    <a href="temalar.html" class="temalar-link">TEMALAR</a>
+                    <span class="plus-btn" id="openTemalar">
+                      <i class="fas fa-plus"></i>
+                    </span>
+                  </div>
+                <a href="#" id="openBizKimiz">HAKKIMDA</a>
+                <a href="iletisim.html">ROTA PLANLAYICI</a>
+                <a href="#">MAĞAZAMIZ <i class="fas fa-shopping-cart"></i></a>
+            </div>
+            <div class="overlay-search overlay-box">
+                <input type="text" id="searchInputMobile" placeholder="Keşfet..." />
+                <button class="clear-btn" id="clearBtnMobile">&times;</button>
+                <button class="go-btn" id="goBtnMobile">&#8594;</button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- İstikamet Overlay -->
+    <div class="overlay" id="istikametMenu">
+        <div class="overlay-header">
+            <div class="btn-box" id="backIstikamet">&#8592;</div>
+            <div class="title">İSTİKAMET</div>
+            <div></div>
+        </div>
+
+        <div class="overlay-content">
+            <div class="overlay-links">
+
+                <div class="asya-item">
+                    <a href="asya.html" class="asya-link">ASYA</a>
+                    <span class="plus-btn" id="openAsya">
+                      <i class="fas fa-plus"></i>
+                    </span>
+                  </div>
+                  
+                  <div class="avrupa-item">
+                    <a href="avrupa.html" class="avrupa-link">AVRUPA</a>
+                    <span class="plus-btn" id="openAvrupa"><i class="fas fa-plus"></i></span>
+                  </div>
+                
+                  <div class="turkiye-item">
+                    <a href="turkiye.html" class="turkiye-link">TÜRKİYE</a>
+                    <span class="plus-btn" id="openTurkiye"><i class="fas fa-plus"></i></span>
+                  </div>
+            </div>
+            <div class="overlay-search overlay-box">
+                <input type="text" id="searchInputIstikamet" placeholder="Bir istikamet ara..." />
+                <button class="clear-btn" id="clearBtnIstikamet">&times;</button>
+                <button class="go-btn" id="goBtnIstikamet">&#8594;</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="overlay" id="asyaMenu">
+        <div class="overlay-header">
+            <div class="btn-box" id="backAsya">&#8592;</div>
+            <div class="title">ASYA</div>
+            <div></div>
+        </div>
+
+        <div class="overlay-content">
+            <div class="overlay-links">
+                <a href="tayland.html">Tayland</a>
+                <a href="#">Endonezya</a>
+            </div>
+            <div class="overlay-search overlay-box">
+                <input type="text" id="searchInputAsya" placeholder="Keşfet..." />
+                <button class="clear-btn" id="clearBtnAsya">&times;</button>
+                <button class="go-btn" id="goBtnAsya">&#8594;</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="overlay" id="temalarMenu">
+        <div class="overlay-header">
+          <div class="btn-box" id="backTemalar">&#8592;</div>
+          <div class="title">TEMALAR</div>
+          <div></div>
+        </div>
+    
+        <div class="overlay-content">
+          <div class="overlay-links">
+    
+            <div class="kaynaklar-item">
+              <a href="seyahatkaynaklari.html">SEYAHAT KAYNAKLARI</a>
+              <span class="plus-btn" id="openKultur">
+                <i class="fas fa-plus"></i>
+              </span>
+            </div>
+    
+            <div class="ekosistem-item">
+              <a href="#">EKOSİSTEM</a>
+              <span class="plus-btn" id="openDoga">
+                <i class="fas fa-plus"></i>
+              </span>
+            </div>
+    
+            <div class="gastronomi-item">
+              <a href="#">GASTRONOMİ</a>
+              <span class="plus-btn" id="openGastronomi">
+                <i class="fas fa-plus"></i>
+              </span>
+            </div>
+    
+          </div>
+    
+          <div class="overlay-search overlay-box">
+            <input type="text" id="searchInputTemalar" placeholder="Bir tema ara..." />
+            <button class="clear-btn" id="clearBtnTemalar">&times;</button>
+            <button class="go-btn" id="goBtnTemalar">&#8594;</button>
+          </div>
+        </div>
+      </div>
+
+    <div id="main-content">
+        <div id="info-container">
+
+            <div class="title-text">
+
+                <h1>İSTİKAMETLER</h1>
+                <p>Keşfetmek istediğin ülkere yolculuk için hazırsın. Yazılarımız,<br>
+                    aradığınızı rahatça bulabilmeniz için ülkelere<br>
+                    göre sınıflandırıldı.</p>
+
+            </div>
+
+            <a href="about-section" class="destination-box">
+                İSTİKAMETLERİ GÖR
+                <span class="destination-arrow"></span>
+            </a>
+
+            <a href="https://magazamiz.com" class="shop-link" target="_blank">
+                MAĞAZAMIZ
+                <span class="shop-arrow"></span>
+            </a>
+        </div>
+        <div id="about-section">
+            <h2>Bir İstikamet Seçin</h2>
+            <div class="destinations-container">
+                <div class="destination-card" data-link="endonezya.html">
+                    <img src="resimler/endonezyakapak.jpg" alt="İstikamet 1">
+                    <div class="card-content">
+                        <h3>Endonezya</h3>
+                        <a href="endonezya.html" class="post-btn">
+                            Postu Gör
+                            <span class="arrow"></span>
+                        </a>
+                    </div>
+                </div>
+                <div class="destination-card" data-link="makedonya.html">
+                    <img src="resimler/web7.jpeg" alt="İstikamet 2">
+                    <div class="card-content">
+                        <h3>Makedonya</h3>
+                        <a href="#" class="post-btn">
+                            Postu Gör
+                            <span class="arrow"></span>
+                        </a>
+                    </div>
+                </div>
+                <div class="destination-card" data-link="sirbistan.html">
+                    <img src="resimler/web8.jpeg" alt="İstikamet 3">
+                    <div class="card-content">
+                        <h3>Sırbistan</h3>
+                        <a href="#" class="post-btn">
+                            Postu Gör
+                            <span class="arrow"></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="destinations-container">
+                <div class="destination-card" data-link="italya.html">
+                    <img src="resimler/web16.jpg" alt="İstikamet 4">
+                    <div class="card-content">
+                        <h3>İtalya</h3>
+                        <a href="#" class="post-btn">
+                            Postu Gör
+                            <span class="arrow"></span>
+                        </a>
+                    </div>
+                </div>
+                <div class="destination-card" data-link="portekiz.html">
+                    <img src="resimler/web15.jpeg" alt="İstikamet 5">
+                    <div class="card-content">
+                        <h3>Portekiz</h3>
+                        <a href="#" class="post-btn">
+                            Postu Gör
+                            <span class="arrow"></span>
+                        </a>
+                    </div>
+                </div>
+                <div class="destination-card" data-link="tayland.html">
+                    <img src="resimler/taylandkapak.jpeg" alt="İstikamet 6">
+                    <div class="card-content">
+                        <h3>Tayland</h3>
+                        <a href="tayland.html" class="post-btn">
+                            Postu Gör
+                            <span class="arrow"></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <hr class="section-divider">
+
+            <footer id="contact-section">
+                <!-- Sol kutu -->
+                <a href="index.html" class="brand-box">
+                    <img src="resimler/logoooo 2.jpeg" alt="Logo">
+                    <span>HadiGidelim</span>
+                </a>
+
+                <div class="contact-container">
+                    <!-- Sol sütun -->
+                    <div class="contact-left">
+                        <h3>Benimle Konuşun</h3>
+                        <p>Blogumu ziyaret ettiğiniz için teşekkür ederim, sizden haber almak isterim. Sana nasıl
+                            yardımcı olabilirim? Bu iletişim formunu veya bu sayfadaki doğrudan iletişim bilgilerini
+                            kullanabilirsiniz.</p>
+                        <div class="contact-info">
+                            <p>Email: info@hadigidelim.com</p>
+                            <p>Telefon: +90 123 456 78 90</p>
+                            <p>Adres: İstanbul, Türkiye</p>
+                        </div>
+                    </div>
+
+                    <!-- Sağ sütun -->
+                    <div class="contact-right">
+                        <form>
+                            <div class="input-row">
+                                <input type="text" placeholder="Adınız">
+                                <input type="email" placeholder="Email adresiniz">
+                            </div>
+                            <textarea placeholder="Mesajınızı yazın"></textarea>
+                            <button type="submit">Gönder</button>
+                        </form>
+                    </div>
+                </div>
+
+
+            </footer>
+            <p style="color: #777; text-align: center; margin-top: 20px;">
+                © 2025 HadiGidelim. Tüm hakları saklıdır.
+            </p>
+        </div>
+    </div>
+
+
+
+
+
+
+    <script>
+
+        const menuToggle = document.getElementById('menuToggle');
+        const mainMenu = document.getElementById('mainMenu');
+        const closeMain = document.getElementById('closeMain');
+        const openIstikamet = document.getElementById('openIstikamet');
+        const istikametMenu = document.getElementById('istikametMenu');
+        const backIstikamet = document.getElementById('backIstikamet');
+
+        menuToggle.addEventListener('click', () => {
+            mainMenu.classList.add('active');
+        });
+
+        closeMain.addEventListener('click', () => {
+            mainMenu.classList.remove('active');
+        });
+
+        openIstikamet.addEventListener('click', (e) => {
+            e.preventDefault();
+            mainMenu.classList.remove('active');
+            istikametMenu.classList.add('active');
+        });
+
+        backIstikamet.addEventListener('click', () => {
+            istikametMenu.classList.remove('active');
+            mainMenu.classList.add('active');
+        });
+
+        const searchInput = document.getElementById('searchInput');
+        const clearBtn = document.getElementById('clearBtn');
+
+        if (searchInput && clearBtn) {
+            searchInput.addEventListener('input', () => {
+                if (searchInput.value.trim() !== "") {
+                    clearBtn.style.display = 'block';
+                } else {
+                    clearBtn.style.display = 'none';
+                }
+            });
+
+            clearBtn.addEventListener('click', () => {
+                searchInput.value = "";
+                clearBtn.style.display = 'none';
+
+                searchInput.focus();
+            });
+        }
+        const goBtn = document.getElementById('goBtn');
+
+        if (searchInput && clearBtn && goBtn) {
+            searchInput.addEventListener('input', () => {
+                if (searchInput.value.trim() !== "") {
+                    clearBtn.style.display = 'block';
+                    goBtn.style.display = 'none';
+                } else {
+                    clearBtn.style.display = 'none';
+                    goBtn.style.display = 'block';
+                }
+            });
+
+            clearBtn.addEventListener('click', () => {
+                searchInput.value = "";
+                clearBtn.style.display = 'none';
+                goBtn.style.display = 'block';
+                searchInput.focus();
+            });
+        }
+        menuToggle.addEventListener('click', () => {
+            mainMenu.classList.add('active');
+            document.body.classList.add('menu-open');
+        });
+
+        closeMain.addEventListener('click', () => {
+            mainMenu.classList.remove('active');
+            document.body.classList.remove('menu-open');
+        });
+
+        //mobil için nav-search
+        const searchInputMobile = document.getElementById('searchInputMobile');
+        const clearBtnMobile = document.getElementById('clearBtnMobile');
+        const goBtnMobile = document.getElementById('goBtnMobile');
+
+        if (searchInputMobile && clearBtnMobile && goBtnMobile) {
+            searchInputMobile.addEventListener('input', () => {
+                if (searchInputMobile.value.trim() !== "") {
+                    clearBtnMobile.style.display = 'block';
+                    goBtnMobile.style.display = 'none';
+                } else {
+                    clearBtnMobile.style.display = 'none';
+                    goBtnMobile.style.display = 'block';
+                }
+            });
+
+            clearBtnMobile.addEventListener('click', () => {
+                searchInputMobile.value = "";
+                clearBtnMobile.style.display = 'none';
+                goBtnMobile.style.display = 'block';
+                searchInputMobile.focus();
+            });
+        }
+
+        // İstikamet için nav-search
+        const searchInputIstikamet = document.getElementById('searchInputIstikamet');
+        const clearBtnIstikamet = document.getElementById('clearBtnIstikamet');
+        const goBtnIstikamet = document.getElementById('goBtnIstikamet');
+
+        if (searchInputIstikamet && clearBtnIstikamet && goBtnIstikamet) {
+            searchInputIstikamet.addEventListener('input', () => {
+                if (searchInputIstikamet.value.trim() !== "") {
+                    clearBtnIstikamet.style.display = 'block';
+                    goBtnIstikamet.style.display = 'none';
+                } else {
+                    clearBtnIstikamet.style.display = 'none';
+                    goBtnIstikamet.style.display = 'block';
+                }
+            });
+
+            clearBtnIstikamet.addEventListener('click', () => {
+                searchInputIstikamet.value = "";
+                clearBtnIstikamet.style.display = 'none';
+                goBtnIstikamet.style.display = 'block';
+                searchInputIstikamet.focus();
+            });
+        }
+
+        const openAsya = document.getElementById('openAsya');
+        const asyaMenu = document.getElementById('asyaMenu');
+        const backAsya = document.getElementById('backAsya');
+
+        openAsya.addEventListener('click', (e) => {
+            e.preventDefault();
+            istikametMenu.classList.remove('active'); // İSTİKAMET overlay gizle
+            asyaMenu.classList.add('active');         // ASYA overlay göster
+        });
+
+        backAsya.addEventListener('click', () => {
+            asyaMenu.classList.remove('active');      // ASYA overlay gizle
+            istikametMenu.classList.add('active');    // İSTİKAMET overlay göster
+        });
+
+        // ASYA Overlay Search Box
+        const searchInputAsya = document.getElementById('searchInputAsya');
+        const clearBtnAsya = document.getElementById('clearBtnAsya');
+        const goBtnAsya = document.getElementById('goBtnAsya');
+
+        if (searchInputAsya && clearBtnAsya && goBtnAsya) {
+            searchInputAsya.addEventListener('input', () => {
+                if (searchInputAsya.value.trim() !== "") {
+                    clearBtnAsya.style.display = 'block';
+                    goBtnAsya.style.display = 'none';
+                } else {
+                    clearBtnAsya.style.display = 'none';
+                    goBtnAsya.style.display = 'block';
+                }
+            });
+
+            clearBtnAsya.addEventListener('click', () => {
+                searchInputAsya.value = "";
+                clearBtnAsya.style.display = 'none';
+                goBtnAsya.style.display = 'block';
+                searchInputAsya.focus();
+            });
+        }
+        document.querySelector('.destination-box').addEventListener('click', function (e) {
+            e.preventDefault(); // Linkin anında atlamasını engeller
+            document.querySelector('#about-section').scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        });
+
+        document.getElementById("openBizKimiz").addEventListener("click", function(e) {
+  e.preventDefault(); // href="#" sayfayı yenilemesin
+  document.getElementById("mainMenu").style.display = "none"; // menüyü kapat
+  window.location.href = "aboutus.html"; // yönlendir
+});
+
+ // Tüm kartları seç
+ const cards = document.querySelectorAll('.destination-card');
+
+cards.forEach(card => {
+  const link = card.getAttribute('data-link');
+
+  // Kartın tamamına tıklama ekle
+  card.addEventListener('click', (e) => {
+    // Eğer kullanıcı "Postu Gör" linkine tıkladıysa, ekstra yönlendirme yapma
+    if (e.target.closest('a')) return;
+    window.location.href = link;
+  });
+});
+
+// TEMALAR overlay
+const openTemalar = document.getElementById('openTemalar');
+const temalarMenu = document.getElementById('temalarMenu');
+const backTemalar = document.getElementById('backTemalar');
+
+if (openTemalar && temalarMenu && backTemalar) {
+
+  openTemalar.addEventListener('click', (e) => {
+    e.preventDefault();
+    mainMenu.classList.remove('active');
+    temalarMenu.classList.add('active');
+  });
+
+  backTemalar.addEventListener('click', () => {
+    temalarMenu.classList.remove('active');
+    mainMenu.classList.add('active');
+  });
+
+}
+
+
+    </script>
+    <script>
+        const navbar = document.getElementById('navbar');
+        let oncekiKonum = 0;
+    
+        document.addEventListener('scroll', (e) => {
+            // Kaydırma pencerede mi yoksa body'de mi oluyor, ikisini de yakala
+            const hedef = e.target === document ? document.documentElement : e.target;
+            if (hedef !== document.documentElement && hedef !== document.body) return;
+    
+            const konum = hedef.scrollTop;
+    
+            // Çok küçük hareketleri yok say
+            if (Math.abs(konum - oncekiKonum) < 5) return;
+    
+            if (konum > oncekiKonum && konum > 70) {
+                navbar.classList.add('nav-gizli');      // aşağı iniyor: gizle
+            } else {
+                navbar.classList.remove('nav-gizli');   // yukarı çıkıyor: göster
+            }
+    
+            oncekiKonum = konum;
+        }, true);
+    </script>
+
+
+</body>
+
+</html>

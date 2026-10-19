@@ -1,0 +1,2562 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <title>Bangkok</title>
+    <link rel="icon" type="image/png" sizes="64x64" href="resimler/logoooo 2.jpeg" />
+    <link rel="icon" type="image/x-icon" href="resimler/logoooo.ico" />
+
+    <style>
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            background: rgb(24, 24, 24);
+            flex-direction: column;
+            font-family: sans-serif;
+            overflow-x: hidden;
+        }
+
+        nav {
+            background-color: rgb(31, 31, 31);
+            color: rgb(202, 200, 200);
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            height: 70px;
+            z-index: 1000;
+            width: 100%;
+            position: sticky;
+            top: 0;
+            transition: transform 0.3s ease;
+      padding: 0 20px;
+      border-bottom: 3px solid rgb(187, 186, 186);
+    }
+    .nav-gizli {
+            transform: translateY(-100%);
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            margin-right: 80px;
+            margin-left: 50px;
+        }
+
+        .nav-logo img {
+            width: 56px;
+            height: 70px;
+            object-fit: cover;
+            margin-right: 5px;
+        }
+
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+            margin-left: 6px;
+        }
+
+        .logo-text .main-title {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: orange;
+        }
+
+        .logo-text .sub-title {
+            font-size: 0.9em;
+            font-style: italic;
+            color: rgb(202, 200, 200);
+            margin-top: -3px;
+            margin-left: 5px;
+            margin-right: 25px;
+        }
+
+        .menu-toggle,
+        .menu-close,
+        .menu-back {
+            display: none;
+            /* Masaüstünde gizli */
+            font-size: 32px;
+            cursor: pointer;
+            color: white;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 1100;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            font-family: 'Times New Roman', Times, serif;
+            align-items: center;
+            flex: 1;
+        }
+
+        .nav-item {
+            position: relative;
+        }
+
+        .nav-links>.nav-item>a {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            text-decoration: none;
+            color: rgba(255, 255, 255, 0.879);
+            font-weight: 500;
+            font-size: 1em;
+            padding: 6px 12px;
+            border: 2px solid transparent;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-item>a.has-arrow::after {
+            content: "";
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            border-right: 2px solid rgba(255, 255, 255, 0.879);
+            border-bottom: 2px solid rgba(255, 255, 255, 0.879);
+            transform: rotate(45deg);
+        }
+
+        .dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: -30px;
+            background-color: rgb(242, 181, 68);
+            min-width: 180px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            text-align: left;
+            margin-left: 35px;
+            transition: all 0.5s ease-in-out;
+        }
+
+        .dropdown a {
+            display: block;
+            padding: 10px 16px;
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .dropdown a:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown a:hover {
+            background-color: rgb(249, 210, 136);
+        }
+
+        .dropdown-sub {
+            display: none;
+            position: absolute;
+            top: 0;
+            /* ASYA linki ile aynı hizada başlar */
+            left: 100%;
+            /* sağa açılır */
+            background-color: rgb(242, 181, 68);
+            min-width: 150px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: all 0.5s ease-in-out;
+        }
+
+        /* ASYA alt dropdown linkleri */
+        .dropdown-sub a {
+            display: block;
+            padding: 10px 16px;
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .dropdown-sub a:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown-sub a:hover {
+            background-color: rgb(249, 210, 136);
+        }
+
+        /* ASYA üzerine gelince alt dropdown açılır */
+        .nav-item.has-submenu:hover>.dropdown-sub {
+            display: block;
+        }
+
+        .nav-item.has-submenu {
+            position: relative;
+            /* ASYA'nın alt dropdown'u buna göre konumlanacak */
+        }
+
+        @media (min-width: 769px) {
+            .nav-item:hover .dropdown {
+                display: block;
+            }
+        }
+
+        .nav-search {
+            margin-left: auto;
+            margin-right: 50px;
+            display: flex;
+            align-items: center;
+            position: relative;
+            gap: 5px;
+        }
+
+        .nav-search input {
+            padding: 6px 36px 6px 12px;
+            border-radius: 3px;
+            border: 3px solid rgba(200, 200, 200, 0.5);
+            background-color: rgb(31, 31, 31);
+            color: white;
+            font-size: 0.9em;
+            outline: none;
+            width: 230px;
+            font-family: monospace;
+        }
+
+        .nav-search input::placeholder {
+            color: rgba(200, 200, 200, 0.7);
+        }
+
+        .nav-search input:focus {
+            color: rgba(200, 200, 200, 0.769);
+            border-color: rgba(200, 200, 200, 0.769);
+        }
+
+        .nav-search input:focus::placeholder {
+            color: rgba(200, 200, 200, 0.769);
+            /* placeholder beyazın açık tonu */
+        }
+
+        .nav-search .clear-btn,
+        .nav-search .go-btn {
+            position: absolute;
+            background: none;
+            border: none;
+            color: rgba(200, 200, 200, 0.9);
+            cursor: pointer;
+            font-size: 1em;
+            padding: 0;
+        }
+
+        .nav-search .clear-btn {
+            right: 30px;
+            /* oku biraz sola it */
+            display: none;
+            /* boşken gizle */
+
+        }
+
+        .nav-search .go-btn {
+            right: 20px;
+
+        }
+
+        /* Hover efektleri */
+        .nav-search .clear-btn:hover,
+        .nav-search .go-btn:hover {
+            color: white;
+        }
+
+        .dropdown-sub {
+            display: none;
+            position: absolute;
+            top: 0;
+            /* Ana dropdown ile aynı üst hizada */
+            left: 100%;
+            /* ASYA'nın sağında açılır */
+            background-color: rgb(242, 181, 68);
+            min-width: 180px;
+            /* Ana dropdown ile aynı genişlik */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+
+            text-align: left;
+            z-index: 1;
+            margin-top: 0;
+        }
+
+
+        .has-submenu:hover .dropdown-sub {
+            display: block;
+        }
+
+        .dropdown-sub a {
+            display: block;
+            padding: 10px 16px;
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .dropdown-sub a:hover {
+            background-color: rgb(249, 210, 136);
+        }
+
+        /* ASYA alt menüsü yan açılır */
+        .nav-item.has-submenu {
+            position: relative;
+        }
+
+        .dropdown-sub {
+            display: none;
+            position: absolute;
+            top: 0;
+            /* ASYA ile aynı hizada */
+            left: 100%;
+            /* ASYA’nın hemen sağında açılır */
+            background-color: rgb(242, 181, 68);
+            min-width: 180px;
+            /* ASYA dropdown ile aynı genişlik */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 10;
+        }
+
+        .nav-item.has-submenu:hover .dropdown-sub {
+            display: block;
+        }
+
+        .dropdown-sub a {
+            display: block;
+            padding: 10px 16px;
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+
+
+        .dropdown-sub a:hover {
+            background-color: rgb(249, 210, 136);
+        }
+
+
+        /* ----- Mobil için Hamburger ----- */
+        .menu-toggle {
+            font-size: 28px;
+            cursor: pointer;
+            display: none;
+        }
+
+        /* Overlay */
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0e0e0e;
+            color: #fff;
+            z-index: 2000;
+            flex-direction: column;
+            padding-top: 5px;
+            /* header boşluğu */
+            padding-left: 20px;
+            padding-right: 20px;
+
+        }
+
+        .overlay.active {
+            display: flex;
+        }
+
+        .overlay-header {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            /* ortalamak için */
+            width: 80%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 20px;
+            border: 1px solid rgb(187, 186, 186);
+            /* çerçeve */
+            background: transparent;
+            /* arka planı şeffaf */
+            border-radius: 6px;
+            /* hafif köşeler, istersen kaldırabilirsin */
+        }
+
+
+        .overlay-header .title {
+            font-size: 13px;
+            font-weight: 100;
+            font-family: monospace;
+            letter-spacing: 2px;
+        }
+
+
+
+        .overlay-links {
+            margin-top: 70px;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            font-size: 20px;
+            margin-left: 30px;
+        }
+
+        .overlay-links a {
+            text-decoration: none;
+            color: rgb(202, 200, 200);
+            font-family: monospace;
+            font-size: 500;
+        }
+
+        #istikametMenu .overlay-links {
+            margin-top: 150px;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            /* normal menüden biraz daha dar boşluk */
+            font-size: 20px;
+            /* biraz daha küçük */
+            margin-left: 30px;
+            /* girinti */
+        }
+
+        #istikametMenu .overlay-links a {
+            text-decoration: none;
+            color: rgb(202, 200, 200);
+            font-family: monospace;
+            transition: color 0.3s ease;
+            font-size: 500;
+            letter-spacing: 2px;
+        }
+
+        @media (max-width: 900px) {
+
+            .nav-links,
+            .nav-search {
+                display: none;
+            }
+
+            .menu-toggle {
+                display: block;
+                margin-right: 20px;
+            }
+        }
+
+        body.menu-open {
+            overflow: hidden;
+        }
+
+        /*overlay-search*/
+        .overlay-box {
+            position: relative;
+
+
+            left: 47%;
+            transform: translateX(-50%);
+            width: 81.5%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px;
+            border: 1px solid rgb(187, 186, 186);
+            background: transparent;
+            border-radius: 6px;
+            box-sizing: border-box;
+        }
+
+        .overlay-search input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            color: #fff;
+            font-size: 14px;
+            font-family: monospace;
+            letter-spacing: 1px;
+            outline: none;
+        }
+
+
+        .overlay-search .clear-btn,
+        .overlay-search .go-btn {
+            background: none;
+            border: none;
+            color: rgba(200, 200, 200, 0.9);
+            cursor: pointer;
+            font-size: 18px;
+            margin-left: 10px;
+        }
+
+        .overlay-search .clear-btn {
+            right: 32px;
+            /* input padding ile aynı */
+            display: none;
+        }
+
+        .overlay-search .go-btn {
+            right: 10px;
+            /* input padding ile aynı */
+        }
+
+
+        .overlay-content {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            /* container tüm yüksekliği kaplasın */
+            justify-content: space-between;
+            /* linkler üstte, arama kutusu altta */
+            margin-top: 70px;
+            /* overlay-header kadar boşluk */
+            padding-bottom: 50px;
+        }
+
+        /* ----- ASYA Overlay ----- */
+        #asyaMenu {
+            display: none;
+            /* başlangıçta gizli */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0e0e0e;
+            color: #fff;
+            z-index: 2000;
+            flex-direction: column;
+            padding-top: 5px;
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+        #asyaMenu.active {
+            display: flex;
+        }
+
+        #asyaMenu .overlay-header {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 20px;
+            border: 1px solid rgb(187, 186, 186);
+            background: transparent;
+            border-radius: 6px;
+        }
+
+        #asyaMenu .overlay-header .title {
+            font-size: 13px;
+            font-weight: 100;
+            font-family: monospace;
+            letter-spacing: 2px;
+        }
+
+        #asyaMenu .overlay-links {
+            margin-top: 150px;
+            /* İSTİKAMET overlay’ine uyumlu */
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            font-size: 20px;
+            margin-left: 30px;
+        }
+
+        #asyaMenu .overlay-links a {
+            text-decoration: none;
+            color: rgb(202, 200, 200);
+            font-family: monospace;
+            font-size: 500;
+            letter-spacing: 2px;
+            transition: color 0.3s ease;
+        }
+
+        #asyaMenu .overlay-links a:hover {
+            color: rgb(242, 181, 68);
+        }
+
+        #asyaMenu .overlay-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            flex: 1;
+            justify-content: flex-start;
+            margin-top: 70px;
+            /* header boşluğu */
+            padding-bottom: 50px;
+        }
+
+        #asyaMenu .overlay-search {
+            margin-top: auto;
+            /* search box’u en alta it */
+        }
+
+        .nav-logo {
+            text-decoration: none;
+            /* alt çizgiyi kaldır */
+            border: none;
+            /* varsa border kaldır */
+            color: inherit;
+            /* renk navbar ile uyumlu */
+        }
+
+        .nav-logo:hover {
+            text-decoration: none;
+            /* hover'da da çizgi olmasın */
+        }
+
+        .istikamet-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .plus-btn {
+            font-size: 18px;
+            cursor: pointer;
+            padding: 0 55px;
+            color: rgb(202, 200, 200);
+            transition: transform 0.2s ease, color 0.2s ease;
+        }
+
+        .plus-btn:hover {
+            transform: scale(1.2);
+            color: rgb(242, 181, 68);
+            /* hover rengi */
+        }
+
+        .temalar-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .asya-item,
+        .avrupa-item,
+        .turkiye-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .top-menu {
+            margin-top: 20px;
+            gap: 20px;
+            font-family: monospace;
+            font-weight: 500;
+            font-size: 14px;
+            margin-bottom: 16px;
+
+        }
+
+        .top-menu a {
+            text-decoration: none;
+            color: grey;
+            transition: color 0.3s ease;
+        }
+
+        .top-menu a:hover {
+            color: orange;
+            /* hover olunca altın rengi gibi */
+        }
+
+        .top-menu span {
+            color: grey;
+        }
+
+        /* Container */
+        .container {
+            display: flex;
+            flex-direction: column;
+            /* alt alta sıralama */
+            align-items: center;
+            /* kutuları ortala */
+            gap: 20px;
+            /* kutular arası boşluk px ile */
+            width: 600px;
+            /* container genişliği */
+            margin: 40px auto;
+            /* sayfada ortala */
+        }
+
+        /* Ortak kart */
+        .card {
+
+            border: 1px solid #ddd;
+
+            width: 900px;
+            /* ✅ sabit genişlik */
+            height: 600px;
+            /* ✅ sabit yükseklik */
+            padding: 24px;
+            /* ✅ px padding */
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+
+        }
+
+        .shop-link {
+            position: fixed;
+            right: 60px;
+            /* sağdan boşluk */
+            top: 50%;
+            /* dikey ortala */
+            transform: translateY(-50%) rotate(-90deg);
+            /* ters döndür */
+            transform-origin: top right;
+            /* dönüş merkezi */
+            font-size: 16px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.899);
+            background: none;
+            /* arka plan yok */
+            border: none;
+            font-family: monospace;
+            text-decoration: none;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: color 0.3s ease;
+            display: flex;
+            gap: 20px;
+        }
+
+        .shop-arrow {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-top: 2px solid rgba(255, 255, 255, 0.899);
+            border-left: 2px solid rgba(255, 255, 255, 0.899);
+            transform: rotate(90deg);
+            /* kuzeybatıya yön */
+            position: relative;
+        }
+
+        .shop-arrow::after {
+            content: '';
+            position: absolute;
+            width: 2px;
+            /* çizgi kalınlığı */
+            height: 14px;
+            /* ok uzunluğu */
+            background-color: currentColor;
+            left: 50%;
+            top: -2px;
+            transform: translateX(-50%) rotate(-45deg);
+            /* ok açısına hizala */
+        }
+
+        @media (max-width: 900px) {
+            .shop-link {
+                display: none;
+                /* mobilde mağazamız kaybolsun */
+            }
+        }
+
+
+
+
+        /* Sol içerik */
+        .content.card {
+            padding: 0;
+            overflow: hidden;
+            border: none;
+        }
+
+        .content-img {
+            width: 100%;
+            height: 70%;
+            object-fit: cover;
+            display: block;
+            object-position: center 58%;
+            filter: contrast(1.2) brightness(1.05);
+        }
+
+        .content-textbox {
+            /* ✅ metin alanına padding eklendi */
+            height: 40%;
+            /* kalan kısmı metin kaplasın */
+            box-sizing: border-box;
+            color: rgba(255, 255, 255, 0.85);
+            font-family: monospace;
+        }
+
+        .content-title {
+            font-size: 28px;
+            margin-bottom: 15px;
+        }
+
+        .content-text {
+            font-size: 16px;
+            line-height: 22px;
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+
+
+        .toc-widget {
+            border: 0.25px solid grey;
+            width: 900px;
+            font-family: monospace;
+            font-size: 25px;
+            margin: 20px 0;
+        }
+
+        .toc-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            padding: 40px;
+            color: rgba(255, 255, 255, 0.85);
+            border-bottom: 2px solid grey;
+            font-size: 24px;
+        }
+
+        .toc-header span:first-child {
+            margin-left: 20px;
+            /* yazıyı sağa kaydırır */
+        }
+
+        .toc-toggle {
+            display: inline-block;
+            transition: transform 0.3s ease;
+            font-size: 25px;
+        }
+
+        .toc-list {
+            list-style: none;
+            margin: 0;
+            padding: 50px 65px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            display: none;
+        }
+
+        .toc-list li {
+            margin-bottom: 1px;
+        }
+
+        .toc-list li a {
+            text-decoration: none;
+            color: grey;
+            font-size: 13px;
+        }
+
+        .toc-list li::before {
+            content: "■";
+            /* küçük kare işareti */
+            display: inline-block;
+            width: 12px;
+            /* kare boyutu */
+            margin-right: 8px;
+            /* yazı ile kare arasındaki boşluk */
+            color: grey;
+            /* kare rengi */
+            font-size: 12px;
+        }
+
+        /* Hover efekti */
+        .toc-list li a:hover {
+            color: orange;
+            /* yazı rengi değişir */
+            text-decoration: underline;
+            /* alt çizgi eklenir */
+        }
+
+        .toc-widget.open .toc-list {
+            max-height: 500px;
+            display: block;
+            /* açıldığında görünür */
+        }
+
+        .toc-widget.open .toc-toggle {
+            transform: rotate(180deg);
+        }
+
+
+        /* ✅ Mobil uyumluluk (Tablet ve telefonlar için) */
+        @media (max-width: 1024px) {
+
+            .container {
+                width: 90%;
+                gap: 16px;
+                margin: 20px auto;
+            }
+
+            .card {
+                width: 100%;
+                height: auto;
+                /* sabit yükseklik kalktı */
+                padding: 16px;
+            }
+
+            .content-img {
+                height: 200px;
+                /* görsel yüksekliği azaltıldı */
+            }
+
+            .content-title {
+                font-size: 22px;
+            }
+
+            .content-text {
+                font-size: 14px;
+                line-height: 20px;
+            }
+
+            .toc-widget {
+                width: 100%;
+                font-size: 20px;
+            }
+
+            .toc-header {
+                padding: 20px;
+                font-size: 20px;
+            }
+
+            .toc-toggle {
+                font-size: 20px;
+            }
+
+            .toc-list {
+                padding: 20px;
+            }
+
+            .toc-list li a {
+                font-size: 12px;
+            }
+        }
+
+        /* ✅ Telefonlar (dar ekranlar, <600px) */
+        @media (max-width: 600px) {
+
+            .container {
+                width: 95%;
+                gap: 12px;
+            }
+
+            .card {
+                width: 100%;
+                height: auto;
+                padding: 12px;
+            }
+
+            .content-img {
+                height: 180px;
+            }
+
+            .content-title {
+                font-size: 20px;
+            }
+
+            .content-text {
+                font-size: 13px;
+                line-height: 18px;
+            }
+
+            .toc-widget {
+                width: 100%;
+                font-size: 18px;
+            }
+
+            .toc-header {
+                padding: 16px;
+                font-size: 18px;
+            }
+
+            .toc-toggle {
+                font-size: 18px;
+            }
+
+            .toc-list {
+                padding: 16px;
+            }
+
+            .toc-list li a {
+                font-size: 12px;
+            }
+        }
+
+
+        .content-sections {
+            width: 900px;
+            margin: 40px 20px;
+            color: #ffffffba;
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            letter-spacing: 1px;
+            line-height: 28px;
+        }
+
+        .content-sections section {
+            font-size: 18px;
+            padding: 40px 0;
+        }
+
+        .content-sections h2 {
+            margin-bottom: 30px;
+            font-size: 30px;
+            color: rgb(237, 217, 182);
+            font-family: monospace;
+        }
+
+        .content-sections h4 {
+            color: whitesmoke;
+            font-size: 20px;
+        }
+
+        /* ✅ Mobil uyumluluk: content-sections */
+        @media (max-width: 1024px) {
+            .content-sections {
+                width: 90%;
+                margin: 30px auto;
+                line-height: 24px;
+            }
+
+            .content-sections section {
+                font-size: 16px;
+                padding: 30px 0;
+            }
+
+            .content-sections h2 {
+                font-size: 26px;
+                margin-bottom: 40px;
+            }
+
+            .content-sections h4 {
+                font-size: 16px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .content-sections {
+                width: 95%;
+                margin: 20px auto;
+                line-height: 22px;
+            }
+
+            .content-sections section {
+                font-size: 14px;
+                padding: 20px 0;
+            }
+
+            .content-sections h2 {
+                font-size: 22px;
+                margin-bottom: 30px;
+            }
+
+            .content-sections h4 {
+                font-size: 15px;
+            }
+        }
+
+
+        /* Üçlü resim satırı */
+        .image-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            /* resimler arası boşluk */
+            margin: 20px 0;
+
+        }
+
+        .image-row img {
+            width: 32%;
+            /* üç resim yan yana sığacak şekilde */
+            aspect-ratio: 1 / 1;
+            /* kare yapmak için */
+            object-fit: cover;
+            /* kırpmadan dolgu yap */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            filter: contrast(1.2) brightness(1.05);
+
+        }
+
+        @media (min-width: 769px) {
+            .image-row img:hover {
+                transform: scale(1.50);
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+                z-index: 1;
+            }
+        }
+
+        /* Mobil uyumlu */
+        @media (max-width: 768px) {
+            .image-row {
+                flex-direction: column;
+                gap: 40px;
+            }
+
+            .image-row img {
+                width: 100%;
+                aspect-ratio: 1 / 1;
+                transform: none;
+                /* mobilde büyüme yok */
+                box-shadow: none;
+                /* gölge kapalı */
+            }
+        }
+
+        .image-row-2 {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .image-row-2 img {
+            width: 49%;
+            /* iki resim yan yana sığacak şekilde */
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            filter: contrast(1.2) brightness(1.05);
+        }
+
+
+
+
+        /* Mobil uyumlu */
+        @media (max-width: 768px) {
+            .image-row-2 {
+                flex-direction: column;
+                gap: 40px;
+            }
+
+            .image-row-2 img {
+                width: 100%;
+                aspect-ratio: 1 / 1;
+                transform: none;
+                box-shadow: none;
+            }
+        }
+
+
+
+
+        .text-image-row {
+            display: flex;
+            align-items: center;
+            /* metin ve resmi üstten hizala */
+            gap: 20px;
+            /* aradaki boşluk */
+            margin: 40px 0;
+        }
+
+
+
+
+        .text-image-row p {
+            flex: 1;
+            /* yazı alanı esnek */
+            font-size: 18px;
+            line-height: 28px;
+            color: #ffffffba;
+        }
+
+        .text-image-row img {
+            width: 300px;
+            /* istediğin genişlik */
+            height: auto;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+            /* hover efekti */
+            filter: contrast(1.2) brightness(1.05);
+
+        }
+
+        .text-image-row img:hover {
+            transform: scale(1.05);
+            /* hafif büyüme */
+        }
+
+        /* Mobil uyumluluk */
+        @media (max-width: 768px) {
+            .text-image-row {
+                flex-direction: column;
+                /* alt alta geç */
+                align-items: center;
+                text-align: left;
+            }
+
+            .text-image-row img {
+                width: 100%;
+                /* tam genişlik */
+                max-width: 400px;
+                order: -1;
+            }
+
+            .text-image-row p {
+                font-size: 14px;
+                /* mobilde yazı boyutunu küçült */
+                line-height: 24px;
+                /* satır yüksekliği ile uyumlu */
+            }
+        }
+
+        /* Section resimleri */
+        .section-img {
+            width: 100%;
+            max-width: 900px;
+            /* orijinal section genişliği ile uyumlu */
+            height: 500px;
+            /* orantılı boyutlandırma */
+            margin: 20px 0;
+            /* başlık ve paragraf arasında boşluk */
+            object-fit: cover;
+            object-position: center 55%;
+            filter: contrast(1.2) brightness(1.05);
+
+        }
+
+        /* Mobil uyumlu */
+        @media (max-width: 600px) {
+            .section-img {
+                width: 100%;
+
+                margin: 15px 0;
+                height: auto;
+                /* yüksekliği otomatik yap */
+                object-fit: cover;
+            }
+        }
+
+        strong {
+            font-weight: 1000;
+            color: white;
+
+            font-family: monospace;
+
+        }
+
+        .KohLanta-map {
+            margin-top: 40px;
+            padding: 20px;
+
+            font-size: 30px;
+        }
+
+        .map-container {
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-start;
+            gap: 30px;
+            flex-wrap: nowrap;
+            margin-top: 20px;
+
+        }
+
+        .map-container iframe {
+            flex: 1 1 600px;
+            max-width: 700px;
+            height: 500px;
+        }
+
+        .map-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            text-align: left;
+            justify-content: center;
+            font-size: 1rem;
+        }
+
+        .point {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: whitesmoke;
+            font-weight: 500;
+        }
+
+        .circle {
+            width: 26px;
+            height: 26px;
+            background-color: #0097b2;
+            /* Mavi yuvarlak */
+            color: white;
+            border-radius: 50%;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .map-list {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                /* 2 sütun */
+                gap: 12px 24px;
+                margin-top: 15px;
+            }
+
+            .map-container {
+                flex-direction: column;
+            }
+
+            .map-container iframe {
+                width: 100%;
+                height: 300px;
+            }
+
+            .point {
+                justify-content: flex-start;
+            }
+        }
+
+        .phi-phi-link {
+            color: white;
+            /* Yazı rengi */
+            font-weight: bold;
+            /* Kalın yazı */
+            text-decoration: underline;
+            /* Altı çizili */
+            text-decoration-color: white;
+            /* Alt çizgi rengi */
+            transition: color 0.3s, text-decoration-color 0.3s;
+            /* Hover geçişi */
+        }
+
+        .phi-phi-link:hover {
+            color: orange;
+            /* Üzerine gelince yazı rengi turuncu */
+            text-decoration-color: orange;
+            /* Alt çizgi rengi turuncu */
+        }
+
+        #temalarMenu .overlay-links {
+            margin-top: 150px;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            font-size: 20px;
+            margin-left: 30px;
+        }
+
+        #temalarMenu .overlay-links a {
+            text-decoration: none;
+            color: rgb(202, 200, 200);
+            font-family: monospace;
+            letter-spacing: 2px;
+        }
+
+        .kaynaklar-item,
+        .ekosistem-item,
+        .gastronomi-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .rota-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 12px 24px;
+            border: 2px solid #F4A621;
+            border-radius: 8px;
+
+            color: #F4A621 !important;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            text-decoration: none;
+
+            transition: .25s ease;
+        }
+
+        .rota-btn:hover {
+            background: #F4A621;
+            color: #1e1e1e !important;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(244, 166, 33, .35);
+        }
+
+        .desktop-br {
+            display: inline;
+        }
+
+        @media (max-width: 900px) {
+            .desktop-br {
+                display: none;
+            }
+        }
+
+        .symbolized {
+            position: relative;
+            display: inline-block;
+            /* önemli: hem satır içinde kalır hem referans olur */
+            /* hiç padding/left/margin eklemiyoruz — paragraf bozulmaz */
+        }
+
+
+        .symbolized::before {
+            content: "✦";
+            position: absolute;
+            left: -35px;
+            top: -0.2em;
+            transform: translateY(0);
+            font-size: 40px;
+            line-height: 1;
+            color: orange;
+            pointer-events: none;
+            white-space: nowrap;
+        }
+
+        /* Responsive ince ayar: ekran daralınca sembolü daha az sola al */
+        @media (max-width: 600px) {
+            .symbolized::before {
+                left: -24px;
+                font-size: 18px;
+            }
+        }
+
+        @media (max-width: 900px) {
+            .symbolized::before {
+                left: -20px;
+                font-size: 20px;
+                top: -0.15em;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <nav id="navbar">
+        <a href="index.html" class="nav-logo">
+            <img src="resimler/logoooo 2.jpeg" alt="Logo">
+            <div class="logo-text">
+                <span class="main-title">HadiGidelim</span>
+                <span class="sub-title">Kendi Ritmini Keşfet</span>
+            </div>
+        </a>
+
+        <div class="menu-toggle" id="menuToggle">&#9776;</div>
+
+        <div class="nav-links" id="navLinks">
+            <div class="nav-item"><a href="index.html" class="nav-link">ANA SAYFA</a></div>
+
+            <div class="nav-item">
+                <a href="IstikametleriGor.html" class="nav-link has-arrow">İSTİKAMET</a>
+                <div class="dropdown">
+                    <div class="nav-item has-submenu">
+                        <a href="asya.html" class="nav-link">ASYA</a>
+                        <div class="dropdown-sub">
+                            <a href="tayland.html">Tayland</a>
+                            <a href="endonezya.html">Endonezya</a>
+                        </div>
+                    </div>
+                    <a href="#">AVRUPA</a>
+                    <a href="#">TÜRKİYE</a>
+                </div>
+            </div>
+
+            <div class="nav-item"><a href="temalar.html" class="nav-link has-arrow">TEMALAR</a>
+                <div class="dropdown">
+                    <div class="nav-item has-submenu">
+                        <a href="seyahatkaynaklari.html" class="nav-link">SEYAHAT KAYNAKLARI</a>
+                    </div>
+                    <a href="#">EKOSİSTEM</a>
+                </div>
+
+
+            </div>
+
+            <div class="nav-item"><a href="aboutus.html" class="nav-link">HAKKIMDA</a></div>
+            <div class="nav-item"><a href="#" class="nav-link rota-btn">ROTA PLANLAYICI</a></div>
+        </div>
+        <div class="nav-search">
+            <input type="text" id="searchInput" placeholder="Keşfet..." />
+            <button class="clear-btn" id="clearBtn">&times;</button>
+            <button class="go-btn" id="goBtn">&#8594;</button>
+        </div>
+    </nav>
+
+    <!-- Ana Menü Overlay (Mobil) -->
+    <div class="overlay" id="mainMenu">
+        <div class="overlay-header">
+            <div></div>
+            <div class="btn-box" id="closeMain">&times;</div>
+        </div>
+
+        <div class="overlay-content">
+            <div class="overlay-links">
+                <a href="index.html">ANA SAYFA</a>
+                <div class="istikamet-item">
+                    <a href="istikametlerigor.html" class="istikamet-link">İSTİKAMET</a>
+                    <span class="plus-btn" id="openIstikamet">
+                        <i class="fas fa-plus"></i>
+                    </span>
+                </div>
+                <div class="temalar-item">
+                    <a href="temalarigor.html" class="temalar-link">TEMALAR</a>
+                    <span class="plus-btn" id="openTemalar">
+                        <i class="fas fa-plus"></i>
+                    </span>
+                </div>
+                <a href="aboutus.html">HAKKIMDA</a>
+                <a href="#">ROTA PLANLAYICI</a>
+                <a href="#">MAĞAZAMIZ <i class="fas fa-shopping-cart"></i></a>
+            </div>
+            <div class="overlay-search overlay-box">
+                <input type="text" id="searchInputMobile" placeholder="Keşfet..." />
+                <button class="clear-btn" id="clearBtnMobile">&times;</button>
+                <button class="go-btn" id="goBtnMobile">&#8594;</button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- İstikamet Overlay -->
+    <div class="overlay" id="istikametMenu">
+        <div class="overlay-header">
+            <div class="btn-box" id="backIstikamet">&#8592;</div>
+            <div class="title">İSTİKAMET</div>
+            <div></div>
+        </div>
+
+        <div class="overlay-content">
+            <div class="overlay-links">
+
+                <div class="asya-item">
+                    <a href="asya.html" class="asya-link">ASYA</a>
+                    <span class="plus-btn" id="openAsya">
+                        <i class="fas fa-plus"></i>
+                    </span>
+                </div>
+
+                <div class="avrupa-item">
+                    <a href="avrupa.html" class="avrupa-link">AVRUPA</a>
+                    <span class="plus-btn" id="openAvrupa"><i class="fas fa-plus"></i></span>
+                </div>
+
+                <div class="turkiye-item">
+                    <a href="turkiye.html" class="turkiye-link">TÜRKİYE</a>
+                    <span class="plus-btn" id="openTurkiye"><i class="fas fa-plus"></i></span>
+                </div>
+            </div>
+            <div class="overlay-search overlay-box">
+                <input type="text" id="searchInputIstikamet" placeholder="Bir istikamet ara..." />
+                <button class="clear-btn" id="clearBtnIstikamet">&times;</button>
+                <button class="go-btn" id="goBtnIstikamet">&#8594;</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="overlay" id="asyaMenu">
+        <div class="overlay-header">
+            <div class="btn-box" id="backAsya">&#8592;</div>
+            <div class="title">ASYA</div>
+            <div></div>
+        </div>
+
+        <div class="overlay-content">
+            <div class="overlay-links">
+                <a href="tayland.html">Tayland</a>
+                <a href="#">Endonezya</a>
+            </div>
+            <div class="overlay-search overlay-box">
+                <input type="text" id="searchInputAsya" placeholder="Keşfet..." />
+                <button class="clear-btn" id="clearBtnAsya">&times;</button>
+                <button class="go-btn" id="goBtnAsya">&#8594;</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="overlay" id="temalarMenu">
+        <div class="overlay-header">
+            <div class="btn-box" id="backTemalar">&#8592;</div>
+            <div class="title">TEMALAR</div>
+            <div></div>
+        </div>
+
+        <div class="overlay-content">
+            <div class="overlay-links">
+
+                <div class="kaynaklar-item">
+                    <a href="seyahatkaynaklari.html">SEYAHAT KAYNAKLARI</a>
+                    <span class="plus-btn" id="openKultur">
+                        <i class="fas fa-plus"></i>
+                    </span>
+                </div>
+
+                <div class="ekosistem-item">
+                    <a href="#">EKOSİSTEM</a>
+                    <span class="plus-btn" id="openDoga">
+                        <i class="fas fa-plus"></i>
+                    </span>
+                </div>
+
+                <div class="gastronomi-item">
+                    <a href="#">GASTRONOMİ</a>
+                    <span class="plus-btn" id="openGastronomi">
+                        <i class="fas fa-plus"></i>
+                    </span>
+                </div>
+
+            </div>
+
+            <div class="overlay-search overlay-box">
+                <input type="text" id="searchInputTemalar" placeholder="Bir tema ara..." />
+                <button class="clear-btn" id="clearBtnTemalar">&times;</button>
+                <button class="go-btn" id="goBtnTemalar">&#8594;</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+
+        <div class="content card">
+            <img src="resimler/paknam.jpeg" alt="Örnek Görsel" class="content-img">
+            <div class="top-menu">
+                <a href="index.html">ANA SAYFA</a>
+                <span>|</span>
+                <a href="asya.html">ASYA</a>
+                <span>|</span>
+                <a href="tayland.html">TAYLAND</a>
+
+            </div>
+
+            <div>
+                <a href="https://magazamiz.com" class="shop-link" target="_blank">
+                    MAĞAZAMIZ
+                    <span class="shop-arrow"></span>
+                </a>
+            </div>
+            <div class="content-textbox">
+                <h3 class="content-title">Bangkok Gezi Rehberi</h3>
+                <p class="content-text">
+                    Tarih, kültür ve modern yaşamın buluştuğu Bangkok; bitmeyen enerjisi, görkemli tapınakları, sokak
+                    lezzetleri ve renkli şehir hayatıyla Tayland’ın en dinamik yüzünü keşfetmenizi sağlar.
+                </p>
+            </div>
+        </div>
+
+        <div class="toc-widget" id="tocWidget">
+            <div class="toc-header" id="tocHeader">
+                <span>İçindekiler</span>
+                <span class="toc-toggle">&#9660;</span>
+            </div>
+            <ul class="toc-list" id="tocList">
+                <li><a href="#section1">Bangkok Seyahat Rehberi</a></li>
+                <li><a href="#section2">Bangkok Gezi Haritası</a></li>
+                <li><a href="#section3">Grand Palace (Büyük Saray)</a></li>
+                <li><a href="#section4">Wat Pho</a></li>
+                <li><a href="#section5">Wat Arun</a></li>
+                <li><a href="#section6">Wat Ratchabophit</a></li>
+                <li><a href="#section7">Wat Paknam Phasi Charoen</a></li>
+                <li><a href="#section8">Damneon Saduak Yüzen Pazarı ve Maeklong Demiryolu Turu</a></li>
+                <li><a href="#section9">Chatuchak Hafta Sonu Pazarı</a></li>
+                <li><a href="#section10">Bangkok Chinatown (Yaowarat)</a></li>
+                <li><a href="#section11">Khao San Road</a></li>
+                <li><a href="#section12">Bangkok Rooftop Barları</a></li>
+                <li><a href="#section13">Keşfet, Kaybol, Hayran Kal: Bangkok</a></li>
+            </ul>
+        </div>
+
+        <div class="content-sections">
+            <section id="section1">
+                <h2>Bangkok Seyahat Rehberi</h2>
+                <p>
+                    Bangkok, ilk geldiğinizde biraz fazla kalabalık ve hareketli gelebilecek bir şehir. Ama birkaç gün
+                    geçirdikten sonra bu kalabalığa siz de alışıyor ve şehrin ritmine kapılıyorsunuz. Bir yanda
+                    eski tapınaklar, diğer yanda modern alışveriş merkezleri, rooftop barlar ve gece pazarları var.
+                    <strong>Chao Phraya Nehri</strong> ise şehrin içinde ayrı bir dünya gibi.<br><br>
+
+                    Bangkok sadece kalabalık caddelerden de ibaret değil. Küçük kafelere, sakin sokaklara ve yerel
+                    hayatın devam ettiği mahallelere girdiğinizde şehrin bambaşka bir tarafını görüyorsunuz.
+                    Üzerine bir de sokak yemekleri eklenince Bangkok’u keşfetmek keyifli hale geliyor.
+                    <strong>Biraz yorucu, biraz kaotik ama kesinlikle görülmeye değer bir şehir.</strong>
+                </p><br>
+
+                <h4>Para Birimi ve Fiyatlar</h4>
+                <p>Tayland’ın resmi para birimi <strong>Baht (THB)</strong>’dir ve çoğu yerde nakit veya kredi kartıyla
+                    ödeme
+                    yapılabiliyor. Bankamatiklerden para çekerken ise işlem başına komisyon alınıyor. Bu ücret,
+                    kullandığınız bankaya ve karta göre değişiklik gösterebiliyor. [Tayland’da Dikkat Etmeniz
+                    Gerekenler] bölümünü mutlaka okuyun.<br><br>
+                    2025 itibarıyla ortalama kurlar yaklaşık olarak:<br><br>
+
+                    1 Tayland Baht ≈ 1,29 TL (yaklaşık değer)<br>
+
+                    1 USD ≈ 33-36 THB civarındadır.<br><br>
+                    Bangkok’ta her bütçeye göre bir seçenek bulmak mümkün. Sokak yemekleri, küçük yerel restoranlar ve
+                    uygun fiyatlı konaklama seçenekleri sayesinde ekonomik bir gezi yapmak mümkünken, daha lüks
+                    restoranlar ve oteller için de seçenek oldukça fazla. Yani Bangkok’ta ne kadar harcayacağınız
+                    tamamen sizin tercihlerinize kalıyor.</p> <br>
+
+                <h4>Bangkok’a Ne Zaman Gidilir?</h4>
+                <p>
+                    Bangkok, tropikal iklime sahip olduğu için yıl boyunca sıcak ve nemlidir. Ancak şehri gezmek için en
+                    ideal dönem,
+                    <strong>kasım–şubat ayları arasındaki daha serin ve kuru sezon</strong>dur. Bu aylarda hava daha
+                    ferah olur,
+                    yağış azdır ve tapınak gezileri, şehir yürüyüşleri ve pazarları keşfetmek çok daha keyifli hale
+                    gelir. <br><br>
+
+                    <strong>Mart–mayıs ayları</strong> Bangkok’un en sıcak dönemidir. Nemle birleşen yüksek sıcaklıklar
+                    özellikle öğle
+                    saatlerinde zorlayıcı olabilir, ancak kalabalıklar biraz azalır. Güne erken başlayıp öğle saatlerini
+                    kapalı alanlarda
+                    geçirerek bu dönemi de rahatlıkla değerlendirebilirsiniz. <br><br>
+
+                    <strong>Haziran–ekim ayları</strong> ise genellikle yağışlı sezondur. Tropik yağmurlar genellikle
+                    kısa süreli ve ani olur;
+                    gün boyu yağmur nadirdir. Bu dönemde şehir daha sakin olur, konaklama fiyatları düşer ve Bangkok’u
+                    daha yerel bir
+                    atmosferde deneyimlemek mümkün hale gelir.
+
+                </p><br>
+
+                <h4>Bangkok’ta Yeme - İçme</h4>
+                <p>
+                    Bangkok’ta ne yiyeceğinize karar vermek bazen en zor kısım olabilir. Çünkü burada yemek için
+                    özellikle bir yer aramanıza bile gerek yok; yürürken bir köşede karşınıza çıkan küçük bir tezgâh
+                    bile sizi durdurabiliyor. Tavada kızaran yemeklerin kokusu, mangalda pişen etler, taze meyveler
+                    ve buz gibi içecekler sokakları dolduruyor. <strong>Bir şeyler yemek için oturmak yerine,
+                        yürürken acıkıp gördüğünüz ilk yerde durmak</strong> Bangkok’ta çok normal.<br><br>
+
+                    Bangkok’ta sokak yemeklerinin en güzel taraflarından biri de <strong>hem lezzetli hem de uygun
+                        fiyatlı olması.</strong> 40–60 Baht civarında doyurucu bir şeyler bulabileceğiniz gibi, biraz
+                    daha özel bir akşam için rooftop barlara veya modern restoranlara da gidebilirsiniz. Sadece Tay
+                    yemekleriyle sınırlı değilsiniz; şehirde <strong>farklı mutfaklardan yemekler,
+                        kahveciler, tatlıcılar ve küçük restoranlar</strong> da oldukça fazla. Bütçeniz ne olursa olsun
+                    Bangkok’ta güzel bir şeyler yiyip içecek bir yer bulmak hiç zor değil. Bol şans!
+
+
+                </p><br>
+
+                <h4>Bangkok Ulaşım</h4>
+                <p>
+                    Bangkok’a ulaşım oldukça kolay ve genellikle <strong>Suvarnabhumi Havalimanı (BKK)</strong> veya
+                    <strong>Don Mueang Havalimanı (DMK)</strong> üzerinden sağlanıyor. Türkiye’den ve dünyanın birçok
+                    büyük şehrinden
+                    direkt veya aktarmalı uçuşlarla Bangkok’a rahatlıkla ulaşabilirsiniz. Havalimanından şehir merkezine
+                    gitmek için ise
+                    birkaç pratik seçenek var:<br><br>
+
+                    - <strong>Airport Rail Link</strong>: Suvarnabhumi Havalimanı’ndan şehir merkezine en hızlı ve
+                    ekonomik ulaşım
+                    yöntemlerinden biri. Trafiğe takılmadan merkezi noktalara kolayca ulaşabiliyorsunuz.<br><br>
+
+                    - <strong>Taksi</strong>: Havalimanlarında resmi taksi durakları bulunuyor. Özellikle valiziniz
+                    fazlaysa veya
+                    konaklayacağınız yer metroya uzaksa oldukça rahat bir seçenek. Ancak yoğun saatlerde trafik süresini
+                    dikkat etmenizi tavsiye ederim.<br><br>
+
+                    - <strong>Grab / Bolt</strong>: Bangkok’ta yaygın olarak kullanılan bu uygulamalarla fiyatı baştan
+                    görüp daha kklimalı, hızlı ve rahat
+                    bir yolculuk yapabilirsiniz.<br><br>
+
+                    <strong>Şehir içi ulaşımda</strong> ise <strong>BTS Skytrain</strong> ve <strong>MRT metro</strong>
+                    en pratik ve hızlı
+                    seçenekler. Trafikten kaçmak isteyenler için resmen kurtarıcılar. Bunun dışında tuk-tuk’lar,
+                    taksiler ve
+                    nehir tekneleri de Bangkok’un günlük hayatının bir parçası. Özellikle <strong>Chao Phraya
+                        Nehri</strong> üzerindeki
+                    tekne ulaşımı hem keyifli hem de farklı bir deneyime sahip.<br><br>
+
+                    <strong>Ben tabii ki Bangkok’ta da motor kiraladım.</strong> Trafik gerçekten çok kalabalık olsa da,
+                    dilediğim her yere
+                    rahatça gidebildim. Kalabalığa rağmen trafik hiç tehlikeli hissettirmedi; herkes birbirine karşı
+                    oldukça saygılı ve
+                    hoşgörülü. Yine de özellikle <strong>AVM’lerin bulunduğu bölgelerdeki yoğun trafikten</strong>
+                    mümkün mertebe
+                    kaçınmanızı öneririm. <br><br>
+
+                    <span class="symbolized"> <strong>Eğer motor kullanmayı düşünüyorsanız çok önemli bi uyarı bırakıyorum buraya</strong> : <br>
+                    Metropol bir şehir olduğu için yollar, dönüşler ve bağlantılar o kadar fazla ki özellikle motor
+                    kullanırken navigasyonu çok dikkatli takip etmek gerekiyor. Bir dönüşü kaçırdığınız anda bazen
+                    çıkışı olmayan bir yola girip, mecburen devam etmek zorunda kalabiliyorsunuz. </span>
+
+                </p><br>
+
+                <h4>Bangkok’ta Nerede Kalınır?</h4>
+                <p>
+                    Bangkok’ta konaklama seçenekleri gerçekten çok fazla. Sonuçta koskoca bir metropol şehirden
+                    bahsediyoruz. Bütçenize, gezme şeklinize ve şehirde ne yapmak istediğinize göre kalacağınız bölgeyi
+                    seçmek önemli. Şehri ilk kez ziyaret ediyorsanız, ulaşım açısından oldukça rahat olan
+                    <strong>Sukhumvit bölgesi</strong> iyi bir başlangıç olabilir. BTS hattı üzerinde olduğu için
+                    şehrin birçok yerine kolayca ulaşabiliyorsunuz. <br><br>
+
+                    Daha tarihi bir atmosfer isterseniz <strong>Old Town</strong> çevresine bakabilirsiniz.
+                    Tapınaklara ve birçok turistik noktaya yakın olması büyük avantaj. <strong>Silom</strong> ve
+                    <strong>Asok</strong> ise hareketli sokaklara ve gece hayatına yakın olmak isteyenler için daha
+                    uygun. Alışveriş merkezleri ve şehir hayatının tam ortasında olmak isteyenler için de
+                    <strong>Siam</strong> bölgesi tercih edilebilir. <br><br>
+
+                    Bangkok’un güzel taraflarından biri de <strong>her bütçeye göre konaklama bulabilmeniz.</strong>
+                    Lüks otellerden butik otellere, hostellerden daha uygun fiyatlı konaklama seçeneklerine kadar
+                    seçenek gerçekten çok fazla.
+                </p><br>
+
+                <h4>Seyahatinizi Planlayın(Kullanışlı Bağlantılar)</h4>
+                <p>Seyahatlerimizi planlarken kullandığımız araçlara göz atın.
+                    Burada yer alan bağlantılar bağlı kuruluş (affiliate) linkleridir.
+                    Bu linkleri kullanarak blogumuzu sürdürmemize yardımcı oluyorsunuz.
+                    Sizin için herhangi bir ek maliyet oluşturmaz, ancak bizim misyonumuzda büyük fark yaratabilir.
+                    🌿<br><br>
+                    🏨Size en uygun oteli bulun. Rezervasyonlarınızı Booking.com üzerinden yapabilirsiniz.<br>
+                    ✈️En uygun uçuş fiyatlarını Skyscanner.com adresinden bulabilirsiniz.<br>
+                    🎟️Çevrim içi tur ve etkinlik rezervasyonları için GetYourGuide.com kullanın.<br>
+                    🏕️Yürüyüş, kamp, bisiklet ve daha fazlası için Decathlon.com geniş bir yelpaze sunuyor.
+
+                </p><br><br>
+
+            </section>
+            <section id="section2">
+                <h2>Bangkok Gezi Haritası</h2>
+                <p>
+                    Bangkok ilk bakışta biraz karmaşık gelebilir; sokaklar, nehir, tapınaklar ve mahalleler iç içe. Ben
+                    de gezdiğim ve uğradığım yerleri tek bir haritada topladım. İlginizi çeken noktalara bakıp kendi
+                    rotanızı oluşturabilirsiniz.
+
+                </p>
+
+                <div class="map-container">
+                    <iframe src="https://www.google.com/maps/d/embed?mid=15acmTin8AplHs76Vx93s-5Bf8Z-faAo&ehbc=2E312F"
+                        width="640" height="480"></iframe>
+
+                    <div class="map-list">
+                        <div class="point"><span class="circle">1</span> The Grand Palace</div>
+                        <div class="point"><span class="circle">2</span> Wat Pho</div>
+                        <div class="point"><span class="circle">3</span> Wat Arun</div>
+                        <div class="point"><span class="circle">4</span> Wat Ratchabophit</div>
+                        <div class="point"><span class="circle">5</span> Wat Paknam Phasi Charoen</div>
+                        <div class="point"><span class="circle">6</span> Damneon Saduak Yüzen Pazar</div>
+                        <div class="point"><span class="circle">7</span> Maeklong Demiryolu </div>
+                        <div class="point"><span class="circle">8</span> Chatuchak Hafta Sonu Pazarı</div>
+                        <div class="point"><span class="circle">9</span> Chinatown </div>
+                        <div class="point"><span class="circle">10</span> Khao San Road</div>
+                        <div class="point"><span class="circle">11</span> Red Sky Rooftop Bar</div>
+                        <div class="point"><span class="circle">12</span> Sky Bar (Lebua)</div>
+                        <div class="point"><span class="circle">13</span> Vertigo & Moon Bar</div>
+                        <div class="point"><span class="circle">14</span> Octave Rooftop Lounge & Bar</div>
+                        <div class="point"><span class="circle">15</span> Above Eleven Rooftop Bar</div>
+                        <div class="point"><span class="circle">16</span> CRU Champagne Bar</div>
+
+
+                    </div>
+
+                </div>
+
+            </section>
+
+            <section id="section3">
+                <h2>Grand Palace (Büyük Saray)</h2>
+                <img src="resimler/buyuksaray.jpeg" alt="Grand Palace" class="section-img">
+                <p><strong>Grand Palace</strong>, 1780’lerden itibaren uzun yıllar Siam Kralları’nın yaşadığı saray
+                    olarak kullanılmış
+                    ve bugün Bangkok’un en çok ziyaret edilen yerlerinden biri. <br><br>
+
+                    <img src="resimler/buyuksaray8.jpeg" alt="Grand Palace" class="section-img">
+                    İçeri girdiğiniz
+                    anda altın detaylarla süslenmiş yapılar, tapınaklar ve birbirinden farklı mimari detaylar
+                    karşınıza çıkıyor.
+
+                </p>
+
+                <img src="resimler/buyuksaray1.jpeg" alt="Grand Palace" class="section-img">
+                <img src="resimler/buyuksaray3.jpeg" alt="Grand Palace" class="section-img">
+
+                <p>Saray kompleksi içerisinde <strong>Wat Phra Kaew</strong>, çeşitli saray yapıları, avlular ve
+                    bahçeler bulunuyor. Özellikle altın süslemeler ve ince işçilikler gerçekten dikkat çekici.
+                    Burayı gezerken tek bir yapıya bakmak yerine etrafınızdaki küçük detaylara da göz atmanızı
+                    öneririm. Her köşede başka bir şey fark ediyorsunuz.
+                </p>
+
+                <img src="resimler/zumrutbuda.jpeg" alt="Grand Palace" class="section-img">
+                <p>Burası, <strong>Wat Phra Kaew</strong> tapınağının içinde yer alan ve Tayland’ın en kutsal
+                    sembollerinden biri kabul
+                    edilen <strong>Emerald Buddha</strong>’nın bulunduğu kutsal alan. Fotoğraf çekmek yasak, bu
+                    fotoğrafı giriş kapısında gizlice çekmiştim. <br><br>
+                    <strong>Zümrüt Buda</strong> olarak bilinen
+                    bu heykel
+                    aslında zümrütten değil, yeşil yeşim taşından yapılmış ve sadece 66 cm yüksekliğinde. Kökeni
+                    efsanelerle dolu olan heykelin kıyafetleri, kral tarafından yılda üç kez mevsimlere göre
+                    değiştirilen özel bir ritüelle yenileniyormuş.
+                    <br><br>
+
+                    Giriş ücreti, kişi başı <strong>500 Baht</strong> ve saray <strong>her gün 08:30–15:30 saatleri
+                        arasında</strong> ziyaretçilere açıktır. <br><br>
+                    <strong>Size tavsiye</strong>: Grand Palace'ın çok katı bir kıyafet kuralı var. Omuzlarınız ve
+                    bacaklarınız örtülü olmadan içeri girmenize izin verilmiyor. Burayı ziyaret etmeyi
+                    planlıyorsanız,
+                    mutlaka uygun şekilde giyindiğinizden emin olun ve
+                    kalabalığa yakalanmamak için sabah erken saatlerde gitmeye çalışın.
+
+                </p><br><br><br>
+
+
+            </section>
+
+            <section id="section4">
+                <h2>Wat Pho</h2>
+                <div class="image-row-2">
+                    <img src="resimler/watpho.jpeg" alt="Wat Pho">
+                    <img src="resimler/watpho1.jpeg" alt="Wat Pho">
+                </div><br>
+
+                <p><strong>Wat Pho</strong>, Bangkok’un ünlü diğer tapınaklarından biri olup, burada ülkenin en büyük
+                    <strong>Yatan
+                        Buda heykelini</strong> görme fırsatını bulabilirsiniz. Altın kaplama heykel yaklaşık 46 metre
+                    uzunluğunda devasa bir şey. Ayak tabanları geleneksel motiflerle süslenmiş.
+                </p><br>
+
+                <img src="resimler/watpho2.png" alt="Wat Pho" class="section-img">
+
+                <p>
+                    Tapınağın geri kalanında ise birbirinden farklı pagodalar, küçük tapınaklar ve bolca detay
+                    var. Renkli seramiklerle süslenmiş yapılar arasında dolaşırken sürekli fotoğrafını çekmek
+                    isteyeceğiniz başka bir şey çıkıyor karşınıza. <strong>Sadece Yatan Buda’yı görüp çıkmayın;
+                        biraz zaman ayırıp tapınağın diğer bölümlerini de gezin.</strong>
+                </p><br>
+
+
+                <div class="image-row-2">
+                    <img src="resimler/watpho3.jpeg" alt="Wat Pho">
+                    <img src="resimler/watpho6.jpeg" alt="Wat Pho">
+                </div><br>
+                <p>
+                    Grand Palace’a göre daha sakin bir ortamda gezilebiliyorsunuz. Ama yine de erken gitmekte fayda var
+                    arkadaşlar.
+                    Giriş ücreti kişi başı <strong>200 Baht</strong> ve tapınak
+                    <strong>her gün 08:00–18:30</strong> saatleri arasında açık.
+                </p><br><br><br>
+
+
+            </section>
+
+            <section id="section5">
+                <h2>Wat Arun</h2>
+                <img src="resimler/watarun.jpeg" alt="Wat Arun" class="section-img">
+                <p>
+                    Chao Phraya Nehri’nin karşı kıyısında, Wat Pho’nun hemen karşısında yer alan
+                    <strong>Wat Arun</strong>, Bangkok’un en bilinen tapınaklarından biri. Ortasında yaklaşık
+                    <strong>70 metre yüksekliğinde bir prang</strong> var. Uzaktan beyaz görünen bu yapı aslında küçük
+                    seramik ve porselen parçalarıyla süslenmiş.
+                </p>
+                <img src="resimler/watarun1.jpeg" alt="Wat Arun" class="section-img">
+                <p>Tüm yüzeyi Çin’den gelen kırık porselenler ve deniz kabuklarıyla süslenmiş. Yakından
+                    mutlaka bakın. Her tarafında farklı küçük detaylar yakalayacaksınız. <br><br>
+                    Wat Arun’a, Wat Pho tarafından <strong>4 THB ödeyip</strong> küçük nehir
+                    feribotlarına binerek geçebilirsiniz.
+                </p>
+
+                <img src="resimler/thedeck.jpeg" alt="Wat Arun" class="section-img">
+
+                <p>
+                    Eğer Wat Arun’u karşıdan izleyerek güzel bir akşam yemeği yemek isterseniz, <strong>The
+                        Deck</strong> güzel bir
+                    seçenek. Özellikle gün batımına doğru manzara daha da güzelleşiyor. Sakin bir akşam, lezzetli bir
+                    yemek için tercih edilebilir. <strong>En önlerden masa istiyorsanız önceden
+                        rezervasyon yaptırmanızı öneririm.</strong> Mekanı, menüyü ve fiyatları önceden incelemek
+                    isterseniz de <a href="https://thedeckbkk.com/" target="_blank" rel="noopener noreferrer"
+                        style="color:#ff7a00; text-decoration: underline;">buradan</a> göz atabilirsiniz.
+                </p><br>
+
+
+                Wat Arun her gün <strong>07:30–17:30 saatleri arasında</strong> ziyarete açık. Giriş ücreti ise
+                <strong>100 THB</strong>.
+
+                </p><br><br><br>
+
+            </section>
+
+
+            <section id="section6">
+                <h2>Wat Ratchabophit</h2>
+
+                <img src="resimler/watratchabop.jpeg" alt="Wat Ratchabophit" class="section-img">
+                <p>Pek fazla kişinin bilmediği ama mutlaka ziyaret etmeniz gereken bir diğer tapınak da <strong>Wat
+                        Ratchabophit</strong>. Biraz küçük bir tapınak. Fakat mimarisi gerçekten çok
+                    etkileyici; dış cephesi
+                    geleneksel <strong>Tay tarzın yapılmış</strong>, iç kısmında <strong>Avrupa</strong>, özellikle
+                    de <strong>İtalyan mimarisinin</strong> izleri var. <br><br>
+                    En güzel yanlarından biri ise <strong>girişinin ücretsiz olması</strong>; çünkü Bangkok’taki birçok
+                    tapınakta giriş ücretleri oldukça yüksek.</p>
+
+                <img src="resimler/watratchabop1.jpeg" alt="Wat Ratchabophit" class="section-img">
+                <img src="resimler/watratchabop2.jpeg" alt="Wat Ratchabophit" class="section-img">
+
+                <p>Wat Ratchabophit’in başarılı bir düzeni var. Ortasında <strong>43 metre yüksekliğinde
+                        altın kaplı bir
+                        pagoda</strong>, etrafında ise detaylı bir şekilde süslenmiş salonlar ve dairesel yapılar
+                    var.
+                    Avlunun hem içinde hem de dışında rahatça dolaşabiliyorsunuz. <br><br>
+                    Kalabalıktan uzak olduğu için Bangkok’un tapınaklarını daha sakin gözlemlemek isteyenlere tavsiye
+                    ederim.</p> <br>
+
+                <div class="image-row-2">
+                    <img src="resimler/watratc4.jpeg" alt="Wat Ratchabophit">
+                    <img src="resimler/watratc5.jpeg" alt="Wat Ratchabophit">
+                </div><br>
+
+                <p> Tapınak <strong>her gün 09:00–17:00 saatleri arasında</strong> açıktır ve
+                    <strong>giriş ücreti yoktur</strong>.
+                </p>
+                <br><br><br>
+
+
+            </section>
+
+            <section id="section7">
+                <h2>Wat Paknam Phasi Charoen</h2>
+                <img src="resimler/paknam.jpeg" alt="Paknam" class="section-img">
+                <p>
+                    <strong>Wat Paknam Phasi Charoen</strong>, kilometrelerce uzaktan bile görülebilen devasa
+                    <strong>Buda heykeliyle</strong> tanına tapınak. Özellikle nehir boyunca yürürken heykeli
+                    farklı açılardan sürekli görüyorsunuz.
+                </p>
+
+                <img src="resimler/paknam1.jpeg" alt="Paknam" class="section-img">
+                <p>
+                    Fotoğraf çekmeyi seviyorsanız burada fazlaca vakit geçirmek isteyeceğinizden eminim. Biraz etrafında
+                    dolaşıp
+                    farklı açılardan bakınca güzel fotoğraflar yakalayabilirsiniz.
+                </p>
+                <br>
+                <div class="image-row">
+                    <img src="resimler/paknam2.jpeg" alt="Paknam">
+                    <img src="resimler/paknam3.jpeg" alt="Paknam">
+                    <img src="resimler/paknam4.jpeg" alt="Paknam">
+                </div><br>
+                <p>Daha sonra tapınağın arkasındaki beyaz pagodanın içini keşfedin. Pagodanın
+                    içinde, ilk iki katta dini kalıntıların sergilendiği büyük bir müze bulunuyor. Üçüncü
+                    katta ise daha önce Tayland'da hiç görmediğim, hipnotize edici desenler ve canlı renklerle
+                    boyanmış, pagoda içinde
+                    pagoda tarzında ilginç bir ortam var. <br><br>
+                    Tapınak <strong>her gün 06:00-21:00 saatleri arasında</strong> açık ve <strong>giriş
+                        ücreti yoktur</strong>.</p>
+
+                <br><br><br>
+
+            </section>
+
+            <section id="section8">
+                <h2>Damnoen Saduak Yüzen Pazarı ve Maeklong Demiryolu Turu</h2>
+                <p><strong>Damnoen Saduak Yüzen Pazar</strong> ve </strong>Maeklong Demiryolu Market</strong> kısmını
+                    Bangkok’ta bir tura dahil olarak
+                    gerçekleştirdim. Her yere çoğunlukla motorla gitsem de burası Bangkok’a <strong>yaklaşık 100 km
+                        mesafede</strong> olduğu
+                    için bu kez hiç kendimi yormak istemedim. Tur şirketinin belirlemiş olduğu buluşma noktası oldukça
+                    merkezi bir caddedeydi ve sabah
+                    saat 08.00’de oradaydım. <br><br>
+                    Yaklaşık 15 kişilik tatlı bir gruptu ve güler yüzlü, samimi bir rehberimiz vardı. Büyük ve
+                    rahat bir otobüsle gün başladı.</p><br>
+
+                <div class="image-row">
+                    <img src="resimler/damneon.jpeg" alt="Damneon ve Maeklong">
+                    <img src="resimler/damneon1.jpeg" alt="Damneon ve Maeklong">
+                    <img src="resimler/damneon2.jpeg" alt="Damneon ve Maeklong">
+                </div><br>
+                <p>İlk durak Damnoen Saduak Yüzen Pazarı’ydı ama oraya varmadan önce, pazara yaklaşık 30 km kala
+                    yerel halkın neredeyse her şeyi <strong>hindistan cevizi ve bambudan ürettiği</strong> küçük bir
+                    workshop tarzı bir yerde mola verdik. Burada
+                    ürünlerin nasıl elde edildiğini, nasıl işlem gördüğünü anlattılar. Ve elde ettikleri ürünlerden
+                    minik minik tadımlar yapma imkanı da sundular.</p>
+                <img src="resimler/damneon4.png" alt="Damneon ve Maeklong" class="section-img">
+
+                <p>Ve herkese birer hindistan cevizi suyu ikram ettiler. Diğer yerlerdeki hindistan cevizlerine hiç
+                    benzemiyordu, gerçekten çok lezzetliydi.
+                    <br><br>
+                    İnsanlar o kadar içten ve güler yüzlüydü ki insanın içi ısınıyor. Küçük bir alışveriş alanı da
+                    oluşturmuşlar, fiyatlar da gayet uygundu. Buradan hindistan cevizi yağı, sabunu ve kabuğundan
+                    yapılmış iki küçük kase aldım. Hepsine yaklaşık 300 Baht ödedim. <br><br>
+                    Gerçekten hem çok ucuz hem de doğal
+                    ürünlerdi. Bizdeki gibi “tur şirketiyle gidildi, kesin pahalıdır” algısı burada hiç yoktu
+                    anlayacağınız🙂
+                </p>
+
+                <img src="resimler/damneon3.jpeg" alt="Damneon ve Maeklong" class="section-img">
+                <p>Daha sonra <strong>Damnoen Saduak Yüzen Market</strong>’e geçtik. Bangkok’a yaklaşık 100 km
+                    uzaklıkta, <strong>Ratchaburi</strong>
+                    bölgesinde yer alan burası Tayland’ın en ünlü yüzen pazarlarından biri. Alternatifleri araştırdım
+                    ama ilk deneyim için en meşhur olanını tercih ettim. <br><br>
+                    Pazara vardığımız anda
+                    inanılmaz bir karnaval havasıyla karşılaştım; her yer rengarenk, çok hareketli ve capcanlıydı.</p>
+
+
+
+                <img src="resimler/damneon7.jpeg" alt="Damneon ve Maeklong" class="section-img">
+                <p>Satışlar hem nehir kenarına sabitlenmiş dükkanlardan hem de kanallar üzerinde ilerleyen teknelerden
+                    yapılıyor. Meyveler, sokak lezzetleri, hediyelik eşyalar ve el işi ürünler suyun tam ortasında el
+                    değiştiriyor.</p>
+
+                <img src="resimler/damneon6.jpeg" alt="Damneon ve Maeklong" class="section-img">
+                <p>
+                    Alışverişi biraz hızlı yapmanız gerekiyor çünkü tekneler sürekli hareket halinde ve çok fazla
+                    vaktiniz olmuyor. Elinizde mutlaka nakit bulundurmalısınız; kart kullanmaya zaten vakit olmuyor.
+                    <br><br>
+                    Teknelerden indikten sonra kendinizi bir anda kocaman bir yeme-içme ve hediyelik eşya pazarının
+                    içinde buluyorsunuz. Tur buluşma noktasını söyleyerek bize toplam 1,5 saat
+                    süre tanıdı. <br><br>
+                    <strong>Şunu belirtmeden geçmeyeyim</strong>, tekne üzerindeyken yapılan alışveriş biraz daha pahalı
+                    oluyor. Suyun üzerindeyken 3 tane anahtarlığa 100 Baht ödedim, tekneden indikten sonra gezdiğim
+                    büyük
+                    pazarda aynı 3 anahtarlığı 50 Baht’a gördüm🙂 Yani alışveriş konusunda yüzen teknede acele
+                    etmemenizi öneririm.
+                </p>
+
+                <img src="resimler/maeklong1.jpeg" alt="Damneon ve Maeklong" class="section-img">
+                <p>Sıradaki istikametimiz <strong>Maeklong Railway Market</strong> oldu. Tayland’ın en ilginç ve en sıra
+                    dışı pazarlarından biri. Sebebi, <strong>aktif
+                        olarak kullanılan bir tren hattının tam ortasına kurulmuş olması</strong>.</p>
+
+                <div class="image-row-2">
+                    <img src="resimler/maeklong.png" alt="Wat Ratchabophit">
+                    <img src="resimler/maeklong6.jpeg" alt="Wat Ratchabophit">
+                </div>
+                <p>Tren geçişini en önden izlemek için rayların hemen kenarındaki küçük bir kafeye
+                    oturdum. Ortam adeta bir <strong>tribün gibiydi</strong>; herkes içeceklerini yudumlarken
+                    kameralarını hazırlamış,
+                    heyecanla trenin geçişini bekliyordu.</p>
+
+                <img src="resimler/maeklong2.jpeg" alt="Damneon ve Maeklong" class="section-img">
+
+                <p>Tren yaklaşırken satıcıların saniyeler içinde tezgahlarını toplaması, tenteleri kapatması ve tren
+                    geçer
+                    geçmez her şeyin tekrar eski haline dönmesi sadece birkaç dakikayı alıyor. Tren geçtikten sonra
+                    pazar sakinleşiyor ve size de rahat rahat alışveriş yapmak kalıyor. </p>
+
+
+
+                <img src="resimler/maeklong5.png" alt="Damneon ve Maeklong" class="section-img">
+
+                <p>Tren, pazarın sonunda bir süre bekliyor, siz de girip içini rahatça gezebilir, anısı kalacak
+                    fotoğraflar
+                    çekebilirsiniz. <br><br>
+                    Maeklong Demiryolu Pazarı’nda <strong>trenle yolculuk yapmak da bir seçenek</strong>; hat aktif ve
+                    bölgedeki köylere
+                    giden günlük seferler düzenliyor, dilerseniz bilet alıp birkaç durak giderek çevredeki köyleri ve
+                    nehir kenarını görebilirsiniz.<br><br>
+
+                    Turlara göz atmak için buraya tıklayın.
+
+
+                </p><br><br><br>
+
+            </section>
+
+
+            <section id="section9">
+                <h2>Chatuchak Hafta Sonu Pazarı</h2>
+                <img src="resimler/chat.jpeg" alt="Chatuchak" class="section-img">
+                <p>Bangkok’ta mutlaka uğramanız gereken yerlerden biri de <strong>Chatuchak Hafta Sonu Pazarı</strong>.
+                    Burası öyle büyük
+                    bir pazar ki, yaklaşık 9.000 tezgahı var. Adeta küçük bir şehir gibi. Pazara adım
+                    attığınız an da kendinizi kaybetmeniz garantili! Pazarda
+                    neredeyse her şeyi bulabilirsiniz; giysiler, takılar, ev dekorasyonları, antikalar, bitkiler.. Tabii
+                    ki Tayland’a özgü sokak lezzetlerini tatmadan geçmiyoruz. </p>
+
+                <img src="resimler/chat1.jpeg" alt="Chatuchak" class="section-img">
+                <p>Pazar sadece <strong>hafta sonları açılıyor</strong> ve <strong>09:00–18:00 saatleri
+                        arasında</strong> gezilebiliyor. Sabah erken
+                    saatlerde gitmek kalabalıktan kaçmak ve ürünleri rahatça görmek için oldukça iyi bir fikir.
+                    <strong>Ayrıca
+                        rahat ayakkabılar giymeyi unutmayın</strong>; alan o kadar geniş ki tüm köşelerini yürüyerek
+                    keşfetmek biraz
+                    zaman alıyor. <br><br>
+                    Burası tamamen nakit çalışan bir pazar. Kredi kart kullanımı neredeyse yok.
+                    Belirli miktarda paranızı çekip gidin hiç sıkıntı yaşamazsınız çünkü fiyatlar aşırı ucuz ve pazarlık
+                    yapmak mümkün. Sakın pazarlık yapmayı ihmal etmeyin. Ürün birden yarı fiyatına düşecek siz
+                    anlamayacaksınız bile🙂
+
+                </p><br><br><br>
+
+            </section>
+
+
+            <section id="section10">
+                <h2>Bangkok Chinatown (Yaowarat)</h2>
+                <img src="resimler/chinatown.jpeg" alt="Chinatown" class="section-img">
+                <p>Bangkok’un en renkli, en hareketli ve en lezzetli noktalarından biri kesinlikle
+                    <strong>Chinatown</strong>. Şehrin
+                    karmaşasını en yoğun hissedeceğiniz ama aynı zamanda en çok keyif alacağınız yerlerden biri
+                    diyebilirim. <br><br>
+                    Burası akşam 18:00'dan itibaren bambaşka bir atmosfere bürünüyor. Neon ışıkları yanıyor, sokak
+                    yemekçileri tezgahlarını açıyor ve cadde resmen dev bir curcunaya dönüşüyor.
+                </p>
+
+
+
+                <div class="text-image-row">
+                    <img src="resimler/chinatown2.png" alt="ChinaTown">
+                    <p>
+                        Burada mutlaka yapmanız gereken şey <strong>sokak lezzetlerinin peşine düşmek.</strong>
+                        Chinatown’da Tayland ve Çin mutfağı yan yana ilerliyor. Bir tarafta <strong>Pad Thai, Tom Yum,
+                            mango sticky rice ve ızgara deniz ürünleri</strong>, diğer tarafta <strong>dim sum, wonton,
+                            dumpling, kızarmış noodle ve ördek</strong> tezgahları karşınıza çıkıyor.
+                        Tatlılardan taze meyvelere kadar her köşede başka bir şey bulabiliyorsunuz.
+                    </p>
+                </div>
+
+
+                <img src="resimler/chinatown3.jpeg" alt="Chinatown" class="section-img">
+                <p>Ve her an bir sokak sanatçısının müziğine denk gelebilirsiniz. İsterseniz durun, bir iki güzel müzik
+                    dinleyin sonra da
+                    gezinize kaldığınız yerden devam edin.
+                </p><br><br><br>
+
+
+            </section>
+
+
+            <section id="section11">
+                <h2>Khao San Road</h2>
+                <img src="resimler/khaosan.jpeg" alt="Khao San Road" class="section-img">
+                <p><strong>Khao San Road</strong>, gerçekten çok kalabalık ve herkesin tarzına hitap etmeyebilecek bir
+                    yer. Partiler, barlar, her kafadan ayrı bir sesin yükseldiği, enerjisi hiç düşmeyen bir yol
+                    burası.
+                    <br><br>
+                    Gündüzleri nispeten daha sakin; alışveriş yapmak, biraz dolaşmak ya da bir şeyler atıştırmak için
+                    uygun olabilir. Ama geceleri tamamen başka bir dünya! Eğer hareketli bir akşam olsun, yüksek
+                    müzikler, barlar, dans eden kalabalıklar, sokak tezgahlarında Pad Thai, böcek atıştırmalıkları ve
+                    neon ışıklar bana sorun değil diyorsanız, burada keyifli vakit geçirebilirsiniz.
+
+                </p><br><br><br>
+
+            </section>
+
+            <section id="section12">
+                <h2>Bangkok Rooftop Barları</h2>
+                <p><strong>Bangkok’taki rooftop barlar</strong>, şehrin en keyifli ve en popüler deneyimlerinden biri.
+                    Gökyüzüne uzanan
+                    devasa binaların tepesinde kurulu bu barlar, hem <strong>nefes kesici şehir manzarasa</strong> hem
+                    de
+                    <strong>muazzam bir
+                        atmosfere</strong> sahip. Özellikle gün batımı saatlerinde gökyüzünün kızıllığının şehrin
+                    ışıklarıyla birleşmesi gerçekten harika.
+                </p>
+                <img src="resimler/redsky1.jpeg" alt="RoofTop" class="section-img">
+                <p>Ben <strong>Red Sky Rooftop Bar</strong>’a gittim.
+                    <strong>CentralWorld AVM’nin tepesinde, 56. katta yer
+                        alıyor</strong>. Diğer birçok rooftop bardan
+                    ayrılan en büyük özelliği ise şehri 360 derece panoramik olarak izleyebiliyorsunuz.
+                </p>
+                <img src="resimler/redsky2.jpeg" alt="RoofTop" class="section-img">
+                <p>Fiyatlar Bangkok ortalamasının oldukça üzerinde, ancak ortamı görmek ve bu deneyimi yaşamak için en
+                    azından <strong>birer kokteyl içmeye kesinlikle değer</strong>. <br><br>
+                    Genelde <strong>dress code</strong> uygulanıyor; terlik, spor şort ya da çok rahat kıyafetlerle
+                    girişe izin verilmeyebiliyor. Bu yüzden gitmeden önce biraz daha şık giyinmek iyi bir tercih olur.
+                </p>
+                <img src="resimler/redsky.jpeg" alt="RoofTop" class="section-img">
+                <p>Benim deneyimimde servis oldukça iyiydi ve mekan kalabalık olmasına rağmen ortam kesinlikle
+                    rahatsız edici değildi. Bangkok’ta unutulmaz bir rooftop bar deneyimi yaşamak isteyenler için
+                    <strong>Red Sky</strong>, gönül rahatlığıyla önerebileceğim bir mekan.
+                    <br><br>
+                    <strong>Sky Bar (Lebua)</strong>, <strong>Vertigo & Moon Bar (Banyan Tree)</strong>, <strong>Octave
+                        Rooftop Lounge</strong>, <strong>Above Eleven</strong> ve <strong>CRU Champagne Bar</strong> da
+                    Bangkok’ta manzara eşliğinde keyifli bir akşam geçirmek isteyenler için öne çıkan diğer rooftop
+                    barlar arasında yer alıyor.
+                </p><br><br><br>
+            </section>
+
+            <section id="section13">
+                <h2>Keşfet, Kaybol, Hayran Kal: Bangkok</h2>
+
+                <p>
+                    Bangkok, ilk anda biraz karmaşık ve yorucu gelebilir ama birkaç gün içinde kendi ritmine
+                    alışmaya başlıyorsunuz. Sokakta kalabalığın ortasında yürürken, birkaç dakika sonra sakin
+                    bir tapınağın avlusunda bulabiliyorsunuz kendinizi. Tapınakları, sokak yemekleri, nehir
+                    manzaraları ve hiç durmayan şehir hayatıyla her köşesinde başka bir şey çıkıyor karşınıza.
+                    <br><br>
+
+                    Ama şunu söylemeden geçmeyeyim: <strong>Bangkok gerçekten büyük bir şehir ve plansızlığı pek
+                        sevmiyor.</strong> Gitmeden önce görmek istediğiniz yerleri belirleyip günlerinizi buna
+                    göre planlamanızı tavsiye ederim. Böylece şehirde zaman kaybetmeden çok daha fazla yer
+                    görebilirsiniz. <br><br>
+
+
+                    İster tek başınıza olun, ister bir çift ya da arkadaş grubuyla; Bangkok herkesin kendi ritmini
+                    bulabildiği bir şehir. Kimi bu şehirde yemeklere, kimi tapınaklara, kimi de gecenin hiç
+                    bitmediği sokaklara aşık oluyor. <br><br>
+
+                    Peki sen Bangkok’ta en çok nereyi sevdin ya da görmeyi en çok istiyorsun? Aşağıya yorum bırak,
+                    senin Bangkok’unu da merak ediyorum!
+                </p> <br><br>
+
+            </section>
+
+            <section id="yorum-yaz"
+                style="background-color: rgb(24, 24, 24); padding: 40px 20px; margin-top: 60px; color: white;">
+                <div style="max-width: 700px; margin: 0 auto;">
+                    <h2 style="text-align: left; margin-bottom: 22px;">Yorum Yaz</h2>
+                    <p style="text-align: left; font-size: 14px; color: #aaa;">
+                        E-posta adresiniz yayımlanmayacaktır. Gerekli alanlar * ile işaretlenmiştir.
+                    </p>
+                    <form action="#" method="post"
+                        style="display: flex; flex-direction: column; gap: 25px; margin-top: 20px;">
+                        <textarea name="yorum" placeholder="Yorumunuz*" required
+                            style="width: 100%; height: 250px; padding: 10px; font-size: 14px; 
+                   border: none; box-shadow: inset 0 0 0 0.5px white; background-color: rgb(24, 24, 24); color: white;"></textarea>
+                        <input type="text" name="isim" placeholder="İsim"
+                            style="width: 100%; height: 50px; padding: 10px; font-size: 14px; 
+                   border: none; box-shadow: inset 0 0 0 0.5px white; background-color: rgb(24, 24, 24); color: white;">
+                        <input type="email" name="email" placeholder="E-posta"
+                            style="width: 100%; height: 50px; padding: 10px; font-size: 14px; 
+                   border: none; box-shadow: inset 0 0 0 0.5px white; background-color: rgb(24, 24, 24); color: white;">
+                        <button type="submit" style="width: 33%; padding: 12px; background-color: transparent; color: white; 
+                   border: none; box-shadow: inset 0 0 0 0.5px white; font-size: 14px; cursor: pointer;">
+                            GÖNDER
+                        </button>
+                    </form>
+                </div>
+            </section>
+
+        </div>
+    </div>
+
+
+    <script>
+
+        const menuToggle = document.getElementById('menuToggle');
+        const mainMenu = document.getElementById('mainMenu');
+        const closeMain = document.getElementById('closeMain');
+        const openIstikamet = document.getElementById('openIstikamet');
+        const istikametMenu = document.getElementById('istikametMenu');
+        const backIstikamet = document.getElementById('backIstikamet');
+
+        menuToggle.addEventListener('click', () => {
+            mainMenu.classList.add('active');
+        });
+
+        closeMain.addEventListener('click', () => {
+            mainMenu.classList.remove('active');
+        });
+
+        openIstikamet.addEventListener('click', (e) => {
+            e.preventDefault();
+            mainMenu.classList.remove('active');
+            istikametMenu.classList.add('active');
+        });
+
+        backIstikamet.addEventListener('click', () => {
+            istikametMenu.classList.remove('active');
+            mainMenu.classList.add('active');
+        });
+
+        const searchInput = document.getElementById('searchInput');
+        const clearBtn = document.getElementById('clearBtn');
+
+        if (searchInput && clearBtn) {
+            searchInput.addEventListener('input', () => {
+                if (searchInput.value.trim() !== "") {
+                    clearBtn.style.display = 'block';
+                } else {
+                    clearBtn.style.display = 'none';
+                }
+            });
+
+            clearBtn.addEventListener('click', () => {
+                searchInput.value = "";
+                clearBtn.style.display = 'none';
+
+                searchInput.focus();
+            });
+        }
+        const goBtn = document.getElementById('goBtn');
+
+        if (searchInput && clearBtn && goBtn) {
+            searchInput.addEventListener('input', () => {
+                if (searchInput.value.trim() !== "") {
+                    clearBtn.style.display = 'block';
+                    goBtn.style.display = 'none';
+                } else {
+                    clearBtn.style.display = 'none';
+                    goBtn.style.display = 'block';
+                }
+            });
+
+            clearBtn.addEventListener('click', () => {
+                searchInput.value = "";
+                clearBtn.style.display = 'none';
+                goBtn.style.display = 'block';
+                searchInput.focus();
+            });
+        }
+        menuToggle.addEventListener('click', () => {
+            mainMenu.classList.add('active');
+            document.body.classList.add('menu-open');
+        });
+
+        closeMain.addEventListener('click', () => {
+            mainMenu.classList.remove('active');
+            document.body.classList.remove('menu-open');
+        });
+
+        //mobil için nav-search
+        const searchInputMobile = document.getElementById('searchInputMobile');
+        const clearBtnMobile = document.getElementById('clearBtnMobile');
+        const goBtnMobile = document.getElementById('goBtnMobile');
+
+        if (searchInputMobile && clearBtnMobile && goBtnMobile) {
+            searchInputMobile.addEventListener('input', () => {
+                if (searchInputMobile.value.trim() !== "") {
+                    clearBtnMobile.style.display = 'block';
+                    goBtnMobile.style.display = 'none';
+                } else {
+                    clearBtnMobile.style.display = 'none';
+                    goBtnMobile.style.display = 'block';
+                }
+            });
+
+            clearBtnMobile.addEventListener('click', () => {
+                searchInputMobile.value = "";
+                clearBtnMobile.style.display = 'none';
+                goBtnMobile.style.display = 'block';
+                searchInputMobile.focus();
+            });
+        }
+
+        // İstikamet için nav-search
+        const searchInputIstikamet = document.getElementById('searchInputIstikamet');
+        const clearBtnIstikamet = document.getElementById('clearBtnIstikamet');
+        const goBtnIstikamet = document.getElementById('goBtnIstikamet');
+
+        if (searchInputIstikamet && clearBtnIstikamet && goBtnIstikamet) {
+            searchInputIstikamet.addEventListener('input', () => {
+                if (searchInputIstikamet.value.trim() !== "") {
+                    clearBtnIstikamet.style.display = 'block';
+                    goBtnIstikamet.style.display = 'none';
+                } else {
+                    clearBtnIstikamet.style.display = 'none';
+                    goBtnIstikamet.style.display = 'block';
+                }
+            });
+
+            clearBtnIstikamet.addEventListener('click', () => {
+                searchInputIstikamet.value = "";
+                clearBtnIstikamet.style.display = 'none';
+                goBtnIstikamet.style.display = 'block';
+                searchInputIstikamet.focus();
+            });
+        }
+
+        const openAsya = document.getElementById('openAsya');
+        const asyaMenu = document.getElementById('asyaMenu');
+        const backAsya = document.getElementById('backAsya');
+
+        openAsya.addEventListener('click', (e) => {
+            e.preventDefault();
+            istikametMenu.classList.remove('active'); // İSTİKAMET overlay gizle
+            asyaMenu.classList.add('active');         // ASYA overlay göster
+        });
+
+        backAsya.addEventListener('click', () => {
+            asyaMenu.classList.remove('active');      // ASYA overlay gizle
+            istikametMenu.classList.add('active');    // İSTİKAMET overlay göster
+        });
+
+        // ASYA Overlay Search Box
+        const searchInputAsya = document.getElementById('searchInputAsya');
+        const clearBtnAsya = document.getElementById('clearBtnAsya');
+        const goBtnAsya = document.getElementById('goBtnAsya');
+
+        if (searchInputAsya && clearBtnAsya && goBtnAsya) {
+            searchInputAsya.addEventListener('input', () => {
+                if (searchInputAsya.value.trim() !== "") {
+                    clearBtnAsya.style.display = 'block';
+                    goBtnAsya.style.display = 'none';
+                } else {
+                    clearBtnAsya.style.display = 'none';
+                    goBtnAsya.style.display = 'block';
+                }
+            });
+
+            clearBtnAsya.addEventListener('click', () => {
+                searchInputAsya.value = "";
+                clearBtnAsya.style.display = 'none';
+                goBtnAsya.style.display = 'block';
+                searchInputAsya.focus();
+            });
+        }
+
+        const tocWidget = document.querySelector('.toc-widget');
+        const tocHeader = tocWidget.querySelector('.toc-header');
+
+        tocHeader.addEventListener('click', () => {
+            tocWidget.classList.toggle('open');
+        });
+
+        document.querySelectorAll('.toc-list a').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                target.scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+
+        // TEMALAR overlay
+        const openTemalar = document.getElementById('openTemalar');
+        const temalarMenu = document.getElementById('temalarMenu');
+        const backTemalar = document.getElementById('backTemalar');
+
+        if (openTemalar && temalarMenu && backTemalar) {
+
+            openTemalar.addEventListener('click', (e) => {
+                e.preventDefault();
+                mainMenu.classList.remove('active');
+                temalarMenu.classList.add('active');
+            });
+
+            backTemalar.addEventListener('click', () => {
+                temalarMenu.classList.remove('active');
+                mainMenu.classList.add('active');
+            });
+
+        }
+
+
+    </script>
+    <script>
+        const navbar = document.getElementById('navbar');
+        let oncekiKonum = 0;
+    
+        document.addEventListener('scroll', (e) => {
+            // Kaydırma pencerede mi yoksa body'de mi oluyor, ikisini de yakala
+            const hedef = e.target === document ? document.documentElement : e.target;
+            if (hedef !== document.documentElement && hedef !== document.body) return;
+    
+            const konum = hedef.scrollTop;
+    
+            // Çok küçük hareketleri yok say
+            if (Math.abs(konum - oncekiKonum) < 5) return;
+    
+            if (konum > oncekiKonum && konum > 70) {
+                navbar.classList.add('nav-gizli');      // aşağı iniyor: gizle
+            } else {
+                navbar.classList.remove('nav-gizli');   // yukarı çıkıyor: göster
+            }
+    
+            oncekiKonum = konum;
+        }, true);
+    </script>
+</body>
+
+</html>

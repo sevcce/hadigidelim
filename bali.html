@@ -1,0 +1,2935 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <title>Bali</title>
+    <link rel="icon" type="image/png" sizes="64x64" href="resimler/logoooo 2.jpeg" />
+    <link rel="icon" type="image/x-icon" href="resimler/logoooo.ico" />
+
+    <style>
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            background: rgb(24, 24, 24);
+            flex-direction: column;
+            font-family: sans-serif;
+            overflow-x: hidden;
+        }
+
+        nav {
+            background-color: rgb(31, 31, 31);
+            color: rgb(202, 200, 200);
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            height: 70px;
+            z-index: 1000;
+            width: 100%;
+            position: sticky;
+            top: 0;
+            transition: transform 0.3s ease;
+      padding: 0 20px;
+      border-bottom: 3px solid rgb(187, 186, 186);
+    }
+    .nav-gizli {
+            transform: translateY(-100%);
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            margin-right: 80px;
+            margin-left: 50px;
+        }
+
+        .nav-logo img {
+            width: 56px;
+            height: 70px;
+            object-fit: cover;
+            margin-right: 5px;
+        }
+
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+            margin-left: 6px;
+        }
+
+        .logo-text .main-title {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: rgb(251, 187, 69);
+        }
+
+        .logo-text .sub-title {
+            font-size: 0.9em;
+            font-style: italic;
+            color: rgb(202, 200, 200);
+            margin-top: -3px;
+            margin-left: 9px;
+            margin-right: 10px;
+        }
+
+        .menu-toggle,
+        .menu-close,
+        .menu-back {
+            display: none;
+            /* Masaüstünde gizli */
+            font-size: 32px;
+            cursor: pointer;
+            color: white;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 1100;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            font-family: 'Times New Roman', Times, serif;
+            align-items: center;
+            flex: 1;
+        }
+
+        .nav-item {
+            position: relative;
+        }
+
+        .nav-links>.nav-item>a {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            text-decoration: none;
+            color: rgba(255, 255, 255, 0.879);
+            font-weight: 500;
+            font-size: 1em;
+            padding: 6px 12px;
+            border: 2px solid transparent;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-item>a.has-arrow::after {
+            content: "";
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            border-right: 2px solid rgba(255, 255, 255, 0.879);
+            border-bottom: 2px solid rgba(255, 255, 255, 0.879);
+            transform: rotate(45deg);
+        }
+
+        .dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: -30px;
+            background-color: rgb(242, 181, 68);
+            min-width: 180px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            text-align: left;
+            margin-left: 35px;
+            transition: all 0.5s ease-in-out;
+        }
+
+        .dropdown a {
+            display: block;
+            padding: 10px 16px;
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .dropdown a:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown a:hover {
+            background-color: rgb(249, 210, 136);
+        }
+
+        .dropdown-sub {
+            display: none;
+            position: absolute;
+            top: 0;
+            /* ASYA linki ile aynı hizada başlar */
+            left: 100%;
+            /* sağa açılır */
+            background-color: rgb(242, 181, 68);
+            min-width: 150px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: all 0.5s ease-in-out;
+        }
+
+        /* ASYA alt dropdown linkleri */
+        .dropdown-sub a {
+            display: block;
+            padding: 10px 16px;
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .dropdown-sub a:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown-sub a:hover {
+            background-color: rgb(249, 210, 136);
+        }
+
+        /* ASYA üzerine gelince alt dropdown açılır */
+        .nav-item.has-submenu:hover>.dropdown-sub {
+            display: block;
+        }
+
+        .nav-item.has-submenu {
+            position: relative;
+            /* ASYA'nın alt dropdown'u buna göre konumlanacak */
+        }
+
+        @media (min-width: 769px) {
+            .nav-item:hover .dropdown {
+                display: block;
+            }
+        }
+
+        .nav-search {
+            margin-left: auto;
+            margin-right: 50px;
+            display: flex;
+            align-items: center;
+            position: relative;
+            gap: 5px;
+        }
+
+        .nav-search input {
+            padding: 6px 36px 6px 12px;
+            border-radius: 3px;
+            border: 3px solid rgba(200, 200, 200, 0.5);
+            background-color: rgb(31, 31, 31);
+            color: white;
+            font-size: 0.9em;
+            outline: none;
+            width: 180px;
+            font-family: monospace;
+        }
+
+        .nav-search input::placeholder {
+            color: rgba(200, 200, 200, 0.7);
+        }
+
+        .nav-search input:focus {
+            color: rgba(200, 200, 200, 0.769);
+            border-color: rgba(200, 200, 200, 0.769);
+        }
+
+        .nav-search input:focus::placeholder {
+            color: rgba(200, 200, 200, 0.769);
+            /* placeholder beyazın açık tonu */
+        }
+
+        .nav-search .clear-btn,
+        .nav-search .go-btn {
+            position: absolute;
+            background: none;
+            border: none;
+            color: rgba(200, 200, 200, 0.9);
+            cursor: pointer;
+            font-size: 1em;
+            padding: 0;
+        }
+
+        .nav-search .clear-btn {
+            right: 30px;
+            /* oku biraz sola it */
+            display: none;
+            /* boşken gizle */
+
+        }
+
+        .nav-search .go-btn {
+            right: 20px;
+
+        }
+
+        /* Hover efektleri */
+        .nav-search .clear-btn:hover,
+        .nav-search .go-btn:hover {
+            color: white;
+        }
+
+        .dropdown-sub {
+            display: none;
+            position: absolute;
+            top: 0;
+            /* Ana dropdown ile aynı üst hizada */
+            left: 100%;
+            /* ASYA'nın sağında açılır */
+            background-color: rgb(242, 181, 68);
+            min-width: 180px;
+            /* Ana dropdown ile aynı genişlik */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+
+            text-align: left;
+            z-index: 1;
+            margin-top: 0;
+        }
+
+
+        .has-submenu:hover .dropdown-sub {
+            display: block;
+        }
+
+        .dropdown-sub a {
+            display: block;
+            padding: 10px 16px;
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .dropdown-sub a:hover {
+            background-color: rgb(249, 210, 136);
+        }
+
+        /* ASYA alt menüsü yan açılır */
+        .nav-item.has-submenu {
+            position: relative;
+        }
+
+        .dropdown-sub {
+            display: none;
+            position: absolute;
+            top: 0;
+            /* ASYA ile aynı hizada */
+            left: 100%;
+            /* ASYA’nın hemen sağında açılır */
+            background-color: rgb(242, 181, 68);
+            min-width: 180px;
+            /* ASYA dropdown ile aynı genişlik */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 10;
+        }
+
+        .nav-item.has-submenu:hover .dropdown-sub {
+            display: block;
+        }
+
+        .dropdown-sub a {
+            display: block;
+            padding: 10px 16px;
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+
+
+        .dropdown-sub a:hover {
+            background-color: rgb(249, 210, 136);
+        }
+
+
+        /* ----- Mobil için Hamburger ----- */
+        .menu-toggle {
+            font-size: 28px;
+            cursor: pointer;
+            display: none;
+        }
+
+        /* Overlay */
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0e0e0e;
+            color: #fff;
+            z-index: 2000;
+            flex-direction: column;
+            padding-top: 5px;
+            /* header boşluğu */
+            padding-left: 20px;
+            padding-right: 20px;
+
+        }
+
+        .overlay.active {
+            display: flex;
+        }
+
+        .overlay-header {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            /* ortalamak için */
+            width: 80%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 20px;
+            border: 1px solid rgb(187, 186, 186);
+            /* çerçeve */
+            background: transparent;
+            /* arka planı şeffaf */
+            border-radius: 6px;
+            /* hafif köşeler, istersen kaldırabilirsin */
+        }
+
+
+        .overlay-header .title {
+            font-size: 13px;
+            font-weight: 100;
+            font-family: monospace;
+            letter-spacing: 2px;
+        }
+
+
+
+        .overlay-links {
+            margin-top: 70px;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            font-size: 20px;
+            margin-left: 30px;
+        }
+
+        .overlay-links a {
+            text-decoration: none;
+            color: rgb(202, 200, 200);
+            font-family: monospace;
+            font-size: 500;
+        }
+
+        #istikametMenu .overlay-links {
+            margin-top: 150px;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            /* normal menüden biraz daha dar boşluk */
+            font-size: 20px;
+            /* biraz daha küçük */
+            margin-left: 30px;
+            /* girinti */
+        }
+
+        #istikametMenu .overlay-links a {
+            text-decoration: none;
+            color: rgb(202, 200, 200);
+            font-family: monospace;
+            transition: color 0.3s ease;
+            font-size: 500;
+            letter-spacing: 2px;
+        }
+
+        @media (max-width: 900px) {
+
+            .nav-links,
+            .nav-search {
+                display: none;
+            }
+
+            .menu-toggle {
+                display: block;
+                margin-right: 20px;
+            }
+        }
+
+        body.menu-open {
+            overflow: hidden;
+        }
+
+        /*overlay-search*/
+        .overlay-box {
+            position: relative;
+
+
+            left: 47%;
+            transform: translateX(-50%);
+            width: 81.5%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px;
+            border: 1px solid rgb(187, 186, 186);
+            background: transparent;
+            border-radius: 6px;
+            box-sizing: border-box;
+        }
+
+        .overlay-search input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            color: #fff;
+            font-size: 14px;
+            font-family: monospace;
+            letter-spacing: 1px;
+            outline: none;
+        }
+
+
+        .overlay-search .clear-btn,
+        .overlay-search .go-btn {
+            background: none;
+            border: none;
+            color: rgba(200, 200, 200, 0.9);
+            cursor: pointer;
+            font-size: 18px;
+            margin-left: 10px;
+        }
+
+        .overlay-search .clear-btn {
+            right: 32px;
+            /* input padding ile aynı */
+            display: none;
+        }
+
+        .overlay-search .go-btn {
+            right: 10px;
+            /* input padding ile aynı */
+        }
+
+
+        .overlay-content {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            /* container tüm yüksekliği kaplasın */
+            justify-content: space-between;
+            /* linkler üstte, arama kutusu altta */
+            margin-top: 70px;
+            /* overlay-header kadar boşluk */
+            padding-bottom: 50px;
+        }
+
+        /* ----- ASYA Overlay ----- */
+        #asyaMenu {
+            display: none;
+            /* başlangıçta gizli */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0e0e0e;
+            color: #fff;
+            z-index: 2000;
+            flex-direction: column;
+            padding-top: 5px;
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+        #asyaMenu.active {
+            display: flex;
+        }
+
+        #asyaMenu .overlay-header {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 20px;
+            border: 1px solid rgb(187, 186, 186);
+            background: transparent;
+            border-radius: 6px;
+        }
+
+        #asyaMenu .overlay-header .title {
+            font-size: 13px;
+            font-weight: 100;
+            font-family: monospace;
+            letter-spacing: 2px;
+        }
+
+        #asyaMenu .overlay-links {
+            margin-top: 150px;
+            /* İSTİKAMET overlay’ine uyumlu */
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            font-size: 20px;
+            margin-left: 30px;
+        }
+
+        #asyaMenu .overlay-links a {
+            text-decoration: none;
+            color: rgb(202, 200, 200);
+            font-family: monospace;
+            font-size: 500;
+            letter-spacing: 2px;
+            transition: color 0.3s ease;
+        }
+
+        #asyaMenu .overlay-links a:hover {
+            color: rgb(242, 181, 68);
+        }
+
+        #asyaMenu .overlay-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            flex: 1;
+            justify-content: flex-start;
+            margin-top: 70px;
+            /* header boşluğu */
+            padding-bottom: 50px;
+        }
+
+        #asyaMenu .overlay-search {
+            margin-top: auto;
+            /* search box’u en alta it */
+        }
+
+        .nav-logo {
+            text-decoration: none;
+            /* alt çizgiyi kaldır */
+            border: none;
+            /* varsa border kaldır */
+            color: inherit;
+            /* renk navbar ile uyumlu */
+        }
+
+        .nav-logo:hover {
+            text-decoration: none;
+            /* hover'da da çizgi olmasın */
+        }
+
+        .istikamet-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .plus-btn {
+            font-size: 18px;
+            cursor: pointer;
+            padding: 0 55px;
+            color: rgb(202, 200, 200);
+            transition: transform 0.2s ease, color 0.2s ease;
+        }
+
+        .plus-btn:hover {
+            transform: scale(1.2);
+            color: rgb(242, 181, 68);
+            /* hover rengi */
+        }
+
+        .temalar-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .asya-item,
+        .avrupa-item,
+        .turkiye-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .top-menu {
+            margin-top: 20px;
+            gap: 20px;
+            font-family: monospace;
+            font-weight: 500;
+            font-size: 14px;
+            margin-bottom: 16px;
+
+        }
+
+        .top-menu a {
+            text-decoration: none;
+            color: grey;
+            transition: color 0.3s ease;
+        }
+
+        .top-menu a:hover {
+            color: orange;
+            /* hover olunca altın rengi gibi */
+        }
+
+        .top-menu span {
+            color: grey;
+        }
+
+        /* Container */
+        .container {
+            display: flex;
+            flex-direction: column;
+            /* alt alta sıralama */
+            align-items: center;
+            /* kutuları ortala */
+            gap: 20px;
+            /* kutular arası boşluk px ile */
+            width: 600px;
+            /* container genişliği */
+            margin: 40px auto;
+            /* sayfada ortala */
+        }
+
+        /* Ortak kart */
+        .card {
+
+            border: 1px solid #ddd;
+
+            width: 900px;
+            /* ✅ sabit genişlik */
+            height: 600px;
+            /* ✅ sabit yükseklik */
+            padding: 24px;
+            /* ✅ px padding */
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+
+        }
+
+        .shop-link {
+            position: fixed;
+            right: 60px;
+            /* sağdan boşluk */
+            top: 50%;
+            /* dikey ortala */
+            transform: translateY(-50%) rotate(-90deg);
+            /* ters döndür */
+            transform-origin: top right;
+            /* dönüş merkezi */
+            font-size: 16px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.899);
+            background: none;
+            /* arka plan yok */
+            border: none;
+            font-family: monospace;
+            text-decoration: none;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: color 0.3s ease;
+            display: flex;
+            gap: 20px;
+        }
+
+        .shop-arrow {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-top: 2px solid rgba(255, 255, 255, 0.899);
+            border-left: 2px solid rgba(255, 255, 255, 0.899);
+            transform: rotate(90deg);
+            /* kuzeybatıya yön */
+            position: relative;
+        }
+
+        .shop-arrow::after {
+            content: '';
+            position: absolute;
+            width: 2px;
+            /* çizgi kalınlığı */
+            height: 14px;
+            /* ok uzunluğu */
+            background-color: currentColor;
+            left: 50%;
+            top: -2px;
+            transform: translateX(-50%) rotate(-45deg);
+            /* ok açısına hizala */
+        }
+
+        @media (max-width: 900px) {
+            .shop-link {
+                display: none;
+                /* mobilde mağazamız kaybolsun */
+            }
+        }
+
+
+
+
+        /* Sol içerik */
+        .content.card {
+            padding: 0;
+            overflow: hidden;
+            border: none;
+        }
+
+        .content-img {
+            width: 100%;
+            height: 70%;
+            object-fit: cover;
+            display: block;
+            object-position: center 45%;
+            filter: contrast(1.2) brightness(1.05);
+        }
+
+        .content-textbox {
+            /* ✅ metin alanına padding eklendi */
+            height: 40%;
+            /* kalan kısmı metin kaplasın */
+            box-sizing: border-box;
+            color: rgba(255, 255, 255, 0.85);
+            font-family: monospace;
+        }
+
+        .content-title {
+            font-size: 28px;
+            margin-bottom: 15px;
+        }
+
+        .content-text {
+            font-size: 16px;
+            line-height: 22px;
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+
+
+        .toc-widget {
+            border: 0.25px solid grey;
+            width: 900px;
+            font-family: monospace;
+            font-size: 25px;
+            margin: 20px 0;
+        }
+
+        .toc-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            padding: 40px;
+            color: rgba(255, 255, 255, 0.85);
+            border-bottom: 2px solid grey;
+            font-size: 24px;
+        }
+
+        .toc-header span:first-child {
+            margin-left: 20px;
+            /* yazıyı sağa kaydırır */
+        }
+
+        .toc-toggle {
+            display: inline-block;
+            transition: transform 0.3s ease;
+            font-size: 25px;
+        }
+
+        .toc-list {
+            list-style: none;
+            margin: 0;
+            padding: 50px 65px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            display: none;
+        }
+
+        .toc-list li {
+            margin-bottom: 1px;
+        }
+
+        .toc-list li a {
+            text-decoration: none;
+            color: grey;
+            font-size: 13px;
+        }
+
+        .toc-list li::before {
+            content: "■";
+            /* küçük kare işareti */
+            display: inline-block;
+            width: 12px;
+            /* kare boyutu */
+            margin-right: 8px;
+            /* yazı ile kare arasındaki boşluk */
+            color: grey;
+            /* kare rengi */
+            font-size: 12px;
+        }
+
+        /* Hover efekti */
+        .toc-list li a:hover {
+            color: orange;
+            /* yazı rengi değişir */
+            text-decoration: underline;
+            /* alt çizgi eklenir */
+        }
+
+        .toc-widget.open .toc-list {
+            max-height: 500px;
+            display: block;
+            /* açıldığında görünür */
+        }
+
+        .toc-widget.open .toc-toggle {
+            transform: rotate(180deg);
+        }
+
+
+        /* ✅ Mobil uyumluluk (Tablet ve telefonlar için) */
+        @media (max-width: 1024px) {
+
+            .container {
+                width: 90%;
+                gap: 16px;
+                margin: 20px auto;
+            }
+
+            .card {
+                width: 100%;
+                height: auto;
+                /* sabit yükseklik kalktı */
+                padding: 16px;
+            }
+
+            .content-img {
+                height: 200px;
+                /* görsel yüksekliği azaltıldı */
+            }
+
+            .content-title {
+                font-size: 22px;
+            }
+
+            .content-text {
+                font-size: 14px;
+                line-height: 20px;
+            }
+
+            .toc-widget {
+                width: 100%;
+                font-size: 20px;
+            }
+
+            .toc-header {
+                padding: 20px;
+                font-size: 20px;
+            }
+
+            .toc-toggle {
+                font-size: 20px;
+            }
+
+            .toc-list {
+                padding: 20px;
+            }
+
+            .toc-list li a {
+                font-size: 12px;
+            }
+        }
+
+        /* ✅ Telefonlar (dar ekranlar, <600px) */
+        @media (max-width: 600px) {
+
+            .container {
+                width: 95%;
+                gap: 12px;
+            }
+
+            .card {
+                width: 100%;
+                height: auto;
+                padding: 12px;
+            }
+
+            .content-img {
+                height: 180px;
+            }
+
+            .content-title {
+                font-size: 20px;
+            }
+
+            .content-text {
+                font-size: 13px;
+                line-height: 18px;
+            }
+
+            .toc-widget {
+                width: 100%;
+                font-size: 18px;
+            }
+
+            .toc-header {
+                padding: 16px;
+                font-size: 18px;
+            }
+
+            .toc-toggle {
+                font-size: 18px;
+            }
+
+            .toc-list {
+                padding: 16px;
+            }
+
+            .toc-list li a {
+                font-size: 12px;
+            }
+        }
+
+
+        .content-sections {
+            width: 900px;
+            margin: 40px 20px;
+            color: #ffffffba;
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            letter-spacing: 1px;
+            line-height: 28px;
+        }
+
+        .content-sections section {
+            font-size: 18px;
+            padding: 40px 0;
+        }
+
+        .content-sections h2 {
+            margin-bottom: 30px;
+            font-size: 30px;
+            color: rgb(237, 217, 182);
+            font-family: monospace;
+        }
+
+        .content-sections h4 {
+            color: whitesmoke;
+            font-size: 20px;
+        }
+
+        /* ✅ Mobil uyumluluk: content-sections */
+        @media (max-width: 1024px) {
+            .content-sections {
+                width: 90%;
+                margin: 30px auto;
+                line-height: 24px;
+            }
+
+            .content-sections section {
+                font-size: 16px;
+                padding: 30px 0;
+            }
+
+            .content-sections h2 {
+                font-size: 26px;
+                margin-bottom: 40px;
+            }
+
+            .content-sections h4 {
+                font-size: 16px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .content-sections {
+                width: 95%;
+                margin: 20px auto;
+                line-height: 22px;
+            }
+
+            .content-sections section {
+                font-size: 14px;
+                padding: 20px 0;
+            }
+
+            .content-sections h2 {
+                font-size: 22px;
+                margin-bottom: 30px;
+            }
+
+            .content-sections h4 {
+                font-size: 15px;
+            }
+        }
+
+
+        /* Üçlü resim satırı */
+        .image-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            /* resimler arası boşluk */
+            margin: 20px 0;
+
+        }
+
+        .image-row img {
+            width: 32%;
+            /* üç resim yan yana sığacak şekilde */
+            aspect-ratio: 1 / 1;
+            /* kare yapmak için */
+            object-fit: cover;
+            /* kırpmadan dolgu yap */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            filter: contrast(1.2) brightness(1.05);
+            object-position: center 85%;
+
+
+        }
+
+        @media (min-width: 769px) {
+            .image-row img:hover {
+                transform: scale(1.50);
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+                z-index: 1;
+            }
+        }
+
+        /* Mobil uyumlu */
+        @media (max-width: 768px) {
+            .image-row {
+                flex-direction: column;
+                gap: 40px;
+            }
+
+            .image-row img {
+                width: 100%;
+                aspect-ratio: 1 / 1;
+                transform: none;
+                /* mobilde büyüme yok */
+                box-shadow: none;
+                /* gölge kapalı */
+            }
+        }
+
+        .image-row-2 {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .image-row-2 img {
+            width: 49%;
+            /* iki resim yan yana sığacak şekilde */
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            filter: contrast(1.2) brightness(1.05);
+        }
+
+
+
+
+        /* Mobil uyumlu */
+        @media (max-width: 768px) {
+            .image-row-2 {
+                flex-direction: column;
+                gap: 40px;
+            }
+
+            .image-row-2 img {
+                width: 100%;
+                aspect-ratio: 1 / 1;
+                transform: none;
+                box-shadow: none;
+            }
+        }
+
+
+
+
+        .text-image-row {
+            display: flex;
+            align-items: center;
+            /* metin ve resmi üstten hizala */
+            gap: 20px;
+            /* aradaki boşluk */
+            margin: 40px 0;
+        }
+
+
+
+
+        .text-image-row p {
+            flex: 1;
+            /* yazı alanı esnek */
+            font-size: 18px;
+            line-height: 28px;
+            color: #ffffffba;
+        }
+
+        .text-image-row img {
+            width: 300px;
+            /* istediğin genişlik */
+            height: auto;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+            /* hover efekti */
+            filter: contrast(1.2) brightness(1.05);
+
+        }
+
+        .text-image-row img:hover {
+            transform: scale(1.05);
+            /* hafif büyüme */
+        }
+
+        /* Mobil uyumluluk */
+        @media (max-width: 768px) {
+            .text-image-row {
+                flex-direction: column;
+                /* alt alta geç */
+                align-items: center;
+                text-align: left;
+            }
+
+            .text-image-row img {
+                width: 100%;
+                /* tam genişlik */
+                max-width: 400px;
+                order: -1;
+            }
+
+            .text-image-row p {
+                font-size: 14px;
+                /* mobilde yazı boyutunu küçült */
+                line-height: 24px;
+                /* satır yüksekliği ile uyumlu */
+            }
+        }
+
+        /* Section resimleri */
+        .section-img {
+            width: 100%;
+            max-width: 900px;
+            /* orijinal section genişliği ile uyumlu */
+            height: 500px;
+            /* orantılı boyutlandırma */
+            margin: 20px 0;
+            /* başlık ve paragraf arasında boşluk */
+            object-fit: cover;
+            object-position: center 55%;
+            filter: contrast(1.2) brightness(1.05);
+
+        }
+
+        /* Mobil uyumlu */
+        @media (max-width: 600px) {
+            .section-img {
+                width: 100%;
+
+                margin: 15px 0;
+                height: auto;
+                /* yüksekliği otomatik yap */
+                object-fit: cover;
+            }
+        }
+
+        strong {
+            font-weight: 1000;
+            color: white;
+
+            font-family: monospace;
+
+        }
+
+        .pai-map {
+            margin-top: 40px;
+            padding: 20px;
+
+            font-size: 30px;
+        }
+
+        .map-container {
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-start;
+            gap: 30px;
+            flex-wrap: nowrap;
+            margin-top: 20px;
+
+        }
+
+        .map-container iframe {
+            flex: 1 1 600px;
+            max-width: 700px;
+            height: 500px;
+        }
+
+        .map-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            text-align: left;
+            justify-content: center;
+            font-size: 1rem;
+        }
+
+        .point {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: whitesmoke;
+            font-weight: 500;
+        }
+
+        .circle {
+            width: 26px;
+            height: 26px;
+            background-color: #0097b2;
+            /* Mavi yuvarlak */
+            color: white;
+            border-radius: 50%;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+
+        @media (max-width: 768px) {
+            .map-list {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                /* 2 sütun */
+                gap: 12px 24px;
+                margin-top: 15px;
+            }
+
+            .map-container {
+                flex-direction: column;
+            }
+
+            .map-container iframe {
+                width: 100%;
+                height: 300px;
+            }
+
+            .point {
+                justify-content: flex-start;
+            }
+        }
+
+        .symbolized {
+            position: relative;
+            display: inline-block;
+            /* önemli: hem satır içinde kalır hem referans olur */
+            /* hiç padding/left/margin eklemiyoruz — paragraf bozulmaz */
+        }
+
+
+        .symbolized::before {
+            content: "✦";
+            position: absolute;
+            left: -35px;
+            top: -0.2em;
+            transform: translateY(0);
+            font-size: 30px;
+            line-height: 1;
+            color: orange;
+            pointer-events: none;
+            white-space: nowrap;
+        }
+
+        /* Responsive ince ayar: ekran daralınca sembolü daha az sola al */
+        @media (max-width: 600px) {
+            .symbolized::before {
+                left: -24px;
+                font-size: 18px;
+            }
+        }
+
+        #temalarMenu .overlay-links {
+            margin-top: 150px;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            font-size: 20px;
+            margin-left: 30px;
+        }
+
+        #temalarMenu .overlay-links a {
+            text-decoration: none;
+            color: rgb(202, 200, 200);
+            font-family: monospace;
+            letter-spacing: 2px;
+        }
+
+        .kaynaklar-item,
+        .ekosistem-item,
+        .gastronomi-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .rota-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 12px 24px;
+            border: 2px solid #F4A621;
+            border-radius: 8px;
+
+            color: #F4A621 !important;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            text-decoration: none;
+
+            transition: .25s ease;
+        }
+
+        .rota-btn:hover {
+            background: #F4A621;
+            color: #1e1e1e !important;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(244, 166, 33, .35);
+        }
+
+        .desktop-br {
+            display: inline;
+        }
+
+        @media (max-width: 900px) {
+            .desktop-br {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav id="navbar">
+        <a href="index.html" class="nav-logo">
+            <img src="resimler/logoooo 2.jpeg" alt="Logo">
+            <div class="logo-text">
+                <span class="main-title">HadiGidelim</span>
+                <span class="sub-title">Kendi Ritmini Keşfet</span>
+            </div>
+        </a>
+
+        <div class="menu-toggle" id="menuToggle">&#9776;</div>
+
+        <div class="nav-links" id="navLinks">
+            <div class="nav-item"><a href="index.html" class="nav-link">ANA SAYFA</a></div>
+
+            <div class="nav-item">
+                <a href="IstikametleriGor.html" class="nav-link has-arrow">İSTİKAMET</a>
+                <div class="dropdown">
+                    <div class="nav-item has-submenu">
+                        <a href="asya.html" class="nav-link">ASYA</a>
+                        <div class="dropdown-sub">
+                            <a href="tayland.html">Tayland</a>
+                            <a href="endonezya.html">Endonezya</a>
+                        </div>
+                    </div>
+                    <a href="#">AVRUPA</a>
+                    <a href="#">TÜRKİYE</a>
+                </div>
+            </div>
+
+            <div class="nav-item"><a href="temalar.html" class="nav-link has-arrow">TEMALAR</a>
+                <div class="dropdown">
+                    <div class="nav-item has-submenu">
+                        <a href="seyahatkaynaklari.html" class="nav-link">SEYAHAT KAYNAKLARI</a>
+                    </div>
+                    <a href="#">EKOSİSTEM</a>
+                </div>
+
+
+            </div>
+
+            <div class="nav-item"><a href="aboutus.html" class="nav-link">HAKKIMDA</a></div>
+            <div class="nav-item"><a href="#" class="nav-link rota-btn">ROTA PLANLAYICI</a></div>
+        </div>
+        <div class="nav-search">
+            <input type="text" id="searchInput" placeholder="Keşfet..." />
+            <button class="clear-btn" id="clearBtn">&times;</button>
+            <button class="go-btn" id="goBtn">&#8594;</button>
+        </div>
+    </nav>
+
+    <!-- Ana Menü Overlay (Mobil) -->
+    <div class="overlay" id="mainMenu">
+        <div class="overlay-header">
+            <div></div>
+            <div class="btn-box" id="closeMain">&times;</div>
+        </div>
+
+        <div class="overlay-content">
+            <div class="overlay-links">
+                <a href="index.html">ANA SAYFA</a>
+                <div class="istikamet-item">
+                    <a href="istikametlerigor.html" class="istikamet-link">İSTİKAMET</a>
+                    <span class="plus-btn" id="openIstikamet">
+                        <i class="fas fa-plus"></i>
+                    </span>
+                </div>
+                <div class="temalar-item">
+                    <a href="temalarigor.html" class="temalar-link">TEMALAR</a>
+                    <span class="plus-btn" id="openTemalar">
+                        <i class="fas fa-plus"></i>
+                    </span>
+                </div>
+                <a href="aboutus.html">HAKKIMDA</a>
+                <a href="#">ROTA PLANLAYICI</a>
+                <a href="#">MAĞAZAMIZ <i class="fas fa-shopping-cart"></i></a>
+            </div>
+            <div class="overlay-search overlay-box">
+                <input type="text" id="searchInputMobile" placeholder="Keşfet..." />
+                <button class="clear-btn" id="clearBtnMobile">&times;</button>
+                <button class="go-btn" id="goBtnMobile">&#8594;</button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- İstikamet Overlay -->
+    <div class="overlay" id="istikametMenu">
+        <div class="overlay-header">
+            <div class="btn-box" id="backIstikamet">&#8592;</div>
+            <div class="title">İSTİKAMET</div>
+            <div></div>
+        </div>
+
+        <div class="overlay-content">
+            <div class="overlay-links">
+
+                <div class="asya-item">
+                    <a href="asya.html" class="asya-link">ASYA</a>
+                    <span class="plus-btn" id="openAsya">
+                        <i class="fas fa-plus"></i>
+                    </span>
+                </div>
+
+                <div class="avrupa-item">
+                    <a href="avrupa.html" class="avrupa-link">AVRUPA</a>
+                    <span class="plus-btn" id="openAvrupa"><i class="fas fa-plus"></i></span>
+                </div>
+
+                <div class="turkiye-item">
+                    <a href="turkiye.html" class="turkiye-link">TÜRKİYE</a>
+                    <span class="plus-btn" id="openTurkiye"><i class="fas fa-plus"></i></span>
+                </div>
+            </div>
+            <div class="overlay-search overlay-box">
+                <input type="text" id="searchInputIstikamet" placeholder="Bir istikamet ara..." />
+                <button class="clear-btn" id="clearBtnIstikamet">&times;</button>
+                <button class="go-btn" id="goBtnIstikamet">&#8594;</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="overlay" id="asyaMenu">
+        <div class="overlay-header">
+            <div class="btn-box" id="backAsya">&#8592;</div>
+            <div class="title">ASYA</div>
+            <div></div>
+        </div>
+
+        <div class="overlay-content">
+            <div class="overlay-links">
+                <a href="tayland.html">Tayland</a>
+                <a href="#">Endonezya</a>
+            </div>
+            <div class="overlay-search overlay-box">
+                <input type="text" id="searchInputAsya" placeholder="Keşfet..." />
+                <button class="clear-btn" id="clearBtnAsya">&times;</button>
+                <button class="go-btn" id="goBtnAsya">&#8594;</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="overlay" id="temalarMenu">
+        <div class="overlay-header">
+            <div class="btn-box" id="backTemalar">&#8592;</div>
+            <div class="title">TEMALAR</div>
+            <div></div>
+        </div>
+
+        <div class="overlay-content">
+            <div class="overlay-links">
+
+                <div class="kaynaklar-item">
+                    <a href="seyahatkaynaklari.html">SEYAHAT KAYNAKLARI</a>
+                    <span class="plus-btn" id="openKultur">
+                        <i class="fas fa-plus"></i>
+                    </span>
+                </div>
+
+                <div class="ekosistem-item">
+                    <a href="#">EKOSİSTEM</a>
+                    <span class="plus-btn" id="openDoga">
+                        <i class="fas fa-plus"></i>
+                    </span>
+                </div>
+
+                <div class="gastronomi-item">
+                    <a href="#">GASTRONOMİ</a>
+                    <span class="plus-btn" id="openGastronomi">
+                        <i class="fas fa-plus"></i>
+                    </span>
+                </div>
+
+            </div>
+
+            <div class="overlay-search overlay-box">
+                <input type="text" id="searchInputTemalar" placeholder="Bir tema ara..." />
+                <button class="clear-btn" id="clearBtnTemalar">&times;</button>
+                <button class="go-btn" id="goBtnTemalar">&#8594;</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+
+        <div class="content card">
+            <img src="resimler/balikapak.jpeg" alt="Örnek Görsel" class="content-img">
+            <div class="top-menu">
+                <a href="index.html">ANA SAYFA</a>
+                <span>|</span>
+                <a href="asya.html">ASYA</a>
+                <span>|</span>
+                <a href="endonezya.html">ENDONEZYA</a>
+
+            </div>
+
+            <div>
+                <a href="https://magazamiz.com" class="shop-link" target="_blank">
+                    MAĞAZAMIZ
+                    <span class="shop-arrow"></span>
+                </a>
+            </div>
+            <div class="content-textbox">
+                <h3 class="content-title">Bali: Endonezya'nın Kalbi</h3>
+                <p class="content-text">
+                    Pirinç tarlalarında yürüyüp okyanus kenarında saatlerce vakit geçireceğiniz,
+                    şifalanacağınız bir ada. Burada geçireceğiniz her gün, sizi adanın bambaşka bir köşesiyle
+                    tanıştıracak.
+                </p>
+            </div>
+        </div>
+
+        <div class="toc-widget" id="tocWidget">
+            <div class="toc-header" id="tocHeader">
+                <span>İçindekiler</span>
+                <span class="toc-toggle">&#9660;</span>
+            </div>
+            <ul class="toc-list" id="tocList">
+                <li><a href="#section1">Bali Seyahat Rehberi</a></li>
+                <li><a href="#section2">Bali Gezi Haritası</a></li>
+                <li><a href="#section3">Pirinç Terasları, Bali</a></li>
+                <li><a href="#section4">Ulundanu Beratan Tapınağı</a></li>
+                <li><a href="#section5">Tanah Lot Tapınağı</a></li>
+                <li><a href="#section6">Tirta Empul Tapınağı</a></li>
+                <li><a href="#section7">Pemulan Bali Coffee Plantation</a></li>
+                <li><a href="#section8">Ubud Palace ve Ubud Water Palace</a></li>
+                <li><a href="#section9">Campuhan Ridge Walk (Campuhan Sırt Yürüyüşü)</a></li>
+                <li><a href="#section10">The Yoga Barn </a></li>
+                <li><a href="#section11">Batur Dağı</a></li>
+                <li><a href="#section12">Monkey Forest, Ubud</a></li>
+                <li><a href="#section13">Lempuyang Tapınağı ve Tirta Gangga (Su Sarayı)</a></li>
+                <li><a href="#section14">Beach Club Kültürü: Bali'nin Vazgeçilmezlerinden</a></li>
+                <li><a href="#section15">Bali'de Yeme - İçme</a></li>
+                <li><a href="#section16">Bali'de Konaklama</a></li>
+                <li><a href="#section17">Bali: Ada, Ada ve Ada</a></li>
+
+
+            </ul>
+        </div>
+
+        <div class="content-sections">
+            <section id="section1">
+                <h2>Bali Seyahat Rehberi</h2>
+                <p>
+                    <strong>Bali</strong>, Endonezya’nın en çok merak edilen adalarından biri. Ama bence burayı
+                    güzel yapan şey sadece plajları değil. Yemyeşil pirinç tarlaları, tapınakları, volkanları,
+                    küçük köyleri ve her köşede karşınıza çıkan farklı bir manzarası var. Ben özellikle
+                    doğasına ve insanlarına bayıldım. Adanın genelinde insana iyi gelen, sakin bir taraf var.
+                    <br><br>
+
+                    Bali’de bir gününüz pirinç tarlalarının arasında yürüyerek, başka bir gününüz bir tapınağı
+                    keşfederek geçebiliyor. Sonraki gün ise kendinizi okyanusun kenarında hiçbir şey yapmadan
+                    otururken bulabiliyorsunuz. <strong>Bence adanın en güzel tarafı da tam olarak bu.</strong>
+                    İsterseniz dolu dolu gezebilir, isterseniz biraz yavaşlayıp sadece etrafın tadını
+                    çıkarabilirsiniz.
+                    <br><br>
+
+                    Bali’yi benim için özel yapan şey sadece gördüğüm yerler de olmadı. Sokaklardan gelen
+                    tütsü kokuları, her yerde karşınıza çıkan küçük sunaklar, insanların sakinliği ve doğayla
+                    iç içe yaşamaları adanın havasını tamamen değiştiriyor. <strong>Bali’den ayrılırken insanın
+                        aklında sadece gezdiği yerler değil, orada hissettiği o rahatlık da kalıyor.</strong><br><br>
+                </p><br>
+
+                <h4>Para Birimi ve Fiyatlar</h4>
+                <p>Bali’de kullanılan para birimi <strong>Endonezya Rupiahı (IDR)</strong>. Özellikle restoran,
+                    kafe ve otellerin çoğunda kartla ödeme yapabilirsiniz. Ancak küçük işletmelerde, yerel
+                    pazarlarda ve bazı plaj mekanlarında nakit ihtiyacınız olabiliyor. <br><br>
+
+                    ATM’den para çekerken de bankanızın ve ATM’nin uyguladığı işlem ücretlerini kontrol etmenizde
+                    fayda var. Bali’ye gitmeden önce <strong>“Bali’de Dikkat Etmeniz Gerekenler”</strong>
+                    bölümüne de mutlaka göz atın. <br><br>
+
+                    2025 itibarıyla ortalama kurlar yaklaşık olarak: <br><br>
+
+                    1 Türk Lirası ≈ 450–550 IDR (yaklaşık değer) <br>
+                    1 USD ≈ 16.000–17.000 IDR civarındadır. <br><br>
+
+                    Bali’de bütçenize göre seçenek bulmak oldukça kolay. <strong>Yerel warunglarda (aile
+                        işletmesi küçük dükkanlar)</strong> uygun
+                    fiyatlara yemek yiyebilir, daha lüks restoran ve beach club’ları tercih edebilirsiniz.
+                    Konaklamada da hostellerden butik otellere ve özel villalara kadar birçok alternatif var.
+                    Kısacası Bali’de ne kadar harcayacağınızı büyük ölçüde <strong>seyahat tarzınız</strong>
+                    belirliyor. <br><br>
+                </p><br>
+
+                <h4>Bali'ye Ne Zaman Gidilir?</h4>
+
+                <p>
+                    Bali, tropikal iklimi sayesinde <strong>yılın her döneminde ziyaret edilebilen</strong> bir ada.
+                    Ancak daha az yağmurla karşılaşmak ve adayı rahatça keşfetmek istiyorsanız en ideal dönem,
+                    genellikle <strong>mayıs ile ekim ayları arasındaki kuru sezon</strong>. Bu aylarda hava daha
+                    güneşli, nem daha düşük ve deniz genellikle daha sakin oluyor. Özellikle plajları gezmek,
+                    motorla adayı keşfetmek ve gün batımının tadını çıkarmak için oldukça güzel bir dönem.
+                    <br><br>
+
+                    <strong>Temmuz ve ağustos</strong>, Bali'nin en yoğun ayları. Bu dönemde ada daha kalabalık
+                    olduğu gibi uçak bileti ve konaklama fiyatları da yükselebiliyor. Daha sakin ve dengeli bir
+                    seyahat için benim önerim <strong>mayıs, haziran veya eylül aylarını</strong> tercih etmeniz.
+                    Hava çoğunlukla güzel oluyor, popüler noktalar ise yüksek sezona göre biraz daha rahat geziliyor.
+                    <br><br>
+
+                    <strong>Kasım ile nisan ayları arasında</strong> yağmur sezonu hakim. Fakat bu, gün boyunca
+                    aralıksız yağmur yağacağı anlamına gelmiyor. Yağışlar çoğu zaman kısa süreli ama oldukça yoğun
+                    oluyor. Ardından hava yeniden açabiliyor. Bu dönemde nem oranı daha yüksek olsa da doğa çok daha
+                    yemyeşil görünüyor ve konaklama seçenekleri genellikle daha uygun fiyatlı oluyor.
+                    <br><br>
+
+                    Kısacası Bali'ye ne zaman gideceğiniz biraz da nasıl bir tatil istediğinize bağlı. Bol güneşli
+                    günler ve rahat bir ada turu için kuru sezonu, daha sakin ve ekonomik bir deneyim için yağmur
+                    sezonunu tercih edebilirsiniz. Hangi dönemde giderseniz gidin, yanınıza ince bir yağmurluk
+                    almanızı öneririm. Çünkü Bali'de hava bazen hiç beklemediğiniz bir anda değişebiliyor.
+                    <br><br>
+                </p><br>
+
+                <h4>Bali'de Yeme İçme</h4>
+
+                <p>
+                    Bali, yeme içme konusunda oldukça renkli ve çeşitli bir ada. Küçük yerel işletmeler olan
+                    <strong>warunglarda</strong> geleneksel Endonezya yemeklerini deneyebilir, özellikle Ubud ve
+                    Canggu gibi bölgelerde dünya mutfağından pek çok farklı seçenek bulabilirsiniz. Vegan ve
+                    vejetaryen beslenenler için de adanın hemen her bölgesinde güzel alternatifler bulunuyor.
+                    <br><br>
+
+                    <span class="symbolized">
+                        Bali'ye geldiğinizde <strong>nasi goreng</strong>, <strong>mie goreng</strong>,
+                        <strong>nasi campur Bali</strong>, <strong>ayam betutu</strong> ve <strong>sate lilit</strong>
+                        gibi yerel lezzetlere mutlaka bir şans verin. Bazen yol kenarındaki küçük bir warungda
+                        yediğiniz sade bir yemek, seyahatin en unutulmaz anlarından birine dönüşebiliyor.
+                    </span>
+                    <br><br>
+
+                    Bali'de deneyimlediğim kafe ve restoranları, mutlaka tatmanız gereken yerel lezzetleri ve
+                    yeme içme konusunda dikkat etmeniz gerekenleri
+                    <a href="baliyemeicme.html" target="_blank" rel="noopener noreferrer"
+                        style="color: orange; text-decoration: underline;">
+                        Bali Yeme İçme Rehberi
+                    </a>
+                    yazımda çok daha ayrıntılı anlattım. Gitmeden önce göz atmayı unutmayın.
+                    <br><br>
+
+                </p><br>
+
+
+                <h4>Bali'ye Ulaşım - Bali'de Ulaşım</h4>
+                <p>Bali'ye ulaşımın en kolay yolu, adanın güneyinde bulunan <strong>Ngurah Rai Uluslararası
+                        Havalimanı'na (DPS)</strong> uçmak. Havalimanına indikten sonra taksi, özel transfer veya Grab
+                    uygulamasıyla
+                    konaklayacağınız yere kolayca ulaşabilirsiniz. <br><br>
+
+                    Ada içinde ulaşım denince akla ilk olarak motor kiralamak geliyor. Bali'yi keşfetmenin en keyifli
+                    yollarından biri motorla özgürce dolaşmak olsa da, trafiğin soldan aktığını ve özellikle popüler
+                    bölgelerde yoğunluğun oldukça fazla olabildiğini unutmamak gerekiyor. Tayland'ın aksine
+                    motosikletlere ayrılmış özel şeritler bulunmadığından, trafik zaman zaman oldukça yorucu olabiliyor.
+                    Eğer daha önce motor kullanmadıysanız
+                    Bali bunun için pek doğru bir başlangıç noktası olmayabilir. Böyle bir durumda Grab veya
+                    Gojek kullanmak ya da günlük şoförlü araç kiralamak çok daha rahat bir seçenek. <br><br>
+
+                    Bali'de haritada birbirine yakın görünen yerler, trafik yüzünden düşündüğünüzden çok daha
+                    uzun sürebiliyor. Özellikle <strong>Canggu, Seminyak ve Ubud</strong> gibi popüler
+                    bölgelerde kısa mesafelerde bile uzun süre trafikte kalabilirsiniz. Bu yüzden günlük
+                    planınızı yaparken yol için biraz daha fazla zaman ayırmanızı ve mümkünse sabah erken
+                    saatlerde yola çıkmanızı öneririm. <br><br>
+                </p><br>
+
+
+                <h4>Bali'de Nerede Kalınır?</h4>
+
+                <p>
+                    Bali'de nerede kalacağınız, nasıl bir tatil hayal ettiğinize göre değişiyor. Hareketli
+                    beach club'lar, sörf kültürü, güzel kafeler ve canlı bir atmosfer arıyorsanız
+                    <strong>Canggu</strong> veya <strong>Seminyak</strong> sizin için daha uygun olabilir.
+                    Doğayla iç içe, daha sakin ve kültürel bir Bali deneyimi yaşamak istiyorsanız
+                    <strong>Ubud</strong> oldukça güzel bir seçenek. Denize yakın olmak ve daha çok otel
+                    konforuna dayalı bir tatil yapmak isteyenler ise <strong>Nusa Dua</strong>'yı
+                    değerlendirebilir.
+                    <br><br>
+
+                    Bence Bali'de konaklama seçerken otelin güzelliği kadar bulunduğu bölge de önemli. Çünkü
+                    haritada birbirine yakın görünen yerler, yoğun trafik nedeniyle tahmin ettiğinizden çok
+                    daha uzun sürebiliyor. Bu nedenle önce tatilden beklentinizi belirleyip zamanınızın büyük
+                    bölümünü geçirmek istediğiniz bölgeye yakın bir yerde kalmak çok daha mantıklı. Böylece
+                    sürekli yollarda vakit kaybetmeden bulunduğunuz bölgenin tadını çıkarabilir ve Bali'yi
+                    çok daha rahat keşfedebilirsiniz.
+                    <br><br>
+                </p><br>
+
+                <h4>Seyahatinizi Planlayın(Kullanışlı Bağlantılar)</h4>
+                <p>Seyahatlerimizi planlarken kullandığımız araçlara göz atın.
+                    Burada yer alan bağlantılar bağlı kuruluş (affiliate) linkleridir.
+                    Bu linkleri kullanarak blogumuzu sürdürmemize yardımcı oluyorsunuz.
+                    Sizin için herhangi bir ek maliyet oluşturmaz, ancak bizim misyonumuzda büyük fark
+                    yaratabilir.
+                    🌿<br><br>
+                    🏨Size en uygun oteli bulun. Rezervasyonlarınızı Booking.com üzerinden yapabilirsiniz.<br>
+                    ✈️En uygun uçuş fiyatlarını Skyscanner.com adresinden bulabilirsiniz.<br>
+                    🎟️Çevrim içi tur ve etkinlik rezervasyonları için GetYourGuide.com kullanın.<br>
+                    🏕️Yürüyüş, kamp, bisiklet ve daha fazlası için Decathlon.com geniş bir yelpaze sunuyor.
+
+                </p>
+            </section>
+
+            <section id="section2" class="pai-map">
+                <h2>Bali Gezi Haritası</h2>
+                <p>
+                    Bali'de en sevdiğim plajları, kafeleri ve gezilecek noktaları bu haritada bir araya getirdim.
+                    Biraz göz atın. Belki gün batımını izleyeceğiniz o plajı ya da saatlerce oturmak isteyeceğiniz
+                    küçük kafeyi burada bulursunuz.
+                </p>
+
+                <div class="map-container">
+                    <iframe src="https://www.google.com/maps/d/embed?mid=1WLShcuvtd37LMo6bLi7OApQSiO9P-yA&ehbc=2E312F"
+                        width="640" height="480"></iframe>
+
+                    <div class="map-list">
+                        <div class="point"><span class="circle">1</span> Pai Kanyon</div>
+                        <div class="point"><span class="circle">2</span> Pai Bamboo Bridge</div>
+                        <div class="point"><span class="circle">3</span> Wat Phra That Mae Yen</div>
+                        <div class="point"><span class="circle">4</span> Tham Lod Mağarası</div>
+                        <div class="point"><span class="circle">5</span> Sai Ngam Kaplıcası</div>
+                        <div class="point"><span class="circle">6</span> Pai Gece Pazarı</div>
+                        <div class="point"><span class="circle">7</span> Paradise Bar</div>
+                        <div class="point"><span class="circle">8</span> Jazz House Pai</div>
+                        <div class="point"><span class="circle">9</span> Monko Cafe</div>
+                        <div class="point"><span class="circle">10</span> Dream Cafe Pai</div>
+                        <div class="point"><span class="circle">11</span> Cade De Pai</div>
+                        <div class="point"><span class="circle">12</span> Baan Mai Kon Muang Pai Resort</div>
+
+                    </div>
+                </div><br><br><br>
+
+
+            </section>
+
+
+
+            <section id="section3">
+                <h2>Pirinç Terasları, Bali</h2>
+                <img src="resimler/pirinc2.jpeg" alt="Pirinc Tarlalari" class="section-img">
+
+
+                <p>Pirinç, Bali'de yalnızca sofraların vazgeçilmez bir parçası değil, aynı zamanda
+                    <strong>yaşamın ve bereketin simgesi</strong>. Adanın dört bir yanına yayılan yemyeşil
+                    pirinç tarlaları, yüzyıllardır Bali halkının günlük yaşamında ve kültüründe önemli bir
+                    yere sahip.
+                    <br><br>
+
+                    Bali'nin pirinç tarlalarını bu kadar özel kılan şeylerden biri de geleneksel
+                    <strong>Subak sulama sistemi</strong>. Yüzyıllardır kullanılan bu sistem, suyun çiftçiler
+                    arasında düzenli ve adil bir şekilde paylaşılmasını sağlıyor. Aynı zamanda Bali kültürünün
+                    temelinde yer alan insan, doğa ve ruhani yaşam arasındaki dengeyi de temsil ediyor.
+                    Subak sisteminin şekillendirdiği Bali kültürel peyzajı, 2012 yılında
+                    <strong>UNESCO Dünya Mirası Listesi</strong>'ne alındı. Yani burada gördüğünüz şey
+                    yalnızca güzel bir manzaradan ibaret değil. Bu tarlaların arkasında nesillerdir devam
+                    eden bir yaşam biçimi var.
+                    <br><br>
+
+                <h4>1. Tegallalang Pirinç Terasları </h4>
+
+                <img src="resimler/pirinc3.jpeg" alt="Pirinc Tarlalari" class="section-img">
+
+                Listemin ilk sırasında, Ubud'a oldukça yakın olan
+                <strong>Tegallalang Pirinç Terasları</strong> yer alıyor. Burası Bali'nin en popüler
+                noktalarından biri olsa da özellikle sabah saatlerinde çok daha sakin ve güzel bir
+                atmosfere sahip.
+                <br><br>
+
+                Tegallalang, Bali'de gördüğüm ilk pirinç terasıydı ve manzarasına hayran
+                kaldım. Dar patikalarda yürümek, kat kat uzanan yemyeşil terasları izlemek ve tropik
+                doğanın içinde biraz kaybolmak burayı yalnızca fotoğraf çekilecek bir yer olmaktan
+                çıkarıyor.
+                <br><br>
+
+                Salıncaklar pek bana göre değil ama siz seviyorsanız burada pirinç tarlalarının üzerinde
+                sallanabilir ve meşhur “I Love Bali” tabelalarında fotoğraf çektirebilirsiniz. Burası bu
+                tarz fotoğraflar için Bali'deki en popüler noktalardan biri.
+                <br><br>
+
+                <img src="resimler/pirinc.jpeg" alt="Pirinc Tarlalari" class="section-img">
+
+                Tegallalang gün içinde oldukça kalabalık olabiliyor. Bu yüzden mümkünse sabah erken
+                saatlerde gelmenizi tavsiye ediyorum. Hem hava daha serin oluyor hem de tarlaların
+                arasında çok daha sakin yürüyebiliyorsunuz. Buraya en az bir saatinizi ayırın. Biraz
+                yürüyüp manzaranın tadını çıkarmaya başladığınızda zamanın nasıl geçtiğini anlamıyorsunuz. <br><br>
+
+                <h4>2. Jatiluwih Pirinç Terasları</h4>
+
+                <img src="resimler/jati.jpg" alt="Pirinc Tarlalari" class="section-img">
+
+                <strong>Jatiluwih Pirinç Terasları</strong>, UNESCO Dünya Mirası Listesi'nde yer alan Subak
+                kültürel peyzajının bir parçası. Tegallalang'a göre çok daha büyük bir alana yayılmış ve
+                burası genel olarak çok daha sakin. Ubud merkezinden araçla yaklaşık bir buçuk saat sürüyor ama
+                karşılaşacağınız manzara bu yola fazlasıyla değer.
+                <br><br>
+
+                Tegallalang daha hareketli ve turistik bir yerken, Jatiluwih'te uzun uzun yürüyüp pirinç
+                teraslarının arasında kaybolabiliyorsunuz. Alan o kadar geniş ki etrafta başka insanlar olsa
+                bile kalabalık hissi oluşmuyor.
+
+                <img src="resimler/jati2.jpg" alt="Pirinc Tarlalari" class="section-img">
+
+                Giriş bölümünde manzaraya karşı oturabileceğiniz güzel kafeler de var. Daha yürüyüşe başlamadan
+                önünüzde uzanan pirinç teraslarını görünce bir süre durup manzarayı izlemek istiyorsunuz.
+                <br><br>
+
+                Tegallalang'ı da görün ama Bali'nin pirinç tarlalarını gerçekten uzun uzun gezmek istiyorsanız
+                Jatiluwih'i mutlaka görün. İkisi arasında seçim yapmam gerekse benim tercihim kesinlikle
+                Jatiluwih olurdu.
+                <br><br>
+                <img src="resimler/jati1.jpg" alt="Pirinc Tarlalari" class="section-img">
+
+                Ubud merkezine biraz uzak olduğu için burayı turla gezmeniz de bir seçenek. Hatta özellikle buralara
+                kadar
+                gelmişken, birkaç noktayı bir arada görebileceğiniz <a
+                    href="https://www.getyourguide.com/bali-l347/bali-tanah-lot-jatiluwih-terasi-ve-ulundanu-beratan-turu-t393190/?ranking_uuid=bcfcce13-2c4c-43d4-ade3-7c3b6df2cd2c&q=Jatiluwih%20Pirin%C3%A7%20Teraslar%C4%B1"
+                    target="_blank" rel="noopener" style="color: orange; text-decoration: underline;">
+                    Bali Tanah Lot, Jatiluwih Terası ve Ulundanu Beratan Turu
+                </a> ’nu buraya bırakıyorum.
+
+
+
+                </p><br><br><br>
+            </section>
+
+
+
+
+            <section id="section4">
+                <h2>Ulundanu Beratan</h2>
+                <img src="resimler/ulundanu11.jpg" alt="Ulundatu" class="section-img">
+
+
+                <p> <strong>Ulun Danu Beratan Tapınağı</strong>, Bali'nin en ikonik simgelerinden biri.
+                    Bratan Gölü'nün kıyısında, deniz seviyesinden yaklaşık <strong>1.200 metre yükseklikte</strong>
+                    yer alan tapınak göl, dağlar ve yemyeşil doğayla çevrili. Hava hafif sisli olduğunda manzara
+                    daha da güzelleşiyor ve tapınak gerçekten bir kartpostalın içindeymişsiniz gibi hissettiriyor.
+                    <br><br>
+
+                    1633 yılında inşa edilen Ulun Danu Beratan, Bali'nin su, göl ve nehir tanrıçası
+                    <strong>Dewi Danu</strong>'ya adanmış. Göldeki su seviyesi yükseldiğinde tapınağın bir
+                    bölümü suyla çevriliyor ve uzaktan bakıldığında gölün üzerinde yüzüyormuş gibi görünüyor.
+                </p>
+
+                <img src="resimler/ulundanu12.jpg" alt="Ulundatu" class="section-img">
+
+                <p>Eğer burası size tanıdık geldiyse, muhtemelen daha önce Bali ile ilgili bir fotoğrafta
+                    karşınıza çıkmıştır. Çünkü Ulun Danu Beratan, adanın tanıtımlarında en sık kullanılan
+                    simgelerden biri. Hatta Bratan Gölü ve tapınak <strong>50.000 rupilik banknotunun</strong> arka
+                    yüzünde de yer alıyor.
+                    <br><br>
+
+                    Tapınak Ubud'a biraz uzak olduğu için burayı Jatiluwih ve Tanah Lot ile aynı güne
+                    sığdırmak oldukça mantıklı. Ben de yukarıda bahsettiğim
+                    <a href="https://www.getyourguide.com/bali-l347/bali-tanah-lot-jatiluwih-terasi-ve-ulundanu-beratan-turu-t393190/"
+                        target="_blank" rel="noopener noreferrer" style="color: orange; text-decoration: underline;">
+                        Bali Tanah Lot, Jatiluwih Terası ve Ulun Danu Beratan Turu
+                    </a>
+                    kapsamında gezdim. Böylece ulaşımı düşünmeden aynı bölgedeki birkaç güzel noktayı bir arada
+                    görme fırsatım oldu.
+                    <br><br>
+
+                    <img src="resimler/ulundanu13.jpg" alt="Ulundatu" class="section-img">
+
+                    Eğer burayı turdan bağımsız gezecekseniz, sabah erken saatlerde gelmenizi
+                    tavsiye ediyorum. Böylece kalabalık başlamadan gölün ve tapınağın tadını daha sakin bir
+                    şekilde çıkarabilirsiniz. Burası Bali'nin kıyı bölgelerine göre daha serin olabiliyor.
+                    Bu yüzden yanınıza ince bir hırka almanız da iyi olabilir. <br><br>
+                    Tapınak her gün <strong>07.00–19.00 saatleri</strong> arasında ziyarete açık. <br>
+                    Giriş ücreti kişi başı <strong>100.000 IDR</strong>.
+
+
+                </p><br><br><br>
+
+            </section>
+
+            <section id="section5">
+
+
+                <h2>Tanah Lot Tapınağı</h2>
+
+                <img src="resimler/tanahlot.jpeg" alt="Tanah Lot" class="section-img">
+                <p>Bali fotoğraflarında mutlaka karşınıza çıkmış olan <strong>Tanah Lot Tapınağı</strong>, denizin
+                    içindeki büyük bir kayanın üzerine kurulmuş etkileyici bir Hindu tapınağı. Adı da bulunduğu yerden
+                    geliyor. “Tanah Lot” kabaca <strong>“denizdeki toprak”</strong> anlamına geliyor.
+                    <br><br>
+
+                    Bali kıyıları boyunca sıralanan yedi kutsal deniz tapınağından biri olan Tanah Lot, deniz
+                    tanrılarına adanmış. Ancak burayı bu kadar meşhur yapan yalnızca dini önemi değil. Dalgaların
+                    ortasında tek başına duran tapınağın görüntüsü, özellikle gün batımında gerçekten çok güzel.
+                    <br><br>
+
+                    Tapınağın içerisine yabancı ziyaretçilerin girmesine izin verilmiyor. Yine de çevresindeki
+                    yürüyüş yollarını gezebilir ve farklı noktalardan manzarayı izleyebilirsiniz. Gelgit saatleri
+                    buradaki görüntüyü tamamen değiştiriyor. Sular çekildiğinde tapınağın bulunduğu kayaya kadar
+                    yaklaşmak mümkünken, yükseldiğinde tapınak denizin ortasında kalıyor.<br><br>
+
+                    Gün batımı Tanah Lot'un en güzel zamanı ama aynı zamanda en kalabalık olduğu saatler. Biraz daha
+                    sakin gezmek istiyorsanız günün erken saatleri daha iyi olabilir.
+                    <br><br>
+
+                    Tanah Lot her gün ziyaret edilebilirsiniz. Giriş ücreti
+                    <strong>kişi başı 75.000 IDR</strong>.
+
+
+                </p><br><br><br>
+
+            </section>
+
+
+            <section id="section6">
+                <h2>Tirta Empul Tapınağı</h2>
+                <img src="resimler/balikapak.jpeg" alt="Tirta Empul" class="section-img">
+
+
+
+                <p><strong>Tirta Empul</strong>, Bali'de yalnızca gezip fotoğraf çekerek ayrılacağınız
+                    tapınaklardan biri değil. Ubud merkezinden yaklaşık 30 dakika uzaklıktaki bu kutsal tapınak, bin
+                    yılı aşkın süredir akan su kaynağı ve burada
+                    gerçekleştirilen <strong>arınma ritüelleriyle</strong> tanınıyor.
+                    <br><br>
+
+                    Yerel halk, tapınaktaki kutsal suyun bedeni, zihni ve ruhu kötü enerjilerden arındırdığına
+                    inanıyor. Burası hala aktif olarak ibadet edilen bir yer olduğu için Bali'nin ruhani
+                    tarafını çok daha yakından hissedebiliyorsunuz. Ubud'da birkaç gün geçirecekseniz
+                    Tirta Empul'a rotanızda kesinlikle yer vermenizi tavsiye ediyorum.
+                    <br><br>
+
+                    Tapınağın en dikkat çekici bölümü, ziyaretçilerin de katılabildiği geleneksel
+                    <strong>Melukat arınma ritüeli</strong>. Ben de ziyaretim sırasında bu ritüele katıldım
+                    ve Bali'de yaşadığım en farklı deneyimlerden biri oldu. Suyun içine girip sırayla
+                    çeşmelerin altında beklemek, dışarıdan izlemekten çok daha farklı hissettiriyor.
+                    <br><br>
+
+                    Ritüele katılmak için girişte verilen normal tapınak sarongundan farklı olarak, suya
+                    girmeye uygun özel bir sarong kiralamanız gerekiyor. Özel sarongun kirası kişi başı
+                    <strong>10.000 IDR</strong>. Eşyalarınızı bırakabileceğiniz dolaplar için de yaklaşık
+                    <strong>15.000–20.000 IDR</strong> ücret ödeniyor. Yanınıza havlu ve kuru
+                    kıyafet almayı unutmayın.
+
+                </p>
+
+                <img src="resimler/tirtaempul.jpeg" alt="Tirta Empul" class="section-img">
+
+
+                <p>
+                    Ritüel sırasında çeşmeleri görevlinin gösterdiği sırayla takip ediyorsunuz. Her çeşmenin
+                    önünde ellerinizi birleştirerek kısa bir dua ediyor, yüzünüzü suyla yıkıyor ve ardından
+                    başınızı akan suyun altına eğiyorsunuz. Herkesin niyeti kendine ait olduğu için o an,
+                    kalabalığın içinde bile oldukça kişisel hissettiriyor.
+                    <br><br>
+
+                    Çeşmeler boyunca aynı adımları tekrarlayarak ritüeli tamamlıyorsunuz. Bali kültürünün
+                    yüzyıllardır devam eden bu geleneğine yalnızca uzaktan bakmak yerine bir parçası olmak,
+                    tapınağı gezmekten çok daha farklı bir deneyim yaşatıyor. Benim için de Tirta Empul'u
+                    unutulmaz yapan şey tam olarak buydu.
+                </p>
+
+                <img src="resimler/tirtaempul11.jpeg" alt="Tirta Empul" class="section-img">
+
+
+
+                <p>
+                    Tirta Empul'u ziyaret etmek için ritüele katılmanız şart değil. Tapınak kompleksi oldukça
+                    geniş ve içinde gezebileceğiniz farklı <strong>avlular</strong>,
+                    <strong>tapınaklar</strong> ve <strong>kutsal alanlar</strong> bulunuyor. Suya girmek
+                    istemezseniz tapınağı yürüyerek keşfedebilir ve arınma ritüelini havuzun çevresinden
+                    izleyebilirsiniz.
+                </p>
+
+                <img src="resimler/tirtaempul2.jpeg" alt="Tirta Empul" class="section-img">
+
+                <p>Tapınakta beni en çok şaşırtan yerlerden biri, kutsal suyun çıktığı kaynak bölümü oldu.
+                    Suyun yer altından güçlü bir şekilde yüzeye çıkışını burada çıplak gözle görebiliyorsunuz.
+                    Zemindeki kum ve taşlar sürekli hareket ettiği için ilk bakışta su gerçekten kaynıyormuş
+                    gibi görünüyor. Aslında bu hareketin nedeni, tapınağın arınma havuzlarını besleyen doğal
+                    kaynak suyu.
+                    <br><br>
+
+                    Ritüele katılmayı düşünüyorsanız mümkün olduğunca erken gitmenizi tavsiye ediyorum.
+                    Gün ilerledikçe ziyaretçi sayısı artıyor ve çeşmelerin önünde uzun sıralar oluşabiliyor.
+                    Sabah saatlerinde hem tapınağı daha sakin gezebilir hem de ritüeli acele etmeden
+                    deneyimleyebilirsiniz.
+                    <br><br>
+
+                    Giriş ücreti kişi başı <strong>75.000 IDR</strong>. Tapınak <strong>her gün 08.00-18.00
+                        saatleri</strong> arasında ziyarete açık.
+                    Bali'nin kültürel ve manevi yönünü yakından görmek istiyorsanız, Tirta Empul kesinlikle
+                    kaçırılmaması gereken yerlerden biri.
+
+
+
+                </p><br><br><br>
+            </section>
+
+
+
+            <section id="section7">
+                <h2>Pemulan Bali Coffee Plantation</h2>
+                <img src="resimler/coffee.jpeg" alt="Coffee Plantation" class="section-img">
+                <p> Bali'deki kahve çiftliği deneyimimi <strong>Pemulan Bali Coffee Plantation</strong>'da
+                    yaşadım ve açıkçası beklediğimden çok daha keyifli geçti. İçeri girdiğim anda bana eşlik
+                    eden bir rehber, çiftliği adım adım gezdirerek burada yetiştirilen bitkileri ve kahvenin
+                    üretim sürecini anlatmaya başladı.</p> <br>
+
+                <div class="image-row">
+                    <img src="resimler/coffee6.jpeg" alt="Coffee Plantation">
+                    <img src="resimler/coffee7.jpeg" alt="Coffee Plantation">
+                    <img src="resimler/coffee8.jpeg" alt="Coffee Plantation">
+                </div>
+                <p>Çiftlikte yalnızca kahve yetiştirilmiyor. Kakao, vanilya, baharatlar ve farklı tropikal
+                    meyveler de bulunuyor. Günlük hayatta çoğunu yalnızca market raflarında gördüğüm bu
+                    ürünlerin nasıl yetiştiğini yakından görmek oldukça ilginçti. <br><br>
+
+                    Gezinin en sevdiğim bölümlerinden biri kahvenin işlendiği alan oldu. Burada çalışan yerel
+                    halkla sohbet ederken geleneksel yöntemlerle kahvenin nasıl öğütüldüğünü de yakından
+                    görebildim. Bir süre sonra beni de işin içine dahil edip denememe izin verdiler.
+                    Küçücük bir ayrıntı gibi görünse de yalnızca izlemek yerine sürecin bir parçası olmak,
+                    burayı benim için çok daha keyifli hale getirdi. </p>
+
+                <img src="resimler/coffee1.jpeg" alt="Coffee Plantation" class="section-img">
+
+                <p>Çiftlikte Bali'nin meşhur <strong>Kopi Luwak kahvesinin</strong> üretiminde kullanılan
+                    <strong>misk kedileriyle</strong> de karşılaştım. Hatta olgun kahve meyveleriyle onları
+                    besleme fırsatım oldu. Fakat burası, gezinin keyifli olduğu kadar üzerine düşünülmesi
+                    gereken tarafıydı.
+                    <br><br>
+
+                    Kopi Luwak üretimi uzun süredir hayvanların yaşam koşulları nedeniyle eleştiriliyor.
+                    Bazı işletmelerde doğadan yakalanan misk kedileri küçük kafeslerde tutuluyor ve doğal
+                    beslenme düzenlerinden uzaklaştırılıyor. Bu nedenle bir kahve çiftliğini ziyaret etmeden
+                    önce yalnızca manzarasına ve tadım seçeneklerine değil, hayvanlara nasıl davranıldığına
+                    da bakmanızı tavsiye ediyorum. Özellikle kafeste hayvan sergileyen işletmeler konusunda
+                    daha dikkatli olmakta fayda var.</strong>.
+                </p>
+
+                <img src="resimler/coffee4.jpeg" alt="Coffee Plantation" class="section-img">
+
+                <p>Gezinin sonunda tadım bölümüne geçtim. Önüme farklı kahve ve çay çeşitlerinden oluşan
+                    küçük bir tadım paleti getirildi. Hepsini tek tek deneyerek aralarındaki tat farklarını
+                    keşfetmek oldukça eğlenceliydi. Çiftlik gezisi ve standart kahve ile çay tadımları
+                    ücretsiz. <strong>Kopi Luwak kahvesi</strong> ise tadım paletine dahil değil ve denemek
+                    isterseniz ayrıca ücret ödemeniz gerekiyor.
+                    <br><br>
+
+                    Bu molayı benim için asıl güzel yapan şey ise manzaraydı. Yemyeşil doğanın içinde,
+                    acele etmeden tadım yapmak Bali'deki o günün en sakin ve keyifli anlarından biri oldu.
+                    <br><br>
+
+                    Çiftlik <strong>her gün 08.00–19.00 saatleri</strong> arasında açık. Tirta Empul'a oldukça yakın
+                    olduğu için
+                    iki yeri aynı günün rotasına kolayca ekleyebilirsiniz.
+                </p>
+                <br><br><br>
+
+            </section>
+
+
+
+            <section id="section8">
+                <h2>Ubud Palace ve Ubud Water Palace</h2>
+
+
+                <img src="resimler/ubudpalace.jpeg" alt="Ubud Palace" class="section-img">
+
+                <p>Ubud'un merkezinde dolaşırken <strong>Ubud Sarayı</strong> mutlaka karşınıza çıkıyor.
+                    Saray çok büyük değil ve yalnızca ilk avlusu gezilebiliyor. Bu yüzden gündüz uğradığınızda
+                    10-15 dakikada gezip çıkacağınız bir yer. Giriş ise ücretsiz.<br><br>
+
+                    <img src="resimler/ubudpalace2.jpeg" alt="Ubud Palace" class="section-img">
+
+                    Ubud Sarayı'nı asıl güzel yapan şey akşam düzenlenen geleneksel dans gösterileri.
+                    Gündüz gezdiğiniz avlu, hava karardığında rengarenk kostümler ve canlı
+                    <strong>gamelan müziğiyle</strong> bambaşka bir yere dönüşüyor.
+                    <br><br>
+
+                    Haftanın gününe göre Legong, Barong veya Ramayana gibi farklı gösteriler sahneleniyor.
+                    Ben Legong dansını izledim. Dansçıların mimikleri, göz hareketleri ve kostümleri gerçekten
+                    çok etkileyiciydi. Hikayenin tamamını anlamasanız bile gösteriyi keyifle takip ediyorsunuz.
+                    <br><br>
+
+                    Gösteri her akşam <strong>19.30'da</strong> başlıyor ve yaklaşık
+                    <strong>1,5 saat sürüyor</strong>. Bilet ücreti kişi başı
+                    <strong>100.000 IDR</strong>. Biletler sarayın girişinde de satılıyor. Önceden almak
+                    isterseniz
+                    <a href="https://www.getyourguide.com/ubud-l32246/bali-ubud-palace-legong-dance-show-ticket-t440675/"
+                        target="_blank" rel="noopener noreferrer" style="color: orange; text-decoration: underline;">
+                        Ubud Sarayı Legong Dans Gösterisi
+                    </a>
+                    sayfasına göz atabilirsiniz.
+                    <br><br>
+
+                    <br><br>
+                    Burada dikkat edilmesi gereken küçük bir detay var: Biletler numarasız. Yani herkes geldiği sıraya
+                    göre oturuyor. Ön sıralardan izlemek
+                    istiyorsanız erken gitmekte fayda var.
+
+                </p>
+
+                <img src="resimler/ubudpalace1.jpeg" alt="Ubud Palace" class="section-img">
+
+                <p>
+                <p>
+                    Ubud Sarayı'ndan çıktıktan sonra birkaç dakikalık kısa bir yürüyüşle
+                    <strong>Ubud Su Sarayı</strong>'na, yani <strong>Saraswati Tapınağı</strong>'na
+                    ulaşıyorsunuz. Lotus çiçekleriyle dolu havuzu, tapınağa uzanan taş yolu ve ince işlenmiş
+                    detaylarıyla burası bana Ubud Sarayı'ndan daha etkileyici geldi.
+                    <br><br>
+
+                    Gezilecek alanı biraz daha geniş olduğu için burada daha fazla vakit geçirdim. Havuzun
+                    çevresinde dolaşmak ve tapınağın detaylarını incelemek, Ubud merkezinin kalabalığının
+                    arasında güzel bir mola gibi geldi. Benim için Ubud merkezindeki en güzel yerlerden
+                    biriydi.
+                    <br><br>
+
+                    Ubud Su Sarayı, cumartesiden perşembeye <strong>08.00–19.30</strong>, cuma günleri ise
+                    <strong>08.00–21.30 saatleri</strong> arasında açık. Giriş ücreti <strong>60.000 IDR</strong>. <br>
+                    Ubud Sarayı ile aralarında yalnızca birkaç
+                    dakikalık mesafe olduğu için ikisini peş peşe gezmek en kolayı.
+                </p>
+
+                </p><br><br><br>
+
+            </section>
+
+
+            <section id="section9">
+                <h2>Campuhan Ridge Walk (Campuhan Sırt Yürüyüşü)</h2>
+
+                <img src="resimler/campuhan.jpeg" alt="Campuhan Ridge" class="section-img">
+                <p>
+                    <strong>Campuhan Ridge Walk</strong>, Ubud merkezinin kalabalığından biraz uzaklaşmak istediğinizde
+                    gidebileceğiniz en güzel yerlerden biri. Girişe kadar şehir içinde olsanız da patikaya çıktıktan
+                    sonra trafik sesi neredeyse tamamen kayboluyor.
+                    <br><br>
+
+                    Yürüyüş rotası <strong>gidiş dönüş toplam yaklaşık 2 kilometre</strong>. Başlangıçta kısa bir
+                    yokuş var ama sonrasında yol oldukça rahat ilerliyor. Fotoğraf ve manzara molalarıyla birlikte
+                    yürüyüş için yaklaşık 1 saat ayırmanız yeterli.
+                </p>
+
+                <img src="resimler/campuhan1.jpeg" alt="Campuhan Ridge" class="section-img">
+
+                <p>Patika boyunca Ubud'un o yemyeşil tepeleri, vadileri ve pirinç tarlaları eşliğinde
+                    yürüyorsunuz. Yol boyunca manzara sürekli değişiyor.
+
+                    <img src="resimler/campuhan2.jpeg" alt="Campuhan Ridge" class="section-img">
+
+                    Yürüyüş için en güzel saatler <strong>gün doğumu</strong> ve <strong>gün batımı</strong>. Özellikle
+                    sabah erken saatlerde geldiğinizde hem
+                    hava daha serin oluyor hem de kalabalıklarla karşılaşmıyorsunuz. Gün ortasında ise güneş oldukça
+                    etkili olabilir, bu yüzden güneş kremi ve şapka bulundurmakta fayda var.
+                    <br><br>
+
+                    Genel olarak kolay ve rahat bir yürüyüş parkuru ve ücretsiz. Ubud'da güne sakin bir yürüyüşle
+                    başlamak
+                    istediğiniz bir sabah için burası oldukça güzel bir rota.
+
+                </p><br><br><br>
+
+
+            </section>
+
+
+            <section id="section10">
+                <h2>The Yoga Barn</h2>
+
+                <img src="resimler/yogabarn.jpeg" alt="The Yoga Barn Ubud" class="section-img">
+
+                <p>
+                    Ubud denince akla yalnızca pirinç tarlaları ve tapınaklar gelmiyor. Yoga, meditasyon ve sağlıklı
+                    yaşam kültürü de şehrin önemli bir parçası. Bunun en bilinen adreslerinden biri ise
+                    <strong>The Yoga Barn</strong>. Burada yoga ve meditasyonun yanı sıra nefes çalışmaları, dans
+                    dersleri ve birbirinden farklı etkinlikler düzenleniyor.
+                    <br><br>
+
+                    The Yoga Barn yalnızca derse girip çıkacağınız bir yoga stüdyosu değil. Yemyeşil bir alanın içine
+                    kurulmuş, küçük bir kampüs gibi. İçeride vegan yemekler yiyebileceğiniz restoranlar, kahve
+                    alabileceğiniz noktalar ve oturup dinlenebileceğiniz birçok alan bulunuyor. Çimlerde uzananlar,
+                    kitabını okuyanlar, bilgisayarıyla çalışanlar... Herkes kendi halinde vakit geçiriyor.
+                    <br><br>
+
+                    Akşamları ortam biraz daha hareketleniyor. Konserler, ses terapileri, dans etkinlikleri ve çeşitli
+                    topluluk buluşmaları düzenleniyor. Dünyanın farklı yerlerinden gelen insanlarla tanışmak da burada
+                    oldukça kolay. Açıkçası The Yoga Barn bana bir yoga merkezinden çok, insanların bir araya geldiği
+                    küçük bir yaşam alanı gibi hissettirdi.
+                    <br><br>
+
+                    Dilerseniz kampüsün içinde konaklayarak burada birkaç gün geçirme şansınız da var. Katıldığım
+                    dersleri, etkinlikleri, güncel fiyatları ve kendi deneyimlerimi daha ayrıntılı anlattığım
+                    <a href="/YogabarnUbudrehberi" target="_blank" rel="noopener noreferrer"
+                        style="color: orange; text-decoration: underline;">
+                        The Yoga Barn Ubud Rehberi
+                    </a>
+                    yazısına göz atabilirsiniz.
+                </p><br><br><br>
+
+            </section>
+
+
+            <section id="section11">
+                <h2>Batur Dağı</h2>
+
+                <p>Bali'de biraz macera arıyorsanız, <strong>Batur Dağı gün doğumu yürüyüşü</strong> tam olarak
+                    böyle bir deneyim. Alarm gece çalıyor, hava hala karanlıkken yola çıkılıyor ve gün doğmadan
+                    zirveye ulaşmak için yürüyüş başlıyor.</p>
+
+                <img src="resimler/baturdagi.jpeg" alt="Batur Dağı gün doğumu" class="section-img">
+
+                <p> Turlar, kaldığınız bölgeye göre genellikle <strong>03.00-04.00 saatleri arasında</strong> otelden
+                    alınmanızla başlıyor. Başlangıç noktasına ulaştıktan sonra yaklaşık 2 saat süren tırmanışa
+                    geçiliyor. Zirveye vardığınızda ise bütün o uykusuzluk ve yorgunluk yerini gün doğumu manzarasına
+                    bırakıyor. Hava açıksa çevredeki dağları ve Batur Gölü'nü de yukarıdan görebiliyorsunuz.
+                    <br><br>
+
+                    Yürüyüşte hava biraz şaşırtıcı olabiliyor. Bir an soğuktan üşürken kısa süre sonra
+                    terleyebiliyorsunuz. Bu yüzden kat kat giyinmek en rahatı. Yolun
+                    oldukça tozlu olduğunu ve özellikle inişten sonra kıyafetlerinizin toz toprak içinde kalacağını
+                    da bilerek hazırlıklı gidin.
+                </p>
+
+                <img src="resimler/baturdagi1.jpeg" alt="Batur Dağı zirve manzarası" class="section-img">
+
+                <p>
+                    Zirvede manzaraya karşı basit bir kahvaltı veriliyor. Biraz dinlenip gün doğumunu izledikten
+                    sonra iniş başlıyor. Çıkarken karanlıkta fark etmediğiniz volkanik araziyi ve Batur Gölü'nü,
+                    dönüş yolunda çok daha net görebiliyorsunuz.
+                    <br><br>
+
+                    Otel transferleri ve turun programıyla birlikte tüm deneyim yaklaşık <strong>5-7 saat</strong>
+                    sürüyor. Güne bu kadar erken başlamak biraz gelse de zirveden izlediğim gün doğumu,
+                    Bali'de hafızamda kalan en güzel anlardan biri oldu.
+                    <br><br>
+
+                    <span class="symbolized">
+                        Ben bu yürüyüşe
+                        <a href="https://www.getyourguide.com/tr-tr/bali-l347/bali-kahvaltili-batur-dagi-gun-dogumu-yuruyusu-t97437/?ranking_uuid=a437ca78-db00-444c-b54e-a454f720d897&q=Batur+Da%C4%9F%C4%B1"
+                            target="_blank" rel="noopener noreferrer"
+                            style="color: orange; text-decoration: underline;">
+                            Batur Dağı gün doğumu turuyla
+                        </a>
+                        katıldım. Tur arayışındaysanız ayrıntılarına buradan göz atabilirsiniz.
+                    </span>
+                </p>
+
+                <br><br><br>
+
+            </section>
+
+
+            <section id="section12">
+                <h2>Monkey Forest, Ubud</h2>
+
+                <p>Ubud merkezinde bir anda tropik bir ormanın içine girmiş gibi hissedebileceğiniz yerlerden biri
+                    <strong>Monkey Forest</strong>. Burası, binden fazla uzun kuyruklu makak maymununun yaşadığı geniş
+                    bir koruma alanı.
+                </p>
+
+
+                <img src="resimler/monkeyforest.jpeg" alt="Monkey Forest" class="section-img">
+
+                <p>Adı nedeniyle yalnızca maymunları göreceğiniz bir yer gibi düşünebilirsiniz ama içerisi bundan çok
+                    daha fazlası. Dev ağaçların arasından geçen yürüyüş yolları, eski Hindu tapınakları, yosun tutmuş
+                    heykeller ve taş köprüler var. Ubud'un merkezinde sessiz sakin gizemli bir orman düşünün.
+
+                </p>
+
+                <img src="resimler/monkeyforest1.jpeg" alt="Monkey Forest" class="section-img">
+
+                <p> Maymunlar ilk bakışta sevimli görünüyor ama sonuçta evcil değiller. Telefon, gözlük,
+                    şapka ve takı gibi eşyalar ilgilerini çekebiliyor. Bu nedenle eşyalarınızı açıkta bırakmamak ve
+                    maymunlara dokunmaya ya da onları beslemeye çalışmamak gerekiyor. <br><br>
+
+                    <img src="resimler/monkeyforest2.jpeg" alt="Monkey Forest" class="section-img">
+
+                    Maymunlara çok meraklı olmasanız bile ormanın atmosferi ve yürüyüş yolları için bence burası
+                    görülmeye
+                    değer. Ubud merkezinde olduğu için günlük rotaya eklemesi de kolay.
+                    <br><br>
+
+                    Monkey Forest <strong>her gün 09.00-18.00 saatleri arasında</strong> açık. Son giriş saati
+                    <strong>17.00</strong> ve giriş ücreti <strong>130.000 IDR</strong>.
+                </p> <br><br><br>
+
+            </section>
+
+
+            <section id="section13">
+                <h2>Lempuyang Tapınağı ve Tirta Gangga (Su Sarayı)</h2>
+
+                <p>Evet, sıra geldi Bali fotoğraflarının değişmeyen başrolü
+                    <strong>Lempuyang Tapınağı</strong>'na. Bali'nin doğusunda yer alan tapınak, özellikle
+                    <strong>“Cennetin Kapıları”</strong> olarak bilinen kapısının arasından görünen
+                    <strong>Agung Yanardağı manzarasıyla</strong> meşhur. Bali ile ilgili biraz araştırma
+                    yaptıysanız bu görüntü mutlaka karşınıza çıkmıştır.
+                    <br><br>
+
+                    Yalnız fotoğraflarda kapının önünde gördüğünüz o kusursuz su yansıması aslında orada
+                    bulunan bir göle ait değil. Fotoğraf çekilirken kullanılan küçük bir aynayla oluşturuluyor.
+                    Üstelik bu meşhur kareyi çektirmek için bazı günler birkaç saat sıra beklemek gerekebiliyor.
+                    <br><br>
+
+                    Ben Bali'deki zamanımı uzun bir fotoğraf kuyruğunda geçirmek istemediğim için Lempuyang
+                    Tapınağı'na gitmemeyi tercih ettim. Sonuçta herkesin Bali rotası ve seyahatten beklentisi
+                    farklı. Eğer bu fotoğrafı çekmek sizin de Bali hayallerinizden biriyse elbette rotanıza
+                    ekleyin. Sadece nasıl bir ortamla karşılaşacağınızı bilerek ve mümkün olduğunca erken
+                    giderek plan yapmanızda fayda var 😊
+                </p><br>
+
+                <img src="resimler/tirtagangga.jpeg" alt="Tirta Gangga" class="section-img">
+
+
+
+                <p>Lempuyang ile aynı bölgede bulunan <strong>Tirta Gangga Su Sarayı</strong> ise benim
+                    rotamda vardı. Bali ve Çin mimarisinin izlerini taşıyan bu güzel saray, yemyeşil
+                    bahçeleri, çeşmeleri, süs havuzları ve rengarenk koi balıklarıyla oldukça keyifli bir
+                    atmosfere sahip.
+                    <br><br>
+
+                    Havuzun üzerindeki taşlara basarak ilerlemek ve hemen yanı başınızda yüzen kocaman koi
+                    balıklarını izlemek buranın en güzel taraflarından biri. Çok büyük bir alan değil ama
+                    Doğu Bali rotasına kısa ve keyifli bir mola eklemek için görülmeye değer. Giriş ücreti kişi başı
+                    <strong>90.000 IDR</strong>.
+                    <br><br>
+
+
+                    <span class="symbolized">
+                        <strong>Lempuyang Tapınağı</strong> ve <strong>Tirta Gangga</strong> birbirine oldukça yakın
+                        konumdalar. Eğer Bali'nin doğu
+                        bölgesine kadar gitmeyi planlıyorsanız, bu iki noktayı aynı gün içerisinde ziyaret etmek
+                        mantıklı bir seçenek olabilir. Özellikle kendi ulaşımınızı ayarlamak istemiyorsanız, her iki
+                        yeri de kapsayan <a
+                            href="https://www.getyourguide.com/tr-tr/bali-l347/bali-besakih-tapinagi-ve-lempuyang-tapinagi-cennet-kapilari-turu-t158951/?ranking_uuid=c9732eb2-9cc7-428b-8ec4-ee052e5e2040&q=Lempuyang+Tap%C4%B1na%C4%9F%C4%B1"
+                            target="_blank" rel="noopener noreferrer"
+                            style="color: orange; text-decoration: underline;">
+                            Cennet Kapıları Turuna
+                        </a> göz atabilirsiniz.
+                    </span>
+
+
+
+                </p> <br><br><br>
+
+            </section>
+
+
+            <section id="section14">
+                <h2>Beach Club Kültürü: Bali'nin Vazgeçilmezlerinden</h2>
+
+                <img src="resimler/beachclubbali3.jpeg" alt="Beach Club" class="section-img">
+
+
+                <p>
+                    Bali'nin vazgeçilmezlerinden biri de beach club'lar. Özellikle <strong>Canggu, Seminyak, Uluwatu
+                        ve Nusa Dua</strong> çevresinde birbirinden farklı birçok seçenek bulunuyor. Bazıları daha
+                    sakin bir atmosfere sahipken, bazıları gün boyu devam eden müzikleri ve kalabalığıyla küçük bir
+                    festival alanını andırıyor.
+                    <br><br>
+
+                    Kimi beach club gün batımı manzarasıyla öne çıkıyor, kimisiyse sonsuzluk havuzları, DJ
+                    performansları ve okyanusa karşı sıralanan şezlonglarıyla. Sabah gidip bütün günü havuz başında
+                    geçirebilir ya da gün batımına doğru uğrayıp bir şeyler yiyip içebilirsiniz. Bali'de en az bir
+                    günü bu şekilde geçirmenizi kesinlikle tavsiye ederim. Gerçekten çok
+                    keyifliler ve kaliteli vakit geçirmek garanti.
+                    <br><br>
+
+                    Beğendiğim beach club'ları, ortamlarını ve gitmeden önce bilmeniz gerekenleri anlattığım
+                    <a href="balibeachclub.html" target="_blank" rel="noopener noreferrer"
+                        style="color: orange; text-decoration: underline;">
+                        Bali'nin En İyi Beach Club'ları
+                    </a>
+                    yazıma göz atmayı unutmayın. İyi eğlenceler şimdiden. 🙂
+                </p>
+                <br><br><br>
+
+
+            </section>
+
+
+            <section id="section15">
+                <h2>Bali'de Yeme - İçme</h2>
+
+                <img src="resimler/baliyemeicme.jpeg" alt="Yeme İcme" class="section-img">
+
+                <p>Geldik Bali'nin en sevdiğim konularından birine: yeme içme. Açık konuşmak gerekirse Bali bu konuda
+                    tam bir dehliz. Birkaç hafta kalsanız bile keşfedilecek yerler bitmiyor. Üstelik ister yerel
+                    Endonezya yemeklerini deneyin, ister dünya mutfaklarını arayın, burada her damak zevkine hitap eden
+                    inanılmaz bir çeşitlilik var. <br><br>
+
+                    Sağlıklı vegan kafelerden fine dining restoranlara, uygun fiyatlı yerel warunglardan üçüncü nesil
+                    kahvecilere kadar aklınıza gelebilecek her şeyi bulabiliyorsunuz. Hatta Michelin yıldızlı şeflerin
+                    imzasını taşıyan restoranlarda yemek yiyebiliyor, birkaç saat sonra ise küçük bir aile işletmesinde
+                    hayatınızın en lezzetli yerel yemeklerinden birini tadabiliyorsunuz. <br><br>
+
+
+                    Açıkçası çoğu zaman ne yiyeceğimden çok hangi mekana gideceğime karar vermekte zorlandım. Bu yüzden
+                    Bali'de deneyip gerçekten beğendiğim yerleri
+                    <a href="baliyemeicme.html" target="_blank" rel="noopener noreferrer"
+                        style="color: orange; text-decoration: underline;">
+                        Bali Yeme İçme Rehberi
+                    </a>
+                    yazısında bir araya getirdim. Şimdiden söyleyeyim, bu yazıyı okurken acıkmanız oldukça olası. 😊
+                </p><br><br>br
+
+
+            </section>
+
+            <section id="section16">
+                <h2>Bali'de Konaklama</h2>
+                <p>
+                    Bali'de otel seçmeden önce hangi bölgede kalacağınıza karar vermek çok daha önemli. Çünkü adanın
+                    her bölgesi bambaşka bir tatil sunuyor ve haritada yakın görünen yerler trafik yüzünden
+                    düşündüğünüzden
+                    çok daha uzun sürebiliyor. Bu yüzden önce nasıl bir Bali hayal ettiğinize karar verelim, sonra
+                    size en uygun bölgeye birlikte bakalım.
+                </p><br><br>
+
+                <h4>Ubud</h4>
+
+                <p>
+                    Bali'nin kültürel ve daha otantik tarafını görmek istiyorsanız <strong>Ubud</strong> en güzel
+                    seçeneklerden biri. Tapınaklara, pirinç teraslarına ve doğa içindeki birçok noktaya yakın olmasının
+                    yanı sıra sokaklarında yürümek bile oldukça keyifli. Merkez kısmı hareketli olsa da biraz dışına
+                    çıktığınızda ormanların ve pirinç teralarının arasında çok sakin oteller bulabiliyorsunuz. Deniz
+                    tatilinden çok doğa, kültür ve yoga ağırlıklı bir Bali hayal edenlere daha uygun.
+                </p><br>
+
+                <h4>Canggu</h4>
+
+                <p>
+                    <strong>Canggu</strong>, Bali'nin en hareketli bölgelerinden biri. Ünlü beach club'ların, popüler
+                    kafelerin, barların ve sörf noktalarının büyük bir kısmı burada bulunuyor. Gün içinde sahilde vakit
+                    geçirip akşam eğlenceye devam etmek isteyenler için oldukça keyifli. Yalnız Canggu trafiğinin
+                    gerçekten yoğun olduğunu bilmek gerekiyor. Sakin bir tatilden çok hareketli ve sosyal bir ortam
+                    arıyorsanız burası size daha uygun olabilir.
+                </p><br>
+
+                <h4>Seminyak</h4>
+
+                <p>
+                    <strong>Seminyak</strong>, konaklama seçeneğinin en fazla olduğu merkezi bölgelerden biri. Büyük
+                    otel zincirlerinden butik otellere, villalardan denize sıfır havuzlu tesislere kadar birçok seçenek
+                    var. Restoranlara, mağazalara ve beach club'lara yakın olmak isteyenler için de oldukça rahat bir
+                    konum.
+                    <br>
+
+                    Seminyak sahilinde denize girilebiliyor ancak dalgalar ve akıntı zaman zaman oldukça güçlü
+                    olabiliyor. Bu nedenle denizin sakin olduğu alanları ve güvenlik bayraklarını takip etmek önemli.
+                    Denize girmek yerine sahilde ya da otelin havuzunda vakit geçirmek isteyenler içinse seçenek çok.
+                </p><br>
+
+                <h4>Uluwatu</h4>
+
+                <p>
+                    Bali'nin kayalık kıyılarını, beyaz kumlu plajlarını ve gün batımı manzaralarını görmek istiyorsanız
+                    <strong>Uluwatu</strong> çok güzel bir bölge. Sörf noktaları, manzaralı restoranları ve son yıllarda
+                    oldukça popüler hale gelen beach club'larıyla öne çıkıyor.
+                    <br><br>
+
+                    Uluwatu'da oteller ve plajlar geniş bir alana yayıldığı için her yere yürüyerek ulaşmak pek mümkün
+                    değil. Burada kalacaksanız gitmek istediğiniz plajlara yakın bir otel seçmek işinizi oldukça
+                    kolaylaştırır.
+                </p><br>
+
+                <h4>Nusa Dua</h4>
+
+                <p>
+                    <strong>Nusa Dua</strong>, Bali'de lüks ve daha sakin bir tatil denince akla gelen ilk bölgelerden
+                    biri. Büyük uluslararası oteller, geniş havuzlar, bakımlı bahçeler ve sahile uzanan tatil köyleri
+                    bu bölgede yoğunlaşıyor. Deniz de Bali'nin batı kıyılarına göre genellikle daha sakin olduğu için
+                    yüzmek isteyenler ve çocuklu aileler tarafından sıkça tercih ediliyor.
+                    <br>
+
+                    Nusa Dua oldukça düzenli ve huzurlu ancak Bali'nin o hareketli sokaklarını ve yerel havasını burada
+                    çok fazla hissetmeyebilirsiniz. Otelden fazla çıkmadan dinlenmek, denize girmek ve biraz kendinizi
+                    şımartmak istiyorsanız oldukça güzel bir seçenek.
+                </p> <br><br>
+
+                <h4>Otel mi, Airbnb mi?</h4>
+
+                <p>
+                    Ben Bali seyahatim boyunca otel yerine Airbnb'de kaldım. Pirinç tarlalarına açılan bir villada
+                    uyanmak, seyahatin en güzel taraflarından biriydi. Daha sakin, daha özgür ve kendime ait bir
+                    alanda olduğum için benim seyahat şeklime otelden çok daha fazla uydu.
+                    <br><br>
+
+                    Bali'de ev seçenekleri gerçekten çok güzel. Pirinç tarlası manzaralı villalardan özel havuzlu
+                    evlere, küçük bungalovlardan geleneksel Bali mimarisini taşıyan konaklamalara kadar adanın hemen
+                    her bölgesinde farklı bir yer bulabiliyorsunuz.
+                    <br><br>
+
+
+                    Benim gibi otel yerine daha kendinize ait bir yerde kalmayı seviyorsanız, karar vermeden önce
+                    <a href="https://www.airbnb.com.tr/bali-indonesia/stays" target="_blank" rel="noopener noreferrer"
+                        style="color: orange; text-decoration: underline;">
+                        Bali'deki Airbnb seçeneklerine
+                    </a>
+                    mutlaka göz atın. Otel ararken aklınızda olmayan bir villaya bir anda aşık olabilirsiniz.
+                </p><br><br>
+
+                <h4>Bali’de Konaklamayı İkiye Bölmek </h4>
+
+                <p>
+                    Bali'de uzun bir tatil planlıyorsanız, seyahatin tamamında tek bir bölgede kalmak ilk bakışta daha
+                    kolay görünebilir. Ancak adanın trafiğini hesaba kattığınızda birkaç kez bavul toplamak, her gün
+                    saatlerce yolda kalmaktan çok daha rahat oluyor.
+                    <br><br>
+
+                    Örneğin tatilin ilk birkaç gecesini <strong>Ubud</strong>'da geçirerek pirinç tarlalarını,
+                    tapınakları ve adanın iç kesimlerini gezebilirsiniz. Sonrasında <strong>Canggu, Seminyak,
+                        Uluwatu ya da Nusa Dua</strong> tarafına geçerek denize, plajlara ve beach club'lara daha
+                    yakın olabilirsiniz.
+                    <br><br>
+
+                    Böylece her sabah adanın bir ucundan diğerine gitmek zorunda kalmaz, kaldığınız bölgenin tadını
+                    acele etmeden çıkarırsınız. Bali'de konaklamayı iki bölgeye ayırmak, küçük bir otel değişikliğinden
+                    çok gün içinde size kalan birkaç ekstra saat demek.
+                </p><br><br><br>
+
+
+            </section>
+
+            <section id="section17">
+
+
+                <h2>Keşfet, Hisset, Kendi Ritminde Yaşa: Bali</h2>
+
+                <p>
+                    Bali, yalnızca gezilecek yerlerden oluşan bir ada değil. Tapınakları, pirinç terasları,
+                    yemyeşil doğası, plajları ve kendine özgü yaşamıyla her bölgede başka bir yüzünü gösteriyor.
+                    Burada bazen planlı olmak, bazen de günü tamamen akışına bırakmak gerekiyor.
+                    <br><br>
+
+                    Yola çıkarken Bali trafiğini mutlaka hesaba katın ve aynı bölgede bulunan yerleri birlikte
+                    gezmeye çalışın. Tapınaklarda kurallara saygı gösterin, denize girerken güvenlik bayraklarını
+                    takip edin ve maymunların bulunduğu yerlerde eşyalarınıza dikkat edin. Gün ortasında hava
+                    oldukça sıcak olabildiği için mümkün olduğunca erken yola çıkmak da günü çok daha rahat
+                    geçirmenizi sağlar.
+                    <br><br>
+
+                    <strong>Bali'de her yeri görmek için kendinizi yormayın.</strong> Biraz yavaşlayın, etrafınıza
+                    bakın ve planınızda olmayan anlara da yer bırakın. Benim için Bali'yi özel yapan şey, tam
+                    olarak bu anların içinde saklıydı.
+                    <br><br>
+
+                    Bali hakkında merak ettiğiniz bir şey mi var? Gitmeyi düşündüğünüz yerleri, aklınıza
+                    takılan soruları ya da kendi Bali planınızı yorumlarda benimle paylaşabilirsiniz. Ne merak
+                    ettiğinizi duymak isterim!
+                </p>
+
+            </section>
+
+
+
+
+            
+
+
+
+            <section id="yorum-yaz"
+                style="background-color: rgb(24, 24, 24); padding: 40px 20px; margin-top: 60px; color: white;">
+                <div style="max-width: 700px; margin: 0 auto;">
+                    <h2 style="text-align: left; margin-bottom: 22px;">Yorum Yaz</h2>
+                    <p style="text-align: left; font-size: 14px; color: #aaa;">
+                        E-posta adresiniz yayımlanmayacaktır. Gerekli alanlar * ile işaretlenmiştir.
+                    </p>
+                    <form action="#" method="post"
+                        style="display: flex; flex-direction: column; gap: 25px; margin-top: 20px;">
+                        <textarea name="yorum" placeholder="Yorumunuz*" required
+                            style="width: 100%; height: 250px; padding: 10px; font-size: 14px; 
+                   border: none; box-shadow: inset 0 0 0 0.5px white; background-color: rgb(24, 24, 24); color: white;"></textarea>
+                        <input type="text" name="isim" placeholder="İsim"
+                            style="width: 100%; height: 50px; padding: 10px; font-size: 14px; 
+                   border: none; box-shadow: inset 0 0 0 0.5px white; background-color: rgb(24, 24, 24); color: white;">
+                        <input type="email" name="email" placeholder="E-posta"
+                            style="width: 100%; height: 50px; padding: 10px; font-size: 14px; 
+                   border: none; box-shadow: inset 0 0 0 0.5px white; background-color: rgb(24, 24, 24); color: white;">
+                        <button type="submit" style="width: 33%; padding: 12px; background-color: transparent; color: white; 
+                   border: none; box-shadow: inset 0 0 0 0.5px white; font-size: 14px; cursor: pointer;">
+                            GÖNDER
+                        </button>
+                    </form>
+                </div>
+            </section>
+
+        </div>
+    </div>
+
+    <script>
+
+        const menuToggle = document.getElementById('menuToggle');
+        const mainMenu = document.getElementById('mainMenu');
+        const closeMain = document.getElementById('closeMain');
+        const openIstikamet = document.getElementById('openIstikamet');
+        const istikametMenu = document.getElementById('istikametMenu');
+        const backIstikamet = document.getElementById('backIstikamet');
+
+        menuToggle.addEventListener('click', () => {
+            mainMenu.classList.add('active');
+        });
+
+        closeMain.addEventListener('click', () => {
+            mainMenu.classList.remove('active');
+        });
+
+        openIstikamet.addEventListener('click', (e) => {
+            e.preventDefault();
+            mainMenu.classList.remove('active');
+            istikametMenu.classList.add('active');
+        });
+
+        backIstikamet.addEventListener('click', () => {
+            istikametMenu.classList.remove('active');
+            mainMenu.classList.add('active');
+        });
+
+        const searchInput = document.getElementById('searchInput');
+        const clearBtn = document.getElementById('clearBtn');
+
+        if (searchInput && clearBtn) {
+            searchInput.addEventListener('input', () => {
+                if (searchInput.value.trim() !== "") {
+                    clearBtn.style.display = 'block';
+                } else {
+                    clearBtn.style.display = 'none';
+                }
+            });
+
+            clearBtn.addEventListener('click', () => {
+                searchInput.value = "";
+                clearBtn.style.display = 'none';
+
+                searchInput.focus();
+            });
+        }
+        const goBtn = document.getElementById('goBtn');
+
+        if (searchInput && clearBtn && goBtn) {
+            searchInput.addEventListener('input', () => {
+                if (searchInput.value.trim() !== "") {
+                    clearBtn.style.display = 'block';
+                    goBtn.style.display = 'none';
+                } else {
+                    clearBtn.style.display = 'none';
+                    goBtn.style.display = 'block';
+                }
+            });
+
+            clearBtn.addEventListener('click', () => {
+                searchInput.value = "";
+                clearBtn.style.display = 'none';
+                goBtn.style.display = 'block';
+                searchInput.focus();
+            });
+        }
+        menuToggle.addEventListener('click', () => {
+            mainMenu.classList.add('active');
+            document.body.classList.add('menu-open');
+        });
+
+        closeMain.addEventListener('click', () => {
+            mainMenu.classList.remove('active');
+            document.body.classList.remove('menu-open');
+        });
+
+        //mobil için nav-search
+        const searchInputMobile = document.getElementById('searchInputMobile');
+        const clearBtnMobile = document.getElementById('clearBtnMobile');
+        const goBtnMobile = document.getElementById('goBtnMobile');
+
+        if (searchInputMobile && clearBtnMobile && goBtnMobile) {
+            searchInputMobile.addEventListener('input', () => {
+                if (searchInputMobile.value.trim() !== "") {
+                    clearBtnMobile.style.display = 'block';
+                    goBtnMobile.style.display = 'none';
+                } else {
+                    clearBtnMobile.style.display = 'none';
+                    goBtnMobile.style.display = 'block';
+                }
+            });
+
+            clearBtnMobile.addEventListener('click', () => {
+                searchInputMobile.value = "";
+                clearBtnMobile.style.display = 'none';
+                goBtnMobile.style.display = 'block';
+                searchInputMobile.focus();
+            });
+        }
+
+        // İstikamet için nav-search
+        const searchInputIstikamet = document.getElementById('searchInputIstikamet');
+        const clearBtnIstikamet = document.getElementById('clearBtnIstikamet');
+        const goBtnIstikamet = document.getElementById('goBtnIstikamet');
+
+        if (searchInputIstikamet && clearBtnIstikamet && goBtnIstikamet) {
+            searchInputIstikamet.addEventListener('input', () => {
+                if (searchInputIstikamet.value.trim() !== "") {
+                    clearBtnIstikamet.style.display = 'block';
+                    goBtnIstikamet.style.display = 'none';
+                } else {
+                    clearBtnIstikamet.style.display = 'none';
+                    goBtnIstikamet.style.display = 'block';
+                }
+            });
+
+            clearBtnIstikamet.addEventListener('click', () => {
+                searchInputIstikamet.value = "";
+                clearBtnIstikamet.style.display = 'none';
+                goBtnIstikamet.style.display = 'block';
+                searchInputIstikamet.focus();
+            });
+        }
+
+        const openAsya = document.getElementById('openAsya');
+        const asyaMenu = document.getElementById('asyaMenu');
+        const backAsya = document.getElementById('backAsya');
+
+        openAsya.addEventListener('click', (e) => {
+            e.preventDefault();
+            istikametMenu.classList.remove('active'); // İSTİKAMET overlay gizle
+            asyaMenu.classList.add('active');         // ASYA overlay göster
+        });
+
+        backAsya.addEventListener('click', () => {
+            asyaMenu.classList.remove('active');      // ASYA overlay gizle
+            istikametMenu.classList.add('active');    // İSTİKAMET overlay göster
+        });
+
+        // ASYA Overlay Search Box
+        const searchInputAsya = document.getElementById('searchInputAsya');
+        const clearBtnAsya = document.getElementById('clearBtnAsya');
+        const goBtnAsya = document.getElementById('goBtnAsya');
+
+        if (searchInputAsya && clearBtnAsya && goBtnAsya) {
+            searchInputAsya.addEventListener('input', () => {
+                if (searchInputAsya.value.trim() !== "") {
+                    clearBtnAsya.style.display = 'block';
+                    goBtnAsya.style.display = 'none';
+                } else {
+                    clearBtnAsya.style.display = 'none';
+                    goBtnAsya.style.display = 'block';
+                }
+            });
+
+            clearBtnAsya.addEventListener('click', () => {
+                searchInputAsya.value = "";
+                clearBtnAsya.style.display = 'none';
+                goBtnAsya.style.display = 'block';
+                searchInputAsya.focus();
+            });
+        }
+
+        const tocWidget = document.querySelector('.toc-widget');
+        const tocHeader = tocWidget.querySelector('.toc-header');
+
+        tocHeader.addEventListener('click', () => {
+            tocWidget.classList.toggle('open');
+        });
+
+        document.querySelectorAll('.toc-list a').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                target.scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // TEMALAR overlay
+        const openTemalar = document.getElementById('openTemalar');
+        const temalarMenu = document.getElementById('temalarMenu');
+        const backTemalar = document.getElementById('backTemalar');
+
+        if (openTemalar && temalarMenu && backTemalar) {
+
+            openTemalar.addEventListener('click', (e) => {
+                e.preventDefault();
+                mainMenu.classList.remove('active');
+                temalarMenu.classList.add('active');
+            });
+
+            backTemalar.addEventListener('click', () => {
+                temalarMenu.classList.remove('active');
+                mainMenu.classList.add('active');
+            });
+
+        }
+
+
+
+
+    </script>
+    <script>
+        const navbar = document.getElementById('navbar');
+        let oncekiKonum = 0;
+    
+        document.addEventListener('scroll', (e) => {
+            // Kaydırma pencerede mi yoksa body'de mi oluyor, ikisini de yakala
+            const hedef = e.target === document ? document.documentElement : e.target;
+            if (hedef !== document.documentElement && hedef !== document.body) return;
+    
+            const konum = hedef.scrollTop;
+    
+            // Çok küçük hareketleri yok say
+            if (Math.abs(konum - oncekiKonum) < 5) return;
+    
+            if (konum > oncekiKonum && konum > 70) {
+                navbar.classList.add('nav-gizli');      // aşağı iniyor: gizle
+            } else {
+                navbar.classList.remove('nav-gizli');   // yukarı çıkıyor: göster
+            }
+    
+            oncekiKonum = konum;
+        }, true);
+    </script>
+</body>
+
+</html>

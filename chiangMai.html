@@ -1,0 +1,2798 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <title>Chiang Mai</title>
+    <link rel="icon" type="image/png" sizes="64x64" href="resimler/logoooo 2.jpeg" />
+    <link rel="icon" type="image/x-icon" href="resimler/logoooo.ico" />
+
+    <style>
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            background: rgb(24, 24, 24);
+            flex-direction: column;
+            font-family: sans-serif;
+            overflow-x: hidden;
+        }
+
+        nav {
+            background-color: rgb(31, 31, 31);
+            color: rgb(202, 200, 200);
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            height: 70px;
+            z-index: 1000;
+            width: 100%;
+            position: sticky;
+            top: 0;
+            transition: transform 0.3s ease;
+      padding: 0 20px;
+      border-bottom: 3px solid rgb(187, 186, 186);
+    }
+    .nav-gizli {
+            transform: translateY(-100%);
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            margin-right: 80px;
+            margin-left: 50px;
+        }
+
+        .nav-logo img {
+            width: 56px;
+            height: 70px;
+            object-fit: cover;
+            margin-right: 5px;
+        }
+
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+            margin-left: 6px;
+        }
+
+        .logo-text .main-title {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: rgb(251, 187, 69);
+        }
+
+        .logo-text .sub-title {
+            font-size: 0.9em;
+            font-style: italic;
+            color: rgb(202, 200, 200);
+            margin-top: -3px;
+            margin-left: 9px;
+            margin-right: 10px;
+        }
+
+        .menu-toggle,
+        .menu-close,
+        .menu-back {
+            display: none;
+            /* Masaüstünde gizli */
+            font-size: 32px;
+            cursor: pointer;
+            color: white;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 1100;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            font-family: 'Times New Roman', Times, serif;
+            align-items: center;
+            flex: 1;
+        }
+
+        .nav-item {
+            position: relative;
+        }
+
+        .nav-links>.nav-item>a {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            text-decoration: none;
+            color: rgba(255, 255, 255, 0.879);
+            font-weight: 500;
+            font-size: 1em;
+            padding: 6px 12px;
+            border: 2px solid transparent;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-item>a.has-arrow::after {
+            content: "";
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            border-right: 2px solid rgba(255, 255, 255, 0.879);
+            border-bottom: 2px solid rgba(255, 255, 255, 0.879);
+            transform: rotate(45deg);
+        }
+
+        .dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: -30px;
+            background-color: rgb(242, 181, 68);
+            min-width: 180px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            text-align: left;
+            margin-left: 35px;
+            transition: all 0.5s ease-in-out;
+        }
+
+        .dropdown a {
+            display: block;
+            padding: 10px 16px;
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .dropdown a:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown a:hover {
+            background-color: rgb(249, 210, 136);
+        }
+
+        .dropdown-sub {
+            display: none;
+            position: absolute;
+            top: 0;
+            /* ASYA linki ile aynı hizada başlar */
+            left: 100%;
+            /* sağa açılır */
+            background-color: rgb(242, 181, 68);
+            min-width: 150px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: all 0.5s ease-in-out;
+        }
+
+        /* ASYA alt dropdown linkleri */
+        .dropdown-sub a {
+            display: block;
+            padding: 10px 16px;
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .dropdown-sub a:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown-sub a:hover {
+            background-color: rgb(249, 210, 136);
+        }
+
+        /* ASYA üzerine gelince alt dropdown açılır */
+        .nav-item.has-submenu:hover>.dropdown-sub {
+            display: block;
+        }
+
+        .nav-item.has-submenu {
+            position: relative;
+            /* ASYA'nın alt dropdown'u buna göre konumlanacak */
+        }
+
+        @media (min-width: 769px) {
+            .nav-item:hover .dropdown {
+                display: block;
+            }
+        }
+
+        .nav-search {
+            margin-left: auto;
+            margin-right: 50px;
+            display: flex;
+            align-items: center;
+            position: relative;
+            gap: 5px;
+        }
+
+        .nav-search input {
+            padding: 6px 36px 6px 12px;
+            border-radius: 3px;
+            border: 3px solid rgba(200, 200, 200, 0.5);
+            background-color: rgb(31, 31, 31);
+            color: white;
+            font-size: 0.9em;
+            outline: none;
+            width: 180px;
+            font-family: monospace;
+        }
+
+        .nav-search input::placeholder {
+            color: rgba(200, 200, 200, 0.7);
+        }
+
+        .nav-search input:focus {
+            color: rgba(200, 200, 200, 0.769);
+            border-color: rgba(200, 200, 200, 0.769);
+        }
+
+        .nav-search input:focus::placeholder {
+            color: rgba(200, 200, 200, 0.769);
+            /* placeholder beyazın açık tonu */
+        }
+
+        .nav-search .clear-btn,
+        .nav-search .go-btn {
+            position: absolute;
+            background: none;
+            border: none;
+            color: rgba(200, 200, 200, 0.9);
+            cursor: pointer;
+            font-size: 1em;
+            padding: 0;
+        }
+
+        .nav-search .clear-btn {
+            right: 30px;
+            /* oku biraz sola it */
+            display: none;
+            /* boşken gizle */
+
+        }
+
+        .nav-search .go-btn {
+            right: 20px;
+
+        }
+
+        /* Hover efektleri */
+        .nav-search .clear-btn:hover,
+        .nav-search .go-btn:hover {
+            color: white;
+        }
+
+        .dropdown-sub {
+            display: none;
+            position: absolute;
+            top: 0;
+            /* Ana dropdown ile aynı üst hizada */
+            left: 100%;
+            /* ASYA'nın sağında açılır */
+            background-color: rgb(242, 181, 68);
+            min-width: 180px;
+            /* Ana dropdown ile aynı genişlik */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+
+            text-align: left;
+            z-index: 1;
+            margin-top: 0;
+        }
+
+
+        .has-submenu:hover .dropdown-sub {
+            display: block;
+        }
+
+        .dropdown-sub a {
+            display: block;
+            padding: 10px 16px;
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .dropdown-sub a:hover {
+            background-color: rgb(249, 210, 136);
+        }
+
+        /* ASYA alt menüsü yan açılır */
+        .nav-item.has-submenu {
+            position: relative;
+        }
+
+        .dropdown-sub {
+            display: none;
+            position: absolute;
+            top: 0;
+            /* ASYA ile aynı hizada */
+            left: 100%;
+            /* ASYA’nın hemen sağında açılır */
+            background-color: rgb(242, 181, 68);
+            min-width: 180px;
+            /* ASYA dropdown ile aynı genişlik */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 10;
+        }
+
+        .nav-item.has-submenu:hover .dropdown-sub {
+            display: block;
+        }
+
+        .dropdown-sub a {
+            display: block;
+            padding: 10px 16px;
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+
+
+        .dropdown-sub a:hover {
+            background-color: rgb(249, 210, 136);
+        }
+
+
+        /* ----- Mobil için Hamburger ----- */
+        .menu-toggle {
+            font-size: 28px;
+            cursor: pointer;
+            display: none;
+        }
+
+        /* Overlay */
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0e0e0e;
+            color: #fff;
+            z-index: 2000;
+            flex-direction: column;
+            padding-top: 5px;
+            /* header boşluğu */
+            padding-left: 20px;
+            padding-right: 20px;
+
+        }
+
+        .overlay.active {
+            display: flex;
+        }
+
+        .overlay-header {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            /* ortalamak için */
+            width: 80%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 20px;
+            border: 1px solid rgb(187, 186, 186);
+            /* çerçeve */
+            background: transparent;
+            /* arka planı şeffaf */
+            border-radius: 6px;
+            /* hafif köşeler, istersen kaldırabilirsin */
+        }
+
+
+        .overlay-header .title {
+            font-size: 13px;
+            font-weight: 100;
+            font-family: monospace;
+            letter-spacing: 2px;
+        }
+
+
+
+        .overlay-links {
+            margin-top: 70px;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            font-size: 20px;
+            margin-left: 30px;
+        }
+
+        .overlay-links a {
+            text-decoration: none;
+            color: rgb(202, 200, 200);
+            font-family: monospace;
+            font-size: 500;
+        }
+
+        #istikametMenu .overlay-links {
+            margin-top: 150px;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            /* normal menüden biraz daha dar boşluk */
+            font-size: 20px;
+            /* biraz daha küçük */
+            margin-left: 30px;
+            /* girinti */
+        }
+
+        #istikametMenu .overlay-links a {
+            text-decoration: none;
+            color: rgb(202, 200, 200);
+            font-family: monospace;
+            transition: color 0.3s ease;
+            font-size: 500;
+            letter-spacing: 2px;
+        }
+
+        @media (max-width: 900px) {
+
+            .nav-links,
+            .nav-search {
+                display: none;
+            }
+
+            .menu-toggle {
+                display: block;
+                margin-right: 20px;
+            }
+        }
+
+        body.menu-open {
+            overflow: hidden;
+        }
+
+        /*overlay-search*/
+        .overlay-box {
+            position: relative;
+
+
+            left: 47%;
+            transform: translateX(-50%);
+            width: 81.5%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px;
+            border: 1px solid rgb(187, 186, 186);
+            background: transparent;
+            border-radius: 6px;
+            box-sizing: border-box;
+        }
+
+        .overlay-search input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            color: #fff;
+            font-size: 14px;
+            font-family: monospace;
+            letter-spacing: 1px;
+            outline: none;
+        }
+
+
+        .overlay-search .clear-btn,
+        .overlay-search .go-btn {
+            background: none;
+            border: none;
+            color: rgba(200, 200, 200, 0.9);
+            cursor: pointer;
+            font-size: 18px;
+            margin-left: 10px;
+        }
+
+        .overlay-search .clear-btn {
+            right: 32px;
+            /* input padding ile aynı */
+            display: none;
+        }
+
+        .overlay-search .go-btn {
+            right: 10px;
+            /* input padding ile aynı */
+        }
+
+
+        .overlay-content {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            /* container tüm yüksekliği kaplasın */
+            justify-content: space-between;
+            /* linkler üstte, arama kutusu altta */
+            margin-top: 70px;
+            /* overlay-header kadar boşluk */
+            padding-bottom: 50px;
+        }
+
+        /* ----- ASYA Overlay ----- */
+        #asyaMenu {
+            display: none;
+            /* başlangıçta gizli */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0e0e0e;
+            color: #fff;
+            z-index: 2000;
+            flex-direction: column;
+            padding-top: 5px;
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+        #asyaMenu.active {
+            display: flex;
+        }
+
+        #asyaMenu .overlay-header {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 20px;
+            border: 1px solid rgb(187, 186, 186);
+            background: transparent;
+            border-radius: 6px;
+        }
+
+        #asyaMenu .overlay-header .title {
+            font-size: 13px;
+            font-weight: 100;
+            font-family: monospace;
+            letter-spacing: 2px;
+        }
+
+        #asyaMenu .overlay-links {
+            margin-top: 150px;
+            /* İSTİKAMET overlay’ine uyumlu */
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            font-size: 20px;
+            margin-left: 30px;
+        }
+
+        #asyaMenu .overlay-links a {
+            text-decoration: none;
+            color: rgb(202, 200, 200);
+            font-family: monospace;
+            font-size: 500;
+            letter-spacing: 2px;
+            transition: color 0.3s ease;
+        }
+
+        #asyaMenu .overlay-links a:hover {
+            color: rgb(242, 181, 68);
+        }
+
+        #asyaMenu .overlay-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            flex: 1;
+            justify-content: flex-start;
+            margin-top: 70px;
+            /* header boşluğu */
+            padding-bottom: 50px;
+        }
+
+        #asyaMenu .overlay-search {
+            margin-top: auto;
+            /* search box’u en alta it */
+        }
+
+        .nav-logo {
+            text-decoration: none;
+            /* alt çizgiyi kaldır */
+            border: none;
+            /* varsa border kaldır */
+            color: inherit;
+            /* renk navbar ile uyumlu */
+        }
+
+        .nav-logo:hover {
+            text-decoration: none;
+            /* hover'da da çizgi olmasın */
+        }
+
+        .istikamet-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .plus-btn {
+            font-size: 18px;
+            cursor: pointer;
+            padding: 0 55px;
+            color: rgb(202, 200, 200);
+            transition: transform 0.2s ease, color 0.2s ease;
+        }
+
+        .plus-btn:hover {
+            transform: scale(1.2);
+            color: rgb(242, 181, 68);
+            /* hover rengi */
+        }
+
+        .temalar-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .asya-item,
+        .avrupa-item,
+        .turkiye-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .top-menu {
+            margin-top: 20px;
+            gap: 20px;
+            font-family: monospace;
+            font-weight: 500;
+            font-size: 14px;
+            margin-bottom: 16px;
+
+        }
+
+        .top-menu a {
+            text-decoration: none;
+            color: grey;
+            transition: color 0.3s ease;
+        }
+
+        .top-menu a:hover {
+            color: orange;
+            /* hover olunca altın rengi gibi */
+        }
+
+        .top-menu span {
+            color: grey;
+        }
+
+        /* Container */
+        .container {
+            display: flex;
+            flex-direction: column;
+            /* alt alta sıralama */
+            align-items: center;
+            /* kutuları ortala */
+            gap: 20px;
+            /* kutular arası boşluk px ile */
+            width: 600px;
+            /* container genişliği */
+            margin: 40px auto;
+            /* sayfada ortala */
+        }
+
+        /* Ortak kart */
+        .card {
+
+            border: 1px solid #ddd;
+
+            width: 900px;
+
+            height: auto;
+            /* ✅ sabit yükseklik */
+            padding: 24px;
+            /* ✅ px padding */
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+
+        }
+
+        .shop-link {
+            position: fixed;
+            right: 60px;
+            /* sağdan boşluk */
+            top: 50%;
+            /* dikey ortala */
+            transform: translateY(-50%) rotate(-90deg);
+            /* ters döndür */
+            transform-origin: top right;
+            /* dönüş merkezi */
+            font-size: 16px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.899);
+            background: none;
+            /* arka plan yok */
+            border: none;
+            font-family: monospace;
+            text-decoration: none;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: color 0.3s ease;
+            display: flex;
+            gap: 20px;
+        }
+
+        .shop-arrow {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-top: 2px solid rgba(255, 255, 255, 0.899);
+            border-left: 2px solid rgba(255, 255, 255, 0.899);
+            transform: rotate(90deg);
+            /* kuzeybatıya yön */
+            position: relative;
+        }
+
+        .shop-arrow::after {
+            content: '';
+            position: absolute;
+            width: 2px;
+            /* çizgi kalınlığı */
+            height: 14px;
+            /* ok uzunluğu */
+            background-color: currentColor;
+            left: 50%;
+            top: -2px;
+            transform: translateX(-50%) rotate(-45deg);
+            /* ok açısına hizala */
+        }
+
+        @media (max-width: 900px) {
+            .shop-link {
+                display: none;
+                /* mobilde mağazamız kaybolsun */
+            }
+        }
+
+
+
+
+        /* Sol içerik */
+        .content.card {
+            padding: 0;
+            overflow: hidden;
+            border: none;
+        }
+
+        .content-img {
+            width: 100%;
+            max-height: 60vh;
+            object-fit: cover;
+            display: block;
+            object-position: center 75%;
+            filter: contrast(1.2) brightness(1.05);
+        }
+
+        .content-textbox {
+
+            height: auto;
+            box-sizing: border-box;
+            color: rgba(255, 255, 255, 0.85);
+            font-family: monospace;
+        }
+
+        .content-title {
+            font-size: 28px;
+            margin-bottom: 15px;
+        }
+
+        .content-text {
+            font-size: 16px;
+            line-height: 22px;
+            color: rgba(255, 255, 255, 0.85);
+
+        }
+
+
+
+        .toc-widget {
+            border: 0.25px solid grey;
+            width: 900px;
+            font-family: monospace;
+            font-size: 25px;
+            margin: 20px 0;
+
+        }
+
+        .toc-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            padding: 40px;
+            color: rgba(255, 255, 255, 0.85);
+            border-bottom: 2px solid grey;
+            font-size: 24px;
+        }
+
+        .toc-header span:first-child {
+            margin-left: 20px;
+            /* yazıyı sağa kaydırır */
+        }
+
+        .toc-toggle {
+            display: inline-block;
+            transition: transform 0.3s ease;
+            font-size: 25px;
+        }
+
+        .toc-list {
+            list-style: none;
+            margin: 0;
+            padding: 50px 65px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            display: none;
+        }
+
+        .toc-list li {
+            margin-bottom: 1px;
+        }
+
+        .toc-list li a {
+            text-decoration: none;
+            color: grey;
+            font-size: 13px;
+        }
+
+        .toc-list li::before {
+            content: "■";
+            /* küçük kare işareti */
+            display: inline-block;
+            width: 12px;
+            /* kare boyutu */
+            margin-right: 8px;
+            /* yazı ile kare arasındaki boşluk */
+            color: grey;
+            /* kare rengi */
+            font-size: 12px;
+        }
+
+        /* Hover efekti */
+        .toc-list li a:hover {
+            color: orange;
+            /* yazı rengi değişir */
+            text-decoration: underline;
+            /* alt çizgi eklenir */
+        }
+
+        .toc-widget.open .toc-list {
+            max-height: 600px;
+            display: block;
+            /* açıldığında görünür */
+        }
+
+        .toc-widget.open .toc-toggle {
+            transform: rotate(180deg);
+        }
+
+
+        /* ✅ Mobil uyumluluk (Tablet ve telefonlar için) */
+        @media (max-width: 1024px) {
+
+            .container {
+                width: 90%;
+                gap: 16px;
+                margin: 20px auto;
+            }
+
+            .card {
+                width: 100%;
+                height: auto;
+                /* sabit yükseklik kalktı */
+                padding: 16px;
+            }
+
+            .content-img {
+                height: 200px;
+                /* görsel yüksekliği azaltıldı */
+            }
+
+            .content-title {
+                font-size: 22px;
+            }
+
+            .content-text {
+                font-size: 14px;
+                line-height: 20px;
+            }
+
+            .toc-widget {
+                width: 100%;
+                font-size: 20px;
+            }
+
+            .toc-header {
+                padding: 20px;
+                font-size: 20px;
+            }
+
+            .toc-toggle {
+                font-size: 20px;
+            }
+
+            .toc-list {
+                padding: 20px;
+            }
+
+            .toc-list li a {
+                font-size: 12px;
+            }
+        }
+
+        /* ✅ Telefonlar (dar ekranlar, <600px) */
+        @media (max-width: 600px) {
+
+            .container {
+                width: 95%;
+                gap: 12px;
+            }
+
+            .card {
+                width: 100%;
+                height: auto;
+                padding: 12px;
+            }
+
+            .content-img {
+                height: 180px;
+            }
+
+            .content-title {
+                font-size: 20px;
+            }
+
+            .content-text {
+                font-size: 13px;
+                line-height: 18px;
+            }
+
+            .toc-widget {
+                width: 100%;
+                font-size: 18px;
+            }
+
+            .toc-header {
+                padding: 16px;
+                font-size: 18px;
+            }
+
+            .toc-toggle {
+                font-size: 18px;
+            }
+
+            .toc-list {
+                padding: 16px;
+            }
+
+            .toc-list li a {
+                font-size: 12px;
+            }
+        }
+
+
+        .content-sections {
+            width: 900px;
+            margin: 40px 20px;
+            color: #ffffffba;
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            letter-spacing: 1px;
+            line-height: 28px;
+        }
+
+        .content-sections section {
+            font-size: 18px;
+            padding: 40px 0;
+        }
+
+        .content-sections h2 {
+            margin-bottom: 30px;
+            font-size: 30px;
+            color: rgb(237, 217, 182);
+            font-family: monospace;
+        }
+
+        .content-sections h4 {
+            color: whitesmoke;
+            font-size: 20px;
+        }
+
+        /* ✅ Mobil uyumluluk: content-sections */
+        @media (max-width: 1024px) {
+            .content-sections {
+                width: 90%;
+                margin: 30px auto;
+                line-height: 24px;
+            }
+
+            .content-sections section {
+                font-size: 16px;
+                padding: 30px 0;
+            }
+
+            .content-sections h2 {
+                font-size: 26px;
+                margin-bottom: 40px;
+            }
+
+            .content-sections h4 {
+                font-size: 16px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .content-sections {
+                width: 95%;
+                margin: 20px auto;
+                line-height: 22px;
+            }
+
+            .content-sections section {
+                font-size: 14px;
+                padding: 20px 0;
+            }
+
+            .content-sections h2 {
+                font-size: 22px;
+                margin-bottom: 30px;
+            }
+
+            .content-sections h4 {
+                font-size: 15px;
+            }
+        }
+
+
+        /* Üçlü resim satırı */
+        .image-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            /* resimler arası boşluk */
+            margin: 20px 0;
+
+        }
+
+        .image-row img {
+            width: 32%;
+            /* üç resim yan yana sığacak şekilde */
+            aspect-ratio: 1 / 1;
+            /* kare yapmak için */
+            object-fit: cover;
+            /* kırpmadan dolgu yap */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            filter: contrast(1.2) brightness(1.05);
+            object-position: center 85%;
+
+
+        }
+
+        @media (min-width: 769px) {
+            .image-row img:hover {
+                transform: scale(1.50);
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+                z-index: 1;
+            }
+        }
+
+        /* Mobil uyumlu */
+        @media (max-width: 768px) {
+            .image-row {
+                flex-direction: column;
+                gap: 40px;
+            }
+
+            .image-row img {
+                width: 100%;
+                aspect-ratio: 1 / 1;
+                transform: none;
+                /* mobilde büyüme yok */
+                box-shadow: none;
+                /* gölge kapalı */
+            }
+        }
+
+        .image-row-2 {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .image-row-2 img {
+            width: 49%;
+            /* iki resim yan yana sığacak şekilde */
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            filter: contrast(1.2) brightness(1.05);
+        }
+
+
+
+
+        /* Mobil uyumlu */
+        @media (max-width: 768px) {
+            .image-row-2 {
+                flex-direction: column;
+                gap: 40px;
+            }
+
+            .image-row-2 img {
+                width: 100%;
+                aspect-ratio: 1 / 1;
+                transform: none;
+                box-shadow: none;
+            }
+        }
+
+
+
+
+        .text-image-row {
+            display: flex;
+            align-items: center;
+            /* metin ve resmi üstten hizala */
+            gap: 20px;
+            /* aradaki boşluk */
+            margin: 40px 0;
+        }
+
+
+
+
+        .text-image-row p {
+            flex: 1;
+            /* yazı alanı esnek */
+            font-size: 18px;
+            line-height: 28px;
+            color: #ffffffba;
+        }
+
+        .text-image-row img {
+            width: 300px;
+            /* istediğin genişlik */
+            height: auto;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+            /* hover efekti */
+            filter: contrast(1.2) brightness(1.05);
+
+        }
+
+        .text-image-row img:hover {
+            transform: scale(1.05);
+            /* hafif büyüme */
+        }
+
+        /* Mobil uyumluluk */
+        @media (max-width: 768px) {
+            .text-image-row {
+                flex-direction: column;
+                /* alt alta geç */
+                align-items: center;
+                text-align: left;
+            }
+
+            .text-image-row img {
+                width: 100%;
+                /* tam genişlik */
+                max-width: 400px;
+                order: -1;
+            }
+
+            .text-image-row p {
+                font-size: 14px;
+                /* mobilde yazı boyutunu küçült */
+                line-height: 24px;
+                /* satır yüksekliği ile uyumlu */
+            }
+        }
+
+        /* Section resimleri */
+        .section-img {
+            width: 100%;
+            max-width: 900px;
+            /* orijinal section genişliği ile uyumlu */
+            height: 500px;
+            /* orantılı boyutlandırma */
+            margin: 20px 0;
+            /* başlık ve paragraf arasında boşluk */
+            object-fit: cover;
+            object-position: center 55%;
+            filter: contrast(1.2) brightness(1.05);
+
+        }
+
+        /* Mobil uyumlu */
+        @media (max-width: 600px) {
+            .section-img {
+                width: 100%;
+
+                margin: 15px 0;
+                height: auto;
+                /* yüksekliği otomatik yap */
+                object-fit: cover;
+            }
+        }
+
+        strong {
+            font-weight: 1000;
+            color: white;
+
+            font-family: monospace;
+
+        }
+
+        .pai-map {
+            margin-top: 40px;
+            padding: 20px;
+
+            font-size: 30px;
+        }
+
+        .map-container {
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-start;
+            gap: 30px;
+            flex-wrap: nowrap;
+            margin-top: 20px;
+
+        }
+
+        .map-container iframe {
+            flex: 1 1 600px;
+            max-width: 700px;
+            height: 500px;
+        }
+
+        .map-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            text-align: left;
+            justify-content: center;
+            font-size: 1rem;
+        }
+
+        .point {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: whitesmoke;
+            font-weight: 500;
+        }
+
+        .circle {
+            width: 26px;
+            height: 26px;
+            background-color: #0097b2;
+            /* Mavi yuvarlak */
+            color: white;
+            border-radius: 50%;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+
+        @media (max-width: 768px) {
+            .map-list {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                /* 2 sütun */
+                gap: 12px 24px;
+                margin-top: 15px;
+            }
+
+            .map-container {
+                flex-direction: column;
+            }
+
+            .map-container iframe {
+                width: 100%;
+                height: 300px;
+            }
+
+            .point {
+                justify-content: flex-start;
+            }
+        }
+
+        .symbolized {
+            position: relative;
+            display: inline-block;
+            /* önemli: hem satır içinde kalır hem referans olur */
+            /* hiç padding/left/margin eklemiyoruz — paragraf bozulmaz */
+        }
+
+
+        .symbolized::before {
+            content: "✦";
+            position: absolute;
+            left: -35px;
+            top: -0.2em;
+            transform: translateY(0);
+            font-size: 30px;
+            line-height: 1;
+            color: orange;
+            pointer-events: none;
+            white-space: nowrap;
+        }
+
+        /* Responsive ince ayar: ekran daralınca sembolü daha az sola al */
+        @media (max-width: 600px) {
+            .symbolized::before {
+                left: -24px;
+                font-size: 18px;
+            }
+        }
+
+        #temalarMenu .overlay-links {
+            margin-top: 150px;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            font-size: 20px;
+            margin-left: 30px;
+        }
+
+        #temalarMenu .overlay-links a {
+            text-decoration: none;
+            color: rgb(202, 200, 200);
+            font-family: monospace;
+            letter-spacing: 2px;
+        }
+
+        .kaynaklar-item,
+        .ekosistem-item,
+        .gastronomi-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .rota-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 12px 24px;
+            border: 2px solid #F4A621;
+            border-radius: 8px;
+
+            color: #F4A621 !important;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            text-decoration: none;
+
+            transition: .25s ease;
+        }
+
+        .rota-btn:hover {
+            background: #F4A621;
+            color: #1e1e1e !important;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(244, 166, 33, .35);
+        }
+
+        .desktop-br {
+            display: inline;
+        }
+
+        @media (max-width: 900px) {
+            .desktop-br {
+                display: none;
+            }
+        }
+
+        .circle--food {
+            background-color: #e98235;
+        }
+        
+    </style>
+</head>
+
+<body>
+
+    <nav id="navbar">
+        <a href="index.html" class="nav-logo">
+            <img src="resimler/logoooo 2.jpeg" alt="Logo">
+            <div class="logo-text">
+                <span class="main-title">HadiGidelim</span>
+                <span class="sub-title">Kendi Ritmini Keşfet</span>
+            </div>
+        </a>
+
+        <div class="menu-toggle" id="menuToggle">&#9776;</div>
+
+        <div class="nav-links" id="navLinks">
+            <div class="nav-item"><a href="index.html" class="nav-link">ANA SAYFA</a></div>
+
+            <div class="nav-item">
+                <a href="IstikametleriGor.html" class="nav-link has-arrow">İSTİKAMET</a>
+                <div class="dropdown">
+                    <div class="nav-item has-submenu">
+                        <a href="asya.html" class="nav-link">ASYA</a>
+                        <div class="dropdown-sub">
+                            <a href="tayland.html">Tayland</a>
+                            <a href="endonezya.html">Endonezya</a>
+                        </div>
+                    </div>
+                    <a href="#">AVRUPA</a>
+                    <a href="#">TÜRKİYE</a>
+                </div>
+            </div>
+
+            <div class="nav-item"><a href="temalar.html" class="nav-link has-arrow">TEMALAR</a>
+                <div class="dropdown">
+                    <div class="nav-item has-submenu">
+                        <a href="seyahatkaynaklari.html" class="nav-link">SEYAHAT KAYNAKLARI</a>
+                    </div>
+                    <a href="#">EKOSİSTEM</a>
+                </div>
+
+
+            </div>
+
+            <div class="nav-item"><a href="aboutus.html" class="nav-link">HAKKIMDA</a></div>
+            <div class="nav-item"><a href="#" class="nav-link rota-btn">ROTA PLANLAYICI</a></div>
+        </div>
+        <div class="nav-search">
+            <input type="text" id="searchInput" placeholder="Keşfet..." />
+            <button class="clear-btn" id="clearBtn">&times;</button>
+            <button class="go-btn" id="goBtn">&#8594;</button>
+        </div>
+    </nav>
+
+    <!-- Ana Menü Overlay (Mobil) -->
+    <div class="overlay" id="mainMenu">
+        <div class="overlay-header">
+            <div></div>
+            <div class="btn-box" id="closeMain">&times;</div>
+        </div>
+
+        <div class="overlay-content">
+            <div class="overlay-links">
+                <a href="index.html">ANA SAYFA</a>
+                <div class="istikamet-item">
+                    <a href="istikametlerigor.html" class="istikamet-link">İSTİKAMET</a>
+                    <span class="plus-btn" id="openIstikamet">
+                        <i class="fas fa-plus"></i>
+                    </span>
+                </div>
+                <div class="temalar-item">
+                    <a href="temalarigor.html" class="temalar-link">TEMALAR</a>
+                    <span class="plus-btn" id="openTemalar">
+                        <i class="fas fa-plus"></i>
+                    </span>
+                </div>
+                <a href="aboutus.html">HAKKIMDA</a>
+                <a href="#">ROTA PLANLAYICI</a>
+                <a href="#">MAĞAZAMIZ <i class="fas fa-shopping-cart"></i></a>
+            </div>
+            <div class="overlay-search overlay-box">
+                <input type="text" id="searchInputMobile" placeholder="Keşfet..." />
+                <button class="clear-btn" id="clearBtnMobile">&times;</button>
+                <button class="go-btn" id="goBtnMobile">&#8594;</button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- İstikamet Overlay -->
+    <div class="overlay" id="istikametMenu">
+        <div class="overlay-header">
+            <div class="btn-box" id="backIstikamet">&#8592;</div>
+            <div class="title">İSTİKAMET</div>
+            <div></div>
+        </div>
+
+        <div class="overlay-content">
+            <div class="overlay-links">
+
+                <div class="asya-item">
+                    <a href="asya.html" class="asya-link">ASYA</a>
+                    <span class="plus-btn" id="openAsya">
+                        <i class="fas fa-plus"></i>
+                    </span>
+                </div>
+
+                <div class="avrupa-item">
+                    <a href="avrupa.html" class="avrupa-link">AVRUPA</a>
+                    <span class="plus-btn" id="openAvrupa"><i class="fas fa-plus"></i></span>
+                </div>
+
+                <div class="turkiye-item">
+                    <a href="turkiye.html" class="turkiye-link">TÜRKİYE</a>
+                    <span class="plus-btn" id="openTurkiye"><i class="fas fa-plus"></i></span>
+                </div>
+            </div>
+            <div class="overlay-search overlay-box">
+                <input type="text" id="searchInputIstikamet" placeholder="Bir istikamet ara..." />
+                <button class="clear-btn" id="clearBtnIstikamet">&times;</button>
+                <button class="go-btn" id="goBtnIstikamet">&#8594;</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="overlay" id="asyaMenu">
+        <div class="overlay-header">
+            <div class="btn-box" id="backAsya">&#8592;</div>
+            <div class="title">ASYA</div>
+            <div></div>
+        </div>
+
+        <div class="overlay-content">
+            <div class="overlay-links">
+                <a href="tayland.html">Tayland</a>
+                <a href="#">Endonezya</a>
+            </div>
+            <div class="overlay-search overlay-box">
+                <input type="text" id="searchInputAsya" placeholder="Keşfet..." />
+                <button class="clear-btn" id="clearBtnAsya">&times;</button>
+                <button class="go-btn" id="goBtnAsya">&#8594;</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="overlay" id="temalarMenu">
+        <div class="overlay-header">
+            <div class="btn-box" id="backTemalar">&#8592;</div>
+            <div class="title">TEMALAR</div>
+            <div></div>
+        </div>
+
+        <div class="overlay-content">
+            <div class="overlay-links">
+
+                <div class="kaynaklar-item">
+                    <a href="seyahatkaynaklari.html">SEYAHAT KAYNAKLARI</a>
+                    <span class="plus-btn" id="openKultur">
+                        <i class="fas fa-plus"></i>
+                    </span>
+                </div>
+
+                <div class="ekosistem-item">
+                    <a href="#">EKOSİSTEM</a>
+                    <span class="plus-btn" id="openDoga">
+                        <i class="fas fa-plus"></i>
+                    </span>
+                </div>
+
+                <div class="gastronomi-item">
+                    <a href="#">GASTRONOMİ</a>
+                    <span class="plus-btn" id="openGastronomi">
+                        <i class="fas fa-plus"></i>
+                    </span>
+                </div>
+
+            </div>
+
+            <div class="overlay-search overlay-box">
+                <input type="text" id="searchInputTemalar" placeholder="Bir tema ara..." />
+                <button class="clear-btn" id="clearBtnTemalar">&times;</button>
+                <button class="go-btn" id="goBtnTemalar">&#8594;</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+
+        <div class="content card">
+            <img src="resimler/chiangmaicard1.jpeg" alt="Örnek Görsel" class="content-img">
+            <div class="top-menu">
+                <a href="index.html">ANA SAYFA</a>
+                <span>|</span>
+                <a href="asya.html">ASYA</a>
+                <span>|</span>
+                <a href="tayland.html">TAYLAND</a>
+
+            </div>
+
+            <div>
+                <a href="https://magazamiz.com" class="shop-link" target="_blank">
+                    MAĞAZAMIZ
+                    <span class="shop-arrow"></span>
+                </a>
+            </div>
+            <div class="content-textbox">
+                <h3 class="content-title">Kuzey Tayland’ın Kalbi: Chiang Mai’de Keşfedecekleriniz</h3>
+                <p class="content-text">
+                    Yavaşlamak, öğrenmek ve her köşesinde başka bir detay keşfetmek mi istiyorsunuz? Chiang Mai sizi
+                    sakinliğiyle sarıp sarmalayacak bir şehir.
+                </p>
+            </div>
+        </div>
+
+        <div class="toc-widget" id="tocWidget">
+            <div class="toc-header" id="tocHeader">
+                <span>İçindekiler</span>
+                <span class="toc-toggle">&#9660;</span>
+            </div>
+            <ul class="toc-list" id="tocList">
+                <li><a href="#section1">Chiang Mai Seyahat Rehberi</a></li>
+                <li><a href="#section2">Chiang Mai Gezi Haritası</a></li>
+                <li><a href="#section3">Wat Chedi Luang</a></li>
+                <li><a href="#section4">Wat Chiang Man</a></li>
+                <li><a href="#section5">Wat Phra That Doi Suthep</a></li>
+                <li><a href="#section6">Wat Umong</a></li>
+                <li><a href="#section7">Baan Kang Wat Köyü</a></li>
+                <li><a href="#section8">Chiang Mai Sokaklarında Sadece Gezinin</a></li>
+                <li><a href="#section9">Gönüllü Fil Bakıcılığı</a></li>
+                <li><a href="#section10">Tay Yemek ve Thai Masaj Kursları</a></li>
+                <li><a href="#section11">Bol Bol Masaj Yaptırın</a></li>
+                <li><a href="#section12">Tayland Boks Ringleri</a></li>
+                <li><a href="#section13">One Nimman Night Market</a></li>
+                <li><a href="#section14">Jing Jai Farmers Morning Market</a></li>
+                <li><a href="#section15">Sunday Night Market</a></li>
+                <li><a href="#section16">Dünyaca Bilinen Mae Hong Son Rotası</a></li>
+                <li><a href="#section17">North Gate Jazz Bar'da Caz Dinleyin</a></li>
+                <li><a href="#section18">Yeme - İçme Tavsiyeleri</a></li>
+                <li><a href="#section19">Keşfet, Öğren, Yenilen: Chiang Mai</a></li>
+
+
+            </ul>
+        </div>
+
+        <div class="content-sections">
+            <section id="section1">
+                <h2>Chiang Mai Seyahat Rehberi</h2>
+                <p>Tayland’ın kuzeyinde yer alan <strong>Chiang Mai</strong>, dağlarla çevrili ve kendine has sakinliği
+                    olan bir şehir. Tarihi tapınakları, yemyeşil doğası, küçük kafeleri ve yavaş akan hayatıyla
+                    Tayland’ın farklı bir yüzünü gösteriyor. <br><br>
+
+                    Şehrin en güzel taraflarından biri de <strong>Old Town</strong>. Eski surların içinde dolaşırken
+                    neredeyse her köşe
+                    başında başka bir tapınakla karşılaşıyorsunuz. Biraz daha modern ve hareketli bir şeyler ararsanız
+                    Nimman bölgesi bambaşka bir Chiang Mai sunuyor. Kafeler, restoranlar, küçük dükkanlar ve yaratıcı
+                    mekanlarla dolu bu bölge özellikle akşamları oldukça keyifli. <br><br>
+
+                    Chiang Mai’de birkaç gün geçirirken sadece şehri gezmekle kalmayıp çevresindeki doğayı da
+                    keşfedebilirsiniz. <strong>Gece pazarları</strong>, <strong>kuzey Tayland mutfağı</strong>,
+                    <strong>Thai masajı</strong>, <strong>kahve dükkanları ve çevredeki
+                        dağ rotaları</strong> derken yapılacak şey oldukça fazla. Bence Chiang Mai’nin en güzel yanı ise
+                    bütün
+                    bunları acele etmeden yapabilmeniz. Bir yere yetişmek zorunda kalmadan, biraz dolaşıp biraz oturup
+                    şehrin kendi ritmine ayak uydurmak burada çok daha kolay.
+                </p> <br>
+
+                <h4>Para Birimi ve Fiyatlar</h4>
+
+                <p>Tayland’ın resmi para birimi <strong>Baht (THB)</strong>’dir ve çoğu yerde nakit veya kredi kartıyla
+                    ödeme
+                    yapılabiliyor. Bankamatiklerden para çekerken ise işlem başına komisyon alınıyor. Bu ücret,
+                    kullandığınız bankaya ve karta göre değişiklik gösterebiliyor. [Tayland’da Dikkat Etmeniz
+                    Gerekenler] bölümünü mutlaka okuyun.<br><br>
+                    2025 itibarıyla ortalama kurlar yaklaşık olarak:<br><br>
+
+                    1 Tayland Baht (THB) ≈ 1,29 TL (yaklaşık değer)<br>
+
+                    1 USD ≈ 33-36 THB civarındadır.<br><br>
+
+                    Chiang Mai, Tayland’ın güneyine ve Bangkok’a kıyasla genel olarak daha uygun fiyatlı
+                    şehirlerinden biri. Uzun süre kalıp yavaş
+                    yavaş keşfetmeye fazlasıyla elverişli; uygun fiyatları sayesinde hem deneyim hem de lezzet açısından
+                    bolca alternatife sahip.
+
+                </p><br>
+
+                <h4>Chiang Mai'ye Ne Zaman Gidilir?</h4>
+                <p>Chiang Mai yılın büyük bölümünde ziyaret edilebilen bir şehir olsa da, hava koşulları deneyiminizi
+                    oldukça etkileyebiliyor. Genel olarak en keyifli dönem <strong>Kasım – Şubat ayları</strong> arası.
+                    Bu aylarda hava
+                    daha serin, nem oranı düşük ve şehirde gezmek çok daha rahat oluyor. Tapınakları keşfetmek,
+                    pazarlarda dolaşmak ve doğa aktiviteleri yapmak için ideal bir dönem. <br><br>
+
+                    <strong>Mart – Mayıs ayları</strong> ise yılın en sıcak zamanı. Sıcaklıklar oldukça yükseliyor ve
+                    özellikle Mart–Nisan döneminde çevredeki tarımsal yakımlar nedeniyle hava zaman zaman puslu ve hava
+                    kalitesi daha düşük olabiliyor. Bu yüzden bu aylarda uzun yürüyüşler ve açık hava planları biraz
+                    zorlayıcı hale gelebiliyor. <br><br>
+
+                    <strong>Haziran – Ekim ayları</strong> yağmur sezonu olsa da, Chiang Mai bu dönemde yemyeşil ve daha
+                    sakin bir
+                    atmosfere bürünüyor. Yağmurlar genelde kısa süreli ve tropikal sağanak şeklinde olduğu için gün
+                    içinde gezmeye yine fırsat kalıyor. Ayrıca bu dönem, daha uygun fiyatlı konaklama bulmak ve
+                    kalabalıktan uzak bir Chiang Mai deneyimi yaşamak isteyenler için güzel bir alternatif.
+
+                </p> <br>
+
+                <h4>Chiang Mai'de Yeme - İçme</h4>
+                <p>Chiang Mai’de yemek yemek başlı başına bir deneyim. Şehir, Tayland’ın güneyine ve Bangkok’a
+                    kıyasla hem çok daha uygun fiyatlı hem de çok çeşitli seçeneklere sahip. Özellikle sokak lezzetleri
+                    ve gece pazarları benim favorim oldu. <br><br>
+
+                    Burada mutlaka denemeniz gerekenler arasında <strong>Khao Soi</strong> (körili ve birçok seçenekli
+                    noodle çorbası), <strong>Sai Ua</strong> (baharatlı
+                    kuzey sosisi) ve tabii ki; <strong>mango sticky rice</strong> gibi tatlı klasikler var. Tezgahlarda
+                    buharı tüten küçük hamur işi atıştırmalıklardan mis gibi ızgara lezzetlere, taptaze tropikal
+                    meyvelerden tatlılara kadar her şey genelde küçük porsiyonlarda sunuluyor; bu da tek bir akşamda
+                    masayı minik minik tatlarla doldurup birçok farklı lezzeti deneme keyfi veriyor. <br><br>
+
+                    Chiang Mai aynı zamanda kahve severler için de bir cennet. Şehirde üçüncü dalga kafeler ve tasarım
+                    odaklı mekanlar oldukça yaygın.
+                    <br><br>
+
+                    Fiyatlar ise gerçekten şaşırtıcı derecede uygun. Sokak yemekleri 30-60 THB, lokal restoranlarda
+                    100-200
+                    THB
+                    civarı, kafelerde ise 100-150 THB’ye lezzetli bir kahve ve atıştırmalık bulabiliyorsunuz. Bu yüzden
+                    Chiang Mai’de yemek yemek sadece karın doyurmak değil, aynı zamanda keşfetmek ve farklı tatlar
+                    denemek için de büyük bir fırsat.
+
+                </p><br>
+
+                <h4>Chiang Mai Ulaşım</h4>
+                <p><strong>Chiang Mai'ye Nasıl Gidilir?:</strong> Tayland’ın kuzeyinde yer aldığı için ülke içinde
+                    ulaşımı oldukça kolay ve konforlu. En
+                    pratik seçenek genellikle uçak. Bangkok’tan Chiang Mai’ye her gün çok sayıda direkt uçuş var ve uçuş
+                    süresi yaklaşık 1 saat. Özellikle zamanı kısıtlı olanlar için en rahat alternatif bu. <br><br>
+
+                    Daha ekonomik bir seçenek isterseniz tren de tercih edilebilir. Bangkok’tan kalkan gece trenleri hem
+                    uygun fiyatlı hem de farklı bir deneyim sunuyor. Yataklı vagon seçerseniz sabah Chiang Mai’ye
+                    dinlenmiş bir şekilde varmak mümkün. Otobüs seçeneği de var; fiyatlar genelde uygun ama yolculuk
+                    süresi uzun olduğu için biraz sabır gerektiriyor. <br><br>
+
+                    <strong>Chiang Mai Şehir İçi Ulaşım:</strong> Chiang Mai, ulaşım konusunda sizi çok yormayan
+                    şehirlerden biri.
+                    Özellikle Old Town bölgesinde birçok yeri yürüyerek keşfetmek mümkün. Ancak merkezden biraz
+                    uzaklaşmak istediğinizde motor, taksi ve Grab gibi seçenekler devreye giriyor.<br><br>
+
+                    Benim Chiang Mai’de en sevdiğim ulaşım şekli yine motor oldu. Şehir içinde kullanmak oldukça rahat
+                    ve
+                    özellikle merkezden biraz uzaklaşıp farklı kafeleri, tapınakları ve doğa noktalarını keşfetmek
+                    istediğinizde
+                    size büyük bir özgürlük sağlıyor. Günlük motor kiralama fiyatları da oldukça uygun.<br><br>
+
+                    Tayland’da motor kiralama süreci, dikkat edilmesi gerekenler ve ehliyet detaylarıyla ilgili tüm
+                    deneyimlerimi ise
+                    <a href="#tayland-motor-kiralama" style="color:#ff7a00; text-decoration: underline;"
+                        target="_blank">
+                        Tayland’da Motor Kiralama rehberimde</a> detaylıca anlattım.
+                    Motor kiralamayı düşünüyorsanız gitmeden önce mutlaka göz atmanızı öneririm.<br><br>
+
+                    Motor kullanmak istemeyenler için ise <strong>Grab</strong> oldukça pratik bir seçenek.
+                    Uygulama üzerinden kolayca araç çağırabilir, fiyatı önceden görerek rahat bir şekilde ulaşımınızı
+                    sağlayabilirsiniz.
+
+                </p><br>
+
+                <h4>Chiang Mai'de Nerede Kalınır?</h4>
+
+                <p>
+                    Chiang Mai’de konaklama seçenekleri oldukça çeşitli. <strong>Old Town</strong>, şehri ilk kez
+                    ziyaret edenler için en pratik bölgelerden biri. Surların içinde yer alan bu bölgede tarihi
+                    tapınaklar, küçük kafeler, restoranlar ve yerel dükkanlar birbirine oldukça yakın. Birçok yere
+                    yürüyerek ulaşabilir, gün içinde şehrin tarihi atmosferinin içinde dolaşabilirsiniz.<br><br>
+
+                    Daha modern ve hareketli bir çevrede kalmak isterseniz <strong>Nimmanhaemin</strong> bölgesine
+                    bakabilirsiniz. Tasarım kafeleri, restoranları, butik mağazaları ve gece hayatıyla Old Town’dan
+                    biraz daha farklı bir Chiang Mai deneyimi sunuyor. Özellikle kafeleri ve şehir hayatını sevenler
+                    için keyifli bir bölge.<br><br>
+
+                    Bütçenize göre de oldukça fazla seçenek bulabilirsiniz. <strong>Hostellerden guesthouse’lara,
+                        butik otellerden daha konforlu otellere</strong> kadar farklı fiyat aralıklarında konaklama
+                    seçenekleri mevcut. Şehirde birkaç gün kalacaksanız, nasıl bir Chiang Mai deneyimi istediğinize
+                    göre bölge seçmek en doğrusu olacaktır.
+                </p> <br>
+
+                <h4>Seyahatinizi Planlayın(Kullanışlı Bağlantılar)</h4>
+                <p>Seyahatlerimizi planlarken kullandığımız araçlara göz atın.
+                    Burada yer alan bağlantılar bağlı kuruluş (affiliate) linkleridir.
+                    Bu linkleri kullanarak blogumuzu sürdürmemize yardımcı oluyorsunuz.
+                    Sizin için herhangi bir ek maliyet oluşturmaz, ancak bizim misyonumuzda büyük fark yaratabilir.
+                    🌿<br><br>
+                    🏨Size en uygun oteli bulun. Rezervasyonlarınızı Booking.com üzerinden yapabilirsiniz.<br>
+                    ✈️En uygun uçuş fiyatlarını Skyscanner.com adresinden bulabilirsiniz.<br>
+                    🎟️Çevrim içi tur ve etkinlik rezervasyonları için GetYourGuide.com kullanın.<br>
+                    🏕️Yürüyüş, kamp, bisiklet ve daha fazlası için Decathlon.com geniş bir yelpaze sunuyor.
+
+                </p>
+
+
+            </section>
+
+
+            <section id="section2">
+                <h2 id="gezi-haritası">Chiang Mai Gezi Haritası</h2>
+                <p><strong>Chiang Mai</strong>’yi keşfetmek başlı başına bir deneyim; tapınaklar, kafeler ve pazarlar
+                    arasında kaybolmak çok keyifli. Haritamda favori duraklarımı işaretledim, böylece kendi Chiang
+                    Mai rotanızı kolayca oluşturabilir ve şehri adım adım keşfedebilirsiniz.</p>
+
+                <div class="map-container">
+                    <iframe src="https://www.google.com/maps/d/embed?mid=1nson-6ooakP1lAuvLqz0viA3_OwYjPU&ehbc=2E312F"
+                        width="640" height="480"></iframe>
+
+
+                    <div class="map-list">
+                        <div class="map-list-group">
+                            <h4>Gezilecek Yerler</h4>
+                        <div class="point"><span class="circle">1</span> Wat Chedi Luang</div>
+                        <div class="point"><span class="circle">2</span> Wat Chiang Man</div>
+                        <div class="point"><span class="circle">3</span> Wat Phra That Doi Suthep</div>
+                        <div class="point"><span class="circle">4</span> Wat Umong</div>
+                        <div class="point"><span class="circle">5</span> Baan Kang Wat Köyü</div>
+                        <div class="point"><span class="circle">6</span> Chiang Mai Boxing Stadium</div>
+                        <div class="point"><span class="circle">7</span> One Nimman Night Market</div>
+                        <div class="point"><span class="circle">8</span> Jing Jai Farmers Morning Market</div>
+                        <div class="point"><span class="circle">9</span> Sunday Night Market</div>
+                        <div class="point"><span class="circle">10</span> North Gate Jazz Bar</div>
+                        </div>
+                        <div class="map-list-group">
+                            <h4>Yeme İçme</h4>
+                        <div class="point"><span class="circle circle--food">1</span> Dreamer CNX</div>
+                        <div class="point"><span class="circle circle--food">2</span> The Baristro</div>
+                        <div class="point"><span class="circle circle--food">3</span> Blue Noodle Shop</div>
+                        <div class="point"><span class="circle circle--food">4</span> Khun Kae's Juice Bar</div>
+                        <div class="point"><span class="circle circle--food">5</span> Ms. Behave Rooftop Bar</div>
+                        </div>
+
+                    </div>
+
+
+
+                </div> <br><br><br>
+
+            </section>
+
+
+            <section id="section3">
+
+                <h2>Wat Chedi Luang</h2>
+                <img src="resimler/watchediluang.jpeg" alt="Wat Chedi Luang" class="section-img">
+
+                <p>Chiang Mai’nin en bilinen tapınaklarından biri olan <strong>Wat Chedi Luang</strong>, Old Town’ın
+                    tam ortasında yer alıyor. Tapınağın en dikkat çeken kısmı ise yıllar önce bir depremde büyük ölçüde
+                    zarar gören devasa <strong>chedi</strong>. Fotoğraflarda göründüğü gibi değil, karşısına
+                    geçtiğinizde
+                    ne kadar büyük olduğuna şaşırıyorsunuz. Yıkılmış olmasına rağmen hala oldukça etkileyici.<br><br>
+                </p>
+
+                <img src="resimler/watchediluang1.jpeg" alt="Wat Chedi Luang" class="section-img">
+                <img src="resimler/watchediluang3.jpeg" alt="Wat Chedi Luang" class="section-img">
+
+                <p>Ana chedinin etrafında birkaç farklı tapınak ve küçük ibadet alanı bulunuyor. Biraz dolaştığınızda
+                    birbirinden farklı detaylar ve süslemeler görüyorsunuz.</p>
+
+                <img src="resimler/watchediluang4.jpeg" alt="Wat Chedi Luang" class="section-img">
+
+                <p>Wat Chedi Luang’da ayrıca <strong>keşişlerle sohbet edebileceğiniz bir alan</strong> bulunuyor.
+                    Merak ettiğiniz şeyleri sorabiliyor, onların günlük yaşamları ve Budizm hakkında sohbet
+                    edebiliyorsunuz. İlk başta biraz çekinerek yaklaşsanız bile oldukça samimi bir ortam var.
+                    <strong>Vaktiniz varsa birkaç dakika durup sohbet etmenizi kesinlikle öneririm.</strong> <br><br>
+                    Tapınak 06:00 - 18:00 saatleri arasında açık ve giriş ücretsiz.
+                </p>
+
+                <br><br><br>
+
+            </section>
+
+
+
+            <section id="section4">
+                <h2>Wat Chiang Man</h2>
+                <img src="resimler/watchiangman3.jpeg" alt="Wat Chiang Man" class="section-img">
+                <p><strong>Wat Chiang Man</strong>, Chiang Mai’nin en eski tapınağı olarak biliniyor. Şehrin 1296
+                    yılında kurulmasının
+                    hemen ardından inşa edilen tapınak, Old Town’ın içinde yer alıyor. Yani Chiang Mai’nin daha yeni
+                    yeni kurulmaya başladığı dönemlerden beri burada. Bu yüzden tapınağın geçmişi de şehrin tarihiyle
+                    neredeyse iç içe.<br><br>
+
+                    Wat Chiang Man, diğer bazı tapınaklara göre daha sakin ve küçük bir atmosfere sahip. Çok büyük bir
+                    alan olmadığı için gezmesi de oldukça rahat. <strong>Old Town’da dolaşırken yolunuzu biraz buraya
+                        düşürüp
+                        birkaç dakika geçirmek bence fazlasıyla yeterli</strong>. Görkemli yapılardan çok, Chiang
+                    Mai’nin eski ve
+                    sakin tarafını görmek isteyenler listesine ekleyebilir.
+
+                </p>
+
+                <img src="resimler/watchiangman.jpeg" alt="Wat Chiang Man" class="section-img">
+
+                <p>Tapınağın en dikkat çekici bölümlerinden biri ise <strong>Chang Lom Chedi</strong>. Chedinin
+                    etrafında sıralanan fil
+                    heykelleri gerçekten güzel bir detay. Yıllardır ayakta kalan bu yapı, tapınağın en eski
+                    bölümlerinden biri. Fillerin chediyi çevrelemesi buraya ayrı bir hava katmış,
+                    gördüğünüz diğer tapınaklardan biraz farklı hissettiriyor.</p>
+
+                <img src="resimler/watchiangman1.jpeg" alt="Wat Chiang Man" class="section-img">
+
+                <p>Wat Chiang Man’ın avlusunda dolaşırken, daha küçük ama oldukça zarif ve özgün tapınaklarla
+                    karşılaşıyorsunuz.
+                    Wat Chiang Man her gün 06:00 - 17:00 saatleri arasında ziyarete açık ve giriş ücretsiz.
+
+                </p>
+
+                <br><br><br>
+
+            </section>
+            <section id="section5">
+                <h2>Wat Phra That Doi Suthep</h2>
+                <img src="resimler/doisuthep2.jpeg" alt="Wat Phra That Doi Suthep" class="section-img">
+
+                <p><strong>Wat Phra That Doi Suthep</strong>, Chiang Mai’nin en kutsal ve en ikonik tapınaklarından biri
+                    olarak, şehir
+                    merkezinin yaklaşık 15 kilometre dışında, Doi Suthep Dağı’nın zirvesine yakın bir konumda yer
+                    alıyor. Ve kesinlikle motorla yaptığımı en keyifli 15 km'lerden biriydi. Yol kıvrımlı ve geniş.
+
+                </p>
+
+
+                <img src="resimler/doisuthep4.jpeg" alt="Wat Phra That Doi Suthep" class="section-img">
+
+                <p><strong>Wat Phra That Doi Suthep</strong> ile ilgili anlatılan güzel bir efsane de var. Rivayete
+                    göre, 14. yüzyılda bir keşiş Buddha’ya ait kutsal bir
+                    emaneti Lanna
+                    Krallığı’na sunmak için Chiang Mai’ye getirmiş. Emanetin ikiye ayrıldığı ve parçalarından birinin
+                    <strong>Wat Suan Dok</strong>’ta saklandığı, diğerinin ise nereye götürüleceğine karar vermek için
+                    <strong>beyaz bir filin
+                        sırtına bağlanıp ormana bırakıldığı</strong> anlatılıyor. <br><br>
+                    Fil, uzun bir yolculuğun
+                    ardından Doi Suthep Dağı’na çıkmış. Zirveye ulaştığında birkaç kez ses çıkarmış ve ardından yere
+                    yığılarak hayatını kaybetmiş. Bunun kutsal bir işaret olduğuna inanılmış ve bugün <strong>Wat Phra
+                        That Doi
+                        Suthep’in bulunduğu tapınağın tam olarak bu noktaya inşa edildiği</strong> söyleniyor.
+                </p>
+
+
+
+                <img src="resimler/doisuthep1.jpeg" alt="Wat Phra That Doi Suthep" class="section-img">
+                <p>Tapınağa ulaşmak için Naga(ejderha) figürleriyle süslenmiş yaklaşık 306 basamaklı merdiveni çıkmanız
+                    gerekiyor. İlk başta gözünüzde büyüyebilir ama çıkarken etrafı izlemek ve merdivenlerin detaylarına
+                    bakmak ilginizi çeker diye tahmin ediyorum. Eğer merdiven çıkmak istemiyorsanız teleferik seçeneği
+                    de bulunuyor. </p>
+
+                <img src="resimler/doisuthep7.jpeg" alt="Wat Phra That Doi Suthep" class="section-img">
+
+                <p>Merdivenlerden çıkıp ilerlediğinizde, tapınağın merkezinde yer alan <strong>altın kaplamalı
+                        chedi</strong>, Wat Phra That Doi Suthep’in en dikkat çekici
+                    yapısı. Güneş ışığında parlayan bu chedi, tapınağa adım attığınız anda dikkatleri üzerine çekiyor.
+                    Avluda dolaşırken birkaç kişinin chedinin etrafında saat yönünde yürüyerek dua ettiğini
+                    ve çanları çaldığını gördüm. Bu da tapınağın hala ne kadar aktif bir ibadet alanı olduğunu
+                    gösteriyor.</p>
+
+                <div class="image-row-2">
+                    <img src="resimler/doisuthep5.jpeg" alt="Wat Phra That Doi Suthep">
+                    <img src="resimler/doisuthep6.jpeg" alt="Wat Phra That Doi Suthep">
+                </div>
+
+                <p>Wat Phra That Doi Suthep her gün 05:00 - 20:00 saatleri arasında ziyarete açık ve giriş ücreti 30
+                    THB.
+                    Teleferikle çıkmak isterseniz de 50 THB.
+
+                </p> <br><br><br>
+
+
+            </section>
+
+
+            <section id="section6">
+                <h2>Wat Umong</h2>
+
+                <img src="resimler/watumong.jpeg" alt="Wat Umong" class="section-img">
+
+
+                <p><strong>Wat Umong</strong>, Chiang Mai’de gördüğüm tapınaklar arasında en çok
+                    etkilendiğim yerlerden biri oldu. 14. yüzyılda Lanna Krallığı döneminde inşa edilen tapınak, şehir
+                    merkezinin biraz
+                    dışında, Doi Suthep Dağı'nın eteklerinde, tamamen <strong>ormanlık bir alanın içinde</strong> yer
+                    alıyor. Daha ilk anda buranın, kalabalık
+                    tapınaklardan çok daha farklı bir ruhu olduğunu hissediyorsunuz.</p>
+
+                <img src="resimler/watumong1.jpeg" alt="Wat Umong" class="section-img">
+
+                <p>Wat Umong’un en önemli detayı ise tepenin içine oyulmuş <strong>tünelleri</strong>dir. Bu
+                    yüzden burası “<strong>Tünelli
+                        Tapınak</strong>” olarak geçiyor. Tünellerin içinde eski Budist duvar resimleri ve yazıtlar
+                    yer alıyor;
+                    ışıklandırma ve sessizlik birleşince oldukça mistik bir atmosfer ortaya çıkmış.</p>
+
+                <img src="resimler/watumong3.jpeg" alt="Wat Umong" class="section-img">
+
+                <p><strong>Yine bir rivayete göre;</strong> Chiang Mai şehri zamanla büyüyüp kalabalıklaştıkça,
+                    keşişlerin şehir içinde huzurla
+                    meditasyon yapması giderek zorlaşmış. Bunun üzerine kral, keşişlerin sessizce meditasyon
+                    yapabilecekleri yeni bir alan seçmeye karar vermiş ve bu ormanlık bölgede, içine Buda heykelleri ve
+                    küçük türbeler yerleştirmek üzere<strong> bir dizi tünel kazdırmış</strong>. Bugün Wat Umong’u diğer
+                    tapınaklardan
+                    ayıran bu tünellerin, keşişlerin dikkatleri dağılmadan meditasyon yapabilmeleri için tasarlandığı
+                    söyleniyor.</p>
+
+                <img src="resimler/watumong4.jpeg" alt="Wat Umong" class="section-img">
+
+                <p>Wat Umong’a <strong>giriş ücretsiz</strong> ve <strong>genellikle sabah erken saatlerden akşamüstüne
+                        kadar açık</strong>. Chiang Mai’de
+                    tapınak gezilerine kısa bir mola verip doğayla iç içe, daha dingin bir atmosfer arıyorsanız, Wat
+                    Umong’u rotanıza mutlaka eklemenizi öneririm</p><br><br><br>
+            </section>
+
+
+            <section id="section7">
+                <h2>Baan Kang Wat Köyü</h2>
+
+                <img src="resimler/baankang.jpeg" alt="Baan Kang Wat " class="section-img">
+
+                <p>Arkadaşlar bu kadar tapınak yeter😄. Şimdi sizi muhteşem bir yerle tanıştıracağım: <strong>Baan Kang
+                        Wat Köyü</strong>.
+                    Bu köy, Chiang Mai’nin <strong>aşırı yaratıcı</strong> ve <strong>sfarklı</strong> yüzünü görmek
+                    isteyenler için
+                    <strong>keyifli mi keyifli harika bir yer</strong>. Suthep
+                    bölgesinde, Doi Suthep yolu üzerinde yer alan bu küçük alan, aslında sanatçılar ve zanaatkarlar
+                    tarafından oluşturulmuş bohem bir sanat köyü gibi düşünülebilir. Buraya resmen bayıldım!
+                </p>
+
+                <div class="image-row">
+                    <img src="resimler/baankang1.jpeg" alt="Baan Kang Wat">
+                    <img src="resimler/baankang2.jpeg" alt="Baan Kang Wat">
+                    <img src="resimler/baankang3.jpeg" alt="Baan Kang Wat">
+                </div>
+
+                <p>Ahşap evlerden oluşan Baan Kang Wat’ta; <strong>el yapımı seramikler</strong>,
+                    <strong>illüstrasyonlar</strong>, <strong>takılar</strong> ve <strong>farklı
+                        tasarım ürünleri</strong> satan küçük dükkanlar bulunuyor. Bazı atölyelerde sanatçılar
+                    çalışırken de denk
+                    gelebiliyorsunuz ve bu da burayı sadece gezilecek bir yer olmasından çıkarıp, üretimi izleyip hayran
+                    kalacağınız bir yer haline getiriyor.
+                </p>
+
+
+
+                <img src="resimler/baankang4.jpeg" alt="Baan Kang Wat " class="section-img">
+
+                <p>Baan Kang Wat’ın en güzel yanlarından biri ise her köşesine yayılmış <strong>sanat</strong> ve
+                    <strong>el sanatları dükkanları</strong>.
+                    Burada resim ya da defter yapımı gibi küçük atölyelere katılmak mümkün. Dolaştıkça yeni detaylar
+                    keşfediyor, acele etmeden vakit geçirmek istiyorsunuz.
+                </p>
+
+                <div class="image-row-2">
+                    <img src="resimler/baankang5.jpeg" alt="Baan Kang Wat">
+                    <img src="resimler/baankang6.jpeg" alt="Baan Kang Wat">
+                </div>
+
+                <p>Ve tabii ki Chiang Mai’de neredeyse her yerde yemeyi tavsiye ettiğim, burayla özdeşleşmiş
+                    <strong>Khao Soi</strong>’yi de burada mutlaka denemelisiniz. Daha otantik bir ortamda tatma şansı
+                    bulacağınız bu lezzet gerçekten çok başarılı. <br><br>
+                    Bunun yanında, küçük butik kahvecilerde yerel kahve
+                    çekirdekleriyle hazırlanan kahveler de çok lezzetli. Zaten etrafta o kadar çok butik kafe var
+                    ki,
+                    hangisine oturacağınıza karar vermekte zorlanabilirsiniz.
+
+                    <br><br>
+
+                    Baan Kang Wat’a <strong>giriş ücretsiz</strong> ve özellikle hafta sonları daha canlı oluyor. Eğer
+                    Chiang Mai’de
+                    tapınakların yanı sıra şehrin kreatif, bohem tarafını da görmek istiyorsanız, buraya kesinlikle
+                    uğramanızı öneririm. <br><br>
+
+                    <span class="symbolized">
+                        <strong>Tavsiyem:</strong> Wat Umong gezisinin ardından, hemen birkaç dakika mesafede yer
+                        alan Baan Kang Wat, bu rotayı tamamlamak için çok güzel bir durak oluyor.
+                        Eğer Chiang Mai’de yavaş bir gün geçirmek istiyorsanız, bu iki yeri aynı gün ziyaret etmek
+                        oldukça keyifli bir plan olacaktır.
+                    </span><br><br>
+                </p>
+
+                <br><br>
+
+            </section>
+
+            <section id="section8">
+                <h2>Chiang Mai Sokaklarında Sadece Gezinin</h2>
+
+                <img src="resimler/sokaklar5.jpeg" alt="CNX Sokaklari " class="section-img">
+
+                <p>Chiang Mai’de bazen hiçbir plan yapmadan sadece sokaklarda kaybolmak en güzel aktivite.
+                </p>
+                <img src="resimler/sokaklar.jpeg" alt="CNX Sokaklari " class="section-img">
+                <img src="resimler/sokaklar1.jpeg" alt="CNX Sokaklari " class="section-img">
+                <img src="resimler/sokaklar2.jpeg" alt="CNX Sokaklari " class="section-img">
+
+                <p>Bir köşede rengarenk duvar resimleri, başka bir sokakta minik tasarım dükkanları, gizli kafeler ve
+                    beklenmedik detaylar karşınıza çıkabiliyor.</p>
+
+                <img src="resimler/sokaklar3.jpeg" alt="CNX Sokaklari " class="section-img">
+
+
+                <p>Tapınakların arasına saklanmış avlular, retro tabelalar ve fotoğraf çekmelik dekorlar derken
+                    yürüdükçe şehrin ne kadar karakterli olduğunu fark ediyorsunuz.</p>
+
+                <img src="resimler/sokaklar4.jpeg" alt="CNX Sokaklari " class="section-img">
+
+                <p>Kısacası rotayı boş verip Chiang Mai sokaklarında amaçsızca gezinmek, şehri gerçekten hissetmenin en
+                    keyifli yollarından biri diyebilirim, benden söylemesi ✨</p>
+                <br><br><br>
+            </section>
+
+
+            <section id="section9">
+                <h2>Gönüllü Fil Bakıcılığı</h2>
+                <img src="resimler/filbakiciligi.jpeg" alt="Fil Bakiciligi " class="section-img">
+
+                <p>Chiang Mai’de yaşadığım en özel deneyimlerden biri, etik bir fil barınağında geçirdiğim gündü.
+                    Fillerle zarar vermeden, doğal ortamlarında bir arada olmanın ne demek olduğunu burada öğrendim.
+                    Etik fil barınaklarının hikayesini, filler hakkında bilinmesi gerekenleri ve neden bu merkezleri
+                    desteklemenin önemli olduğunu detaylıca anlattığım yazıma buradan ulaşabilirsiniz.
+                    <br><br>
+                    👉 <a href="ethicalelephant.html" target="_blank" rel="noopener noreferrer"
+                        style="color: white; font-weight: 600; text-decoration: underline; margin-left: 5px;">
+
+                        Tayland’da Gönüllü Fil Bakıcılığı
+                    </a><br><br>
+
+                    👉 <a href="https://www.elephantnaturepark.org/" target="_blank" rel="noopener noreferrer"
+                        style="color: white; font-weight: 600; text-decoration: underline; margin-left: 5px;">
+                        Ayrıntılı bilgi ve rezervasyon için tıklayınız: www.elephantnaturepark.org
+                    </a>
+
+
+                </p><br><br><br>
+
+            </section>
+
+
+            <section id="section10">
+                <h2>Tay Yemek ve Thai Masaj Kursları</h2>
+                <p>Chiang Mai, gerçekten kurslar açısından inanılmaz imkanlara sahip bir şehir. Buradayken “sonra
+                    bakarız” demeden, karşınıza çıkan fırsatları değerlendirmek gerektiğini düşünüyorum. Bu seçeneklerin
+                    başında da <strong>Tay yemek kursları</strong> ve <strong>Thai masaj kursları</strong> geliyor.
+                    <br><br>
+
+                    <span class="symbolized">
+
+                        <strong>Tay yemek kursları</strong> genellikle günübirlik bir aktivite olarak düzenleniyor.
+                        Sabah
+                        yerel pazarı gezip
+                        malzemeleri tanıyor, ardından geleneksel Tay yemeklerini kendi ellerinizle pişiriyorsunuz.
+                        <br><br>
+
+                        - Thai Farm Cooking School <br>
+                        - Mama Noi Thai Cookery School <br>
+                        - Asia Scenic Thai Cooking School <br><br>
+                        Bunlar Chiang Mai’de öne çıkan ve en çok tercih edilen seçeneklerden bazıları. Ben özellikle
+                        <strong>Thai Farm Cooking School</strong> ile ilgilendim; gidip bilgi aldım, broşürlerini
+                        inceledim
+                        ve programlarını detaylıca öğrendim. Atmosferi ve sunduğu deneyim gerçekten çok hoşuma gitti.
+                        <strong>Aslında katılmayı da çok istiyordum ama gittiğim gün kontenjan dolmuştu.</strong> Bu
+                        yüzden
+                        deneyimleme fırsatım olmadı ama programını ve ortamını gördükten sonra bir dahaki Chiang Mai
+                        ziyaretimde kesinlikle denemek istediğim aktivitelerden biri oldu.</span> <br><br>
+
+                    <span class="symbolized">
+
+                        <strong>Thai masaj kursları</strong> ise biraz daha zaman isteyen bir seçenek. Kısa başlangıç
+                        eğitimleri bulunsa da,
+                        çoğu kurs 1 haftalık hatta aylık programlar şeklinde ilerliyor. Özellikle <strong>Thai Massage
+                            School of
+                            Chiang Mai (TMC)</strong> ve <strong>Sirichan Thai Massage School</strong>, bu alanda en
+                        bilinen
+                        ve tercih edilen okullar
+                        arasında. Eğer Chiang Mai’de uzun süre kalmayı planlıyorsanız, hem kendiniz için hem
+                        de
+                        yeni bir beceri kazanmak adına değerlendirilebilecek çok güzel bir deneyim.</span>
+
+
+
+                </p> <br><br><br>
+
+            </section>
+
+
+            <section id="section11">
+                <h2>Bol Bol Masaj Yaptırın</h2>
+                <p>Chiang Mai, masaj konusunda gerçekten insanın kendini şımartabileceği bir şehir. Gün boyu yürüyüp
+                    keşfettikten sonra, uygun fiyatlı ve kaliteli bir masajla günü bitirmek burada neredeyse bir rutin
+                    haline geliyor. Şehrin her köşesinde, hem çok profesyonel spa merkezleri hem de daha sade, yerel
+                    masaj salonları bulmak mümkün. <br><br>
+
+                    Klasik <strong>Thai masajının</strong> yanı sıra; <strong>ayak masajı</strong>, <strong>boyun-omuz
+                        masajı</strong>, kasları daha derinlemesine
+                    rahatlatan <strong>derin bağ doku (deep tissue) masajı</strong>, sıcak taşlarla yapılan <strong>Hot
+                        Stone
+                        masajı</strong> ve rahatlatıcı etkisiyle bilinen <strong>aromaterapi masajı</strong> da
+                    oldukça yaygın. Açıkçası burada
+                    masajı sadece yorgunluk atmak için değil, günün her saatinde, canınız ne zaman isterse
+                    yaptırabilirsiniz. Masajdan sonra vücut resmen resetlenmiş gibi oluyor. <br><br>
+
+                    Fiyatlar ise Chiang Mai’de aşırı uygun. Bu yüzden bir kere yaptırıp geçmek yerine, farklı masaj
+                    türlerini denemenizi kesinlikle tavsiye ediyorum🙂 <br><br>
+
+                    Ben de burada kaldığım 1 hatfa boyunca masajı bol bol değerlendirdim. Hem dinlenmek hem de yol
+                    yorgunluğunu atmak için gerçekten çok iyi geldi. Hatta seyahatin bu döneminde biraz hasta olduğum
+                    için, masajlar toparlanmama da fazlasıyla yardımcı oldu. Uzun bir Tayland
+                    seyahatindeyseniz, Chiang Mai’de masajı mutlaka ve mutlaka planlarınıza eklemelisiniz.
+
+
+                </p><br><br><br>
+            </section>
+
+
+            <section id="section12">
+                <h2>Tayland Boks Ringleri</h2>
+                <img src="resimler/boks.jpeg" alt="Boxing Stadium" class="section-img">
+                <p>Chiang Mai’de mutlaka yapılacak deneyimlerden biri de <strong>Muay Thai boks maçını canlı
+                        izlemek</strong>. Ben de
+                    bunun için <strong>Chiang Mai Boxing Stadium</strong>’a gittim; özel bir etkinlik akşamıydı ve ortam
+                    gerçekten çok keyifliydi. Arenaya akşam saatlerinde giriş yapılıyor ve genellikle 6–7 farklı maç
+                    izleme şansı
+                    buluyorsunuz. Bu arada küçük bir not düşeyim: <strong>stadyuma giderken trafik
+                        çok fazla oluyor</strong>, bu yüzden motor ya da tuk tuk kullanmak kesinlikle daha akıllıca bir
+                    tercih.
+                    <br><br>
+
+                    Bilet fiyatları da oldukça makul; <strong>standart koltuklar yaklaşık 600 THB, ringside koltuklar
+                        1.000 THB,
+                        VIP seçenekler ise 1.500 THB</strong> civarında. Maça adım attığınız anda, hem sporun hızı hem
+                    de Tayland’da
+                    bu kültürün ne kadar sevildiğini çok net anlıyorsunuz. Eğer Chiang Mai’de akşam için farklı bir plan
+                    arıyor ve yerel kültürü biraz daha
+                    yakından hissetmek istiyorsanız, Muay Thai gecesi kesinlikle güzel bir seçenek.
+
+                </p> <br><br><br>
+
+            </section>
+
+
+            <section id="section13">
+                <h2 id="one-nimman">One Nimman Night Market</h2>
+                <img src="resimler/onenimman.jpeg" alt="One Nimman Night Market" class="section-img">
+                <p>Chiang Mai’de akşamları keyifle vakit geçirebileceğiniz yerlerden biri de <strong>One Nimman Gece
+                        Pazarı</strong>.
+                    Nimmanhaemin bölgesinde yer alan bu pazar, One Nimman alışveriş merkezinin çevresindeki açık
+                    alanlara kurulan, klasik gece pazarlarından biraz daha modern ve estetik.</p>
+                <img src="resimler/onenimman1.jpeg" alt="One Nimman Night Market" class="section-img">
+
+                <p>Akşamüstü saatlerinden itibaren canlanmaya başlıyor; sokak lezzetleri, tatlılar, tropikal meyve
+                    suları ve kahvelerle dolu stantlar arasında dolaşmak gerçekten çok keyifli. Bunun yanında tasarım
+                    ürünler, el yapımı takılar, kıyafetler ve hediyelik eşyalar bulabileceğiniz küçük butik dükkanlar da
+                    var.</p>
+
+                <img src="resimler/onenimman2.jpeg" alt="One Nimman Night Market" class="section-img">
+
+                <p>Ortamı oldukça canlı, ışıklandırmaları ve müzikleriyle gezmesi keyifli bir yer. Biz de Chiang Mai’de
+                    akşam planlarımızdan birini buraya ayırdık ve hem bir şeyler yiyip içtik hem de etrafta dolaşarak
+                    güzel vakit geçirdik. <br><br>
+                    One Nimman Gece Pazarı her akşam kurulsa da, <strong>Cuma, Cumartesi ve Pazar günleri</strong> 18:00
+                    – 20:00 saatleri arasında çok daha canlı ve
+                    tam Tayland'a özgü pazarlar formatında oluyor.
+
+                </p><br><br><br>
+
+            </section>
+
+            <section id="section14">
+                <h2 id="jing-jai">Jing Jai Farmers Morning Market</h2>
+                <img src="resimler/jingjai.jpeg" alt="Jin Jai" class="section-img">
+
+                <p>Bir diğer hafta sonu pazarı fakat bu kez sabah saatlerinde kuruluyor; <strong>Jing Jai
+                        Market.</strong> Organik ve sürdürülebilir pazarların hastası olduğum için buraya ayrı
+                    bi' hayran kaldım.</p>
+                <img src="resimler/jingjai1.jpeg" alt="Jin Jai" class="section-img">
+
+                <p>Yerel bir kahvaltı yapmak ve her türlü yerel ürünü uygun fiyata satın almak için harika bir yer.
+                    Tezgahlardaki her şey inanılmaz taze ve doğal; hatta 1 kilo havucu alıp pazarı gezerken atıştırmalık
+                    gibi bitirdiğimi başka hiçbir yerde hatırlamıyorum 😄</p>
+
+                <img src="resimler/jingjai2.jpeg" alt="Jin Jai" class="section-img">
+                <p>
+                    Jing Jai Gündüz Pazarı, <strong>Cumartesi ve Pazar günleri</strong> 06:00 - 13:00 saatleri arasında
+                    kurulmaktadır.
+                </p> <br><br><br>
+
+
+            </section>
+
+
+            <section id="section15">
+                <h2 id="sunday-night">Sunday Night Market</h2>
+                <img src="resimler/sundaynightchiang.jpeg" alt="Sunday Night Market" class="section-img">
+                <p><strong>Chiang Mai Sunday Night Market</strong>, şehrin en ünlü ve büyük pazarı.
+                    <strong>Her pazar akşamı</strong>,
+                    Old Town’daki <strong>Tha Pae Gate’ten başlayarak Ratchadamnoen Road boyunca</strong> uzanıyor.
+                    Klasik bir gece pazarından çok daha fazlası; adeta tüm şehir sokağa dökülmüş gibi gerçekten.
+                    <br><br>
+                    Pazarda el yapımı takılar, ahşap ürünler, seramikler, tekstil ürünleri, tablolar ve yerel
+                    sanatçıların yaptığı tasarımlar satılıyor. Chiang Mai’ye özgü hediyelikler almak için de en uygun
+                    yerlerden biri.
+                </p>
+
+                <img src="resimler/sundaynightchiang2.jpeg" alt="Sunday Night Market" class="section-img">
+
+                <p>Yol boyunca kurulan sokak lezzeti tezgahlarında ise deneyecek o kadar çok şey var ki hangisini
+                    seçeceğinizi şaşırabilirsiniz. Pad Thai, ızgara et ve tavuk şişleri, Thai sosisleri, spring roll,
+                    mango sticky rice, hindistan cevizli tatlılar ve taze meyve suları bunlardan sadece birkaçı. Bir
+                    şeyler almak için oturup uzun uzun yemek beklemenize de gerek yok. Gözünüze güzel görünen bir
+                    tezgahtan alıp yürürken tadını çıkarabilirsiniz. <br><br>
+
+                    Genellikle 17:00–22:00 saatleri arasında
+                    kurulan bu pazar, Chiang Mai’de pazar akşamı şehirdeyseniz kesinlikle kaçırmamanız gereken
+                    duraklardan biri.
+                </p><br><br><br>
+
+            </section>
+            <section id="section16">
+                <h2>Dünyaca Bilinen Mae Hong Son Rotası</h2>
+
+                <p>
+                    <strong>Mae Hong Son Rotası</strong>, Chiang Mai’den başlayıp Pai üzerinden Mae Hong Son’a uzanan,
+                    özellikle motorla yapılmasıyla dünyaca ünlü, oldukça meşhur bir rota. Yol boyunca dağlar, sisli
+                    vadiler,
+                    yemyeşil ormanlar ve küçük köyler... Ama rotayı asıl meşhur yapan şey ise virajları.
+                    <strong>1.800’den fazla virajdan</strong> oluşan bu yol, motor kullanmayı sevenler için başlı başına
+                    bir macera.<br><br>
+
+                    Açıkçası bu rota, <strong>Chiang Mai’ye gitmeden önce en çok yapmak istediğim şeylerden
+                        biriydi.</strong>
+                    Planım Chiang Mai’de birkaç gün kaldıktan sonra motorumu kiralayıp bu virajlı yola çıkmak ve
+                    <a href="pai.html" target="_blank" rel="noopener noreferrer"
+                        style="color: orange; text-decoration: underline; font-weight: 600;">
+                        Pai</a> üzerinden Mae Hong Son’a kadar devam etmekti. Hatta bunun için önceden araştırmalarımı bile
+                    yapmıştım.<br><br>
+
+                    Ama tabii ki <strong>plandaki hesap rotaya uymadı🙂 .</strong> Chiang Mai’de hastalandığım için
+                    kendimi daha fazla zorlamak istemedim ve rotayı yapmaktan vazgeçtim. Açıkçası gerçekleştirememek
+                    biraz içimde kaldı. Sonunda Pai’ye motor yerine <strong>yerel minibüslerle geçmeye karar verdim.</strong>
+                    <br><br>
+
+                    Mae Hong Son Rotası bu yüzden benim için hala yapılacaklar listesinin en başında. Belki de bu rotayı
+                    tamamlamak, <strong>Tayland’a bir kez daha gitmek için güzel bir bahane olur. 🙂</strong>
+                </p><br><br><br>
+            </section>
+            <section id="section17">
+                <h2>North Gate Jazz Bar'da Caz Dinleyin</h2>
+
+                <img src="resimler/northgate.jpeg" alt="North Gate" class="section-img">
+
+                <p>Chiang Mai’de akşamları biraz daha farklı, daha samimi bir ortam arıyorsanız <strong>North Gate Jazz
+                        Bar</strong>
+                    güzel bir seçenek. Old Town’un kuzey kapısına yakın bu küçük ama enerjisi yüksek mekan, canlı caz
+                    performanslarıyla oldukça ünlü. İçerisi çok büyük değil; sahneye yakın durup müziğin içine
+                    karışıyorsunuz resmen. Bu yüzden özellikle ön sıralar hızlıca dolabiliyor, iyi bir yer kapmak
+                    istiyorsanız biraz erken gitmekte fayda var. Yer bulamazsanız da sorun değil; birçok kişi içeceğini
+                    alıp mekanın önünde, sokakta müziği dinleyerek akşamın keyfini çıkarıyor. <br><br>
+
+                    Akşam saatlerinde başlayan performanslar ilerleyen saatlerde daha da hareketleniyor. <strong>Giriş
+                        ücretsiz</strong>, sadece içtiğiniz içeceklerin parasını veriyorsunuz.
+                    İçeceklerinizi alıp canlı caz dinlemek burada en klasik ritüel. Hem yerel müzisyenleri
+                    dinleyebileceğiniz hem de Chiang Mai’nin gece hayatını daha sıcak ve samimi bir şekilde
+                    deneyimleyebileceğiniz keyifli bir yer. Eğer caz seviyorsanız, bir akşamınızı buraya ayırmanızı
+                    kesinlikle öneririm.
+
+                </p> <br><br><br>
+            </section>
+
+
+            <section id="section18">
+                <h2>Yeme - İçme Tavsiyeleri</h2>
+
+                <h4>1. Dreamer CNX</h4>
+                <img src="resimler/yemeicmepizza.jpeg" alt="Dreamer CNX" class="section-img">
+                <p>
+                    Chiang Mai’de akşam yemeği için keşfettiğim güzel yerlerden biri <strong>Dreamer CNX</strong> oldu.
+                    Burası özellikle <strong>taş fırında pişen pizzalarıyla</strong>
+                    öne çıkan, küçük ve oldukça sıcak bir mekan. İncecik hamurlu pizzaların odun ateşinden çıkan o hafif
+                    isli aroması gerçekten çok başarılı.<br><br>
+
+                    Mekanın en sevdiğim taraflarından biri de bahçesi. Loş ışıklar, rahat oturma alanları ve sakin
+                    ortamıyla akşam yemeği için son derece ideal. Pizzanın yanında birkaç kadeh şarap söyleyip
+                    uzun uzun oturmalık bir yer. <strong>Özellikle sakin ve romantik bir akşam geçirmek
+                        istiyorsanız, Dreamer CNX’i listenize ekleyebilirsiniz.</strong>
+                </p><br><br>
+
+
+                <h4>2. The Baristro</h4>
+                <img src="resimler/thebaristro.jpeg" alt="The Baristro" class="section-img">
+                <p>Chiang Mai’de karşıma çıkan ve özellikle konumuyla aklımda kalan yerlerden biri <strong>The
+                        Baristro</strong>.
+                    <strong>Ping Nehri’nin hemen yanında</strong> olması mekanı zaten başlı başına güzel yapıyor.
+                    Dışarıda oturup kahvenizi içerken nehirden geçen tekneleri izleyebiliyorsunuz. Özellikle
+                    sakin bir öğleden sonra geçirmek için oldukça keyifli.
+
+                    <img src="resimler/thebaristro1.jpeg" alt="The Baristro" class="section-img">
+
+                    Kafenin hem içeride hem dışarıda farklı oturma alanları var. Menüde klasik kahvelerin yanında
+                    farklı imza içecekler ve tatlı seçenekleri de bulunuyor. Benim gibi bilgisayarını alıp birkaç
+                    saat oturmayı sevenler için de oldukça uygun; <strong>internet hızlı ve priz de var.</strong>
+                    Yani kahvenizi alıp biraz çalışmak, biraz da manzaraya dalmak için güzel bir seçenek.
+
+                </p> <br><br>
+
+                <h4>3. Blue Noodle Shop</h4>
+                <img src="resimler/bluenoodleshop.jpeg" alt="Blue Noodle" class="section-img">
+                <p>Chiang Mai’de noodle denince akla gelen yerlerden biri kesinlikle <strong>Blue Noodle Shop</strong>.
+                    Old Town’da, Ratchadamnoen Road üzerindeki bu küçük ve salaş mekan, önünde
+                    oluşan kuyruğuyla hemen dikkat çekiyor.<br><br>
+
+                    Burası oldukça mütevazı bir yer ve menüsü de çok geniş değil. Zaten insanlar buraya özellikle
+                    <strong>et suyunda hazırlanan noodle çorbaları</strong> için geliyor. Üzerindeki yumuşacık et,
+                    çıtır wontonlar ve baharatlı soslarla birleşince ortaya gerçekten çok lezzetli bir tabak çıkıyor.
+                    Ben
+                    yanında <strong>papatya suyunu</strong> da denedim; hafif tatlı ve ferahlatıcı tadıyla noodle’ın
+                    yanında oldukça iyi gitti. Üstelik fiyatları da gayet uygun.<br><br>
+
+                    Mekanın en sevdiğim tarafı ise fazla süslenmiş bir yer olmaması. Plastik tabureler, hızlı servis ve
+                    sürekli kaynayan tencereler... Tam anlamıyla <strong>yerel bir Tayland yemek deneyimi</strong>
+                    yaşıyorsunuz. Kalabalık saatlerde sıra beklemek normal ama servis hızlı olduğu için çok uzun
+                    sürmüyor.
+                    Eğer Old Town tarafındaysanız, buraya uğrayıp bir kase noodle denemenizi kesinlikle öneririm.
+
+                </p>
+                <br><br>
+
+                <h4>4. Khun Kae's Juice Bar</h4>
+                <img src="resimler/khunkaes.jpeg" alt="Khun Kae's" class="section-img">
+
+                <p>Chiang Mai’de her gün vitamin depolamak için uğradığım yer olan <strong>Khun Kae's Juice
+                        Bar</strong>, tamamen taze meyvelerden hazırlanan smoothie ve meyve sularıyla dolu, küçük
+                    ve sevimli bir dükkan. Chiang Mai’de hastalıklarla uğraştığım dönemde kaldığım süre boyunca
+                    neredeyse her gün uğradım ve her seferinde farklı bir karışım denedim. <br><br>
+
+                    Burada isterseniz menüdeki hazır karışımlardan birini seçebiliyor, isterseniz de <strong>4 farklı
+                        meyve seçerek kendi karışımınızı hazırlatabiliyorsunuz.</strong> Ben her gün farklı meyveleri
+                    bir araya getirip yeni bir şeyler denedim. <strong>Tabii ki hepsine zencefil eklettim;
+                        hastayız diye işi biraz fazla ciddiye almış olabilirim 😂</strong> Mutlaka uğrayın.
+
+                </p> <br><br>
+
+                <h4>5. Chiang Mai Pazarları</h4>
+
+                <img src="resimler/chiangmaigecemarket.jpeg" alt="Night Market" class="section-img">
+
+                <p><strong>Tabii ki olmazsa olmazım akşam pazarları!</strong> Chiang Mai’de gün boyu güzel kafelerde
+                    ve restoranlarda
+                    vakit geçirseniz bile, akşam olunca kendinizi mutlaka bir gece pazarında buluyorsunuz. Çünkü burası
+                    tam bir açık hava lezzet şöleni. Sokak tezgahlarından yayılan kokular arasında dolaşırken pad
+                    thai’den dumplinglere, ızgara atıştırmalıklardan tropikal meyvelere kadar çok fazla seçenek
+                    karşınıza
+                    çıkıyor. Her şeyi küçük porsiyonlarda deneyebildiğiniz için de tek bir akşamda birçok farklı
+                    lezzeti tatmanız mümkün. <br><br>
+                    Benim için Tayland’da akşam pazarlarının en güzel tarafı da bu. <strong>Ne yiyeceğinize önceden
+                        karar vermek yerine, dolaşırken gözünüze güzel gelen her şeyi denemek.</strong> Chiang Mai’de de
+                    gece pazarları akşam yemeğinin en eğlenceli ve en spontan hali:<br><br>
+
+                    -One Nimman Night Market <br>
+                    -Sunday Night Market <br><br>
+
+                    Araya bir de sabah kurulan favori pazarımı sıkıştırayım; çünkü Chiang Mai’de pazar keyfi sadece
+                    akşamla sınırlı değil. Sabah erken kalkıp sakin sakin dolaşmak isterseniz:<br><br>
+
+                    -Jing Jai Farmers Morning Market. <a href="#gezi-haritası" target="_blank" rel="noopener noreferrer"
+                        style="color:#ff7a00; text-decoration: underline;">Konum için tıklayınız.</a>.
+
+
+
+                </p> <br><br>
+
+                <h4>6. Ms. Behave Rooftop Bar</h4>
+                <img src="resimler/cnxrooftop1.jpeg" alt="cnx Rooftop" class="section-img">
+                <p> Sokaklarda gezerken tesadüfen keşfettiğim küçük bir rooftop: <strong>Ms. Behave Rooftop
+                        Bar</strong>.
+                    Büyük ve gösterişli rooftop barlardan değil; oldukça küçük, salaş ve samimi bir yer. Daracık
+                    merdivenlerden çıkıyorsunuz, öyle asansör falan yok 😄 </p>
+
+                <img src="resimler/cnxrooftop.jpeg" alt="cnx Rooftop" class="section-img">
+
+                <p> Bazı akşamlar gitar eşliğinde canlı müzik oluyor. Kokteylleri başarılı. Bir şeyler içip biraz müzik
+                    dinlemek ve Chiang
+                    Mai’yi yukarıdan izlemek için güzel, küçük bir mekan. <strong>Öyle büyük manzaralar beklemeyin ama
+                        yolunuz düşerse uğrayıp bir şeyler içebilirsiniz.</strong><br><br>
+
+                    <strong>Çalışma saatleri:</strong> Pazar hariç her gün 16:30 - 00:00. Pazar günleri kapalı.
+
+                </p><br><br><br>
+
+            </section>
+
+
+            <section id="section19">
+                <h2>Keşfet, Öğren, Yenilen: Chiang Mai</h2>
+                <p>
+                <p> Chiang Mai, biraz yavaşlamak, bol bol keşfetmek ve şehrin kendi ritmine ayak uydurmak için güzel bir
+                    yer. Eski tapınakların arasında dolaşırken bir anda kendinizi küçük bir kafede bulabilir, akşam
+                    olunca gece pazarlarında sokak lezzetlerinin peşine düşebilirsiniz. Gün içinde bir yandan şehri
+                    gezerken bir yandan da hiç planlamadığınız yerlere denk gelmek burada çok kolay.<br><br>
+
+                    Benim için Chiang Mai’nin en güzel taraflarından biri de sürekli yeni bir şey denemeye açık olması.
+                    Tay yemekleri, masajlar, pazarlar, kafeler... Bir gününüz diğerini neredeyse hiç tutmuyor. Özellikle
+                    günün
+                    sonunda şöyle güzel bir Thai masajı yaptırıp bütün yorgunluğu üzerinizden atmak gerçekten iyi
+                    geliyor.<br><br>
+
+                    Chiang Mai, keşfetmeye, hissetmeye ve günün sonunda enerjinizi yenileyip kendinizi yeniden bulmaya
+                    izin veren bir şehir.
+                    Burada kaybolmak, denemek ve hatta biraz da keyfi ertelememek serbest!<br><br>
+
+                    <strong>Peki sen Chiang Mai’de en çok nereyi görmek isterdin?</strong> Aklında olan bir yer, merak
+                    ettiğin bir şey ya da kendi Chiang Mai deneyimin varsa aşağıya yaz. Duymak isterim!
+                </p> <br><br>
+
+            </section>
+
+            <section id="yorum-yaz"
+                style="background-color: rgb(24, 24, 24); padding: 40px 20px; margin-top: 60px; color: white;">
+                <div style="max-width: 700px; margin: 0 auto;">
+                    <h2 style="text-align: left; margin-bottom: 22px;">Yorum Yaz</h2>
+                    <p style="text-align: left; font-size: 14px; color: #aaa;">
+                        E-posta adresiniz yayımlanmayacaktır. Gerekli alanlar * ile işaretlenmiştir.
+                    </p>
+                    <form action="#" method="post"
+                        style="display: flex; flex-direction: column; gap: 25px; margin-top: 20px;">
+                        <textarea name="yorum" placeholder="Yorumunuz*" required
+                            style="width: 100%; height: 250px; padding: 10px; font-size: 14px; 
+               border: none; box-shadow: inset 0 0 0 0.5px white; background-color: rgb(24, 24, 24); color: white;"></textarea>
+                        <input type="text" name="isim" placeholder="İsim" style="width: 100%; height: 50px; padding: 10px; font-size: 14px; 
+               border: none; box-shadow: inset 0 0 0 0.5px white; background-color: rgb(24, 24, 24); color: white;">
+                        <input type="email" name="email" placeholder="E-posta" style="width: 100%; height: 50px; padding: 10px; font-size: 14px; 
+               border: none; box-shadow: inset 0 0 0 0.5px white; background-color: rgb(24, 24, 24); color: white;">
+                        <button type="submit" style="width: 33%; padding: 12px; background-color: transparent; color: white; 
+               border: none; box-shadow: inset 0 0 0 0.5px white; font-size: 14px; cursor: pointer;">
+                            GÖNDER
+                        </button>
+                    </form>
+                </div>
+            </section>
+
+
+
+        </div>
+    </div>
+
+    <script>
+
+        const menuToggle = document.getElementById('menuToggle');
+        const mainMenu = document.getElementById('mainMenu');
+        const closeMain = document.getElementById('closeMain');
+        const openIstikamet = document.getElementById('openIstikamet');
+        const istikametMenu = document.getElementById('istikametMenu');
+        const backIstikamet = document.getElementById('backIstikamet');
+
+        menuToggle.addEventListener('click', () => {
+            mainMenu.classList.add('active');
+        });
+
+        closeMain.addEventListener('click', () => {
+            mainMenu.classList.remove('active');
+        });
+
+        openIstikamet.addEventListener('click', (e) => {
+            e.preventDefault();
+            mainMenu.classList.remove('active');
+            istikametMenu.classList.add('active');
+        });
+
+        backIstikamet.addEventListener('click', () => {
+            istikametMenu.classList.remove('active');
+            mainMenu.classList.add('active');
+        });
+
+        const searchInput = document.getElementById('searchInput');
+        const clearBtn = document.getElementById('clearBtn');
+
+        if (searchInput && clearBtn) {
+            searchInput.addEventListener('input', () => {
+                if (searchInput.value.trim() !== "") {
+                    clearBtn.style.display = 'block';
+                } else {
+                    clearBtn.style.display = 'none';
+                }
+            });
+
+            clearBtn.addEventListener('click', () => {
+                searchInput.value = "";
+                clearBtn.style.display = 'none';
+
+                searchInput.focus();
+            });
+        }
+        const goBtn = document.getElementById('goBtn');
+
+        if (searchInput && clearBtn && goBtn) {
+            searchInput.addEventListener('input', () => {
+                if (searchInput.value.trim() !== "") {
+                    clearBtn.style.display = 'block';
+                    goBtn.style.display = 'none';
+                } else {
+                    clearBtn.style.display = 'none';
+                    goBtn.style.display = 'block';
+                }
+            });
+
+            clearBtn.addEventListener('click', () => {
+                searchInput.value = "";
+                clearBtn.style.display = 'none';
+                goBtn.style.display = 'block';
+                searchInput.focus();
+            });
+        }
+        menuToggle.addEventListener('click', () => {
+            mainMenu.classList.add('active');
+            document.body.classList.add('menu-open');
+        });
+
+        closeMain.addEventListener('click', () => {
+            mainMenu.classList.remove('active');
+            document.body.classList.remove('menu-open');
+        });
+
+        //mobil için nav-search
+        const searchInputMobile = document.getElementById('searchInputMobile');
+        const clearBtnMobile = document.getElementById('clearBtnMobile');
+        const goBtnMobile = document.getElementById('goBtnMobile');
+
+        if (searchInputMobile && clearBtnMobile && goBtnMobile) {
+            searchInputMobile.addEventListener('input', () => {
+                if (searchInputMobile.value.trim() !== "") {
+                    clearBtnMobile.style.display = 'block';
+                    goBtnMobile.style.display = 'none';
+                } else {
+                    clearBtnMobile.style.display = 'none';
+                    goBtnMobile.style.display = 'block';
+                }
+            });
+
+            clearBtnMobile.addEventListener('click', () => {
+                searchInputMobile.value = "";
+                clearBtnMobile.style.display = 'none';
+                goBtnMobile.style.display = 'block';
+                searchInputMobile.focus();
+            });
+        }
+
+        // İstikamet için nav-search
+        const searchInputIstikamet = document.getElementById('searchInputIstikamet');
+        const clearBtnIstikamet = document.getElementById('clearBtnIstikamet');
+        const goBtnIstikamet = document.getElementById('goBtnIstikamet');
+
+        if (searchInputIstikamet && clearBtnIstikamet && goBtnIstikamet) {
+            searchInputIstikamet.addEventListener('input', () => {
+                if (searchInputIstikamet.value.trim() !== "") {
+                    clearBtnIstikamet.style.display = 'block';
+                    goBtnIstikamet.style.display = 'none';
+                } else {
+                    clearBtnIstikamet.style.display = 'none';
+                    goBtnIstikamet.style.display = 'block';
+                }
+            });
+
+            clearBtnIstikamet.addEventListener('click', () => {
+                searchInputIstikamet.value = "";
+                clearBtnIstikamet.style.display = 'none';
+                goBtnIstikamet.style.display = 'block';
+                searchInputIstikamet.focus();
+            });
+        }
+
+        const openAsya = document.getElementById('openAsya');
+        const asyaMenu = document.getElementById('asyaMenu');
+        const backAsya = document.getElementById('backAsya');
+
+        openAsya.addEventListener('click', (e) => {
+            e.preventDefault();
+            istikametMenu.classList.remove('active'); // İSTİKAMET overlay gizle
+            asyaMenu.classList.add('active');         // ASYA overlay göster
+        });
+
+        backAsya.addEventListener('click', () => {
+            asyaMenu.classList.remove('active');      // ASYA overlay gizle
+            istikametMenu.classList.add('active');    // İSTİKAMET overlay göster
+        });
+
+        // ASYA Overlay Search Box
+        const searchInputAsya = document.getElementById('searchInputAsya');
+        const clearBtnAsya = document.getElementById('clearBtnAsya');
+        const goBtnAsya = document.getElementById('goBtnAsya');
+
+        if (searchInputAsya && clearBtnAsya && goBtnAsya) {
+            searchInputAsya.addEventListener('input', () => {
+                if (searchInputAsya.value.trim() !== "") {
+                    clearBtnAsya.style.display = 'block';
+                    goBtnAsya.style.display = 'none';
+                } else {
+                    clearBtnAsya.style.display = 'none';
+                    goBtnAsya.style.display = 'block';
+                }
+            });
+
+            clearBtnAsya.addEventListener('click', () => {
+                searchInputAsya.value = "";
+                clearBtnAsya.style.display = 'none';
+                goBtnAsya.style.display = 'block';
+                searchInputAsya.focus();
+            });
+        }
+
+        const tocWidget = document.querySelector('.toc-widget');
+        const tocHeader = tocWidget.querySelector('.toc-header');
+
+        tocHeader.addEventListener('click', () => {
+            tocWidget.classList.toggle('open');
+        });
+
+        document.querySelectorAll('.toc-list a').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                target.scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // TEMALAR overlay
+        const openTemalar = document.getElementById('openTemalar');
+        const temalarMenu = document.getElementById('temalarMenu');
+        const backTemalar = document.getElementById('backTemalar');
+
+        if (openTemalar && temalarMenu && backTemalar) {
+
+            openTemalar.addEventListener('click', (e) => {
+                e.preventDefault();
+                mainMenu.classList.remove('active');
+                temalarMenu.classList.add('active');
+            });
+
+            backTemalar.addEventListener('click', () => {
+                temalarMenu.classList.remove('active');
+                mainMenu.classList.add('active');
+            });
+
+        }
+
+
+    </script>
+    <script>
+        const navbar = document.getElementById('navbar');
+        let oncekiKonum = 0;
+    
+        document.addEventListener('scroll', (e) => {
+            // Kaydırma pencerede mi yoksa body'de mi oluyor, ikisini de yakala
+            const hedef = e.target === document ? document.documentElement : e.target;
+            if (hedef !== document.documentElement && hedef !== document.body) return;
+    
+            const konum = hedef.scrollTop;
+    
+            // Çok küçük hareketleri yok say
+            if (Math.abs(konum - oncekiKonum) < 5) return;
+    
+            if (konum > oncekiKonum && konum > 70) {
+                navbar.classList.add('nav-gizli');      // aşağı iniyor: gizle
+            } else {
+                navbar.classList.remove('nav-gizli');   // yukarı çıkıyor: göster
+            }
+    
+            oncekiKonum = konum;
+        }, true);
+    </script>
+
+</body>
+
+</html>

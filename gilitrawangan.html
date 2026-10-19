@@ -1,0 +1,2241 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <title>Gili T | HadiGidelim </title>
+    <link rel="icon" type="image/png" sizes="64x64" href="resimler/logoooo 2.jpeg" />
+    <link rel="icon" type="image/x-icon" href="resimler/logoooo.ico" />
+
+    <!-- GetYourGuide Analytics -->
+
+    <script async defer src="https://widget.getyourguide.com/dist/pa.umd.production.min.js"
+        data-gyg-partner-id="8XNX1IK"></script>
+
+    <style>
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            background: rgb(24, 24, 24);
+            flex-direction: column;
+            font-family: sans-serif;
+            overflow-x: hidden;
+        }
+
+        nav {
+            background-color: rgb(31, 31, 31);
+            color: rgb(202, 200, 200);
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            height: 70px;
+            z-index: 1000;
+            width: 100%;
+            position: sticky;
+            top: 0;
+            transition: transform 0.3s ease;
+      padding: 0 20px;
+      border-bottom: 3px solid rgb(187, 186, 186);
+    }
+    .nav-gizli {
+            transform: translateY(-100%);
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            margin-right: 80px;
+            margin-left: 50px;
+        }
+
+        .nav-logo img {
+            width: 56px;
+            height: 70px;
+            object-fit: cover;
+            margin-right: 5px;
+        }
+
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+            margin-left: 6px;
+        }
+
+        .logo-text .main-title {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: rgb(251, 187, 69);
+        }
+
+        .logo-text .sub-title {
+            font-size: 0.9em;
+            font-style: italic;
+            color: rgb(202, 200, 200);
+            margin-top: -3px;
+            margin-left: 9px;
+            margin-right: 10px;
+        }
+
+        .menu-toggle,
+        .menu-close,
+        .menu-back {
+            display: none;
+            /* Masaüstünde gizli */
+            font-size: 32px;
+            cursor: pointer;
+            color: white;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 1100;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            font-family: 'Times New Roman', Times, serif;
+            align-items: center;
+            flex: 1;
+        }
+
+        .nav-item {
+            position: relative;
+        }
+
+        .nav-links>.nav-item>a {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            text-decoration: none;
+            color: rgba(255, 255, 255, 0.879);
+            font-weight: 500;
+            font-size: 1em;
+            padding: 6px 12px;
+            border: 2px solid transparent;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-item>a.has-arrow::after {
+            content: "";
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            border-right: 2px solid rgba(255, 255, 255, 0.879);
+            border-bottom: 2px solid rgba(255, 255, 255, 0.879);
+            transform: rotate(45deg);
+        }
+
+        .dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: -30px;
+            background-color: rgb(242, 181, 68);
+            min-width: 180px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            text-align: left;
+            margin-left: 35px;
+            transition: all 0.5s ease-in-out;
+        }
+
+        .dropdown a {
+            display: block;
+            padding: 10px 16px;
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .dropdown a:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown a:hover {
+            background-color: rgb(249, 210, 136);
+        }
+
+        .dropdown-sub {
+            display: none;
+            position: absolute;
+            top: 0;
+            /* ASYA linki ile aynı hizada başlar */
+            left: 100%;
+            /* sağa açılır */
+            background-color: rgb(242, 181, 68);
+            min-width: 150px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: all 0.5s ease-in-out;
+        }
+
+        /* ASYA alt dropdown linkleri */
+        .dropdown-sub a {
+            display: block;
+            padding: 10px 16px;
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .dropdown-sub a:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown-sub a:hover {
+            background-color: rgb(249, 210, 136);
+        }
+
+        /* ASYA üzerine gelince alt dropdown açılır */
+        .nav-item.has-submenu:hover>.dropdown-sub {
+            display: block;
+        }
+
+        .nav-item.has-submenu {
+            position: relative;
+            /* ASYA'nın alt dropdown'u buna göre konumlanacak */
+        }
+
+        @media (min-width: 769px) {
+            .nav-item:hover .dropdown {
+                display: block;
+            }
+        }
+
+        .nav-search {
+            margin-left: auto;
+            margin-right: 50px;
+            display: flex;
+            align-items: center;
+            position: relative;
+            gap: 5px;
+        }
+
+        .nav-search input {
+            padding: 6px 36px 6px 12px;
+            border-radius: 3px;
+            border: 3px solid rgba(200, 200, 200, 0.5);
+            background-color: rgb(31, 31, 31);
+            color: white;
+            font-size: 0.9em;
+            outline: none;
+            width: 180px;
+            font-family: monospace;
+        }
+
+        .nav-search input::placeholder {
+            color: rgba(200, 200, 200, 0.7);
+        }
+
+        .nav-search input:focus {
+            color: rgba(200, 200, 200, 0.769);
+            border-color: rgba(200, 200, 200, 0.769);
+        }
+
+        .nav-search input:focus::placeholder {
+            color: rgba(200, 200, 200, 0.769);
+            /* placeholder beyazın açık tonu */
+        }
+
+        .nav-search .clear-btn,
+        .nav-search .go-btn {
+            position: absolute;
+            background: none;
+            border: none;
+            color: rgba(200, 200, 200, 0.9);
+            cursor: pointer;
+            font-size: 1em;
+            padding: 0;
+        }
+
+        .nav-search .clear-btn {
+            right: 30px;
+            /* oku biraz sola it */
+            display: none;
+            /* boşken gizle */
+
+        }
+
+        .nav-search .go-btn {
+            right: 20px;
+
+        }
+
+        /* Hover efektleri */
+        .nav-search .clear-btn:hover,
+        .nav-search .go-btn:hover {
+            color: white;
+        }
+
+        .dropdown-sub {
+            display: none;
+            position: absolute;
+            top: 0;
+            /* Ana dropdown ile aynı üst hizada */
+            left: 100%;
+            /* ASYA'nın sağında açılır */
+            background-color: rgb(242, 181, 68);
+            min-width: 180px;
+            /* Ana dropdown ile aynı genişlik */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+
+            text-align: left;
+            z-index: 1;
+            margin-top: 0;
+        }
+
+
+        .has-submenu:hover .dropdown-sub {
+            display: block;
+        }
+
+        .dropdown-sub a {
+            display: block;
+            padding: 10px 16px;
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .dropdown-sub a:hover {
+            background-color: rgb(249, 210, 136);
+        }
+
+        /* ASYA alt menüsü yan açılır */
+        .nav-item.has-submenu {
+            position: relative;
+        }
+
+        .dropdown-sub {
+            display: none;
+            position: absolute;
+            top: 0;
+            /* ASYA ile aynı hizada */
+            left: 100%;
+            /* ASYA’nın hemen sağında açılır */
+            background-color: rgb(242, 181, 68);
+            min-width: 180px;
+            /* ASYA dropdown ile aynı genişlik */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 10;
+        }
+
+        .nav-item.has-submenu:hover .dropdown-sub {
+            display: block;
+        }
+
+        .dropdown-sub a {
+            display: block;
+            padding: 10px 16px;
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+
+
+        .dropdown-sub a:hover {
+            background-color: rgb(249, 210, 136);
+        }
+
+
+        /* ----- Mobil için Hamburger ----- */
+        .menu-toggle {
+            font-size: 28px;
+            cursor: pointer;
+            display: none;
+        }
+
+        /* Overlay */
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0e0e0e;
+            color: #fff;
+            z-index: 2000;
+            flex-direction: column;
+            padding-top: 5px;
+            /* header boşluğu */
+            padding-left: 20px;
+            padding-right: 20px;
+
+        }
+
+        .overlay.active {
+            display: flex;
+        }
+
+        .overlay-header {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            /* ortalamak için */
+            width: 80%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 20px;
+            border: 1px solid rgb(187, 186, 186);
+            /* çerçeve */
+            background: transparent;
+            /* arka planı şeffaf */
+            border-radius: 6px;
+            /* hafif köşeler, istersen kaldırabilirsin */
+        }
+
+
+        .overlay-header .title {
+            font-size: 13px;
+            font-weight: 100;
+            font-family: monospace;
+            letter-spacing: 2px;
+        }
+
+
+
+        .overlay-links {
+            margin-top: 70px;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            font-size: 20px;
+            margin-left: 30px;
+        }
+
+        .overlay-links a {
+            text-decoration: none;
+            color: rgb(202, 200, 200);
+            font-family: monospace;
+            font-size: 500;
+        }
+
+        #istikametMenu .overlay-links {
+            margin-top: 150px;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            /* normal menüden biraz daha dar boşluk */
+            font-size: 20px;
+            /* biraz daha küçük */
+            margin-left: 30px;
+            /* girinti */
+        }
+
+        #istikametMenu .overlay-links a {
+            text-decoration: none;
+            color: rgb(202, 200, 200);
+            font-family: monospace;
+            transition: color 0.3s ease;
+            font-size: 500;
+            letter-spacing: 2px;
+        }
+
+        @media (max-width: 900px) {
+
+            .nav-links,
+            .nav-search {
+                display: none;
+            }
+
+            .menu-toggle {
+                display: block;
+                margin-right: 20px;
+            }
+        }
+
+        body.menu-open {
+            overflow: hidden;
+        }
+
+        /*overlay-search*/
+        .overlay-box {
+            position: relative;
+
+
+            left: 47%;
+            transform: translateX(-50%);
+            width: 81.5%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px;
+            border: 1px solid rgb(187, 186, 186);
+            background: transparent;
+            border-radius: 6px;
+            box-sizing: border-box;
+        }
+
+        .overlay-search input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            color: #fff;
+            font-size: 14px;
+            font-family: monospace;
+            letter-spacing: 1px;
+            outline: none;
+        }
+
+
+        .overlay-search .clear-btn,
+        .overlay-search .go-btn {
+            background: none;
+            border: none;
+            color: rgba(200, 200, 200, 0.9);
+            cursor: pointer;
+            font-size: 18px;
+            margin-left: 10px;
+        }
+
+        .overlay-search .clear-btn {
+            right: 32px;
+            /* input padding ile aynı */
+            display: none;
+        }
+
+        .overlay-search .go-btn {
+            right: 10px;
+            /* input padding ile aynı */
+        }
+
+
+        .overlay-content {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            /* container tüm yüksekliği kaplasın */
+            justify-content: space-between;
+            /* linkler üstte, arama kutusu altta */
+            margin-top: 70px;
+            /* overlay-header kadar boşluk */
+            padding-bottom: 50px;
+        }
+
+        /* ----- ASYA Overlay ----- */
+        #asyaMenu {
+            display: none;
+            /* başlangıçta gizli */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0e0e0e;
+            color: #fff;
+            z-index: 2000;
+            flex-direction: column;
+            padding-top: 5px;
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+        #asyaMenu.active {
+            display: flex;
+        }
+
+        #asyaMenu .overlay-header {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 20px;
+            border: 1px solid rgb(187, 186, 186);
+            background: transparent;
+            border-radius: 6px;
+        }
+
+        #asyaMenu .overlay-header .title {
+            font-size: 13px;
+            font-weight: 100;
+            font-family: monospace;
+            letter-spacing: 2px;
+        }
+
+        #asyaMenu .overlay-links {
+            margin-top: 150px;
+            /* İSTİKAMET overlay’ine uyumlu */
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            font-size: 20px;
+            margin-left: 30px;
+        }
+
+        #asyaMenu .overlay-links a {
+            text-decoration: none;
+            color: rgb(202, 200, 200);
+            font-family: monospace;
+            font-size: 500;
+            letter-spacing: 2px;
+            transition: color 0.3s ease;
+        }
+
+        #asyaMenu .overlay-links a:hover {
+            color: rgb(242, 181, 68);
+        }
+
+        #asyaMenu .overlay-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            flex: 1;
+            justify-content: flex-start;
+            margin-top: 70px;
+            /* header boşluğu */
+            padding-bottom: 50px;
+        }
+
+        #asyaMenu .overlay-search {
+            margin-top: auto;
+            /* search box’u en alta it */
+        }
+
+        .nav-logo {
+            text-decoration: none;
+            /* alt çizgiyi kaldır */
+            border: none;
+            /* varsa border kaldır */
+            color: inherit;
+            /* renk navbar ile uyumlu */
+        }
+
+        .nav-logo:hover {
+            text-decoration: none;
+            /* hover'da da çizgi olmasın */
+        }
+
+        .istikamet-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .plus-btn {
+            font-size: 18px;
+            cursor: pointer;
+            padding: 0 55px;
+            color: rgb(202, 200, 200);
+            transition: transform 0.2s ease, color 0.2s ease;
+        }
+
+        .plus-btn:hover {
+            transform: scale(1.2);
+            color: rgb(242, 181, 68);
+            /* hover rengi */
+        }
+
+        .temalar-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .asya-item,
+        .avrupa-item,
+        .turkiye-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .top-menu {
+            margin-top: 20px;
+            gap: 20px;
+            font-family: monospace;
+            font-weight: 500;
+            font-size: 14px;
+            margin-bottom: 16px;
+
+        }
+
+        .top-menu a {
+            text-decoration: none;
+            color: grey;
+            transition: color 0.3s ease;
+        }
+
+        .top-menu a:hover {
+            color: orange;
+            /* hover olunca altın rengi gibi */
+        }
+
+        .top-menu span {
+            color: grey;
+        }
+
+        /* Container */
+        .container {
+            display: flex;
+            flex-direction: column;
+            /* alt alta sıralama */
+            align-items: center;
+            /* kutuları ortala */
+            gap: 20px;
+            /* kutular arası boşluk px ile */
+            width: 600px;
+            /* container genişliği */
+            margin: 40px auto;
+            /* sayfada ortala */
+        }
+
+        /* Ortak kart */
+        .card {
+
+            border: 1px solid #ddd;
+
+            width: 900px;
+            /* ✅ sabit genişlik */
+            height: 600px;
+            /* ✅ sabit yükseklik */
+            padding: 24px;
+            /* ✅ px padding */
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+
+        }
+
+        .shop-link {
+            position: fixed;
+            right: 60px;
+            /* sağdan boşluk */
+            top: 50%;
+            /* dikey ortala */
+            transform: translateY(-50%) rotate(-90deg);
+            /* ters döndür */
+            transform-origin: top right;
+            /* dönüş merkezi */
+            font-size: 16px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.899);
+            background: none;
+            /* arka plan yok */
+            border: none;
+            font-family: monospace;
+            text-decoration: none;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: color 0.3s ease;
+            display: flex;
+            gap: 20px;
+        }
+
+        .shop-arrow {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-top: 2px solid rgba(255, 255, 255, 0.899);
+            border-left: 2px solid rgba(255, 255, 255, 0.899);
+            transform: rotate(90deg);
+            /* kuzeybatıya yön */
+            position: relative;
+        }
+
+        .shop-arrow::after {
+            content: '';
+            position: absolute;
+            width: 2px;
+            /* çizgi kalınlığı */
+            height: 14px;
+            /* ok uzunluğu */
+            background-color: currentColor;
+            left: 50%;
+            top: -2px;
+            transform: translateX(-50%) rotate(-45deg);
+            /* ok açısına hizala */
+        }
+
+        @media (max-width: 900px) {
+            .shop-link {
+                display: none;
+                /* mobilde mağazamız kaybolsun */
+            }
+        }
+
+
+
+
+        /* Sol içerik */
+        .content.card {
+            padding: 0;
+            overflow: hidden;
+            border: none;
+            height: auto;
+        }
+
+        .content-img {
+            width: 100%;
+            height: 420px;
+            object-fit: cover;
+            display: block;
+            object-position: center 40%;
+            filter: contrast(1.2) brightness(1.05);
+        }
+
+        .content-textbox {
+            padding-bottom: 30px;
+            box-sizing: border-box;
+            color: rgba(255, 255, 255, 0.85);
+            font-family: monospace;
+        }
+
+        .content-title {
+            font-size: 28px;
+            margin-bottom: 15px;
+        }
+
+        .content-text {
+            font-size: 16px;
+            line-height: 22px;
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+
+
+        .toc-widget {
+            border: 0.25px solid grey;
+            width: 900px;
+            font-family: monospace;
+            font-size: 25px;
+            margin: 20px 0;
+        }
+
+        .toc-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            padding: 40px;
+            color: rgba(255, 255, 255, 0.85);
+            border-bottom: 2px solid grey;
+            font-size: 24px;
+        }
+
+        .toc-header span:first-child {
+            margin-left: 20px;
+            /* yazıyı sağa kaydırır */
+        }
+
+        .toc-toggle {
+            display: inline-block;
+            transition: transform 0.3s ease;
+            font-size: 25px;
+        }
+
+        .toc-list {
+            list-style: none;
+            margin: 0;
+            padding: 50px 65px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            display: none;
+        }
+
+        .toc-list li {
+            margin-bottom: 1px;
+        }
+
+        .toc-list li a {
+            text-decoration: none;
+            color: grey;
+            font-size: 13px;
+        }
+
+        .toc-list li::before {
+            content: "■";
+            /* küçük kare işareti */
+            display: inline-block;
+            width: 12px;
+            /* kare boyutu */
+            margin-right: 8px;
+            /* yazı ile kare arasındaki boşluk */
+            color: grey;
+            /* kare rengi */
+            font-size: 12px;
+        }
+
+        /* Hover efekti */
+        .toc-list li a:hover {
+            color: orange;
+            /* yazı rengi değişir */
+            text-decoration: underline;
+            /* alt çizgi eklenir */
+        }
+
+        .toc-widget.open .toc-list {
+            max-height: 500px;
+            display: block;
+            /* açıldığında görünür */
+        }
+
+        .toc-widget.open .toc-toggle {
+            transform: rotate(180deg);
+        }
+
+
+        /* ✅ Mobil uyumluluk (Tablet ve telefonlar için) */
+        @media (max-width: 1024px) {
+
+            .container {
+                width: 90%;
+                gap: 16px;
+                margin: 20px auto;
+            }
+
+            .card {
+                width: 100%;
+                height: auto;
+                /* sabit yükseklik kalktı */
+                padding: 16px;
+            }
+
+            .content-img {
+                height: 200px;
+                /* görsel yüksekliği azaltıldı */
+            }
+
+            .content-title {
+                font-size: 22px;
+            }
+
+            .content-text {
+                font-size: 14px;
+                line-height: 20px;
+            }
+
+            .toc-widget {
+                width: 100%;
+                font-size: 20px;
+            }
+
+            .toc-header {
+                padding: 20px;
+                font-size: 20px;
+            }
+
+            .toc-toggle {
+                font-size: 20px;
+            }
+
+            .toc-list {
+                padding: 20px;
+            }
+
+            .toc-list li a {
+                font-size: 12px;
+            }
+        }
+
+        /* ✅ Telefonlar (dar ekranlar, <600px) */
+        @media (max-width: 600px) {
+
+            .container {
+                width: 95%;
+                gap: 12px;
+            }
+
+            .card {
+                width: 100%;
+                height: auto;
+                padding: 12px;
+            }
+
+            .content-img {
+                height: 180px;
+            }
+
+            .content-title {
+                font-size: 20px;
+            }
+
+            .content-text {
+                font-size: 13px;
+                line-height: 18px;
+            }
+
+            .toc-widget {
+                width: 100%;
+                font-size: 18px;
+            }
+
+            .toc-header {
+                padding: 16px;
+                font-size: 18px;
+            }
+
+            .toc-toggle {
+                font-size: 18px;
+            }
+
+            .toc-list {
+                padding: 16px;
+            }
+
+            .toc-list li a {
+                font-size: 12px;
+            }
+        }
+
+
+        .content-sections {
+            width: 900px;
+            margin: 40px 20px;
+            color: #ffffffba;
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            letter-spacing: 1px;
+            line-height: 28px;
+        }
+
+        .content-sections section {
+            font-size: 18px;
+            padding: 40px 0;
+        }
+
+        .content-sections h2 {
+            margin-bottom: 30px;
+            font-size: 30px;
+            color: rgb(237, 217, 182);
+            font-family: monospace;
+        }
+
+        .content-sections h4 {
+            color: whitesmoke;
+            font-size: 20px;
+        }
+
+        /* ✅ Mobil uyumluluk: content-sections */
+        @media (max-width: 1024px) {
+            .content-sections {
+                width: 90%;
+                margin: 30px auto;
+                line-height: 24px;
+            }
+
+            .content-sections section {
+                font-size: 16px;
+                padding: 30px 0;
+            }
+
+            .content-sections h2 {
+                font-size: 26px;
+                margin-bottom: 40px;
+            }
+
+            .content-sections h4 {
+                font-size: 16px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .content-sections {
+                width: 95%;
+                margin: 20px auto;
+                line-height: 22px;
+            }
+
+            .content-sections section {
+                font-size: 14px;
+                padding: 20px 0;
+            }
+
+            .content-sections h2 {
+                font-size: 22px;
+                margin-bottom: 30px;
+            }
+
+            .content-sections h4 {
+                font-size: 15px;
+            }
+        }
+
+
+        /* Üçlü resim satırı */
+        .image-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            /* resimler arası boşluk */
+            margin: 20px 0;
+
+        }
+
+        .image-row img {
+            width: 32%;
+            /* üç resim yan yana sığacak şekilde */
+            aspect-ratio: 1 / 1;
+            /* kare yapmak için */
+            object-fit: cover;
+            /* kırpmadan dolgu yap */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            filter: contrast(1.2) brightness(1.05);
+            object-position: center 85%;
+
+
+        }
+
+        @media (min-width: 769px) {
+            .image-row img:hover {
+                transform: scale(1.50);
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+                z-index: 1;
+            }
+        }
+
+        /* Mobil uyumlu */
+        @media (max-width: 768px) {
+            .image-row {
+                flex-direction: column;
+                gap: 40px;
+            }
+
+            .image-row img {
+                width: 100%;
+                aspect-ratio: 1 / 1;
+                transform: none;
+                /* mobilde büyüme yok */
+                box-shadow: none;
+                /* gölge kapalı */
+            }
+        }
+
+        .image-row-2 {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .image-row-2 img {
+            width: 49%;
+            /* iki resim yan yana sığacak şekilde */
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            filter: contrast(1.2) brightness(1.05);
+        }
+
+
+
+
+        /* Mobil uyumlu */
+        @media (max-width: 768px) {
+            .image-row-2 {
+                flex-direction: column;
+                gap: 40px;
+            }
+
+            .image-row-2 img {
+                width: 100%;
+                aspect-ratio: 1 / 1;
+                transform: none;
+                box-shadow: none;
+            }
+        }
+
+
+
+
+        .text-image-row {
+            display: flex;
+            align-items: center;
+            /* metin ve resmi üstten hizala */
+            gap: 20px;
+            /* aradaki boşluk */
+            margin: 40px 0;
+        }
+
+
+
+
+        .text-image-row p {
+            flex: 1;
+            /* yazı alanı esnek */
+            font-size: 18px;
+            line-height: 28px;
+            color: #ffffffba;
+        }
+
+        .text-image-row img {
+            width: 300px;
+            /* istediğin genişlik */
+            height: auto;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+            /* hover efekti */
+            filter: contrast(1.2) brightness(1.05);
+
+        }
+
+        .text-image-row img:hover {
+            transform: scale(1.05);
+            /* hafif büyüme */
+        }
+
+        /* Mobil uyumluluk */
+        @media (max-width: 768px) {
+            .text-image-row {
+                flex-direction: column;
+                /* alt alta geç */
+                align-items: center;
+                text-align: left;
+            }
+
+            .text-image-row img {
+                width: 100%;
+                /* tam genişlik */
+                max-width: 400px;
+                order: -1;
+            }
+
+            .text-image-row p {
+                font-size: 14px;
+                /* mobilde yazı boyutunu küçült */
+                line-height: 24px;
+                /* satır yüksekliği ile uyumlu */
+            }
+        }
+
+        /* Section resimleri */
+        .section-img {
+            width: 100%;
+            max-width: 900px;
+            /* orijinal section genişliği ile uyumlu */
+            height: 500px;
+            /* orantılı boyutlandırma */
+            margin: 20px 0;
+            /* başlık ve paragraf arasında boşluk */
+            object-fit: cover;
+            object-position: center 55%;
+            filter: contrast(1.2) brightness(1.05);
+
+        }
+
+        /* Mobil uyumlu */
+        @media (max-width: 600px) {
+            .section-img {
+                width: 100%;
+
+                margin: 15px 0;
+                height: auto;
+                /* yüksekliği otomatik yap */
+                object-fit: cover;
+            }
+        }
+
+        strong {
+            font-weight: 1000;
+            color: white;
+
+            font-family: monospace;
+
+        }
+
+        .pai-map {
+            margin-top: 40px;
+            padding: 20px;
+
+            font-size: 30px;
+        }
+
+        .map-container {
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-start;
+            gap: 30px;
+            flex-wrap: nowrap;
+            margin-top: 20px;
+
+        }
+
+        .map-container iframe {
+            flex: 1 1 600px;
+            max-width: 700px;
+            height: 500px;
+        }
+
+        .map-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            text-align: left;
+            justify-content: center;
+            font-size: 1rem;
+        }
+
+        .point {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: whitesmoke;
+            font-weight: 500;
+        }
+
+        .circle {
+            width: 26px;
+            height: 26px;
+            background-color: #0097b2;
+            /* Mavi yuvarlak */
+            color: white;
+            border-radius: 50%;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+
+        @media (max-width: 768px) {
+            .map-list {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                /* 2 sütun */
+                gap: 12px 24px;
+                margin-top: 15px;
+            }
+
+            .map-container {
+                flex-direction: column;
+            }
+
+            .map-container iframe {
+                width: 100%;
+                height: 300px;
+            }
+
+            .point {
+                justify-content: flex-start;
+            }
+        }
+
+        .symbolized {
+            position: relative;
+            display: inline-block;
+            /* önemli: hem satır içinde kalır hem referans olur */
+            /* hiç padding/left/margin eklemiyoruz — paragraf bozulmaz */
+        }
+
+
+        .symbolized::before {
+            content: "✦";
+            position: absolute;
+            left: -35px;
+            top: -0.2em;
+            transform: translateY(0);
+            font-size: 30px;
+            line-height: 1;
+            color: orange;
+            pointer-events: none;
+            white-space: nowrap;
+        }
+
+        /* Responsive ince ayar: ekran daralınca sembolü daha az sola al */
+        @media (max-width: 600px) {
+            .symbolized::before {
+                left: -24px;
+                font-size: 18px;
+            }
+        }
+
+        #temalarMenu .overlay-links {
+            margin-top: 150px;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            font-size: 20px;
+            margin-left: 30px;
+        }
+
+        #temalarMenu .overlay-links a {
+            text-decoration: none;
+            color: rgb(202, 200, 200);
+            font-family: monospace;
+            letter-spacing: 2px;
+        }
+
+        .kaynaklar-item,
+        .ekosistem-item,
+        .gastronomi-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .rota-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 12px 24px;
+            border: 2px solid #F4A621;
+            border-radius: 8px;
+
+            color: #F4A621 !important;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            text-decoration: none;
+
+            transition: .25s ease;
+        }
+
+        .rota-btn:hover {
+            background: #F4A621;
+            color: #1e1e1e !important;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(244, 166, 33, .35);
+        }
+
+        .desktop-br {
+            display: inline;
+        }
+
+        @media (max-width: 900px) {
+            .desktop-br {
+                display: none;
+            }
+        }
+
+        .circle--food {
+            background-color: #e98235;
+        }
+    </style>
+</head>
+
+<body>
+    <nav id="navbar">
+        <a href="index.html" class="nav-logo">
+            <img src="resimler/logoooo 2.jpeg" alt="Logo">
+            <div class="logo-text">
+                <span class="main-title">HadiGidelim</span>
+                <span class="sub-title">Kendi Ritmini Keşfet</span>
+            </div>
+        </a>
+
+        <div class="menu-toggle" id="menuToggle">&#9776;</div>
+
+        <div class="nav-links" id="navLinks">
+            <div class="nav-item"><a href="index.html" class="nav-link">ANA SAYFA</a></div>
+
+            <div class="nav-item">
+                <a href="IstikametleriGor.html" class="nav-link has-arrow">İSTİKAMET</a>
+                <div class="dropdown">
+                    <div class="nav-item has-submenu">
+                        <a href="asya.html" class="nav-link">ASYA</a>
+                        <div class="dropdown-sub">
+                            <a href="tayland.html">Tayland</a>
+                            <a href="endonezya.html">Endonezya</a>
+                        </div>
+                    </div>
+                    <a href="#">AVRUPA</a>
+                    <a href="#">TÜRKİYE</a>
+                </div>
+            </div>
+
+            <div class="nav-item"><a href="temalar.html" class="nav-link has-arrow">TEMALAR</a>
+                <div class="dropdown">
+                    <div class="nav-item has-submenu">
+                        <a href="seyahatkaynaklari.html" class="nav-link">SEYAHAT KAYNAKLARI</a>
+                    </div>
+                    <a href="#">EKOSİSTEM</a>
+                </div>
+
+
+            </div>
+
+            <div class="nav-item"><a href="aboutus.html" class="nav-link">HAKKIMDA</a></div>
+            <div class="nav-item"><a href="#" class="nav-link rota-btn">ROTA PLANLAYICI</a></div>
+        </div>
+        <div class="nav-search">
+            <input type="text" id="searchInput" placeholder="Keşfet..." />
+            <button class="clear-btn" id="clearBtn">&times;</button>
+            <button class="go-btn" id="goBtn">&#8594;</button>
+        </div>
+    </nav>
+
+    <!-- Ana Menü Overlay (Mobil) -->
+    <div class="overlay" id="mainMenu">
+        <div class="overlay-header">
+            <div></div>
+            <div class="btn-box" id="closeMain">&times;</div>
+        </div>
+
+        <div class="overlay-content">
+            <div class="overlay-links">
+                <a href="index.html">ANA SAYFA</a>
+                <div class="istikamet-item">
+                    <a href="istikametlerigor.html" class="istikamet-link">İSTİKAMET</a>
+                    <span class="plus-btn" id="openIstikamet">
+                        <i class="fas fa-plus"></i>
+                    </span>
+                </div>
+                <div class="temalar-item">
+                    <a href="temalarigor.html" class="temalar-link">TEMALAR</a>
+                    <span class="plus-btn" id="openTemalar">
+                        <i class="fas fa-plus"></i>
+                    </span>
+                </div>
+                <a href="aboutus.html">HAKKIMDA</a>
+                <a href="#">ROTA PLANLAYICI</a>
+                <a href="#">MAĞAZAMIZ <i class="fas fa-shopping-cart"></i></a>
+            </div>
+            <div class="overlay-search overlay-box">
+                <input type="text" id="searchInputMobile" placeholder="Keşfet..." />
+                <button class="clear-btn" id="clearBtnMobile">&times;</button>
+                <button class="go-btn" id="goBtnMobile">&#8594;</button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- İstikamet Overlay -->
+    <div class="overlay" id="istikametMenu">
+        <div class="overlay-header">
+            <div class="btn-box" id="backIstikamet">&#8592;</div>
+            <div class="title">İSTİKAMET</div>
+            <div></div>
+        </div>
+
+        <div class="overlay-content">
+            <div class="overlay-links">
+
+                <div class="asya-item">
+                    <a href="asya.html" class="asya-link">ASYA</a>
+                    <span class="plus-btn" id="openAsya">
+                        <i class="fas fa-plus"></i>
+                    </span>
+                </div>
+
+                <div class="avrupa-item">
+                    <a href="avrupa.html" class="avrupa-link">AVRUPA</a>
+                    <span class="plus-btn" id="openAvrupa"><i class="fas fa-plus"></i></span>
+                </div>
+
+                <div class="turkiye-item">
+                    <a href="turkiye.html" class="turkiye-link">TÜRKİYE</a>
+                    <span class="plus-btn" id="openTurkiye"><i class="fas fa-plus"></i></span>
+                </div>
+            </div>
+            <div class="overlay-search overlay-box">
+                <input type="text" id="searchInputIstikamet" placeholder="Bir istikamet ara..." />
+                <button class="clear-btn" id="clearBtnIstikamet">&times;</button>
+                <button class="go-btn" id="goBtnIstikamet">&#8594;</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="overlay" id="asyaMenu">
+        <div class="overlay-header">
+            <div class="btn-box" id="backAsya">&#8592;</div>
+            <div class="title">ASYA</div>
+            <div></div>
+        </div>
+
+        <div class="overlay-content">
+            <div class="overlay-links">
+                <a href="tayland.html">Tayland</a>
+                <a href="#">Endonezya</a>
+            </div>
+            <div class="overlay-search overlay-box">
+                <input type="text" id="searchInputAsya" placeholder="Keşfet..." />
+                <button class="clear-btn" id="clearBtnAsya">&times;</button>
+                <button class="go-btn" id="goBtnAsya">&#8594;</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="overlay" id="temalarMenu">
+        <div class="overlay-header">
+            <div class="btn-box" id="backTemalar">&#8592;</div>
+            <div class="title">TEMALAR</div>
+            <div></div>
+        </div>
+
+        <div class="overlay-content">
+            <div class="overlay-links">
+
+                <div class="kaynaklar-item">
+                    <a href="seyahatkaynaklari.html">SEYAHAT KAYNAKLARI</a>
+                    <span class="plus-btn" id="openKultur">
+                        <i class="fas fa-plus"></i>
+                    </span>
+                </div>
+
+                <div class="ekosistem-item">
+                    <a href="#">EKOSİSTEM</a>
+                    <span class="plus-btn" id="openDoga">
+                        <i class="fas fa-plus"></i>
+                    </span>
+                </div>
+
+                <div class="gastronomi-item">
+                    <a href="#">GASTRONOMİ</a>
+                    <span class="plus-btn" id="openGastronomi">
+                        <i class="fas fa-plus"></i>
+                    </span>
+                </div>
+
+            </div>
+
+            <div class="overlay-search overlay-box">
+                <input type="text" id="searchInputTemalar" placeholder="Bir tema ara..." />
+                <button class="clear-btn" id="clearBtnTemalar">&times;</button>
+                <button class="go-btn" id="goBtnTemalar">&#8594;</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+
+        <div class="content card">
+            <img src="resimler/gilikapak.png" alt="Örnek Görsel" class="content-img">
+            <div class="top-menu">
+                <a href="index.html">ANA SAYFA</a>
+                <span>|</span>
+                <a href="asya.html">ASYA</a>
+                <span>|</span>
+                <a href="tayland.html">TAYLAND</a>
+
+            </div>
+
+            <div>
+                <a href="https://magazamiz.com" class="shop-link" target="_blank">
+                    MAĞAZAMIZ
+                    <span class="shop-arrow"></span>
+                </a>
+            </div>
+            <div class="content-textbox">
+                <h3 class="content-title">Gili Trawangan: Araçsız Yaşamın ve Turkuaz Denizlerin Adası</h3>
+                <p class="content-text">
+                    Motorlu araçların olmadığı Gili T’de sabah turkuaz sularda şnorkelle yüzerken kaplumbağalara denk
+                    gelebilir, gün batımından sonra adanın hareketli gece hayatına karışabilirsiniz.
+                </p>
+            </div>
+        </div>
+
+        <div class="toc-widget" id="tocWidget">
+            <div class="toc-header" id="tocHeader">
+                <span>İçindekiler</span>
+                <span class="toc-toggle">&#9660;</span>
+            </div>
+            <ul class="toc-list" id="tocList">
+                <li><a href="#section1">Gili T Seyahat Rehberi</a></li>
+                <li><a href="#section2">Gili T’ye Nasıl Gidilir?</a></li>
+                <li><a href="#section3">Gili T Gezi Haritası</a></li>
+                <li><a href="#section4">Adayı Bisikletle Keşfedin</a></li>
+                <li><a href="#section5">Sahilde Deniz Kaplumbağalarıyla Yüzün</a></li>
+                <li><a href="#section6">Üç Gili Adası Arasında Tura Katılın</a></li>
+                <li><a href="#section7">Bir Beach Club’da Gün Boyu Takılın</a></li>
+                <li><a href="#section8">Adanın Batısında Büyüleyici Bir Gün Batımı İzleyin</a></li>
+                <li><a href="#section9">Gece Hayatını Keşfedin</a></li>
+                <li><a href="#section10">Gili Meno’da Yavru Kaplumbağalarla Tanışın</a></li>
+                <li><a href="#section11">Gili T Konaklama </a></li>
+                <li><a href="#section12">Sadece Yürü, Sadece Yüz, Sadece Eğlen: Gili T</a></li>
+
+
+            </ul>
+        </div>
+
+        <div class="content-sections">
+            <section id="section1">
+                <h2>Gili Trawangan Seyahat Rehberi</h2>
+                <p>Gili Adaları; <strong>Gili Trawangan</strong>, <strong>Gili Meno</strong> ve <strong>Gili
+                        Air</strong> olmak üzere üç adadan oluşuyor. Bunların en
+                    büyüğü ve en hareketlisi Gili Trawangan (Yerel halk ve müdavimleri tarafından Gili T olarak
+                    bahsedilir).
+                    <br><br>
+
+                    Bir ada düşünün, yalnızca 3 kilometre uzunluğunda ve 2 kilometre genişliğinde. Motorlu tek bir araç
+                    yok. Ve adanın çevresini bisikletle yaklaşık 30 dakikada dolaşabiliyorsunuz. Sabah herhangi bir tura
+                    para ödemeden kendinizi attığınız bir sahilde şnorkelle yüzerken kaplumbağalara denk
+                    gelebiliyorsunuz. Gün batımında gökyüzünün muazzam renklerine tanık olabiliyor, isterseniz sahilde
+                    ata binebiliyorsunuz. Güneş battıktan sonra ise ada bambaşka bir atmosfere geçiş yapıyor. Gili T’ye
+                    sadece gece hayatı için bile eğlence adası denilebilirdi fakat bu haksızlık olur. Çünkü burası
+                    gündüz denizin, gün batımının ve ada hayatının; geceyse eğlencenin tadını çıkarabileceğiniz bir ada.
+                    Ada aşığı biri olarak Gili T’yi favorilerimin arasına koydum. Kısacası, muazzam bir ada deneyimine
+                    hazır olun.
+                </p><br><br>
+
+            </section>
+
+            <section id="section2">
+                <h2>Gili T’ye Nasıl Gidilir?</h2>
+                <p>Gili T’ye Bali’den veya Lombok’tan tekneyle ulaşabilirsiniz. Bali’den farklı limanlardan seferler
+                    düzenleniyor. Size uygun limanı, Bali’de nerede konakladığınıza bağlı seçebilirsiniz. </p>
+
+                <h4>Bali’den hızlı tekne</h4>
+                <ul>
+                    <li><strong>Padang Bai</strong> en hızlı ve en ucuz seçenektir; yaklaşık 1,5 - 2 saat sürer ve
+                        günlük en
+                        fazla seferlerin
+                        olduğu limandır. Ubud veya Bali'nin orta kesimlerinden geçecekseniz en uygunudur. </li>
+
+                    <li>Bali'nin güney taraflarındaysanız (Kuta, Seminyak, Uluwatu, Nusa Dua) <strong>Sanur ve
+                            Serangan</strong> uygundur, fakat daha uzun sürüyor,
+                        yaklaşık 2.5 - 3 saat. </li>
+                    <li>EKA Jaya, BlueWater Express, Gili Gili Fast Boat ve Semaya One gibi firmaların seferlerine
+                        bakabilirsiniz. Bilet fiyatları limana, firmaya ve tarihe göre değişiyor.
+                        BİLETLERE 12GO. BURAYA LİNKİNİ KOY!!</li>
+
+                </ul>
+
+                <br>
+
+                <h4>Lombok’tan: Bangsal Limanı</h4>
+                <ul>
+                    <li>Lombok’tan geliyorsanız Gili T’ye geçmek için Bangsal Limanı’nı kullanabilirsiniz. </li>
+                    <li>Yerel halkın kullandığı
+                        tekneler yaklaşık 30–45 dakikada adaya geçiyor. </li>
+                    <li>Bu tekneler dolunca hareket ettikleri için
+                        saatleri belli olmuyor. Ama çok fazla sefer var, herhangi birine binebilirsiniz.</li>
+                    <li>Beklemek istemiyorsanız, özel bir sürat teknesiyle geçebilirsiniz. 10-15 dakika sürer.
+                        YİNE BURAYA DA LİNK KOY 12GO!!
+                    </li>
+
+                </ul>
+
+
+
+            </section>
+
+            <section id="section3" class="pai-map">
+                <h2>Gili T Gezi Haritası</h2>
+                <p><strong>Pai</strong>’de dolaşmak zaten başlı başına bir keyif ama küçük bir rehber hayatı
+                    kolaylaştırıyor. Haritada
+                    en sevdiğim yerleri bulabilir, kendi Pai rotanızı oluşturabilirsiniz.</p>
+
+                <div class="map-container">
+                    <iframe src="https://www.google.com/maps/d/embed?mid=1WLShcuvtd37LMo6bLi7OApQSiO9P-yA&ehbc=2E312F"
+                        width="640" height="480"></iframe>
+
+                    <div class="map-list">
+                        <div class="map-list-group">
+                            <h4>Gezilecek Yerler</h4>
+                            <div class="point"><span class="circle">1</span> Pai Kanyon</div>
+                            <div class="point"><span class="circle">2</span> Pai Bamboo Bridge</div>
+                            <div class="point"><span class="circle">3</span> Wat Phra That Mae Yen</div>
+                            <div class="point"><span class="circle">4</span> Tham Lod Mağarası</div>
+                            <div class="point"><span class="circle">5</span> Sai Ngam Kaplıcası</div>
+                            <div class="point"><span class="circle">6</span> Pai Gece Pazarı</div>
+                            <div class="point"><span class="circle">7</span> Paradise Bar</div>
+                            <div class="point"><span class="circle">8</span> Jazz House Pai</div>
+                            <div class="point"><span class="circle">9</span> Baan Mai Kon Muang Pai Resort</div>
+                        </div>
+                        <div class="map-list-group">
+                            <h4>Yeme İçme</h4>
+                            <div class="point"><span class="circle circle--food">1</span> Monko Cafe</div>
+                            <div class="point"><span class="circle circle--food">2</span> Dream Cafe Pai</div>
+                            <div class="point"><span class="circle circle--food">3</span> Cade De Pai</div>
+                        </div>
+
+
+                    </div>
+                </div><br><br><br>
+
+
+            </section>
+
+
+            <section id="section4">
+                <h2>Adayı Bisikletle Keşfedin</h2>
+                <img src="resimler/giliibis.jpg" alt="Gili T" class="section-img">
+                <p>Gili T’de başlangıç aktivitelerden biri bisikletle adanın çevresini dolaşmak. Sakin sakin
+                    yaklaşık bir saatte tam tur atabilirsiniz. Bence bunu ilk gün yapın. Böylece adanın farklı
+                    taraflarını görüp
+                    sonrasında nerelere dönmek istediğinize karar verebilirsiniz. <br><br>
+
+                    Bisikleti günlük 75.000 Rp’ye kiralayabiliyorsunuz. Saatlik kiralama seçeneği de var, yaklaşık
+                    20.000 Rp.
+                    Adada motorlu araç olmadığı için bisikletle dolaşmak çok çok rahat. Tek bir anayol var zaten. Bu ana
+                    yolu takip
+                    ederek adanın çevresini gezebilirsiniz. Doğu tarafında yol genellikle asfalt, batı tarafındaysa kum
+                    yer yer yumuşak ve gevşek. Bu kısımlarda bisikletle biraz daha dikkat edebilirsiniz. <br><br>
+
+                    Sadece kıyı boyunca da gitmeyin derim. İç taraflara da sapıp adanın başka bir yüzünü görün, yerel
+                    yaşamı
+                    gözlemleyin ve yol üzerindeki restoranlarda mola verin. Ada küçük ama her yerinde keşfedilecek çok
+                    güzel detaylar var.
+                </p>
+
+            </section>
+
+
+            <section id="section5">
+                <h2>Sahilde Deniz Kaplumbağalarıyla Yüzün</h2>
+                <img src="resimler/gilikaplumbag.jpg" alt="Gili T" class="section-img">
+                <p>Arkadaşlar, Gili Adaları deniz kaplumbağaları için adeta bir sığınak gibi. Gili T’de onlara o kadar
+                    sık rastlayabiliyorsunuz ki, insan burayı kaplumbağaların ana vatanı sanıyor.
+
+                    Ve en güzel yanlarından biri kesinlikle şu: Denize girdiğiniz herhangi bir
+                    sahilde bir deniz kaplumbağasına denk gelebilme ihtimaliniz. <br><br>
+                    Ve daha da güzeli bunun için bir tura para ödemeniz de gerekmiyor. Sabah uyanıp kendinizi denize
+                    atıyorsunuz, şnorkelle yüzerken bir anda karşınıza çıkabiliyorlar. Gerçekten insanı azıcık daha
+                    kulaç atayıma çağıran bir vaziyet bu ve harika hissettiriyor 😊 <br><br>
+                    Kendi şnorkeliniz yoksa sahilde kiralayabileceğiniz yerler var. Fiyatlar yaklaşık 25.000–50.000
+                    Rp arasında değişiyor.
+                </p><br><br><br>
+
+
+
+            </section>
+
+
+
+
+            <section id="section6">
+                <h2>Üç Gili Adası Arasında Tura Katılın</h2>
+                <img src="resimler/3giliadasi.jpg" alt="Gili T" class="section-img">
+                <p>Fotoğrafta gördüğünüz Gili Trawangan, Gili Meno ve Gili Air’in her birinin çevresinde keşfedilecek
+                    ayrı bir sualtı dünyası var. Gili T’de kıyıdan şnorkelle yüzmek çok güzel ama bu turla diğer iki
+                    adanın çevresindeki noktaları da görebilirsiniz.
+
+                    <img src="resimler/gilinest.jpg" alt="Gili T" class="section-img">
+                    Gili Meno açıklarındaki NEST, turun en akılda kalıcı noktalarından biri. Denizin altında halka
+                    şeklinde dizilmiş 48 insan figürünün çevresinde yüzmek gerçekten farklı bir deneyim. Gili Air
+                    çevresindeki renkli resiflerde şnorkelle yüzmek ve tur boyunca deniz kaplumbağalarına rastlama
+                    ihtimali de cabası.<br><br>
+                    Üç adayı ve farklı şnorkel noktalarını tek turda keşfediyorsunuz. Bu paraya bu etkinlik çok ama çok
+                    ucuz. Gili T’ye geldiyseniz bu turu kesinlikle kaçırmayın. Bu turun detaylarını
+                    aşağıya bırakıyorum. Göz atıp tarih ve fiyat seçeneklerini inceleyebilirsiniz.
+                <div data-gyg-href="https://widget.getyourguide.com/default/availability.frame"
+                    data-gyg-tour-id="471237" data-gyg-locale-code="tr-TR" data-gyg-currency="USD"
+                    data-gyg-widget="availability" data-gyg-variant="horizontal" data-gyg-partner-id="8XNX1IK">
+                    <span>Powered by <a target="_blank" rel="sponsored"
+                            href="https://www.getyourguide.com/gili-islands-l2491/">GetYourGuide</a></span>
+                </div>
+
+                </p><br><br><br>
+
+
+
+            </section>
+
+            <section id="section7">
+                <h2>Bir Beach Club’da Gün Boyu Takılın</h2>
+                <img src="resimler/denizgili.png" alt="Gili T" class="section-img">
+                <p>Bir gününüzü dertsiz tasasız geçirin. Beach club’da yemeğiniz, içeceğiniz önünüze gelsin; canınız
+                    istediğinde kendinizi masmavi, berrak suya bırakın. Kaplumbağlarla yüzün. </p>
+                <img src="resimler/denizgili1.png" alt="Gili T" class="section-img">
+                <p>Ben The Exile, Malibu Beach Club ve Le Pirate Beach Club’ı çok beğendim. Güzel fotoğraflar
+                    çekilebileceğiniz salıncakları da var. Giriş ücreti ödemiyorsunuz, sadece yiyip içtiklerinizi
+                    ödüyorsunuz ve fiyatlar da oldukça makul.</p>
+                <img src="resimler/atgili.png" alt="Gili T" class="section-img">
+                <p>İsterseniz yerel halkın yardımıyla sahilde ata binebilirsiniz. Gün batımına doğru, dalga sesleri
+                    eşliğinde kıyı boyunca ilerlemek bambaşka inanılmaz bir his. Güneş denizin üzerine doğru inerken at
+                    sırtından manzarayı izlemek, Gili T’den aklınızda kalacak en özel anlardan biri olacağına eminim.
+                </p>
+                <br><br><br>
+
+            </section>
+
+            <section id="section8">
+                <h2>Adanın Batısında Büyüleyici Bir Gün Batımı İzleyin</h2>
+                <img src="resimler/gunbatimigili.png" alt="Gili T" class="section-img">
+                <p>Hayatımda gördüğüm en güzel gün batımlarından biri Gili Trawangan’daydı. Fotoğrafta hiçbir filtre
+                    yok. Adadayken gün batımını kaçırmamanızı o yüzden özellikle öneriyorum.
+
+                    <br><br>
+                    Güneş batmadan yaklaşık bir saat önce, saat 17:00 civarında batı kıyısına geçerseniz sahilde güzel
+                    bir yer bulabilirsiniz. Bulutlar güneşi kapatmış olsa bile hemen ayrılmayın. Güneşi göremediğiniz
+                    bir akşamda bile gökyüzünün mavi, mor ve pembe tonlara dönüşmesini izleyin. Renkler güneş battıktan
+                    sonraki dakikalarda daha da güzelleşiyor. Hava tamamen kararmadan kalkmayın.
+
+                </p><br><br><br>
+            </section>
+
+
+            <section id="section9">
+                <h2>Gece Hayatını Keşfedin</h2>
+                <img src="resimler/gecegili.png" alt="Gili T" class="section-img">
+
+                <p>Gündüzleri denizin, kaplumbağaların ve ada keşfinin tadını çıkarıyorsunuz. Güneş battı mı Gili T
+                    sanki bambaşka bir adaya dönüşüyor. Özellikle liman çevresindeki doğu kıyısında müzik yükseliyor,
+                    barlar dolmaya başlıyor. Bir yerde canlı reggae dinleyip ritme kapılıyorsunuz, başka bir yerde DJ
+                    müziğiyle dans ediyorsunuz. Önce gece pazarında taze ızgara deniz ürünleri yiyip sonra bar bar
+                    dolaşmak da akşamın güzel bir planı. <br><br>
+
+                    Her gece aynı değil; farklı barlar haftanın farklı günlerinde hareketleniyor. İster sahilde müzik
+                    dinleyip sakin bir akşam geçirin, ister kalabalığa karışıp dans edin, Gili T’de size göre bir gece
+                    mutlaka var. Ada gündüz sunduğu güzelliklerle zaten dopdolu. Akşamlarıysa gerçekten çok canlı.
+                </p><br><br><br>
+
+            </section>
+
+
+            <section id="section10">
+                <h2>Ekoturizm ve Kaplumbağa Koruma Girişimleri</h2>
+
+                <p>Gili T’de deniz yaşamını korumak için çalışan yerel girişimler var. Dalış merkezleri resif
+                    restorasyonu ve kıyı temizliği gibi çalışmalara katılıyor, tek kullanımlık plastikleri azaltmaya
+                    yönelik adımlar atılıyor. Kaplumbağa yuvalarını korumaya yönelik çalışmalar da her geçen gün
+                    artıyor.</p>
+                <img src="resimler/turtlesactuary.png" alt="Gili Meno" class="section-img">
+                <p>Bu çalışmaları yakından görmek isterseniz, Gili Meno’ya geçip limana yakın Turtle Sanctuary’ye
+                    uğrayabilirsiniz. Burada farklı
+                    büyüklüklerde yavru deniz kaplumbağalarını görmek mümkün.
+                    <img src="resimler/havuzgilimeno.jpg" alt="Gili Meno" class="section-img">
+
+                    Yumurtadan çıktıktan sonra bir süre
+                    havuzlarda büyütülüyor, denize bırakılacak kadar güçlendiklerinde okyanusa kavuşuyorlar.
+
+                    <img src="resimler/IMG_0667.jpg" alt="Gili Meno" class="section-img">
+                    Bırakılma
+                    törenleri her gün yapılmıyor ama denk gelirseniz güzel bir ana tanık olabilirsiniz. Yavrulara
+                    dokunmamaya özen gösterin. Giriş ücretsiz, bağışlar merkezin çalışmalarına destek oluyor. <br><br>
+                    Gili T’den Gili Meno’ya halk tekneleriyle geçebilirsiniz. Yolculuk yaklaşık 10-15 dakika sürüyor.
+                    Seferler genellikle sabah ve öğleden sonra oluyor; dönüş saatini kontrol etmeyi unutmayın.
+                </p><br><br><br>
+            </section>
+
+            <section id="section11">
+                <h2>Gili T Konaklama</h2>
+
+                <p>Gili T’de nerede kalacağınız, adadan nasıl bir tatil beklediğinize bağlı.
+                    <img src="resimler/kaleydovillas.jpg" alt="Gili T Konaklama" class="section-img">
+                <ul>
+                    <li>Limana, gece pazarına ve gece hayatına yakın olmak istiyorsanız doğu kıyısı daha hareketli ve
+                        elverişli.</li>
+                    <li> Burada kalmayı düşünüyorsanız, <strong>Kaleydo Villas</strong> konumuyla
+                        değerlendirebileceğiniz
+                        güzel seçeneklerden biri.
+                    </li>
+                </ul>
+                <img src="resimler/wilsonsretreat.jpg" alt="Gili T Konaklama" class="section-img">
+                <ul>
+                    <li>Kuzey kıyısı ise benim açık ara favorim. Çok daha sakin, iki adımda da denize ulaşıyorsunuz.
+                    </li>
+                    <li> Gözlerden uzak, biraz daha lüks bir konaklama arıyorsanız, inanın bana, <strong>Wilson's
+                            Retreat</strong> burada
+                        değerlendirebileceğiniz en güzel seçeneklerden biri.</li>
+                </ul>
+
+                <img src="resimler/kardiaresortt.jpg" alt="Gili T Konaklama" class="section-img">
+                <ul>
+                    <li>Batı kıyısı, gün batımını sahilden izlemek ve günü sakin bir akşamla tamamlamak isteyenlere
+                        göre. Bazı konaklama yerlerinde sahilde film gösterimleri de yapılıyor. </li>
+                    <li> <strong>Kardia Resort
+                            Gili Trawangan</strong> gün
+                        batımına yakın konumu ve sakin ortamıyla bu tarafı tercih edenlere güzel bir seçenek olabilir.
+                    </li>
+                </ul>
+                <img src="resimler/pinkCocoo.jpg" alt="Gili T Konaklama" class="section-img">
+                <ul>
+                    <li>Güney tarafıysa palmiye ağaçları arasında, kalabalıktan uzakta dinlenmek isteyenler için ideal.
+                    </li>
+                    <li>Burada konaklamak için <strong>PinkCoco Gili Trawangan</strong>’ı düşünebilirsiniz. Kendi beach
+                        club’ı var; gün batımında otantik müziği ve ateş dansı gösterileriyle sahil akşamları da
+                        çok daha hareketli oluyor.
+                    </li>
+                </ul>
+                </p><br><br><br>
+
+
+
+            </section>
+
+
+
+            <section id="section12">
+                <h2>Sadece Yürü, Sadece Yüz, Sadece Eğlen: Gili T</h2>
+                <p>Doğru beklentilerle giderseniz Gili Trawangan ününü hak eden bir ada. Kristal berraklığındaki
+                    sularında şnorkelle yüzerken kaplumbağalara rastlayabilir, motorlu araçların olmadığı yolları
+                    bisikletle keşfedebilir, gün batımında sahilde dinlenip akşamları müzik ve eğlencenin tadını
+                    çıkarabilirsiniz. Gili T, ada hayatının sakin ve hareketli taraflarını bir arada çok iyi dengeliyor.
+                    <br><br>
+
+                    İster birkaç günlük bir ada kaçamağı için uğrayın, ister Gili Meno ve Gili Air’i keşfetmek için
+                    burada konaklayın. Kendi ritminizde geçireceğiniz günleri ve birbirinden farklı akşamlarıyla Gili T,
+                    kolay kolay unutamayacağınız bir Endonezya deneyimi sunuyor. Ben ada aşığı biri olarak burayı
+                    favorilerimin arasına koydum. <br><br>
+                    Peki sen Gili T’de ilk olarak ne yapmak isterdin? <strong>Hayalini, deneyimlerini, merak ettiklerini veya
+                        aklına takılanları yorumlarda benimle paylaşabilirsin.</strong>
+                </p>
+
+
+            </section><br><br>
+
+
+
+
+            <section id="yorum-yaz"
+                style="background-color: rgb(24, 24, 24); padding: 40px 20px; margin-top: 60px; color: white;">
+                <div style="max-width: 700px; margin: 0 auto;">
+                    <h2 style="text-align: left; margin-bottom: 22px;">Yorum Yaz</h2>
+                    <p style="text-align: left; font-size: 14px; color: #aaa;">
+                        E-posta adresiniz yayımlanmayacaktır. Gerekli alanlar * ile işaretlenmiştir.
+                    </p>
+                    <form action="#" method="post"
+                        style="display: flex; flex-direction: column; gap: 25px; margin-top: 20px;">
+                        <textarea name="yorum" placeholder="Yorumunuz*" required
+                            style="width: 100%; height: 250px; padding: 10px; font-size: 14px; 
+                   border: none; box-shadow: inset 0 0 0 0.5px white; background-color: rgb(24, 24, 24); color: white;"></textarea>
+                        <input type="text" name="isim" placeholder="İsim"
+                            style="width: 100%; height: 50px; padding: 10px; font-size: 14px; 
+                   border: none; box-shadow: inset 0 0 0 0.5px white; background-color: rgb(24, 24, 24); color: white;">
+                        <input type="email" name="email" placeholder="E-posta"
+                            style="width: 100%; height: 50px; padding: 10px; font-size: 14px; 
+                   border: none; box-shadow: inset 0 0 0 0.5px white; background-color: rgb(24, 24, 24); color: white;">
+                        <button type="submit" style="width: 33%; padding: 12px; background-color: transparent; color: white; 
+                   border: none; box-shadow: inset 0 0 0 0.5px white; font-size: 14px; cursor: pointer;">
+                            GÖNDER
+                        </button>
+                    </form>
+                </div>
+            </section>
+
+        </div>
+    </div>
+
+    <script>
+
+        const menuToggle = document.getElementById('menuToggle');
+        const mainMenu = document.getElementById('mainMenu');
+        const closeMain = document.getElementById('closeMain');
+        const openIstikamet = document.getElementById('openIstikamet');
+        const istikametMenu = document.getElementById('istikametMenu');
+        const backIstikamet = document.getElementById('backIstikamet');
+
+        menuToggle.addEventListener('click', () => {
+            mainMenu.classList.add('active');
+        });
+
+        closeMain.addEventListener('click', () => {
+            mainMenu.classList.remove('active');
+        });
+
+        openIstikamet.addEventListener('click', (e) => {
+            e.preventDefault();
+            mainMenu.classList.remove('active');
+            istikametMenu.classList.add('active');
+        });
+
+        backIstikamet.addEventListener('click', () => {
+            istikametMenu.classList.remove('active');
+            mainMenu.classList.add('active');
+        });
+
+        const searchInput = document.getElementById('searchInput');
+        const clearBtn = document.getElementById('clearBtn');
+
+        if (searchInput && clearBtn) {
+            searchInput.addEventListener('input', () => {
+                if (searchInput.value.trim() !== "") {
+                    clearBtn.style.display = 'block';
+                } else {
+                    clearBtn.style.display = 'none';
+                }
+            });
+
+            clearBtn.addEventListener('click', () => {
+                searchInput.value = "";
+                clearBtn.style.display = 'none';
+
+                searchInput.focus();
+            });
+        }
+        const goBtn = document.getElementById('goBtn');
+
+        if (searchInput && clearBtn && goBtn) {
+            searchInput.addEventListener('input', () => {
+                if (searchInput.value.trim() !== "") {
+                    clearBtn.style.display = 'block';
+                    goBtn.style.display = 'none';
+                } else {
+                    clearBtn.style.display = 'none';
+                    goBtn.style.display = 'block';
+                }
+            });
+
+            clearBtn.addEventListener('click', () => {
+                searchInput.value = "";
+                clearBtn.style.display = 'none';
+                goBtn.style.display = 'block';
+                searchInput.focus();
+            });
+        }
+        menuToggle.addEventListener('click', () => {
+            mainMenu.classList.add('active');
+            document.body.classList.add('menu-open');
+        });
+
+        closeMain.addEventListener('click', () => {
+            mainMenu.classList.remove('active');
+            document.body.classList.remove('menu-open');
+        });
+
+        //mobil için nav-search
+        const searchInputMobile = document.getElementById('searchInputMobile');
+        const clearBtnMobile = document.getElementById('clearBtnMobile');
+        const goBtnMobile = document.getElementById('goBtnMobile');
+
+        if (searchInputMobile && clearBtnMobile && goBtnMobile) {
+            searchInputMobile.addEventListener('input', () => {
+                if (searchInputMobile.value.trim() !== "") {
+                    clearBtnMobile.style.display = 'block';
+                    goBtnMobile.style.display = 'none';
+                } else {
+                    clearBtnMobile.style.display = 'none';
+                    goBtnMobile.style.display = 'block';
+                }
+            });
+
+            clearBtnMobile.addEventListener('click', () => {
+                searchInputMobile.value = "";
+                clearBtnMobile.style.display = 'none';
+                goBtnMobile.style.display = 'block';
+                searchInputMobile.focus();
+            });
+        }
+
+        // İstikamet için nav-search
+        const searchInputIstikamet = document.getElementById('searchInputIstikamet');
+        const clearBtnIstikamet = document.getElementById('clearBtnIstikamet');
+        const goBtnIstikamet = document.getElementById('goBtnIstikamet');
+
+        if (searchInputIstikamet && clearBtnIstikamet && goBtnIstikamet) {
+            searchInputIstikamet.addEventListener('input', () => {
+                if (searchInputIstikamet.value.trim() !== "") {
+                    clearBtnIstikamet.style.display = 'block';
+                    goBtnIstikamet.style.display = 'none';
+                } else {
+                    clearBtnIstikamet.style.display = 'none';
+                    goBtnIstikamet.style.display = 'block';
+                }
+            });
+
+            clearBtnIstikamet.addEventListener('click', () => {
+                searchInputIstikamet.value = "";
+                clearBtnIstikamet.style.display = 'none';
+                goBtnIstikamet.style.display = 'block';
+                searchInputIstikamet.focus();
+            });
+        }
+
+        const openAsya = document.getElementById('openAsya');
+        const asyaMenu = document.getElementById('asyaMenu');
+        const backAsya = document.getElementById('backAsya');
+
+        openAsya.addEventListener('click', (e) => {
+            e.preventDefault();
+            istikametMenu.classList.remove('active'); // İSTİKAMET overlay gizle
+            asyaMenu.classList.add('active');         // ASYA overlay göster
+        });
+
+        backAsya.addEventListener('click', () => {
+            asyaMenu.classList.remove('active');      // ASYA overlay gizle
+            istikametMenu.classList.add('active');    // İSTİKAMET overlay göster
+        });
+
+        // ASYA Overlay Search Box
+        const searchInputAsya = document.getElementById('searchInputAsya');
+        const clearBtnAsya = document.getElementById('clearBtnAsya');
+        const goBtnAsya = document.getElementById('goBtnAsya');
+
+        if (searchInputAsya && clearBtnAsya && goBtnAsya) {
+            searchInputAsya.addEventListener('input', () => {
+                if (searchInputAsya.value.trim() !== "") {
+                    clearBtnAsya.style.display = 'block';
+                    goBtnAsya.style.display = 'none';
+                } else {
+                    clearBtnAsya.style.display = 'none';
+                    goBtnAsya.style.display = 'block';
+                }
+            });
+
+            clearBtnAsya.addEventListener('click', () => {
+                searchInputAsya.value = "";
+                clearBtnAsya.style.display = 'none';
+                goBtnAsya.style.display = 'block';
+                searchInputAsya.focus();
+            });
+        }
+
+        const tocWidget = document.querySelector('.toc-widget');
+        const tocHeader = tocWidget.querySelector('.toc-header');
+
+        tocHeader.addEventListener('click', () => {
+            tocWidget.classList.toggle('open');
+        });
+
+        document.querySelectorAll('.toc-list a').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                target.scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // TEMALAR overlay
+        const openTemalar = document.getElementById('openTemalar');
+        const temalarMenu = document.getElementById('temalarMenu');
+        const backTemalar = document.getElementById('backTemalar');
+
+        if (openTemalar && temalarMenu && backTemalar) {
+
+            openTemalar.addEventListener('click', (e) => {
+                e.preventDefault();
+                mainMenu.classList.remove('active');
+                temalarMenu.classList.add('active');
+            });
+
+            backTemalar.addEventListener('click', () => {
+                temalarMenu.classList.remove('active');
+                mainMenu.classList.add('active');
+            });
+
+        }
+
+
+
+
+    </script>
+    <script>
+        const navbar = document.getElementById('navbar');
+        let oncekiKonum = 0;
+    
+        document.addEventListener('scroll', (e) => {
+            // Kaydırma pencerede mi yoksa body'de mi oluyor, ikisini de yakala
+            const hedef = e.target === document ? document.documentElement : e.target;
+            if (hedef !== document.documentElement && hedef !== document.body) return;
+    
+            const konum = hedef.scrollTop;
+    
+            // Çok küçük hareketleri yok say
+            if (Math.abs(konum - oncekiKonum) < 5) return;
+    
+            if (konum > oncekiKonum && konum > 70) {
+                navbar.classList.add('nav-gizli');      // aşağı iniyor: gizle
+            } else {
+                navbar.classList.remove('nav-gizli');   // yukarı çıkıyor: göster
+            }
+    
+            oncekiKonum = konum;
+        }, true);
+    </script>
+</body>
+
+</html>

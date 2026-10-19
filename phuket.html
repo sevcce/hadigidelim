@@ -1,0 +1,2701 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <title>Phuket</title>
+
+    <link rel="icon" type="image/png" sizes="64x64" href="resimler/logoooo 2.jpeg" />
+    <link rel="icon" type="image/x-icon" href="resimler/logoooo.ico" />
+
+
+    <style>
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            background: rgb(24, 24, 24);
+            flex-direction: column;
+            font-family: sans-serif;
+            overflow-x: hidden;
+        }
+
+        nav {
+            background-color: rgb(31, 31, 31);
+            color: rgb(202, 200, 200);
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            height: 70px;
+            z-index: 1000;
+            width: 100%;
+            position: sticky;
+            top: 0;
+            transition: transform 0.3s ease;
+      padding: 0 20px;
+      border-bottom: 3px solid rgb(187, 186, 186);
+    }
+    .nav-gizli {
+            transform: translateY(-100%);
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            margin-right: 80px;
+            margin-left: 50px;
+        }
+
+        .nav-logo img {
+            width: 56px;
+            height: 70px;
+            object-fit: cover;
+            margin-right: 5px;
+        }
+
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+            margin-left: 6px;
+        }
+
+        .logo-text .main-title {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: rgb(251, 187, 69);
+        }
+
+        .logo-text .sub-title {
+            font-size: 0.9em;
+            font-style: italic;
+            color: rgb(202, 200, 200);
+            margin-top: -3px;
+            margin-left: 9px;
+            margin-right: 10px;
+        }
+
+        .menu-toggle,
+        .menu-close,
+        .menu-back {
+            display: none;
+            /* Masaüstünde gizli */
+            font-size: 32px;
+            cursor: pointer;
+            color: white;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 1100;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            font-family: 'Times New Roman', Times, serif;
+            align-items: center;
+            flex: 1;
+        }
+
+        .nav-item {
+            position: relative;
+        }
+
+        .nav-links>.nav-item>a {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            text-decoration: none;
+            color: rgba(255, 255, 255, 0.879);
+            font-weight: 500;
+            font-size: 1em;
+            padding: 6px 12px;
+            border: 2px solid transparent;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-item>a.has-arrow::after {
+            content: "";
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            border-right: 2px solid rgba(255, 255, 255, 0.879);
+            border-bottom: 2px solid rgba(255, 255, 255, 0.879);
+            transform: rotate(45deg);
+        }
+
+        .dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: -30px;
+            background-color: rgb(242, 181, 68);
+            min-width: 180px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            text-align: left;
+            margin-left: 35px;
+            transition: all 0.5s ease-in-out;
+        }
+
+        .dropdown a {
+            display: block;
+            padding: 10px 16px;
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .dropdown a:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown a:hover {
+            background-color: rgb(249, 210, 136);
+        }
+
+        .dropdown-sub {
+            display: none;
+            position: absolute;
+            top: 0;
+            /* ASYA linki ile aynı hizada başlar */
+            left: 100%;
+            /* sağa açılır */
+            background-color: rgb(242, 181, 68);
+            min-width: 150px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: all 0.5s ease-in-out;
+        }
+
+        /* ASYA alt dropdown linkleri */
+        .dropdown-sub a {
+            display: block;
+            padding: 10px 16px;
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .dropdown-sub a:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown-sub a:hover {
+            background-color: rgb(249, 210, 136);
+        }
+
+        /* ASYA üzerine gelince alt dropdown açılır */
+        .nav-item.has-submenu:hover>.dropdown-sub {
+            display: block;
+        }
+
+        .nav-item.has-submenu {
+            position: relative;
+            /* ASYA'nın alt dropdown'u buna göre konumlanacak */
+        }
+
+        @media (min-width: 769px) {
+            .nav-item:hover .dropdown {
+                display: block;
+            }
+        }
+
+        .nav-search {
+            margin-left: auto;
+            margin-right: 50px;
+            display: flex;
+            align-items: center;
+            position: relative;
+            gap: 5px;
+        }
+
+        .nav-search input {
+            padding: 6px 36px 6px 12px;
+            border-radius: 3px;
+            border: 3px solid rgba(200, 200, 200, 0.5);
+            background-color: rgb(31, 31, 31);
+            color: white;
+            font-size: 0.9em;
+            outline: none;
+            width: 180px;
+            font-family: monospace;
+        }
+
+        .nav-search input::placeholder {
+            color: rgba(200, 200, 200, 0.7);
+        }
+
+        .nav-search input:focus {
+            color: rgba(200, 200, 200, 0.769);
+            border-color: rgba(200, 200, 200, 0.769);
+        }
+
+        .nav-search input:focus::placeholder {
+            color: rgba(200, 200, 200, 0.769);
+            /* placeholder beyazın açık tonu */
+        }
+
+        .nav-search .clear-btn,
+        .nav-search .go-btn {
+            position: absolute;
+            background: none;
+            border: none;
+            color: rgba(200, 200, 200, 0.9);
+            cursor: pointer;
+            font-size: 1em;
+            padding: 0;
+        }
+
+        .nav-search .clear-btn {
+            right: 30px;
+            /* oku biraz sola it */
+            display: none;
+            /* boşken gizle */
+
+        }
+
+        .nav-search .go-btn {
+            right: 20px;
+
+        }
+
+        /* Hover efektleri */
+        .nav-search .clear-btn:hover,
+        .nav-search .go-btn:hover {
+            color: white;
+        }
+
+        .dropdown-sub {
+            display: none;
+            position: absolute;
+            top: 0;
+            /* Ana dropdown ile aynı üst hizada */
+            left: 100%;
+            /* ASYA'nın sağında açılır */
+            background-color: rgb(242, 181, 68);
+            min-width: 180px;
+            /* Ana dropdown ile aynı genişlik */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+
+            text-align: left;
+            z-index: 1;
+            margin-top: 0;
+        }
+
+
+        .has-submenu:hover .dropdown-sub {
+            display: block;
+        }
+
+        .dropdown-sub a {
+            display: block;
+            padding: 10px 16px;
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .dropdown-sub a:hover {
+            background-color: rgb(249, 210, 136);
+        }
+
+        /* ASYA alt menüsü yan açılır */
+        .nav-item.has-submenu {
+            position: relative;
+        }
+
+        .dropdown-sub {
+            display: none;
+            position: absolute;
+            top: 0;
+            /* ASYA ile aynı hizada */
+            left: 100%;
+            /* ASYA’nın hemen sağında açılır */
+            background-color: rgb(242, 181, 68);
+            min-width: 180px;
+            /* ASYA dropdown ile aynı genişlik */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 10;
+        }
+
+        .nav-item.has-submenu:hover .dropdown-sub {
+            display: block;
+        }
+
+        .dropdown-sub a {
+            display: block;
+            padding: 10px 16px;
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+
+
+        .dropdown-sub a:hover {
+            background-color: rgb(249, 210, 136);
+        }
+
+
+        /* ----- Mobil için Hamburger ----- */
+        .menu-toggle {
+            font-size: 28px;
+            cursor: pointer;
+            display: none;
+        }
+
+        /* Overlay */
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0e0e0e;
+            color: #fff;
+            z-index: 2000;
+            flex-direction: column;
+            padding-top: 5px;
+            /* header boşluğu */
+            padding-left: 20px;
+            padding-right: 20px;
+
+        }
+
+        .overlay.active {
+            display: flex;
+        }
+
+        .overlay-header {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            /* ortalamak için */
+            width: 80%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 20px;
+            border: 1px solid rgb(187, 186, 186);
+            /* çerçeve */
+            background: transparent;
+            /* arka planı şeffaf */
+            border-radius: 6px;
+            /* hafif köşeler, istersen kaldırabilirsin */
+        }
+
+
+        .overlay-header .title {
+            font-size: 13px;
+            font-weight: 100;
+            font-family: monospace;
+            letter-spacing: 2px;
+        }
+
+
+
+        .overlay-links {
+            margin-top: 70px;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            font-size: 20px;
+            margin-left: 30px;
+        }
+
+        .overlay-links a {
+            text-decoration: none;
+            color: rgb(202, 200, 200);
+            font-family: monospace;
+            font-size: 500;
+        }
+
+        #istikametMenu .overlay-links {
+            margin-top: 150px;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            /* normal menüden biraz daha dar boşluk */
+            font-size: 20px;
+            /* biraz daha küçük */
+            margin-left: 30px;
+            /* girinti */
+        }
+
+        #istikametMenu .overlay-links a {
+            text-decoration: none;
+            color: rgb(202, 200, 200);
+            font-family: monospace;
+            transition: color 0.3s ease;
+            font-size: 500;
+            letter-spacing: 2px;
+        }
+
+        @media (max-width: 900px) {
+
+            .nav-links,
+            .nav-search {
+                display: none;
+            }
+
+            .menu-toggle {
+                display: block;
+                margin-right: 20px;
+            }
+        }
+
+        body.menu-open {
+            overflow: hidden;
+        }
+
+        /*overlay-search*/
+        .overlay-box {
+            position: relative;
+
+
+            left: 47%;
+            transform: translateX(-50%);
+            width: 81.5%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px;
+            border: 1px solid rgb(187, 186, 186);
+            background: transparent;
+            border-radius: 6px;
+            box-sizing: border-box;
+        }
+
+        .overlay-search input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            color: #fff;
+            font-size: 14px;
+            font-family: monospace;
+            letter-spacing: 1px;
+            outline: none;
+        }
+
+
+        .overlay-search .clear-btn,
+        .overlay-search .go-btn {
+            background: none;
+            border: none;
+            color: rgba(200, 200, 200, 0.9);
+            cursor: pointer;
+            font-size: 18px;
+            margin-left: 10px;
+        }
+
+        .overlay-search .clear-btn {
+            right: 32px;
+            /* input padding ile aynı */
+            display: none;
+        }
+
+        .overlay-search .go-btn {
+            right: 10px;
+            /* input padding ile aynı */
+        }
+
+
+        .overlay-content {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            /* container tüm yüksekliği kaplasın */
+            justify-content: space-between;
+            /* linkler üstte, arama kutusu altta */
+            margin-top: 70px;
+            /* overlay-header kadar boşluk */
+            padding-bottom: 50px;
+        }
+
+        /* ----- ASYA Overlay ----- */
+        #asyaMenu {
+            display: none;
+            /* başlangıçta gizli */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0e0e0e;
+            color: #fff;
+            z-index: 2000;
+            flex-direction: column;
+            padding-top: 5px;
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+        #asyaMenu.active {
+            display: flex;
+        }
+
+        #asyaMenu .overlay-header {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 20px;
+            border: 1px solid rgb(187, 186, 186);
+            background: transparent;
+            border-radius: 6px;
+        }
+
+        #asyaMenu .overlay-header .title {
+            font-size: 13px;
+            font-weight: 100;
+            font-family: monospace;
+            letter-spacing: 2px;
+        }
+
+        #asyaMenu .overlay-links {
+            margin-top: 150px;
+            /* İSTİKAMET overlay’ine uyumlu */
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            font-size: 20px;
+            margin-left: 30px;
+        }
+
+        #asyaMenu .overlay-links a {
+            text-decoration: none;
+            color: rgb(202, 200, 200);
+            font-family: monospace;
+            font-size: 500;
+            letter-spacing: 2px;
+            transition: color 0.3s ease;
+        }
+
+        #asyaMenu .overlay-links a:hover {
+            color: rgb(242, 181, 68);
+        }
+
+        #asyaMenu .overlay-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            flex: 1;
+            justify-content: flex-start;
+            margin-top: 70px;
+            /* header boşluğu */
+            padding-bottom: 50px;
+        }
+
+        #asyaMenu .overlay-search {
+            margin-top: auto;
+            /* search box’u en alta it */
+        }
+
+        .nav-logo {
+            text-decoration: none;
+            /* alt çizgiyi kaldır */
+            border: none;
+            /* varsa border kaldır */
+            color: inherit;
+            /* renk navbar ile uyumlu */
+        }
+
+        .nav-logo:hover {
+            text-decoration: none;
+            /* hover'da da çizgi olmasın */
+        }
+
+        .istikamet-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .plus-btn {
+            font-size: 18px;
+            cursor: pointer;
+            padding: 0 55px;
+            color: rgb(202, 200, 200);
+            transition: transform 0.2s ease, color 0.2s ease;
+        }
+
+        .plus-btn:hover {
+            transform: scale(1.2);
+            color: rgb(242, 181, 68);
+            /* hover rengi */
+        }
+
+        .temalar-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .asya-item,
+        .avrupa-item,
+        .turkiye-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .top-menu {
+            margin-top: 20px;
+            gap: 20px;
+            font-family: monospace;
+            font-weight: 500;
+            font-size: 14px;
+            margin-bottom: 16px;
+
+        }
+
+        .top-menu a {
+            text-decoration: none;
+            color: grey;
+            transition: color 0.3s ease;
+        }
+
+        .top-menu a:hover {
+            color: orange;
+            /* hover olunca altın rengi gibi */
+        }
+
+        .top-menu span {
+            color: grey;
+        }
+
+        /* Container */
+        .container {
+            display: flex;
+            flex-direction: column;
+            /* alt alta sıralama */
+            align-items: center;
+            /* kutuları ortala */
+            gap: 20px;
+            /* kutular arası boşluk px ile */
+            width: 600px;
+            /* container genişliği */
+            margin: 40px auto;
+            /* sayfada ortala */
+        }
+
+        /* Ortak kart */
+        .card {
+
+            border: 1px solid #ddd;
+
+            width: 900px;
+            /* ✅ sabit genişlik */
+            height: 600px;
+            /* ✅ sabit yükseklik */
+            padding: 24px;
+            /* ✅ px padding */
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+
+        }
+
+        .shop-link {
+            position: fixed;
+            right: 60px;
+            /* sağdan boşluk */
+            top: 50%;
+            /* dikey ortala */
+            transform: translateY(-50%) rotate(-90deg);
+            /* ters döndür */
+            transform-origin: top right;
+            /* dönüş merkezi */
+            font-size: 16px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.899);
+            background: none;
+            /* arka plan yok */
+            border: none;
+            font-family: monospace;
+            text-decoration: none;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: color 0.3s ease;
+            display: flex;
+            gap: 20px;
+        }
+
+        .shop-arrow {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-top: 2px solid rgba(255, 255, 255, 0.899);
+            border-left: 2px solid rgba(255, 255, 255, 0.899);
+            transform: rotate(90deg);
+            /* kuzeybatıya yön */
+            position: relative;
+        }
+
+        .shop-arrow::after {
+            content: '';
+            position: absolute;
+            width: 2px;
+            /* çizgi kalınlığı */
+            height: 14px;
+            /* ok uzunluğu */
+            background-color: currentColor;
+            left: 50%;
+            top: -2px;
+            transform: translateX(-50%) rotate(-45deg);
+            /* ok açısına hizala */
+        }
+
+        @media (max-width: 900px) {
+            .shop-link {
+                display: none;
+                /* mobilde mağazamız kaybolsun */
+            }
+        }
+
+
+
+
+        /* Sol içerik */
+        .content.card {
+            padding: 0;
+            overflow: hidden;
+            border: none;
+        }
+
+        .content-img {
+            width: 100%;
+            height: 70%;
+            object-fit: cover;
+            display: block;
+            object-position: center 65%;
+            filter: contrast(1.2) brightness(1.05);
+        }
+
+        .content-textbox {
+            /* ✅ metin alanına padding eklendi */
+            height: 40%;
+            /* kalan kısmı metin kaplasın */
+            box-sizing: border-box;
+            color: rgba(255, 255, 255, 0.85);
+            font-family: monospace;
+        }
+
+        .content-title {
+            font-size: 28px;
+            margin-bottom: 15px;
+        }
+
+        .content-text {
+            font-size: 16px;
+            line-height: 22px;
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+
+
+        .toc-widget {
+            border: 0.25px solid grey;
+            width: 900px;
+            font-family: monospace;
+            font-size: 25px;
+            margin: 20px 0;
+        }
+
+        .toc-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            padding: 40px;
+            color: rgba(255, 255, 255, 0.85);
+            border-bottom: 2px solid grey;
+            font-size: 24px;
+        }
+
+        .toc-header span:first-child {
+            margin-left: 20px;
+            /* yazıyı sağa kaydırır */
+        }
+
+        .toc-toggle {
+            display: inline-block;
+            transition: transform 0.3s ease;
+            font-size: 25px;
+        }
+
+        .toc-list {
+            list-style: none;
+            margin: 0;
+            padding: 50px 65px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            display: none;
+        }
+
+        .toc-list li {
+            margin-bottom: 1px;
+        }
+
+        .toc-list li a {
+            text-decoration: none;
+            color: grey;
+            font-size: 13px;
+        }
+
+        .toc-list li::before {
+            content: "■";
+            /* küçük kare işareti */
+            display: inline-block;
+            width: 12px;
+            /* kare boyutu */
+            margin-right: 8px;
+            /* yazı ile kare arasındaki boşluk */
+            color: grey;
+            /* kare rengi */
+            font-size: 12px;
+        }
+
+        /* Hover efekti */
+        .toc-list li a:hover {
+            color: orange;
+            /* yazı rengi değişir */
+            text-decoration: underline;
+            /* alt çizgi eklenir */
+        }
+
+        .toc-widget.open .toc-list {
+            max-height: 500px;
+            display: block;
+            /* açıldığında görünür */
+        }
+
+        .toc-widget.open .toc-toggle {
+            transform: rotate(180deg);
+        }
+
+
+        /* ✅ Mobil uyumluluk (Tablet ve telefonlar için) */
+        @media (max-width: 1024px) {
+
+            .container {
+                width: 90%;
+                gap: 16px;
+                margin: 20px auto;
+            }
+
+            .card {
+                width: 100%;
+                height: auto;
+                /* sabit yükseklik kalktı */
+                padding: 16px;
+            }
+
+            .content-img {
+                height: 200px;
+                /* görsel yüksekliği azaltıldı */
+            }
+
+            .content-title {
+                font-size: 22px;
+            }
+
+            .content-text {
+                font-size: 14px;
+                line-height: 20px;
+            }
+
+            .toc-widget {
+                width: 100%;
+                font-size: 20px;
+            }
+
+            .toc-header {
+                padding: 20px;
+                font-size: 20px;
+            }
+
+            .toc-toggle {
+                font-size: 20px;
+            }
+
+            .toc-list {
+                padding: 20px;
+            }
+
+            .toc-list li a {
+                font-size: 12px;
+            }
+        }
+
+        /* ✅ Telefonlar (dar ekranlar, <600px) */
+        @media (max-width: 600px) {
+
+            .container {
+                width: 95%;
+                gap: 12px;
+            }
+
+            .card {
+                width: 100%;
+                height: auto;
+                padding: 12px;
+            }
+
+            .content-img {
+                height: 180px;
+            }
+
+            .content-title {
+                font-size: 20px;
+            }
+
+            .content-text {
+                font-size: 13px;
+                line-height: 18px;
+            }
+
+            .toc-widget {
+                width: 100%;
+                font-size: 18px;
+            }
+
+            .toc-header {
+                padding: 16px;
+                font-size: 18px;
+            }
+
+            .toc-toggle {
+                font-size: 18px;
+            }
+
+            .toc-list {
+                padding: 16px;
+            }
+
+            .toc-list li a {
+                font-size: 12px;
+            }
+        }
+
+
+        .content-sections {
+            width: 900px;
+            margin: 40px 20px;
+            color: #ffffffba;
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            letter-spacing: 1px;
+            line-height: 28px;
+        }
+
+        .content-sections section {
+            font-size: 18px;
+            padding: 40px 0;
+        }
+
+        .content-sections h2 {
+            margin-bottom: 30px;
+            font-size: 30px;
+            color: rgb(237, 217, 182);
+            font-family: monospace;
+        }
+
+        .content-sections h4 {
+            color: whitesmoke;
+            font-size: 20px;
+        }
+
+        /* ✅ Mobil uyumluluk: content-sections */
+        @media (max-width: 1024px) {
+            .content-sections {
+                width: 90%;
+                margin: 30px auto;
+                line-height: 24px;
+            }
+
+            .content-sections section {
+                font-size: 16px;
+                padding: 30px 0;
+            }
+
+            .content-sections h2 {
+                font-size: 26px;
+                margin-bottom: 40px;
+            }
+
+            .content-sections h4 {
+                font-size: 16px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .content-sections {
+                width: 95%;
+                margin: 20px auto;
+                line-height: 22px;
+            }
+
+            .content-sections section {
+                font-size: 14px;
+                padding: 20px 0;
+            }
+
+            .content-sections h2 {
+                font-size: 22px;
+                margin-bottom: 30px;
+            }
+
+            .content-sections h4 {
+                font-size: 14px;
+            }
+        }
+
+
+        /* Üçlü resim satırı */
+        .image-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            /* resimler arası boşluk */
+            margin: 20px 0;
+
+        }
+
+        .image-row img {
+            width: 32%;
+            /* üç resim yan yana sığacak şekilde */
+            aspect-ratio: 1 / 1;
+            /* kare yapmak için */
+            object-fit: cover;
+            /* kırpmadan dolgu yap */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            filter: contrast(1.2) brightness(1.05);
+
+        }
+
+        @media (min-width: 769px) {
+            .image-row img:hover {
+                transform: scale(1.50);
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+                z-index: 1;
+            }
+        }
+
+        /* Mobil uyumlu */
+        @media (max-width: 768px) {
+            .image-row {
+                flex-direction: column;
+                gap: 40px;
+            }
+
+            .image-row img {
+                width: 100%;
+                aspect-ratio: 1 / 1;
+                transform: none;
+                /* mobilde büyüme yok */
+                box-shadow: none;
+                /* gölge kapalı */
+            }
+        }
+
+        .image-row-2 {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .image-row-2 img {
+            width: 49%;
+            /* iki resim yan yana sığacak şekilde */
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            filter: contrast(1.2) brightness(1.05);
+        }
+
+
+
+
+        /* Mobil uyumlu */
+        @media (max-width: 768px) {
+            .image-row-2 {
+                flex-direction: column;
+                gap: 40px;
+            }
+
+            .image-row-2 img {
+                width: 100%;
+                aspect-ratio: 1 / 1;
+                transform: none;
+                box-shadow: none;
+            }
+        }
+
+
+
+
+        .text-image-row {
+            display: flex;
+            align-items: center;
+            /* metin ve resmi üstten hizala */
+            gap: 20px;
+            /* aradaki boşluk */
+            margin: 40px 0;
+        }
+
+        .text-image-row p {
+            flex: 1;
+            /* yazı alanı esnek */
+            font-size: 18px;
+            line-height: 28px;
+            color: #ffffffba;
+        }
+
+        .text-image-row img {
+            width: 300px;
+            /* istediğin genişlik */
+            height: auto;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+            /* hover efekti */
+            filter: contrast(1.2) brightness(1.05);
+
+        }
+
+        .text-image-row img:hover {
+            transform: scale(1.05);
+            /* hafif büyüme */
+        }
+
+        /* Mobil uyumluluk */
+        @media (max-width: 768px) {
+            .text-image-row {
+                flex-direction: column;
+                /* alt alta geç */
+                align-items: center;
+                text-align: left;
+            }
+
+            .text-image-row img {
+                width: 100%;
+                /* tam genişlik */
+                max-width: 400px;
+                order: -1;
+            }
+
+            .text-image-row p {
+                font-size: 14px;
+                /* mobilde yazı boyutunu küçült */
+                line-height: 24px;
+                /* satır yüksekliği ile uyumlu */
+            }
+        }
+
+        /* Section resimleri tapınak resmi */
+        .section-img {
+            width: 100%;
+            max-width: 900px;
+            /* orijinal section genişliği ile uyumlu */
+            height: 500px;
+            /* orantılı boyutlandırma */
+            margin: 20px 0;
+            /* başlık ve paragraf arasında boşluk */
+            object-fit: cover;
+            object-position: center 75%;
+            filter: contrast(1.2) brightness(1.05);
+
+        }
+
+        /* Mobil uyumlu */
+        @media (max-width: 600px) {
+            .section-img {
+                width: 100%;
+                margin: 15px 0;
+                height: auto;
+                /* yüksekliği otomatik yap */
+                object-fit: contain;
+            }
+        }
+
+        strong {
+            font-weight: 1000;
+            color: white;
+
+            font-family: monospace;
+
+        }
+
+        .phuket-map {
+            margin-top: 40px;
+            padding: 20px;
+            text-align: flex-start;
+            font-size: 30px;
+        }
+
+        .map-container {
+            display: flex;
+            justify-content: flex;
+            align-items: flex-start;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .map-container iframe {
+            flex: 1 1 600px;
+            max-width: 700px;
+            height: 500px;
+        }
+
+        .map-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            text-align: left;
+            justify-content: center;
+            font-size: 1rem;
+        }
+
+        .point {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: whitesmoke;
+            font-weight: 500;
+        }
+
+        .circle {
+            width: 26px;
+            height: 26px;
+            background-color: #0097b2;
+            /* Mavi yuvarlak */
+            color: white;
+            border-radius: 50%;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .map-list {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                /* 2 sütun */
+                gap: 12px 24px;
+                margin-top: 15px;
+            }
+
+            .map-container {
+                flex-direction: column;
+            }
+
+            .map-container iframe {
+                width: 100%;
+                height: 300px;
+            }
+
+            .point {
+                justify-content: flex-start;
+            }
+        }
+
+        .custom-link {
+            color: white;
+            font-weight: bold;
+            text-decoration: underline;
+        }
+
+        .custom-link:hover {
+            color: orange;
+        }
+
+        #temalarMenu .overlay-links {
+            margin-top: 150px;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            font-size: 20px;
+            margin-left: 30px;
+        }
+
+        #temalarMenu .overlay-links a {
+            text-decoration: none;
+            color: rgb(202, 200, 200);
+            font-family: monospace;
+            letter-spacing: 2px;
+        }
+
+        .kaynaklar-item,
+        .ekosistem-item,
+        .gastronomi-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .rota-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 12px 24px;
+            border: 2px solid #F4A621;
+            border-radius: 8px;
+
+            color: #F4A621 !important;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            text-decoration: none;
+
+            transition: .25s ease;
+        }
+
+        .rota-btn:hover {
+            background: #F4A621;
+            color: #1e1e1e !important;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(244, 166, 33, .35);
+        }
+
+        .desktop-br {
+            display: inline;
+        }
+
+        @media (max-width: 900px) {
+            .desktop-br {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav id="navbar">
+        <a href="index.html" class="nav-logo">
+            <img src="resimler/logoooo 2.jpeg" alt="Logo">
+            <div class="logo-text">
+                <span class="main-title">HadiGidelim</span>
+                <span class="sub-title">Kendi Ritmini Keşfet</span>
+            </div>
+        </a>
+
+        <div class="menu-toggle" id="menuToggle">&#9776;</div>
+
+        <div class="nav-links" id="navLinks">
+            <div class="nav-item"><a href="index.html" class="nav-link">ANA SAYFA</a></div>
+
+            <div class="nav-item">
+                <a href="IstikametleriGor.html" class="nav-link has-arrow">İSTİKAMET</a>
+                <div class="dropdown">
+                    <div class="nav-item has-submenu">
+                        <a href="asya.html" class="nav-link">ASYA</a>
+                        <div class="dropdown-sub">
+                            <a href="tayland.html">Tayland</a>
+                            <a href="endonezya.html">Endonezya</a>
+                        </div>
+                    </div>
+                    <a href="#">AVRUPA</a>
+                    <a href="#">TÜRKİYE</a>
+                </div>
+            </div>
+
+            <div class="nav-item"><a href="temalar.html" class="nav-link has-arrow">TEMALAR</a>
+                <div class="dropdown">
+                    <div class="nav-item has-submenu">
+                        <a href="seyahatkaynaklari.html" class="nav-link">SEYAHAT KAYNAKLARI</a>
+                    </div>
+                    <a href="#">EKOSİSTEM</a>
+                </div>
+
+
+            </div>
+
+            <div class="nav-item"><a href="aboutus.html" class="nav-link">HAKKIMDA</a></div>
+            <div class="nav-item"><a href="#" class="nav-link rota-btn">ROTA PLANLAYICI</a></div>
+        </div>
+        <div class="nav-search">
+            <input type="text" id="searchInput" placeholder="Keşfet..." />
+            <button class="clear-btn" id="clearBtn">&times;</button>
+            <button class="go-btn" id="goBtn">&#8594;</button>
+        </div>
+    </nav>
+
+    <!-- Ana Menü Overlay (Mobil) -->
+    <div class="overlay" id="mainMenu">
+        <div class="overlay-header">
+            <div></div>
+            <div class="btn-box" id="closeMain">&times;</div>
+        </div>
+
+        <div class="overlay-content">
+            <div class="overlay-links">
+                <a href="index.html">ANA SAYFA</a>
+                <div class="istikamet-item">
+                    <a href="istikametlerigor.html" class="istikamet-link">İSTİKAMET</a>
+                    <span class="plus-btn" id="openIstikamet">
+                        <i class="fas fa-plus"></i>
+                    </span>
+                </div>
+                <div class="temalar-item">
+                    <a href="temalarigor.html" class="temalar-link">TEMALAR</a>
+                    <span class="plus-btn" id="openTemalar">
+                        <i class="fas fa-plus"></i>
+                    </span>
+                </div>
+                <a href="aboutus.html">HAKKIMDA</a>
+                <a href="#">ROTA PLANLAYICI</a>
+                <a href="#">MAĞAZAMIZ <i class="fas fa-shopping-cart"></i></a>
+            </div>
+            <div class="overlay-search overlay-box">
+                <input type="text" id="searchInputMobile" placeholder="Keşfet..." />
+                <button class="clear-btn" id="clearBtnMobile">&times;</button>
+                <button class="go-btn" id="goBtnMobile">&#8594;</button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- İstikamet Overlay -->
+    <div class="overlay" id="istikametMenu">
+        <div class="overlay-header">
+            <div class="btn-box" id="backIstikamet">&#8592;</div>
+            <div class="title">İSTİKAMET</div>
+            <div></div>
+        </div>
+
+        <div class="overlay-content">
+            <div class="overlay-links">
+
+                <div class="asya-item">
+                    <a href="asya.html" class="asya-link">ASYA</a>
+                    <span class="plus-btn" id="openAsya">
+                        <i class="fas fa-plus"></i>
+                    </span>
+                </div>
+
+                <div class="avrupa-item">
+                    <a href="avrupa.html" class="avrupa-link">AVRUPA</a>
+                    <span class="plus-btn" id="openAvrupa"><i class="fas fa-plus"></i></span>
+                </div>
+
+                <div class="turkiye-item">
+                    <a href="turkiye.html" class="turkiye-link">TÜRKİYE</a>
+                    <span class="plus-btn" id="openTurkiye"><i class="fas fa-plus"></i></span>
+                </div>
+            </div>
+            <div class="overlay-search overlay-box">
+                <input type="text" id="searchInputIstikamet" placeholder="Bir istikamet ara..." />
+                <button class="clear-btn" id="clearBtnIstikamet">&times;</button>
+                <button class="go-btn" id="goBtnIstikamet">&#8594;</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="overlay" id="asyaMenu">
+        <div class="overlay-header">
+            <div class="btn-box" id="backAsya">&#8592;</div>
+            <div class="title">ASYA</div>
+            <div></div>
+        </div>
+
+        <div class="overlay-content">
+            <div class="overlay-links">
+                <a href="tayland.html">Tayland</a>
+                <a href="#">Endonezya</a>
+            </div>
+            <div class="overlay-search overlay-box">
+                <input type="text" id="searchInputAsya" placeholder="Keşfet..." />
+                <button class="clear-btn" id="clearBtnAsya">&times;</button>
+                <button class="go-btn" id="goBtnAsya">&#8594;</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="overlay" id="temalarMenu">
+        <div class="overlay-header">
+            <div class="btn-box" id="backTemalar">&#8592;</div>
+            <div class="title">TEMALAR</div>
+            <div></div>
+        </div>
+
+        <div class="overlay-content">
+            <div class="overlay-links">
+
+                <div class="kaynaklar-item">
+                    <a href="seyahatkaynaklari.html">SEYAHAT KAYNAKLARI</a>
+                    <span class="plus-btn" id="openKultur">
+                        <i class="fas fa-plus"></i>
+                    </span>
+                </div>
+
+                <div class="ekosistem-item">
+                    <a href="#">EKOSİSTEM</a>
+                    <span class="plus-btn" id="openDoga">
+                        <i class="fas fa-plus"></i>
+                    </span>
+                </div>
+
+                <div class="gastronomi-item">
+                    <a href="#">GASTRONOMİ</a>
+                    <span class="plus-btn" id="openGastronomi">
+                        <i class="fas fa-plus"></i>
+                    </span>
+                </div>
+
+            </div>
+
+            <div class="overlay-search overlay-box">
+                <input type="text" id="searchInputTemalar" placeholder="Bir tema ara..." />
+                <button class="clear-btn" id="clearBtnTemalar">&times;</button>
+                <button class="go-btn" id="goBtnTemalar">&#8594;</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+
+        <div class="content card">
+            <img src="resimler/phuketcard.jpeg" alt="Örnek Görsel" class="content-img">
+            <div class="top-menu">
+                <a href="index.html">ANA SAYFA</a>
+                <span>|</span>
+                <a href="asya.html">ASYA</a>
+                <span>|</span>
+                <a href="tayland.html">TAYLAND</a>
+
+            </div>
+
+            <div>
+                <a href="https://magazamiz.com" class="shop-link" target="_blank">
+                    MAĞAZAMIZ
+                    <span class="shop-arrow"></span>
+                </a>
+            </div>
+            <div class="content-textbox">
+                <h3 class="content-title">Phuket'te Yapılacak 10 Şey ve Daha Fazlası</h3>
+                <p class="content-text">
+                    Phuket’e yakında bir seyahat mi düşünüyorsunuz? O halde zamanınızı en iyi şekilde
+                    değerlendirmeye
+                    hazır olun!
+                </p>
+            </div>
+        </div>
+
+        <div class="toc-widget" id="tocWidget">
+            <div class="toc-header" id="tocHeader">
+                <span>İçindekiler</span>
+                <span class="toc-toggle">&#9660;</span>
+            </div>
+            <ul class="toc-list" id="tocList">
+                <li><a href="#section1">Phuket Seyahat Rehberi</a></li>
+                <li><a href="#section2">Phuket Gezi Haritası</a></li>
+                <li><a href="#section3">Kata ve Karon Bölgesi, Phuket</a></li>
+                <li><a href="#section4">Chalong Bölgesi, Phuket</a></li>
+                <li><a href="#section5">Wat Chalong Tapınağı</a></li>
+                <li><a href="#section6">Big Budda'yı Ziyaret Edin ve Manzaranın Keyfini Çıkarın</a></li>
+                <li><a href="#section7">Deneyim Sevenler İçin: Chalong Bay Rum Distillery</a></li>
+                <li><a href="#phi-phi-turu">Phi Phi Adaları Turu, Phuket</a></li>
+                <li><a href="#section8">Patong Bölgesi ve Gece Hayatı, Phuket</a></li>
+                <li><a href="#section9">Monkey Hill, Phuket</a></li>
+                <li><a href="#section10">Phang Nga Körfezi Deniz Mağarası Kano Turu & James Bond Adası</a></li>
+                <li><a href="#section11">Phuket Old Town</a></li>
+                <li><a href="#section12">Phuket Rawai'de Kano Keyfi</a></li>
+                <li><a href="#section13">Keşfet, Turla, Canlan: Phuket</a></li>
+            </ul>
+        </div>
+
+        <div class="content-sections">
+
+            <section id="section1">
+                <h2>Phuket Seyahat Rehberi</h2>
+                <p><strong>Phuket</strong>, Tayland’ın en çok bilinen ve en çok ziyaret edilen adalarından biri.
+                    Ancak bu popülerlik, adanın herkese aynı şekilde hitap edeceği anlamına gelmiyor. Güney Tayland’ın
+                    sıcak ve nemli havası, yoğun turizm ve gelişmiş şehir yapısı Phuket’in genel atmosferini belirliyor.
+                
+                    <br><br>
+                    Phuket’e geldiğinizde her köşede el değmemiş doğa ve uçsuz bucaksız turkuaz koylar beklememek
+                    gerekiyor. Elbette birbirinden güzel plajları var; ancak Tayland’ın daha sakin ve doğal bölgeleriyle
+                    karşılaştırıldığında Phuket’in turizmle çok daha fazla iç içe olduğunu söyleyebilirim.
+                    <br><br>
+                    Ben Phuket’te 10 gün geçirdim ve açıkçası ilk izlenimim buranın tam olarak aradığım yer olmadığı
+                    yönündeydi. Yine de adayı acele etmeden gezmek, farklı bölgelerini görmek, yerel yaşamı gözlemlemek
+                    ve Phuket’in neden bu kadar popüler olduğunu anlamak benim için güzel bir deneyime dönüştü.
+                    <br><br>
+                    Bu yüzden Phuket’i tek bir beklentiyle değerlendirmek yerine, nasıl bir seyahat istediğinize göre
+                    düşünmek en doğrusu. Deniz, restoranlar, konforlu konaklama, hareketli bölgeler, gece hayatı ve
+                    birbirinden farklı aktiviteleri bir arada istiyorsanız Phuket size çok şey sunabilir.
+                    <br><br>
+                <h4>Para Birimi ve Fiyatlar</h4>
+                <p>Tayland’ın resmi para birimi <strong>Baht (THB)</strong>’dir ve çoğu yerde nakit veya kredi kartıyla
+                    ödeme
+                    yapılabiliyor. Bankamatiklerden para çekerken ise işlem başına komisyon alınıyor. Bu ücret,
+                    kullandığınız bankaya ve karta göre değişiklik gösterebiliyor. [Tayland’da Dikkat Etmeniz Gerekenler] bölümünü mutlaka okuyun.<br><br>
+<br><br>
+                    2025 itibarıyla ortalama kurlar yaklaşık olarak:<br><br>
+
+                    1 Tayland Baht ≈ 1,29 TL (yaklaşık değer)<br>
+
+                    1 USD ≈ 33-36 THB civarındadır.<br><br>
+
+                    Phuket, Tayland’ın diğer şehirlerine göre biraz daha pahalı olsa da, hala Avrupa veya Türkiye
+                    kıyasla oldukça uygun fiyatlı bir tatil imkanına sahip.
+                    Sokak yemekleri 50–100 Baht civarındayken, sahil kenarında güzel bir akşam yemeği ortalama
+                    300–600 Baht arasında.
+                </p><br>
+                <h4>Phuket’e Ne Zaman Gidilir?</h4>
+                <p>Phuket, yıl boyunca sıcak ve nemli bir iklime sahiptir; ancak en ideal dönem <strong>Kasım–Nisan
+                        ayları</strong>
+                    arasıdır.
+                    Bu dönemde hava daha kuru, deniz ise dalgasız ve yüzmek için idealdir.
+                    <strong>Mayıs–Ekim </strong>arası yağmur sezonudur; fiyatlar düşer, kalabalık azalır ama hava
+                    değişken
+                    olabilir.
+                    Dolayısıyla bütçe dostu bir seyahat planlıyorsanız, yağmur sezonunun başı veya sonu iyi bir
+                    tercih
+                    olabilir.
+                </p><br>
+
+                <h4>Phuket'te Yeme - İçme</h4>
+                <p>Phuket, <strong>Tayland mutfağının zengin tatlarını</strong> ve <strong>taze deniz ürünlerini
+                    </strong>deneyimlemek için mükemmel bir
+                    adadır. Ada olmanın avantajıyla karides, yengeç, kalamar ve balık gibi deniz ürünleri her restoranda
+                    taptazedir; özellikle plaj kenarındaki küçük restoranlar ve street food noktaları hem uygun
+                    fiyatlı hem de lezzetli. Pirinç, noodle, hindistancevizi sütü ve taze otlarla
+                    hazırlanan geleneksel Tayland yemekleri arasında <strong>Pad Thai, Tom Yum çorbası, çeşitli köri
+                        çeşitleri
+                        ve Som Tum salatası</strong> öne çıkıyor. Phuket’te ayrıca Çin, Japon, İtalyan ve Fransız
+                    mutfağı
+                    gibi
+                    uluslararası seçenekler de bulunur. Ama bana sorarsanız en güzel deneyim, <strong>akşamları kurulan
+                        night
+                        marketlerde
+                        sokak lezzetlerini keşfetmek</strong>.</p><br>
+                <h4>Phuket'te Ulaşım</h4>
+                <p>Phuket’te şehir içi ulaşım; <strong>otobüs, taksi, Bolt, Grab</strong> gibi uygulamalar ve
+                    <strong>yerel ulaşım araçları
+                        olan
+                        tuk-tuk</strong>’lar ile sağlanıyor.
+
+                    Yalnızca bir kez otobüs kullandım; Phuket Havalimanı’ndan Karon bölgesine
+                    giden
+                    <strong>otobüs kişi başı 100 Baht</strong>’tı.
+                    Ancak yol tek yönlü aktığı için yolculuk oldukça uzun ve kalabalık geçti; açıkçası biraz
+                    yorucuydu.
+                    Bu nedenle otobüs çok konforlu bir seçenek değil.
+                    Bunun yerine Bolt veya Grab uygulamalarını kullanarak 250–300 Baht civarına şehir merkezine daha
+                    rahat bir şekilde ulaşabilirsiniz.<br><br>
+
+                    Phuket’in motor kiralamak için oldukça uygun bir yer olduğunu rahatlıkla söyleyebilirim.
+                    Ancak küçük bir hatırlatma: Trafik Tayland’da tersten akıyor.
+                    Phuket'te 10 gün kaldım ve bu süre boyunca motorla her yere rahatça gidebildim.
+                    Adanın batı kıyısından doğusundaki Old Town bölgesine mesafe yaklaşık 15 km, bu da trafiğin
+                    durumuna
+                    göre ortalama 30 dakika sürüyor.
+                    Yollar genel olarak düzgün ve manzaralı rotalar oldukça keyifli.<br><br>
+
+                    Motor kiralamayı düşünüyorsanız, dikkat etmeniz gereken tüm detayları
+                    <a href="motorkiralama.html">Tayland'da Motor Kiralama Rehberi</a>
+                    yazımda bulabilirsiniz. <br><br>
+
+                    Kısacası, Phuket’te özgürce keşif yapmak istiyorsanız, motor kiralamak hem ekonomik hem de
+                    pratik
+                    bir ulaşım seçeneği olacaktır.
+                </p><br>
+                <h4>Phuket'te Nerede Kalınır?</h4>
+                <p>Phuket, konaklama açısından oldukça geniş seçenekler sunan bir ada.
+                    <strong>Hem lüks resortlar, hem butik oteller, hem de uygun fiyatlı hosteller ve airbnb
+                    </strong>seçenekleri ile
+                    her bütçeye hitap eder.
+                    Nerede kalacağınız tamamen tatil beklentinize ve ilgi alanlarınıza göre değişir.<br><br>
+
+                    Phuket'te toplam 10 gün geçirdim; 5 gün Karon bölgesinde, 5 gün ise Chalong’ta konakladım.
+                    Bu iki bölgeyi adanın batı ve doğu yüzü gibi düşünebilirsiniz.
+                    Her iki konum da farklı deneyimlere sahip ve adanın birçok yerine kolay ulaşım
+                    sağlayabildim.<br><br>
+
+                    Kata ve Karon bölgeleri, adanın batı kısmında yer alıyor. Hem sahil keyfi hem de rahat bir atmosfer
+                    arayanlar için ideal.
+                    Restoran ve bar açısından oldukça zengin; akşam yürüyüşleri için de keyifli.
+                    Denize sıfır otellerin yanı sıra, uygun fiyatlı bungalovlar, orta segment oteller ve airbnb de
+                    bulmak mümkün.
+                    Bu bölgeler; özellikle çiftler, çocuklu aileler ve sakin bir tatil isteyenler için daha
+                    uygun.<br><br>
+                    Chalong ise, Phuket’in doğu kısmında yer alan daha da yerel ve sakin bir bölge.
+                    Turistik kalabalıktan uzak ama adanın her yerine kolay ulaşabileceğiniz bir konuma sahip. Bu bölge
+                    denize
+                    girmek için uygun değil. Eğer denizi sorun etmiyorsanız, sakinlik için kesinlikle
+                    doğru adres.<br><br>
+
+                    Phuket’in en hareketli bölgesi olan Patong, adanın turizm merkezi olarak bilinir.
+                    Gece hayatı, alışveriş, plaj aktiviteleri ve restoranlar burada bir aradadır.
+                    Ancak kalabalık ve gürültü seviyesi yüksek; bu nedenle parti atmosferi seven gezginler
+                    için daha uygun bir bölgedir.<br><br>
+                    Phuket’in doğu tarafında yer alan Old Town, plajdan çok Tayland kültürünü ve yerel yaşamı
+                    keşfetmek isteyenler için harika bir durak.
+                    Renkli Sino-Portekiz tarzı binalar, haftalık pazarlar, küçük kafeler, sokak sanatı ve
+                    sanatçılarıyla dolu
+                    sokaklar burada.
+                    Denize yakın olmasa da ulaşım kolay, konaklama fiyatları ise oldukça uygun.
+                </p><br>
+                <h4>Seyahatinizi Planlayın(Kullanışlı Bağlantılar)</h4>
+                <p>Seyahatlerimizi planlarken kullandığımız araçlara göz atın.
+                    Burada yer alan bağlantılar bağlı kuruluş (affiliate) linkleridir.
+                    Bu linkleri kullanarak blogumuzu sürdürmemize yardımcı oluyorsunuz.
+                    Sizin için herhangi bir ek maliyet oluşturmaz, ancak bizim misyonumuzda büyük fark yaratabilir.
+                    🌿<br><br>
+                    🏨Size en uygun oteli bulun. Rezervasyonlarınızı Booking.com üzerinden yapabilirsiniz.<br>
+                    ✈️En uygun uçuş fiyatlarını Skyscanner.com adresinden bulabilirsiniz.<br>
+                    🎟️Çevrim içi tur ve etkinlik rezervasyonları için GetYourGuide.com kullanın.<br>
+                    🏕️Yürüyüş, kamp, bisiklet ve daha fazlası için Decathlon.com geniş bir yelpaze sunuyor.
+
+                </p>
+            </section>
+
+            <section id="section2" class="phuket-map">
+                <h2>Phuket Gezi Haritası</h2>
+                <p><strong>Phuket</strong>’te gezilecek yerleri keşfedip kendi rotanızı oluşturmak için haritamı
+                    kullan.
+                    En sevdiğim plajlar, tapınaklar ve manzara noktaları burada işaretli!</p>
+
+                <div class="map-container">
+                    <iframe src="https://www.google.com/maps/d/embed?mid=1y3W8K67Y1kpARbVprUraSAiTxHOws_M&ehbc=2E312F"
+                        width="640" height="480"></iframe>
+
+                    <div class="map-list">
+                        <div class="point"><span class="circle">1</span> Karon Bölgesi</div>
+                        <div class="point"><span class="circle">2</span> Kata Bölgesi</div>
+                        <div class="point"><span class="circle">3</span> Nai Harn Plajı</div>
+                        <div class="point"><span class="circle">4</span> Windmill Seyir Noktası</div>
+                        <div class="point"><span class="circle">5</span> Ya Nui Plajı</div>
+                        <div class="point"><span class="circle">6</span> Phuket Old Town</div>
+                        <div class="point"><span class="circle">7</span> Thalang Yolu</div>
+                        <div class="point"><span class="circle">8</span> Monkey Hill</div>
+                        <div class="point"><span class="circle">9</span> Chalong Bölgesi</div>
+                        <div class="point"><span class="circle">10</span> Wat Chalong Tapınağı</div>
+                        <div class="point"><span class="circle">11</span> Big Budda Heykeli</div>
+                        <div class="point"><span class="circle">12</span> Chalong Bay Rom Evi</div>
+                        <div class="point"><span class="circle">13</span> Patong Bölgesi</div>
+                        <div class="point"><span class="circle">14</span> Phi Phi Adası</div>
+                        <div class="point"><span class="circle">15</span> Phang Nga Körfezi</div>
+                        <div class="point"><span class="circle">16</span> James Bond Adası</div>
+                    </div>
+                </div><br><br><br>
+            </section>
+
+            <section id="section3">
+                <h2>Kata ve Karon Bölgesi, Phuket</h2>
+                <img src="resimler/karon1.jpeg" alt="Wat Nai Harn Tapınağı" class="section-img">
+                <p>Phuket’teki ilk durağım <strong>Karon Bölgesi</strong> oldu ve iyi ki de öyle olmuş! Adanın
+                    kalabalığını ve
+                    karmaşasını henüz bilmeden ilk günlerimi burada geçirmek benim için büyük şanstı. Çünkü Karon,
+                    Phuket’in batı kıyısında yer alan sakin ve düzenli bir
+                    bölge. Hem sahile hem de günlük ihtiyaçlara kolay ulaşabiliyorsunuz. Kısacası, Phuket’i ilk kez
+                    keşfedecekler için mükemmel bir başlangıç noktası.<br><br>
+
+                    Karon’da konaklama seçenekleri oldukça geniş. Denize sıfır otellerden uygun fiyatlı butik otellere
+                    kadar her bütçeye uygun alternatif bulmak mümkün. Bölgenin sakin yapısı ve sahile yakınlığı, otelden
+                    çıkıp yürüyerek çevreyi keşfetmek isteyenler için büyük avantaj. Benim konakladığım otel Karon’un
+                    biraz daha yukarılarında, deniz manzaralı bir konumdaydı. İlk bakışta sahile uzak gibi görünse de bu
+                    benim için hiç sorun olmadı; otelin her saat başı sahile ücretsiz shuttle hizmeti vardı. Böylece hem
+                    yukarıda daha sakin bir konumda kalıp deniz manzarasının tadını çıkardım hem de plaja ulaşmak
+                    oldukça kolaydı.<br><br>
+
+                    Karon’un merkezinde restoranlardan marketlere, motor kiralama noktalarından Thai masaj salonlarına
+                    kadar günlük ihtiyaç duyabileceğiniz pek çok şey var. <strong>7-Eleven</strong>’lar da Tayland’ın
+                    her yerinde olduğu
+                    gibi burada da hayat kurtarıyor; atıştırmalık, kahve, içecek ve hatta bazı temel ihtiyaçlar için
+                    günün her saati uğrayabilirsiniz.<br><br>
+
+                    Karon Plajı, Phuket’in en uzun plajlarından biri (yaklaşık 3 kilometre). Sabah erken saatlerde deniz
+                    sakin ve huzurlu; yüzmek ve yürüyüş yapmak için en keyifli zamanlar. Gün ilerledikçe jetski,
+                    parasailing ve satıcılarla birlikte plaj kalabalıklaşıyor.
+                    <img src="resimler/karongunes.jpeg" alt="karongunes" class="section-img">
+                    <br><br>
+
+                    Akşamları sahil boyunca kurulan <strong>Karon Night Market</strong>, bölgenin en keyifli yerlerinden
+                    biri. Tay
+                    lezzetleri, tropik meyveler, el yapımı takılar ve hediyeliklerle dolu.<br><br>
+                    Karon’dan motorla ya da araçla <strong>Phuket’in diğer bölgelerine ulaşım çok kolay</strong>.
+                    Patong’a 10-15
+                    dakika, Kata’ya ise yalnızca 5 dakika mesafede.
+                    <br><br>
+                    Ayrıca Karon’dan sadece 5 dakika uzaklıktaki Kata Bölgesi de keşfetmeye değer. Karon ve Kata
+                    birbirine çok benzer; her ikisi de sakin, düzenli plajları ve rahat yürüyüş alanlarıyla ön plana
+                    çıkıyor. Motor veya araçla yalnızca 5 dakikada ulaşılabiliyor, bu sayede gün içinde plaj ve
+                    aktiviteleri kombinleyerek deneyimlemek mümkün. Karon’da konaklayıp Kata’ya günübirlik gitmek,
+                    Phuket’in batı kıyısındaki iki güzel bölgeyi birden keşfetmek isteyenler için verimli bir
+                    seçenek.
+
+                </p><br><br><br>
+
+            </section>
+
+            <section id="section4">
+                <h2>Chalong Bölgesi, Phuket</h2>
+
+                <img src="resimler/chalong.jpeg" alt="chalong" class="section-img">
+                <p>Phuket’in güneyinde yer alan <strong>Chalong</strong>, adanın en sakin, huzurlu ve otantik
+                    bölgelerinden biri.
+                    Kalabalıktan uzak, Tayland’ın yerel yaşamının nabzını hissedebileceğiniz bir yer.
+                    Tatilimin son 5 gününü burada geçirerek adeta Phuket’in “diğer yüzünü” keşfettim.
+                    <br><br>
+
+                    Karon’daki hareketli günlerin ardından <strong>The Beatle Lagoon</strong> adlı hotelde kaldık.
+                    Sessiz, sakin ve doğayla iç içeydi. Odalar sade ve ferah; verandaya çıktığınızda sizi yemyeşil bir
+                    manzara karşılıyor, kuş sesleri ve palmiyeler eşliğinde. Dilerseniz belirli gün ve saatlerde yoga
+                    derslerine katılabilir, otelin göletinde kano yapabilir ya da sadece sessizliğin ve doğanın tadını
+                    çıkarabilirsiniz.
+                    Gerçek anlamda “dinlenmek” isteyenler için birebir bir konaklama deneyimi.
+                    <img src="resimler/thelagoon.jpeg" alt="thebeatleslagoon" class="section-img">
+                    <br><br>
+                    Sanki Phuket değil de bambaşka bir yerdeymişiz gibiydi. Denize girilecek bir yer olmasa da, her yere
+                    çok yakındı.
+                    <strong>Rawai</strong>, <strong>Kata</strong>, <strong>Karon</strong> ve hatta <strong>Phuket
+                        Old Town</strong>’a kısa sürede ulaşmak mümkün. Sabah yürüyüşleri için ideal geniş yolları,
+                    huzurlu
+                    atmosferiyle bana çok iyi geldi.<br><br>
+
+                    Rezervasyonlarınızı Booking.com üzerinden yapabilirsiniz.<br><br>
+
+                    Robinson Lifestyle Alışveriş Merkezi'nin önündeki geniş alanda hafta sonları akşam saatlerinde
+                    <strong>night market</strong>
+                    kuruluyor. Renkli atmosferi, sokak lezzetleri ve uygun fiyatlarıyla Tayland yemeklerini denemek için
+                    güzel bir seçenek.<br><br>
+
+                    Bu alışveriş merkezini geçip hemen sola döndüğünüzde ise kendinizi <strong>Ta Iat Road</strong>’da
+                    buluyorsunuz.
+                    Burası Chalong’un kalbinde, enerjisi yüksek ve bir o kadar da huzurlu bir cadde.
+                    Sabahın erken saatlerinden itibaren sokaklar hareketli; kimi sabah koşusuna çıkmış, kimi yoga
+                    dersine gidiyor, kimi Tay boksu antrenmanına hazırlanıyor.
+                    Spor ruhunu her adımda hissediyorsunuz. Her köşesi hareketli ama asla kaotik değil; tam anlamıyla
+                    spor, sağlık ve iyi yaşamın merkezi diyebiliriz.
+                    <br><br>
+                    Benim için Ta Iat Road, sadece bir cadde değil, güne keyifle başladığım bir yer oldu.
+                    Kahvaltı konusunda biraz seçiciyim; aslında istediğim çok basit; avokado, üstüne çırpılmış yumurta
+                    ve yanına taze meyve suyu.
+                    Tam da aradığımı <strong>Latte Caffe</strong>’de buldum. Yerelliğini koruyan, içtenliğiyle sizi
+                    hemen içine alan sağlıklı bir mekan.
+                    Porsiyonlar kocaman, yumurtalar inanılmaz lezzetliydi.
+                    Üstelik sadece kahvaltı değil, taze meyvelerden yapılan <strong>smoothieler</strong>, <strong>bowl
+                        çeşitleri</strong> ve <strong>tatlı</strong>ları da harikaydı.
+                    Fiyatlar da gayet makul: koca bir avokadolu yumurta tabağı ve taze meyve suyuna sadece 150 Baht
+                    ödedim.
+                </p><br><br><br>
+            </section>
+
+            <section id="section5">
+
+                <h2>Wat Chalong Tapınağı</h2>
+                <p>Chalong’un en kutsal noktalarından biri olan <strong>Wat Chalong</strong>, Phuket’in en büyük ve en
+                    ünlü Budist tapınağı.
+                    19. yüzyılda inşa edilen bu tapınak, hem yerli halk hem de turistler için bir “ruhsal merkez” gibi.
+                    Renkli süslemeleri, detaylı mimarisi ve mistik atmosferiyle gerçekten etkileyici.
+
+                <div class="image-row">
+                    <img src="resimler/watchalong3.jpeg" alt="wat chalong 1">
+                    <img src="resimler/watchalong6.jpeg" alt="wat chalong 2">
+                    <img src="resimler/watchalong1.jpeg" alt="wat chalong 3">
+                </div><br>
+
+                <div class="text-image-row">
+                    <p>Tapınağın en dikkat çekici yapısı olan “Phra Mahathat Chedi” (veya Grand Pagoda) üç katlı yüksek
+                        bir kule şeklindedir. Bu pagodanın en üst katında, küçük cam bir muhafaza içinde Buda’ya ait
+                        kutsal bir kemik parçası (Buddha relic) sergileniyor. Bu parça, Sri Lanka hükümeti tarafından
+                        Tayland’a hediye edilmiş.<br><br>
+                        Ziyaretçiler genellikle merdivenleri çıkarak bu kata ulaşıyor, burada dua ediyor veya lotus
+                        çiçeğiyle saygılarını sunuyorlar. Pagodanın iç duvarları da oldukça etkileyici; Buda’nın
+                        yaşamını anlatan renkli duvar resimleriyle süslenmiş durumda.
+                    </p>
+                    <img src="resimler/watchalong2.jpeg" alt="Wat Chalong">
+                </div>
+
+
+                <strong>Giriş ücretsizdir</strong>. Ancak ziyaret ederken omuz ve dizleri kapatan kıyafet giymeyi
+                unutmayın.
+                </p><br><br><br>
+            </section>
+
+            <section id="section6">
+
+                <h2>Big Budda'yı Ziyaret Edin ve Manzaranın Keyfini Çıkarın</h2>
+                <p><strong>Wat Chalong</strong> ziyaretinden sonra rotayı <strong>Big Buddha</strong>’ya çevirmek
+                    gerçekten harika bir plan olur. İki nokta birbirine oldukça yakın, bu yüzden genellikle aynı gün
+                    içinde rahatça gezilebiliyor.<br><br>
+
+                    Phuket’in simgelerinden biri olan <strong>Big Buddha</strong>, Nakkerd Tepesi’nin zirvesinde yer
+                    alıyor ve adanın
+                    dört bir yanından görülebilen devasa bir heykel. Tam <strong>45 metre yüksekliğindeki</strong> bu
+                    beyaz mermer
+                    Buddha, hem görkemiyle hem de bulunduğu yerin huzurlu atmosferiyle etkileyici. Zirveye vardığınızda,
+                    Karon ve Kata Plajları dahil olmak üzere adanın güneyine uzanan çok geniş bir manzara sizi
+                    karşılıyor. Özellikle sabah erken saatlerde ya da gün batımında çıkarsanız, manzara gerçekten
+                    büyüleyici.<br><br>
+
+                    <strong>Big Buddha</strong>’ya motorla ya da araçla kolayca ulaşılabiliyor. Yolun son bölümü biraz
+                    dik ve kıvrımlı olsa da asfalt
+                    olduğu için rahat bir sürüşe sahip.
+                </p>
+
+                <div class="text-image-row">
+                    <p>Gittiğimde bölgedeki <strong>heyelan nedeniyle erişim kısıtlıydı</strong>, bu yüzden heykeli
+                        yalnızca belirli
+                        bir açıdan görebildim. Yine de o noktadan bile Phuket’in geniş manzarasını izlemek harikaydı.
+                        Gitmeden önce alanın açık olup olmadığını kontrol etmekte fayda var, çünkü zaman
+                        zaman bakım veya hava koşulları nedeniyle erişim sınırlandırılabiliyor.<br><br><br>
+                        Big Buddha, hem manzarasıyla hem de hissettirdiği <strong>dinginlikle</strong>, Wat Chalong’daki
+                        manevi atmosferin güzel bir devamı oluyor. Kesinlikle Phuket’in “ruhunu” hissetmek için mükemmel
+                        bir
+                        final noktası.
+                    </p>
+                    <img src="resimler/bigbudda.jpeg" alt="big budda">
+                </div><br><br><br>
+
+            </section>
+
+            <section id="section7">
+
+                <h2>Deneyim Sevenler İçin: Chalong Bay Rum Distillery</h2>
+                <img src="resimler/rom1.jpeg" alt="Chalong Bay Rum Distillery" class="section-img">
+                <p><strong>Chalong Bay Rom Evi</strong>, Phuket’te gezilecek, tadına bakılacak ve Tayland’ın rom
+                    üretimiyle ilgili
+                    kültürünü yakından tanıyabileceğin güzel bir yer. Eğer el yapımı içkilere meraklıysanız, üretim
+                    sürecini görmek, farklı rom çeşitlerini tatmak ve hatta kendi kokteylinizi hazırlamak istiyorsanız
+                    burası tam size göre.<br><br>
+
+                    Phuket’in Chalong bölgesinde yer alan bu butik damıtımevi, tamamen doğal yöntemlerle üretilen
+                    romlarıyla dikkat çekiyor. Kullanılan şeker kamışı yerel, endemik bir tür ve kimyasal gübre ya da
+                    böcek ilacı kullanılmadan yetiştiriliyor. Şeker kamışı elle toplanıyor ve yalnızca ilk sıkım suyu
+                    (first-press cane juice) kullanılıyor. Yani çoğu endüstriyel romda olduğu gibi pekmez değil, saf
+                    kamış suyu damıtılıyor. Üretim süreci <strong>Fransız tarzı bakır imbiklerle</strong> yürütülüyor ve
+                    bu da romlara kendine özgü bir aroma kazandırıyor. Genellikle “beyaz rom”
+                    (dinlendirilmemiş) üretiliyor; ancak yerel botaniklerle tatlandırılmış aromalı çeşitleri de mevcut.
+                    <br><br>
+
+                    Ziyaretçiler için günde birkaç kez düzenlenen rehberli turlar ve tadım seansları sayesinde hem romun
+                    üretim aşamalarını görebilir hem de farklı tatları deneyimleyebilirsiniz. Ayrıca dilerseniz kokteyl
+                    atölyelerine katılıp profesyonel eğitmenler eşliğinde kendi içkinizi hazırlayabilirsiniz.
+                    Tur sırasında üretim süreci anlatılıyor ve fotoğraf çekmek yasak.
+
+                    <img src="resimler/rom3.jpeg" alt="Chalong Bay Rum Distillery" class="section-img">
+                    Deneyiminizi tesisin içinde yer alan bar&restoran kısmında bitirebilirsiniz; taze ve yerel
+                    malzemelerle
+                    hazırlanan Asya esintili yemekler gerçekten lezzetli.
+                </p>
+                <p style="color: white; font-size: 16px;">
+                    Daha fazla bilgi ve ziyaret detayları için resmi web sitesini ziyaret edebilirsiniz:
+                    <a href="https://chalongbayrum.com" target="_blank" rel="noopener noreferrer"
+                        style="color: white; font-weight: 600; text-decoration: underline; display: inline-flex; align-items: center; margin-left: 5px;">
+                        chalongbayrum.com <span style="margin-left: 5px; font-size: 14px;">&#8599;</span>
+                    </a>
+                </p><br><br><br>
+
+
+            </section>
+
+            <section id="phi-phi-turu">
+                <h2>Phi Phi Adaları Turu, Phuket</h2>
+                <p>Phuket’in yaklaşık <strong>45 dakika açıklarında</strong> yer alan <strong>Phi Phi Adaları</strong>,
+                    Tayland’ın en ünlü ve en çok
+                    fotoğraflanan adalar grubundan biridir. Turkuaz suları, bembeyaz kumsalları ve etkileyici
+                    kayalıklarıyla tam bir tropik cennet diyebilirim. Aslında “Phi Phi Adası”
+                    denilse de, bölge iki ana adadan oluşur: <strong>Phi Phi Don</strong> (konaklamanın ve yaşamın
+                    olduğu büyük ada) ve
+                    <strong>Phi Phi Leh</strong> (koruma altındaki doğal ada).<br><br>
+
+                    Hepimizin üzülerek hatırladığı üzere, 2004 yılında meydana gelen tsunami adayı yerle bir etti. O
+                    zamandan beri, adanın küçük ve sürdürülebilir kalacağına dair verilen sözlere rağmen, Phi Phi her
+                    geçen yıl daha da kalabalıklaşıyor. Yine de bu büyüleyici adanın doğası ve enerjisi, onu hala
+                    Tayland’ın en özel noktalarından biri yapıyor.
+                    <br><br>
+                    Ben <strong>günübirlik bir turla</strong> gittim Phi Phi Adaları’na. Tur şirketi sabahın erken
+                    saatlerinde otelimden aldı ve gün başladı! Başlangıç limanında her şey oldukça organizeydi — ki
+                    olması da
+                    gerekiyordu, çünkü ortam gerçekten çok kalabalık. Kalkıştan önce küçük kahvaltılık ikramlar da
+                    sunuldu. Ardından yaklaşık 45 dakikalık bir sürat teknesi yolculuğu başladı ve kendimi kısa
+                    sürede adanın büyüleyici manzaraları arasında bulduk.
+                    <br><br>
+                    <strong>Küçük bir uyarı:</strong> sürat teknesinde dışarıda oturuyorsanız şapkanızı, gözlüğünüzü ve
+                    uçabilecek her
+                    şeyi sıkı tutun! Tekne hızlandığında rüzgâr öyle güçlü esiyor ki, farkına bile varmadan eşyalarınız
+                    suya uçabilir.<br><br>
+                <h4>Phi Phi Leh - Pi Leh Bay</h4>
+                <img src="resimler/lagoon.jpeg" alt="Phi Phi Adası" class="section-img">
+                Phi Phi turundaki ilk durağımız Pi Leh Bay oldu. Ziyaret ettiğim dönemde oldukça kalabalık olmasına
+                rağmen ortam ve enerji harikaydı. Gökyüzüne uzanan kayalıkların ihtişamı adeta büyüledi.
+                Hava şansıma biraz kapalıydı ama bu renkleri seven ben için bu durum, güzelliğini daha da öne
+                çıkardı. Pi Leh Bay, yarı dairesel bir koy içinde yer aldığı için oldukça
+                korunaklı ve sakin bir atmosfere sahip. Ancak popülerliği nedeniyle, özellikle yoğun turizm sezonlarında
+                kalabalık olabiliyor.<br><br>
+                </p>
+                <h4>Phi Phi Leh - Maya Bay</h4>
+                <div class="text-image-row">
+
+                    <p>İkinci durağımız olan <strong>Maya Bay</strong>, Phi Phi Leh Adası’nda (Phi Phi Adaları’nın
+                        güneyinde) yer alan, gökyüzüne uzanan
+                        kayalıklarla çevrili turkuaz sulara sahip büyüleyici bir koy. “The Beach” filmiyle ün
+                        kazanan bu harika yer, Phuket çevresinde mutlaka görülmesi gereken yerlerden biri.<br><br>
+                        2018 yılında, <strong>aşırı turizm nedeniyle zarar gören mercanlar ve deniz yaşamının kendini
+                            toparlayabilmesi</strong> için koy tamamen ziyarete kapatıldı. Başlangıçta sadece dört ay
+                        sürecek şekilde
+                        planlanan bu kapatma, birkaç kez uzatıldı ve Maya Bay 2022 yılında kademeli olarak yeniden
+                        açıldı.
+                    </p>
+                    <img src="resimler/phuketcard.jpeg" alt="Phi Phi Adası">
+                </div>
+                <p>Eskiden sahile doğrudan yanaşan yüzlerce sürat teknesi, her gün binlerce turisti indiriyor; bu da
+                    ekosistemi adeta yok ediyormuş. Sosyal medyada paylaşılan fotoğraflarda, koyun girişini arka plana
+                    alarak poz vermeye çalışan kalabalık insan gruplarıyla dolu, nefes alınamayacak kadar yoğun bir
+                    sahil görülüyormuş. Bugün ise Milli Park yetkilileri bu tabloyu değiştirmek için çok sıkı önlemler
+                    uyguluyor.<br><br>
+
+                    Maya Bay’e erişim <strong>2022’de belirli kurallar çerçevesinde yeniden düzenlendi</strong>. Artık
+                    teknelerin
+                    doğrudan sahile yanaşmasına izin verilmiyor; bunun yerine koyun arka kısmındaki <strong>Loh Sam
+                        Bay</strong>
+                    üzerinden giriş yapılıyor. Tekneler yolcularını indirip yaklaşık bir saat boyunca açıkta bekliyor.
+                    Bölgeye girişte <strong>400 Baht</strong> tutarında Milli Park ücreti alınıyor, ancak bu genellikle
+                    günlük tur
+                    ücretine dahil ediliyor.
+                    <br><br>
+                    İskeledeki iniş-çıkışlar biraz <strong>karmaşık ve telaşlı</strong> olabiliyor; küçük yüzer iskele
+                    ve dar köprü
+                    nedeniyle görevli ve rehberlerin yönlendirmeleriyle ilerleniyor. Rehberler genellikle önceden
+                    uyarıyor: sahilde ne kadar kalınabileceği, nelerin yapılmaması gerektiği hakkında net bilgi
+                    veriyorlar.
+                    Örneğin; <strong>mercanlara basmak, balıkları beslemek, sahilden herhangi bir şey (hatta kum bile)
+                        almak
+                        yasak</strong>. Yüzmek de yasak, yalnızca <strong>diz hizasına kadar suya girilmesine</strong>
+                    izin veriliyor. Ayrıca Phi Phi
+                    Leh bir <strong>Milli Park</strong> olduğu için gerekli izin olmadan <strong>drone uçurmak da
+                        kesinlikle yasak</strong>.
+                    <br><br>
+
+                    Tüm bu kısıtlamalar, Maya Bay’in doğasının korunması için uygulanıyor. Bugün tertemiz beyaz kumu,
+                    berrak suları ve nefes kesen manzarasıyla bu koy hala büyüleyici.
+                </p><br><br>
+
+                <h4>Phi Phi Don - Loh Dalum Bay</h4>
+                <img src="resimler/lohdalum.jpeg" alt="Phi Phi Adası" class="section-img">
+                <p>Küçük olmasına rağmen, <strong>Loh Dalum</strong>, Phi Phi Adası’nı ziyaret eden turistler için
+                    oldukça popüler bir
+                    yer. Plaj boyunca birçok otel, restoran ve bar bulunuyor, tur burada kısa bir
+                    yemek molası verdi. Gece hayatı ve parti ortamlarını deneyimleme fırsatımız olmadı, ancak buranın
+                    <strong>çok canlı ve enerjik bir atmosfere sahip olduğunu</strong> rehberimizden öğrendik. Özellikle
+                    müzik ve dansın
+                    sabahın ilk saatlerine kadar devam ettiği söyleniyor, bu yüzden geceyi burada geçirmek isteyenler
+                    için oldukça hareketli bir lokasyon.
+                </p><br><br>
+
+                <h4>Phi Phi Seyir Noktası</h4>
+                <img src="resimler/viewpointphi.jpeg" alt="Phi Phi Adası" class="section-img">
+                <p><strong>Phi Phi Seyir Noktası</strong>, Phi Phi Adası’nda konaklayan herkesin mutlaka ziyaret ettiği
+                    yerlerden biridir.
+                    Yürüyerek kolayca ulaşabileceğiniz bu nokta, adanın ünlü <strong>“iki koy manzarası”</strong>
+                    fotoğrafının çekildiği
+                    yerdir. Solda <strong>Tonsai Körfezi</strong>, sağda ise <strong>Loh Dalum Plajı</strong> yer alır.
+                    <br><br>
+
+                    Phi Phi Seyir Noktası’na ulaşmak oldukça kolay ve yol boyunca yönlendirme tabelaları da mevcut.
+                    <strong>Tonsai
+                        Köyü’nün arka tarafına</strong> doğru yürüdüğünüzde giriş noktasını rahatlıkla bulabilirsiniz.
+                    <strong>Merdivenleri
+                        takip ederek</strong> tırmanmaya başlayın; çok zorlu bir yürüyüş değil, ancak <strong>hava
+                        oldukça sıcak olabiliyor</strong>.
+                    Ağaçların gölgesinde vereceğiniz küçük molalarda sivrisineklerin sizi bekliyor olabileceğini
+                    unutmayın. Bu yüzden yanınıza bir <strong>sinek kovucu</strong> almak iyi bir fikir.
+                </p><br><br>
+
+                <h4>Bamboo Adası</h4>
+
+                <p><strong>Bamboo Adası</strong>, Phi Phi Adası’nın yakınında yer alan, bembeyaz kumsalları, berrak
+                    suları ve yemyeşil
+                    doğasıyla tam bir tropik kaçış noktası. Adı “Bamboo Island” (Bambu Adası) olsa da, adanın büyük
+                    kısmı aslında bambu değil, farklı bir ağaç türüyle kaplı — belki de eskiden bambular daha yoğundu.
+                    Genellikle <strong>Phi Phi Adası günübirlik turlarının</strong> son durağı olan bu huzurlu ada,
+                    Phuket veya Krabi’ye
+                    dönmeden önce denizin ve doğanın keyfini çıkarabileceğiniz sakin bir mola yeri.</p>
+
+                <img src="resimler/bamboo1.jpeg" alt="Phi Phi Adası" class="section-img">
+                <img src="resimler/bamboo.jpeg" alt="Phi Phi Adası" class="section-img">
+
+                <p>Bizim turumuzun da son durağı <strong>Bamboo Adası</strong> oldu. Yaklaşık bir saat boyunca adada
+                    vakit geçirdik, denize
+                    girdik ve tertemiz suyun tadını çıkardık.
+                    <strong>Size tavsiyemiz</strong>; gözünüze kestirdiğiniz sakinliğe doğru yürüyün ve adanın yumuşacık
+                    kumu,
+                    ılık güneşi ve minicik huzurlu dalga sesleriyle baş başa kalabileceğiniz bir yer bulun. Gerçekten,
+                    Bamboo Adası’nın tadı en çok böyle çıkar.
+                </p>
+
+                <div class="text-image-row">
+                    <p>Bamboo Adası’nda bu arkadaşa rastladık. Belli ki o da kalabalıktan kaçıp biraz “ağaç arası
+                        huzur” molası vermiş😄 <br><br>
+
+                        Ağacın arasına öyle bir yerleşmişti ki, sanki “beni kimse görmesin, huzurumu bozmasın” der
+                        gibiydi.
+                        Gerçekten adadaki en iyi “gizlenme noktası” ödülü ona verilebilirdi!
+
+                    </p>
+                    <img src="resimler/bamboo2.jpeg" alt="Phi Phi Adası">
+                </div>
+
+                <strong>Son olarak</strong>, Phi Phi Adaları gerçekten büyüleyiciydi. Turkuaz denizi, yumuşacık kumu ve
+                etkileyici
+                manzaralarıyla her anı <strong>kartpostal gibiydi</strong>.
+                Fakat itiraf edeyim, oldukça <strong>kalabalıktı</strong>. Bu yüzden benden size küçük bir tavsiye:
+                <strong>vaktiniz varsa buraya
+                    konaklamalı gelin</strong> ya da <strong>tekne konaklamalı turları</strong> tercih edin. Gün
+                batımını, sabahın sessizliğini ve
+                adanın o sakin halini yaşamak emin olun daha iyi olacaktır.<br>
+
+
+                <p style="color: white; font-size: 1.1rem;">
+                    Turlara buradan göz atabilirsiniz:
+                    <a href="https://www.getyourguide.com/s/?et=431461&psrc=widget&partner_id=XBT54EF&utm_medium=local_partners&currency=EUR&q=Phi+Phi+Island&queryMatch=all&widget=activities&wid=a10523f3-9d32-521f-b093-33dc7f3363d6&page_id=025ef2a0-13fd-5798-ab37-1069e9b2ac59&visitor_id=30A9A1B50F8B4872BA001467CF775553"
+                        target="_blank" rel="noopener noreferrer"
+                        style="color: white; font-weight: bold; text-decoration: underline;">
+                        getyourguide.com
+                    </a>
+                </p><br><br><br>
+
+            </section>
+
+            <section id="section8">
+                <h2>Phuket’te Gece Hayatı: Patong Deneyimi</h2>
+                <img src="resimler/patong2.jpeg" alt="Wat Nai Harn Tapınağı" class="section-img">
+                <p> Phuket’in en bilinen ve en kalabalık bölgesi olan <strong>Patong</strong>, adanın eğlence merkezi
+                    olarak geçiyor. Gündüzleri uzun sahilinde su sporları yapanlarla dolup taşarken, geceleri bambaşka
+                    bir atmosfere bürünüyor. Renkli ışıklar, yüksek müzik sesleri, kalabalık caddeler... Her şey
+                    hareketli, canlı ve biraz da karmaşık. <br><br> Bangla Road adındaki meşhur cadde, Patong’un gece
+                    hayatının kalbi sayılıyor. Güneş battıktan sonra trafiğe kapanıyor ve tamamen yayalara kalıyor. Her
+                    adımda farklı bir müzik duyuyorsunuz, barlar, kulüpler, sokak gösterileri... Dünyaca ünlü DJ’lerin
+                    performans sergilediği <strong>Illuzion</strong> ve <strong>Sugar Club</strong> gibi yerler,
+                    eğlencenin en popüler duraklarından. <br><br> Ben ise bu kadar yoğun ve gürültülü bir atmosferin
+                    içinde çok rahat edemedim. Açıkçası Patong, benim tarzımıza pek hitap eden bir yer değildi.
+                    Kalabalığı, sürekli
+                    hareketi ve ticari havasıyla biraz yorucu geldi. <br><br> Yine de bir akşam gidip atmosferi görmek,
+                    bu tarafın enerjisini öğrenmek istedim. <br><br> Eğer
+                    eğlencenin tam ortasında olmak, sabaha kadar müzik ve kalabalık içinde vakit geçirmek istiyorsanız
+                    Patong tam size göre olabilir. </p><br><br><br>
+            </section>
+
+
+            <section id="section9">
+                <h2>Monkey Hill, Phuket</h2>
+                <div class="image-row">
+                    <img src="resimler/monkeyhill.jpeg" alt="Monkey Hill 1">
+                    <img src="resimler/monkeyhill1.jpeg" alt="Monkey Hill 2">
+                    <img src="resimler/monkeyhill2.jpeg" alt="Monkey Hill 3">
+                </div><br>
+                <p><strong>Monkey Hill</strong>’e giriş ücretsiz ve girişinde bir otopark var; arabanızı veya motorunuzu
+                    burada
+                    bırakıyorsunuz. Tırmanış zorlu değil ama uzun bir yürüyüş sizi bekliyor. Güvenliğiniz için girerken
+                    yiyecek kontrolü yapılıyor — özellikle muz kesinlikle yasak.<br><br>
+                    Yürüyüşe başladığınızda maymunlar her yerde: yolun ortasında oturuyor, ağaçlarda gezinip sizi
+                    izliyorlar. Hemen yiyecek bekleyen halleri var; kimi bir şeyi kapmış yerken, kimi şişeden su
+                    içiyor.
+
+                    <img src="resimler/monkeyhill3.jpeg" alt="Monkey Hill" class="section-img">
+                    Monkey Hill’de maymunlar hem sevimli hem de oldukça meraklı! Küçük bebek maymunlar inanılmaz
+                    tatlılar, ama anneleri kendilerini veya yavrularını tehdit altında hissederse beklenmedik tepkiler
+                    verebilir. Yolun ortasında oturan büyük maymunlar ise adeta “patron”dur; onlara yaklaşmamak en
+                    iyisidir. Temel kurallara uyarsanız saldırganlaşmazlar, ancak elinizde, cebinizde veya çantanızda
+                    yiyecek görürlerse dikkatlerini çekebilirsiniz. Onları asla elle beslemeyin.
+                </p>
+
+
+                <img src="resimler/monkeyhilltapinak.jpeg" alt="Monkey Hill" class="section-img">
+
+                <p>Tepeye çıkarken küçük bir <strong>Çin tapınağı</strong> var, dilerseniz durup gezebilirsiniz. Çok
+                    büyük bir özellik
+                    beklemeyin ama Tayland’a yeni gelenler için her detay ilginç ve keyifli.
+                    <br><br>
+                    <strong>Monkey Hill</strong>’deki yürüyüş, güzel manzara ve maymunlarla eğlenceli karşılaşmalarla
+                    dolu, ama her zaman dikkatli olmakta fayda var! 🐒🌿
+                </p><br><br><br>
+
+            </section>
+
+            <section id="section10">
+                <h2>Phang Nga Körfezi Deniz Mağarası Kano Turu & James Bond Adası</h2>
+                <img src="resimler/jamesbond.jpeg" alt="James Bond Adası" class="section-img">
+                <p>Phuket çevresinde yapılabilecek en keyifli ve farklı turlardan biri kesinlikle <strong>Phang Nga
+                        Körfezi ve James Bond Adası</strong>.
+                    Burası, denizin içinden yükselen dev kireçtaşı kayalıkları, gizli lagünleri ve mağaralarıyla
+                    Tayland’ın en etkileyici doğal alanlarından biri.
+                    <img src="resimler/jamesbond1.jpeg" alt="James Bond Adası" class="section-img">
+                    <img src="resimler/jamesbond2.jpeg" alt="James Bond Adası" class="section-img">
+
+                <p>Turun en güzel kısımlarından biri, <strong>deniz mağaralarında kano deneyimi</strong>. Rehberler sizi
+                    küçük kanolara
+                    alıyor ve dar mağara geçitlerinden süzülerek içeri giriyorsunuz. Mağaraların içinden geçtikten sonra
+                    bir anda karşınıza çıkan gizli lagünler gerçekten büyüleyici. Sessizlik, yeşilin her tonu ve
+                    etrafınızı saran dev kayalıklar… İnsan kendini başka bir dünyadaymış gibi hissediyor.</p>
+                <img src="resimler/jamesbond3.jpeg" alt="James Bond Adası" class="section-img">
+
+                <p>Turun bir diğer durağı ise herkesin adını bildiği <strong>James Bond Adası</strong>. 1974 yapımı The
+                    Man with the
+                    Golden Gun filminden sonra ünlenen bu ada, Phang Nga Körfezi’nin simgesi haline gelmiş. Açıkçası
+                    oldukça turistik ama o ikonik kayayı yakından görmek ve fotoğraf çekmek yine de keyifli. Büyük
+                    tekneyle gitmek bu noktada avantaj; yolculuk rahat, manzaralar bol bol izleniyor. <br><br>
+
+                    Eğer bu deneyimi yaşamak isterseniz, size uygun turu buradan inceleyip seçebilirsiniz:
+                    <a href="https://www.getyourguide.com/s/?q=Phang+Nga+K%C3%B6rfezi+Deniz+Ma%C4%9Faras%C4%B1+Kano+Turu+ve+B%C3%BCy%C3%BCk+Tekneyle+James+Bond+Adas%C4%B1+Turu%22&searchSource=3&src=search_bar"
+                        target="_blank" rel="noopener noreferrer" class="custom-link">
+                        www.getyourguide.com
+                    </a>
+                </p>
+
+                </p><br><br><br>
+            </section>
+
+            <section id="section11">
+                <h2>Phuket Old Town</h2>
+                <img src="resimler/phuketoldtown.jpeg" alt="Phuket Old Town" class="section-img">
+                <p>Phuket, bugünkü turistik haline kavuşmadan çok önce, 17. yüzyılda kalay madenciliğiyle tanınan
+                    zengin bir ticaret adasıymış. O dönemdeki şartlar, Avrupalı ve Çinli tüccarları adaya çekmiş;
+                    özellikle
+                    Çin’in Fujian bölgesinden gelen göçmenler burada yaşam kurmaya başlamış.<br><br>
+
+                    Bu göçmenler zamanla kendi topluluklarını oluşturup, bugün <strong>“Phuket Old Town”</strong> olarak
+                    bilinen bölgede
+                    dükkanlar ve evler inşa etmişler. O dönemden kalan Sino-Portekiz mimarisi, renkli cepheleri ve süslü
+                    pencereleriyle adanın tarihini yansıtıyor. Yani <strong>Sino-Portekiz tarzı</strong>, Çin ve Avrupa
+                    mimarisinin
+                    birleşimiyle ortaya çıkan, 19. yüzyıl Güneydoğu Asya’sına özgü zarif bir mimari akımdır. Özellikle
+                    <strong>Thalang Road, Dibuk Road ve Krabi Road</strong> boyunca yürürken bu dokuyu her adımda
+                    hissedebilirsiniz.<br><br>
+
+                </p>
+
+                <div class="image-row">
+                    <img src="resimler/oldtown.jpeg" alt="Old Town 1">
+                    <img src="resimler/oldtown1.jpeg" alt="Old Town 2">
+                    <img src="resimler/oldtown2.jpeg" alt="Old Town 3">
+                </div><br>
+
+                <P>Phuket Old Town’un sokakları yaşayan bir açık hava müzesi gibi. Renkli
+                    <strong>shophouse</strong>’lar, yani alt katı
+                    dükkan üst katı yaşam alanı olan eski dönem ticaret evleri, bugün şehrin karakterini oluşturan
+                    yapılar. Bu tarihi binaların çoğu artık butik kafeler, sanat galerileri ve mağazalar
+                    olarak karşımıza çıkıyor. Her biri öyle güzel ki, geçmişin ruhunu harika bir dokunuşla
+                    yaşatıyor.<br><br>
+
+                    Sokakları gezerken bir anda karşınıza çıkan <strong>duvar resimleri</strong> (street art), Old
+                    Town’un bir diğer
+                    sürprizi. Yerel sanatçılar inanılmaz güzel işler çıkarmışlar. Phuket’in kültürel ruhuna hem renk hem
+                    de hikaye katmışlar. Fotoğraf çekmeyi seviyorsanız, kameranızı her an hazır tutun.<br><br>
+
+                    Phuket Old Town sadece tarihi ve sokaklarıyla değil, aynı zamanda yemek ve kafe kültürüyle de
+                    sizi büyülüyor. Renkli sokaklarda dolaşırken karşınıza çıkan <strong>butik kafeler</strong>,
+                    <strong>küçük barlar</strong>
+                    ve <strong>yerel restoranların</strong> her biri kendine has bir atmosfere sahip. Hepsi çok güzel ve
+                    ayrı bir havası
+                    var. Size çekici gelen herhangi birinde oturup kısa bir mola verebilir, Phuket Old Town’ın sıcak
+                    ruhunu ve
+                    sokakların enerjisini hissedebilirsiniz.<br><br>
+
+                    <img src="resimler/phuketnightpazar.jpeg" alt="Phuket Old Town" class="section-img">
+
+                    Burası <strong>Thalang Road</strong>, her Pazar akşamı trafiğe kapatılarak renkli bir gece pazarına
+                    dönüşüyor. Biliyorsunuz Tayland gece pazarlarıyla meşhur. <strong>“Sunday
+                        Walking Street Market”</strong> adıyla bilinen bu etkinlik, Phuket Old Town’un en canlı ve en
+                    keyifli
+                    deneyimlerinden biri. Caddenin iki yanına sıralanan tezgahlarda sokak lezzetleri, el işi ürünler,
+                    takılar, sanat eserleri ve yerel atıştırmalıklar satılıyor. Aralarda ise Tayland müzikleri, dans
+                    gösterileri ve minik performanslar caddenin enerjisini bambaşka bir havaya taşıyor.<br><br>
+                </P>
+
+                <p><strong>Phuket Old Town</strong>, adanın sahil hayatından çok daha fazlasını sahip: kültür, tarih,
+                    mimari ve yerel
+                    yaşamın birleştiği, renkli ve karakter dolu bir istikamet. Phuket’i gerçekten tanımak istiyorsanız,
+                    bu sokaklarda vakit geçirmek şart.
+
+                </p><br><br><br>
+
+
+
+
+            </section>
+
+            <section id="section12">
+                <h2>Phuket Rawai Bölgesi ve Kano Keyfi</h2>
+                <p><strong>Rawai Bölgesi</strong>, Phuket’in kalabalığından kaçıp daha az kalabalığa geldiğim bir yer
+                    oldu😀.
+                    Chalong’da konakladığım günlerde sık sık sabah saatlerinde buraya kano yapmak için attım kendimi.
+                    İlk durağım <strong>Nai Harn Plajı</strong> oldu, ardından şans eseri
+                    <strong>Ya Nui Plaj</strong>ını
+                    keşfettim; iyi ki de keşfetmişim!
+                    <br><br>
+                    Nai Harn Beach, Phuket’in en popüler hala doğallığını koruyabilmiş plajlarından biri.
+                    Adanın güneyinde, bir lagünle çevrili bir sahil.
+                    Özellikle öğleden sonra kalabalık olabiliyor.
+                    <br><br>
+
+
+                    Ben gittiğimde çok kalabalıktı, bu yüzden biraz daha sakin bir yer arayışına girdim.
+                    Nai Harn plajından çıkarken dikkatimi bir tapınak çekti: <strong>Wat Nai Harn</strong>. <br>
+
+                    <img src="resimler/watnaiharn.jpeg" alt="Wat Nai Harn Tapınağı" class="section-img">
+
+                    Wat Nai Harn, geleneksel bir Tay Budist tapınağı. Tapınağın mimarisi klasik Tay tarzında: altın
+                    detaylar, kırmızı çatılar ve ejderha figürleri ile süslenmiş. İçeride büyük bir Buda heykeli,
+                    duvarlarda ise Buda’nın hayatını anlatan renkli resimler var. Tayland’da gördüğüm ilk tapınaklardan
+                    biri olduğu için etkileyiciydi.
+
+                    <br><br>
+                    Tapınak sonrası rotamı biraz daha güneye, Ya Nui Plajına çevirdim.
+                    Burası Phuket’in en küçük ama en huzurlu koylarından biriydi bence.
+                    Yaklaşık 200 metre uzunluğunda.
+                    Deniz sığ, berrak ve taşsız; bu da yüzme, şnorkel ve kano yapmak için mükemmel bir ortam sağlıyor.
+                    Plajın hemen arkasında birkaç küçük yerel restoran ve içecek satıcısı bulunur.
+                    Menüler genellikle Tay usulü kızarmış pirinç, taze deniz ürünleri ve meyve suyu çeşitlerinden
+                    oluşuyor.
+
+                    <img src="resimler/kano.jpeg" alt="Wat Nai Harn Tapınağı" class="section-img">
+
+                    Ya Nui’yi sevdim, sabah saatlerindeki sakinliğini beğendim. Burayı keşfettikten sonraki tüm günlerde
+                    sabahları buraya gelip kano yaptım.
+                    Kano kiralamak kişi başı 100 Baht. Su sabah saatlerinde neredeyse tamamen durgun, bu yüzden hem spor
+                    gibi hissettirdi hem de inanılmaz keyifliydi.
+
+
+
+                    Aslında Ya Nui Beach'i tamamen tesadüfen buldum.
+                    <strong>Windmill Viewpoint</strong>’e çıktığımda aşağıda, turkuaz sularla çevrili bir koy gördüm.
+                    İşte o koy Ya Nui’ydi!
+                    <br><br>
+                    <strong>Windmill Viewpoint</strong> ise, Phuket’in en güney ucunda, Nai Harn Beach ve Ya Nui Beach
+                    arasında yer alan küçük ama güzel bir seyir noktasıdır.
+
+                    <img src="resimler/windmill.jpeg" alt="Wat Nai Harn Tapınağı" class="section-img">
+
+                    Adını, tepenin üzerinde yer alan dev beyaz rüzgar türbininden (windmill) alır ve bu bölgenin en çok
+                    fotoğraf çekilen noktalarından biridir. Buradan, bir yanda turkuaz renkli Ya Nui Koyu, diğer yanda
+                    geniş Nai Harn Plajı, ve ufukta Andaman Denizi’nin sonsuz maviliği görünüyor.
+                    <br><br>
+
+                    Rawai’ye giden yollar da Phuket’in en güzel rotalarından biri.
+                    İnişli çıkışlı, virajlı ama manzaralı yollar boyunca motor sürmek keyifli.
+
+                    <br><br>
+                    Kısacası; Phuket’in güney ucunda yer alan <strong>Rawai</strong>, adanın en turistik bölgelerinden
+                    biraz uzakta, daha
+                    otantik, yerel yaşamın korunduğu beş yıldızlı otellerden çok, küçük butik oteller, aile işletmesi
+                    restoranlar ve sahil boyunca uzanan balıkçı teknelerinin olduğu bir yer.
+
+                </p>
+            </section><br><br>
+
+            <section id="section13">
+                <h2>Keşfet, Turla, Canlan: Phuket</h2>
+                <p>
+                    Phuket, Tayland’ın en bilinen adalarından biri olsa da, her köşesinde sizi şaşırtmayı başaran bir
+                    ruhu var.
+                    Bir yanda hareketli plajlar, tekne turları ve hiç durmayan bir ada hayatı; diğer yanda gün batımında
+                    sessizleşen
+                    koylar, manzara noktaları ve denizle baş başa kalabildiğiniz anlar.<br><br>
+
+                    Burada isterseniz günlerinizi turdan tura koşarak geçirebilir, isterseniz bir sahil kenarında
+                    yavaşlayıp sadece denizin keyfini çıkarabilirsiniz. Balayı için sakin ve romantik bir kaçamak yapmak
+                    isteyenler için de oldukça geniş seçenekler mevcut. Phuket’in güzelliği de tam olarak burada:
+                    herkesin tatil anlayışına uyum sağlayabilmesi. Kimi turlara, kimi plajlara, kimi gece hayatına, kimi
+                    de gün batımlarına aşık oluyor.<br><br>
+
+                    Phuket, hareketiyle enerjinizi yükselten ama aynı zamanda durup nefes almanıza da izin veren bir
+                    ada. Kalabalığıyla yorabilir, manzarasıyla büyüleyebilir; ama sonunda mutlaka sizde bir iz
+                    bırakır.<br><br>
+
+                    Peki sen Phuket’te en çok nerede bulunnmak isterdin?
+                    Bir plaj mı, bir tekne turu mu, yoksa sadece gün batımını izlediğin sessiz bir köşe mi?
+                    Aşağıya yorum bırak. Hayalini, sorunu veya merak ettiğin ne varsa duymak isterim!
+                </p>
+                <br><br>
+
+            </section>
+            <!-- Yorum Yaz Kısmı -->
+            <section id="yorum-yaz"
+                style="background-color: rgb(24, 24, 24); padding: 40px 20px; margin-top: 60px; color: white;">
+                <div style="max-width: 700px; margin: 0 auto;">
+                    <h2 style="text-align: left; margin-bottom: 22px;">Yorum Yaz</h2>
+                    <p style="text-align: left; font-size: 14px; color: #aaa;">
+                        E-posta adresiniz yayımlanmayacaktır. Gerekli alanlar * ile işaretlenmiştir.
+                    </p>
+                    <form action="#" method="post"
+                        style="display: flex; flex-direction: column; gap: 25px; margin-top: 20px;">
+                        <textarea name="yorum" placeholder="Yorumunuz*" required
+                            style="width: 100%; height: 250px; padding: 10px; font-size: 14px; 
+                       border: none; box-shadow: inset 0 0 0 0.5px white; background-color: rgb(24, 24, 24); color: white;"></textarea>
+                        <input type="text" name="isim" placeholder="İsim"
+                            style="width: 100%; height: 50px; padding: 10px; font-size: 14px; 
+                       border: none; box-shadow: inset 0 0 0 0.5px white; background-color: rgb(24, 24, 24); color: white;">
+                        <input type="email" name="email" placeholder="E-posta"
+                            style="width: 100%; height: 50px; padding: 10px; font-size: 14px; 
+                       border: none; box-shadow: inset 0 0 0 0.5px white; background-color: rgb(24, 24, 24); color: white;">
+                        <button type="submit" style="width: 33%; padding: 12px; background-color: transparent; color: white; 
+                       border: none; box-shadow: inset 0 0 0 0.5px white; font-size: 14px; cursor: pointer;">
+                            GÖNDER
+                        </button>
+                    </form>
+                </div>
+            </section>
+
+        </div>
+
+    </div>
+
+    <script>
+
+        const menuToggle = document.getElementById('menuToggle');
+        const mainMenu = document.getElementById('mainMenu');
+        const closeMain = document.getElementById('closeMain');
+        const openIstikamet = document.getElementById('openIstikamet');
+        const istikametMenu = document.getElementById('istikametMenu');
+        const backIstikamet = document.getElementById('backIstikamet');
+
+        menuToggle.addEventListener('click', () => {
+            mainMenu.classList.add('active');
+        });
+
+        closeMain.addEventListener('click', () => {
+            mainMenu.classList.remove('active');
+        });
+
+        openIstikamet.addEventListener('click', (e) => {
+            e.preventDefault();
+            mainMenu.classList.remove('active');
+            istikametMenu.classList.add('active');
+        });
+
+        backIstikamet.addEventListener('click', () => {
+            istikametMenu.classList.remove('active');
+            mainMenu.classList.add('active');
+        });
+
+        const searchInput = document.getElementById('searchInput');
+        const clearBtn = document.getElementById('clearBtn');
+
+        if (searchInput && clearBtn) {
+            searchInput.addEventListener('input', () => {
+                if (searchInput.value.trim() !== "") {
+                    clearBtn.style.display = 'block';
+                } else {
+                    clearBtn.style.display = 'none';
+                }
+            });
+
+            clearBtn.addEventListener('click', () => {
+                searchInput.value = "";
+                clearBtn.style.display = 'none';
+
+                searchInput.focus();
+            });
+        }
+        const goBtn = document.getElementById('goBtn');
+
+        if (searchInput && clearBtn && goBtn) {
+            searchInput.addEventListener('input', () => {
+                if (searchInput.value.trim() !== "") {
+                    clearBtn.style.display = 'block';
+                    goBtn.style.display = 'none';
+                } else {
+                    clearBtn.style.display = 'none';
+                    goBtn.style.display = 'block';
+                }
+            });
+
+            clearBtn.addEventListener('click', () => {
+                searchInput.value = "";
+                clearBtn.style.display = 'none';
+                goBtn.style.display = 'block';
+                searchInput.focus();
+            });
+        }
+        menuToggle.addEventListener('click', () => {
+            mainMenu.classList.add('active');
+            document.body.classList.add('menu-open');
+        });
+
+        closeMain.addEventListener('click', () => {
+            mainMenu.classList.remove('active');
+            document.body.classList.remove('menu-open');
+        });
+
+        //mobil için nav-search
+        const searchInputMobile = document.getElementById('searchInputMobile');
+        const clearBtnMobile = document.getElementById('clearBtnMobile');
+        const goBtnMobile = document.getElementById('goBtnMobile');
+
+        if (searchInputMobile && clearBtnMobile && goBtnMobile) {
+            searchInputMobile.addEventListener('input', () => {
+                if (searchInputMobile.value.trim() !== "") {
+                    clearBtnMobile.style.display = 'block';
+                    goBtnMobile.style.display = 'none';
+                } else {
+                    clearBtnMobile.style.display = 'none';
+                    goBtnMobile.style.display = 'block';
+                }
+            });
+
+            clearBtnMobile.addEventListener('click', () => {
+                searchInputMobile.value = "";
+                clearBtnMobile.style.display = 'none';
+                goBtnMobile.style.display = 'block';
+                searchInputMobile.focus();
+            });
+        }
+
+        // İstikamet için nav-search
+        const searchInputIstikamet = document.getElementById('searchInputIstikamet');
+        const clearBtnIstikamet = document.getElementById('clearBtnIstikamet');
+        const goBtnIstikamet = document.getElementById('goBtnIstikamet');
+
+        if (searchInputIstikamet && clearBtnIstikamet && goBtnIstikamet) {
+            searchInputIstikamet.addEventListener('input', () => {
+                if (searchInputIstikamet.value.trim() !== "") {
+                    clearBtnIstikamet.style.display = 'block';
+                    goBtnIstikamet.style.display = 'none';
+                } else {
+                    clearBtnIstikamet.style.display = 'none';
+                    goBtnIstikamet.style.display = 'block';
+                }
+            });
+
+            clearBtnIstikamet.addEventListener('click', () => {
+                searchInputIstikamet.value = "";
+                clearBtnIstikamet.style.display = 'none';
+                goBtnIstikamet.style.display = 'block';
+                searchInputIstikamet.focus();
+            });
+        }
+
+        const openAsya = document.getElementById('openAsya');
+        const asyaMenu = document.getElementById('asyaMenu');
+        const backAsya = document.getElementById('backAsya');
+
+        openAsya.addEventListener('click', (e) => {
+            e.preventDefault();
+            istikametMenu.classList.remove('active'); // İSTİKAMET overlay gizle
+            asyaMenu.classList.add('active');         // ASYA overlay göster
+        });
+
+        backAsya.addEventListener('click', () => {
+            asyaMenu.classList.remove('active');      // ASYA overlay gizle
+            istikametMenu.classList.add('active');    // İSTİKAMET overlay göster
+        });
+
+        // ASYA Overlay Search Box
+        const searchInputAsya = document.getElementById('searchInputAsya');
+        const clearBtnAsya = document.getElementById('clearBtnAsya');
+        const goBtnAsya = document.getElementById('goBtnAsya');
+
+        if (searchInputAsya && clearBtnAsya && goBtnAsya) {
+            searchInputAsya.addEventListener('input', () => {
+                if (searchInputAsya.value.trim() !== "") {
+                    clearBtnAsya.style.display = 'block';
+                    goBtnAsya.style.display = 'none';
+                } else {
+                    clearBtnAsya.style.display = 'none';
+                    goBtnAsya.style.display = 'block';
+                }
+            });
+
+            clearBtnAsya.addEventListener('click', () => {
+                searchInputAsya.value = "";
+                clearBtnAsya.style.display = 'none';
+                goBtnAsya.style.display = 'block';
+                searchInputAsya.focus();
+            });
+        }
+
+        const tocWidget = document.querySelector('.toc-widget');
+        const tocHeader = tocWidget.querySelector('.toc-header');
+
+        tocHeader.addEventListener('click', () => {
+            tocWidget.classList.toggle('open');
+        });
+
+        document.querySelectorAll('.toc-list a').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                target.scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+
+
+        // TEMALAR overlay
+        const openTemalar = document.getElementById('openTemalar');
+        const temalarMenu = document.getElementById('temalarMenu');
+        const backTemalar = document.getElementById('backTemalar');
+
+        if (openTemalar && temalarMenu && backTemalar) {
+
+            openTemalar.addEventListener('click', (e) => {
+                e.preventDefault();
+                mainMenu.classList.remove('active');
+                temalarMenu.classList.add('active');
+            });
+
+            backTemalar.addEventListener('click', () => {
+                temalarMenu.classList.remove('active');
+                mainMenu.classList.add('active');
+            });
+
+        }
+
+
+
+    </script>
+    <script>
+        const navbar = document.getElementById('navbar');
+        let oncekiKonum = 0;
+    
+        document.addEventListener('scroll', (e) => {
+            // Kaydırma pencerede mi yoksa body'de mi oluyor, ikisini de yakala
+            const hedef = e.target === document ? document.documentElement : e.target;
+            if (hedef !== document.documentElement && hedef !== document.body) return;
+    
+            const konum = hedef.scrollTop;
+    
+            // Çok küçük hareketleri yok say
+            if (Math.abs(konum - oncekiKonum) < 5) return;
+    
+            if (konum > oncekiKonum && konum > 70) {
+                navbar.classList.add('nav-gizli');      // aşağı iniyor: gizle
+            } else {
+                navbar.classList.remove('nav-gizli');   // yukarı çıkıyor: göster
+            }
+    
+            oncekiKonum = konum;
+        }, true);
+    </script>
+</body>
+
+</html>

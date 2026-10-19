@@ -1,0 +1,2198 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <title>Balibeachclub</title>
+    <link rel="icon" type="image/png" sizes="64x64" href="resimler/logoooo 2.jpeg" />
+    <link rel="icon" type="image/x-icon" href="resimler/logoooo.ico" />
+
+
+    <style>
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            background: rgb(24, 24, 24);
+            flex-direction: column;
+            font-family: sans-serif;
+            overflow-x: hidden;
+        }
+
+        nav {
+            background-color: rgb(31, 31, 31);
+            color: rgb(202, 200, 200);
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            height: 70px;
+            z-index: 1000;
+            width: 100%;
+            position: sticky;
+            top: 0;
+            transition: transform 0.3s ease;
+      padding: 0 20px;
+      border-bottom: 3px solid rgb(187, 186, 186);
+    }
+    .nav-gizli {
+            transform: translateY(-100%);
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            margin-right: 80px;
+            margin-left: 50px;
+        }
+
+        .nav-logo img {
+            width: 56px;
+            height: 70px;
+            object-fit: cover;
+            margin-right: 5px;
+        }
+
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+            margin-left: 6px;
+        }
+
+        .logo-text .main-title {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: rgb(251, 187, 69);
+        }
+
+        .logo-text .sub-title {
+            font-size: 0.9em;
+            font-style: italic;
+            color: rgb(202, 200, 200);
+            margin-top: -3px;
+            margin-left: 9px;
+            margin-right: 10px;
+        }
+
+        .menu-toggle,
+        .menu-close,
+        .menu-back {
+            display: none;
+            font-size: 32px;
+            cursor: pointer;
+            color: white;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 1100;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            font-family: 'Times New Roman', Times, serif;
+            align-items: center;
+            flex: 1;
+        }
+
+        .nav-item {
+            position: relative;
+        }
+
+        .nav-links>.nav-item>a {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            text-decoration: none;
+            color: rgba(255, 255, 255, 0.879);
+            font-weight: 500;
+            font-size: 1em;
+            padding: 6px 12px;
+            border: 2px solid transparent;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-item>a.has-arrow::after {
+            content: "";
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            border-right: 2px solid rgba(255, 255, 255, 0.879);
+            border-bottom: 2px solid rgba(255, 255, 255, 0.879);
+            transform: rotate(45deg);
+        }
+
+        .dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: -30px;
+            background-color: rgb(242, 181, 68);
+            min-width: 180px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            text-align: left;
+            margin-left: 35px;
+            transition: all 0.5s ease-in-out;
+        }
+
+        .dropdown a {
+            display: block;
+            padding: 10px 16px;
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .dropdown a:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown a:hover {
+            background-color: rgb(249, 210, 136);
+        }
+
+        .dropdown-sub {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 100%;
+            background-color: rgb(242, 181, 68);
+            min-width: 150px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: all 0.5s ease-in-out;
+        }
+
+        .dropdown-sub a {
+            display: block;
+            padding: 10px 16px;
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .dropdown-sub a:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown-sub a:hover {
+            background-color: rgb(249, 210, 136);
+        }
+
+        .nav-item.has-submenu:hover>.dropdown-sub {
+            display: block;
+        }
+
+        .nav-item.has-submenu {
+            position: relative;
+        }
+
+        @media (min-width: 769px) {
+            .nav-item:hover .dropdown {
+                display: block;
+            }
+        }
+
+        .nav-search {
+            margin-left: auto;
+            margin-right: 50px;
+            display: flex;
+            align-items: center;
+            position: relative;
+            gap: 5px;
+        }
+
+        .nav-search input {
+            padding: 6px 36px 6px 12px;
+            border-radius: 3px;
+            border: 3px solid rgba(200, 200, 200, 0.5);
+            background-color: rgb(31, 31, 31);
+            color: white;
+            font-size: 0.9em;
+            outline: none;
+            width: 180px;
+            font-family: monospace;
+        }
+
+        .nav-search input::placeholder {
+            color: rgba(200, 200, 200, 0.7);
+        }
+
+        .nav-search input:focus {
+            color: rgba(200, 200, 200, 0.769);
+            border-color: rgba(200, 200, 200, 0.769);
+        }
+
+        .nav-search input:focus::placeholder {
+            color: rgba(200, 200, 200, 0.769);
+        }
+
+        .nav-search .clear-btn,
+        .nav-search .go-btn {
+            position: absolute;
+            background: none;
+            border: none;
+            color: rgba(200, 200, 200, 0.9);
+            cursor: pointer;
+            font-size: 1em;
+            padding: 0;
+        }
+
+        .nav-search .clear-btn {
+            right: 30px;
+            display: none;
+
+        }
+
+        .nav-search .go-btn {
+            right: 20px;
+
+        }
+
+        .nav-search .clear-btn:hover,
+        .nav-search .go-btn:hover {
+            color: white;
+        }
+
+        .dropdown-sub {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 100%;
+            background-color: rgb(242, 181, 68);
+            min-width: 180px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+
+            text-align: left;
+            z-index: 1;
+            margin-top: 0;
+        }
+
+
+        .has-submenu:hover .dropdown-sub {
+            display: block;
+        }
+
+        .dropdown-sub a {
+            display: block;
+            padding: 10px 16px;
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .dropdown-sub a:hover {
+            background-color: rgb(249, 210, 136);
+        }
+
+        .nav-item.has-submenu {
+            position: relative;
+        }
+
+        .dropdown-sub {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 100%;
+            background-color: rgb(242, 181, 68);
+            min-width: 180px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 10;
+        }
+
+        .nav-item.has-submenu:hover .dropdown-sub {
+            display: block;
+        }
+
+        .dropdown-sub a {
+            display: block;
+            padding: 10px 16px;
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+
+
+        .dropdown-sub a:hover {
+            background-color: rgb(249, 210, 136);
+        }
+
+
+        .menu-toggle {
+            font-size: 28px;
+            cursor: pointer;
+            display: none;
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0e0e0e;
+            color: #fff;
+            z-index: 2000;
+            flex-direction: column;
+            padding-top: 5px;
+            padding-left: 20px;
+            padding-right: 20px;
+
+        }
+
+        .overlay.active {
+            display: flex;
+        }
+
+        .overlay-header {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 20px;
+            border: 1px solid rgb(187, 186, 186);
+            background: transparent;
+            border-radius: 6px;
+        }
+
+
+        .overlay-header .title {
+            font-size: 13px;
+            font-weight: 100;
+            font-family: monospace;
+            letter-spacing: 2px;
+        }
+
+
+
+        .overlay-links {
+            margin-top: 70px;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            font-size: 20px;
+            margin-left: 30px;
+        }
+
+        .overlay-links a {
+            text-decoration: none;
+            color: rgb(202, 200, 200);
+            font-family: monospace;
+            font-size: 500;
+        }
+
+        #istikametMenu .overlay-links {
+            margin-top: 150px;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            font-size: 20px;
+            margin-left: 30px;
+        }
+
+        #istikametMenu .overlay-links a {
+            text-decoration: none;
+            color: rgb(202, 200, 200);
+            font-family: monospace;
+            transition: color 0.3s ease;
+            font-size: 500;
+            letter-spacing: 2px;
+        }
+
+        @media (max-width: 900px) {
+
+            .nav-links,
+            .nav-search {
+                display: none;
+            }
+
+            .menu-toggle {
+                display: block;
+                margin-right: 20px;
+            }
+        }
+
+        body.menu-open {
+            overflow: hidden;
+        }
+
+        .overlay-box {
+            position: relative;
+
+
+            left: 47%;
+            transform: translateX(-50%);
+            width: 81.5%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px;
+            border: 1px solid rgb(187, 186, 186);
+            background: transparent;
+            border-radius: 6px;
+            box-sizing: border-box;
+        }
+
+        .overlay-search input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            color: #fff;
+            font-size: 14px;
+            font-family: monospace;
+            letter-spacing: 1px;
+            outline: none;
+        }
+
+
+        .overlay-search .clear-btn,
+        .overlay-search .go-btn {
+            background: none;
+            border: none;
+            color: rgba(200, 200, 200, 0.9);
+            cursor: pointer;
+            font-size: 18px;
+            margin-left: 10px;
+        }
+
+        .overlay-search .clear-btn {
+            right: 32px;
+            display: none;
+        }
+
+        .overlay-search .go-btn {
+            right: 10px;
+        }
+
+
+        .overlay-content {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            justify-content: space-between;
+            margin-top: 70px;
+            padding-bottom: 50px;
+        }
+
+        #asyaMenu {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0e0e0e;
+            color: #fff;
+            z-index: 2000;
+            flex-direction: column;
+            padding-top: 5px;
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+        #asyaMenu.active {
+            display: flex;
+        }
+
+        #asyaMenu .overlay-header {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 20px;
+            border: 1px solid rgb(187, 186, 186);
+            background: transparent;
+            border-radius: 6px;
+        }
+
+        #asyaMenu .overlay-header .title {
+            font-size: 13px;
+            font-weight: 100;
+            font-family: monospace;
+            letter-spacing: 2px;
+        }
+
+        #asyaMenu .overlay-links {
+            margin-top: 150px;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            font-size: 20px;
+            margin-left: 30px;
+        }
+
+        #asyaMenu .overlay-links a {
+            text-decoration: none;
+            color: rgb(202, 200, 200);
+            font-family: monospace;
+            font-size: 500;
+            letter-spacing: 2px;
+            transition: color 0.3s ease;
+        }
+
+        #asyaMenu .overlay-links a:hover {
+            color: rgb(242, 181, 68);
+        }
+
+        #asyaMenu .overlay-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            flex: 1;
+            justify-content: flex-start;
+            margin-top: 70px;
+            padding-bottom: 50px;
+        }
+
+        #asyaMenu .overlay-search {
+            margin-top: auto;
+        }
+
+        .nav-logo {
+            text-decoration: none;
+            border: none;
+            color: inherit;
+        }
+
+        .nav-logo:hover {
+            text-decoration: none;
+        }
+
+        .istikamet-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .plus-btn {
+            font-size: 18px;
+            cursor: pointer;
+            padding: 0 55px;
+            color: rgb(202, 200, 200);
+            transition: transform 0.2s ease, color 0.2s ease;
+        }
+
+        .plus-btn:hover {
+            transform: scale(1.2);
+            color: rgb(242, 181, 68);
+        }
+
+        .temalar-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .asya-item,
+        .avrupa-item,
+        .turkiye-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .top-menu {
+            margin-top: 20px;
+            gap: 20px;
+            font-family: monospace;
+            font-weight: 500;
+            font-size: 14px;
+            margin-bottom: 16px;
+
+        }
+
+        .top-menu a {
+            text-decoration: none;
+            color: grey;
+            transition: color 0.3s ease;
+        }
+
+        .top-menu a:hover {
+            color: orange;
+        }
+
+        .top-menu span {
+            color: grey;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            width: 600px;
+            margin: 40px auto;
+        }
+
+        .card {
+
+            border: 1px solid #ddd;
+
+            width: 900px;
+            height: 600px;
+            padding: 24px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+
+        }
+
+        .shop-link {
+            position: fixed;
+            right: 60px;
+            top: 50%;
+            transform: translateY(-50%) rotate(-90deg);
+            transform-origin: top right;
+            font-size: 16px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.899);
+            background: none;
+            border: none;
+            font-family: monospace;
+            text-decoration: none;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: color 0.3s ease;
+            display: flex;
+            gap: 20px;
+        }
+
+        .shop-arrow {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-top: 2px solid rgba(255, 255, 255, 0.899);
+            border-left: 2px solid rgba(255, 255, 255, 0.899);
+            transform: rotate(90deg);
+            position: relative;
+        }
+
+        .shop-arrow::after {
+            content: '';
+            position: absolute;
+            width: 2px;
+            height: 14px;
+            background-color: currentColor;
+            left: 50%;
+            top: -2px;
+            transform: translateX(-50%) rotate(-45deg);
+        }
+
+        @media (max-width: 900px) {
+            .shop-link {
+                display: none;
+            }
+        }
+
+
+
+
+        .content.card {
+            padding: 0;
+            overflow: hidden;
+            border: none;
+        }
+
+        .content-img {
+            width: 100%;
+            height: 70%;
+            object-fit: cover;
+            display: block;
+            object-position: center 52%;
+            filter: contrast(1.2) brightness(1.05);
+        }
+
+        .content-textbox {
+            height: 40%;
+            box-sizing: border-box;
+            color: rgba(255, 255, 255, 0.85);
+            font-family: monospace;
+        }
+
+        .content-title {
+            font-size: 28px;
+            margin-bottom: 15px;
+        }
+
+        .content-text {
+            font-size: 16px;
+            line-height: 22px;
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+
+
+        .toc-widget {
+            border: 0.25px solid grey;
+            width: 900px;
+            font-family: monospace;
+            font-size: 25px;
+            margin: 20px 0;
+        }
+
+        .toc-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            padding: 40px;
+            color: rgba(255, 255, 255, 0.85);
+            border-bottom: 2px solid grey;
+            font-size: 24px;
+        }
+
+        .toc-header span:first-child {
+            margin-left: 20px;
+        }
+
+        .toc-toggle {
+            display: inline-block;
+            transition: transform 0.3s ease;
+            font-size: 25px;
+        }
+
+        .toc-list {
+            list-style: none;
+            margin: 0;
+            padding: 50px 65px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            display: none;
+        }
+
+        .toc-list li {
+            margin-bottom: 1px;
+        }
+
+        .toc-list li a {
+            text-decoration: none;
+            color: grey;
+            font-size: 13px;
+        }
+
+        .toc-list li::before {
+            content: "■";
+            display: inline-block;
+            width: 12px;
+            margin-right: 8px;
+            color: grey;
+            font-size: 12px;
+        }
+
+        .toc-list li a:hover {
+            color: orange;
+            text-decoration: underline;
+        }
+
+        .toc-widget.open .toc-list {
+            max-height: 500px;
+            display: block;
+        }
+
+        .toc-widget.open .toc-toggle {
+            transform: rotate(180deg);
+        }
+
+
+        @media (max-width: 1024px) {
+
+            .container {
+                width: 90%;
+                gap: 16px;
+                margin: 20px auto;
+            }
+
+            .card {
+                width: 100%;
+                height: auto;
+                padding: 16px;
+            }
+
+            .content-img {
+                height: 200px;
+            }
+
+            .content-title {
+                font-size: 22px;
+            }
+
+            .content-text {
+                font-size: 14px;
+                line-height: 20px;
+            }
+
+            .toc-widget {
+                width: 100%;
+                font-size: 20px;
+            }
+
+            .toc-header {
+                padding: 20px;
+                font-size: 20px;
+            }
+
+            .toc-toggle {
+                font-size: 20px;
+            }
+
+            .toc-list {
+                padding: 20px;
+            }
+
+            .toc-list li a {
+                font-size: 12px;
+            }
+        }
+
+        @media (max-width: 600px) {
+
+            .container {
+                width: 95%;
+                gap: 12px;
+            }
+
+            .card {
+                width: 100%;
+                height: auto;
+                padding: 12px;
+            }
+
+            .content-img {
+                height: 180px;
+            }
+
+            .content-title {
+                font-size: 20px;
+            }
+
+            .content-text {
+                font-size: 13px;
+                line-height: 18px;
+            }
+
+            .toc-widget {
+                width: 100%;
+                font-size: 18px;
+            }
+
+            .toc-header {
+                padding: 16px;
+                font-size: 18px;
+            }
+
+            .toc-toggle {
+                font-size: 18px;
+            }
+
+            .toc-list {
+                padding: 16px;
+            }
+
+            .toc-list li a {
+                font-size: 12px;
+            }
+        }
+
+
+        .content-sections {
+            width: 900px;
+            margin: 40px 20px;
+            color: #ffffffba;
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            letter-spacing: 1px;
+            line-height: 28px;
+        }
+
+        .content-sections section {
+            font-size: 18px;
+            padding: 40px 0;
+        }
+
+        .content-sections h2 {
+            margin-bottom: 30px;
+            font-size: 30px;
+            color: rgb(237, 217, 182);
+            font-family: monospace;
+        }
+
+        .content-sections h4 {
+            color: whitesmoke;
+            font-size: 20px;
+        }
+
+        @media (max-width: 1024px) {
+            .content-sections {
+                width: 90%;
+                margin: 30px auto;
+                line-height: 24px;
+            }
+
+            .content-sections section {
+                font-size: 16px;
+                padding: 30px 0;
+            }
+
+            .content-sections h2 {
+                font-size: 26px;
+                margin-bottom: 40px;
+            }
+
+            .content-sections h4 {
+                font-size: 16px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .content-sections {
+                width: 95%;
+                margin: 20px auto;
+                line-height: 22px;
+            }
+
+            .content-sections section {
+                font-size: 14px;
+                padding: 20px 0;
+            }
+
+            .content-sections h2 {
+                font-size: 22px;
+                margin-bottom: 30px;
+            }
+
+            .content-sections h4 {
+                font-size: 15px;
+            }
+        }
+
+
+        .image-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            margin: 20px 0;
+
+        }
+
+        .image-row img {
+            width: 32%;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            filter: contrast(1.2) brightness(1.05);
+            object-position: center 85%;
+
+
+        }
+
+        @media (min-width: 769px) {
+            .image-row img:hover {
+                transform: scale(1.50);
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+                z-index: 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .image-row {
+                flex-direction: column;
+                gap: 40px;
+            }
+
+            .image-row img {
+                width: 100%;
+                aspect-ratio: 1 / 1;
+                transform: none;
+                box-shadow: none;
+            }
+        }
+
+        .image-row-2 {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .image-row-2 img {
+            width: 49%;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            filter: contrast(1.2) brightness(1.05);
+        }
+
+
+
+
+        @media (max-width: 768px) {
+            .image-row-2 {
+                flex-direction: column;
+                gap: 40px;
+            }
+
+            .image-row-2 img {
+                width: 100%;
+                aspect-ratio: 1 / 1;
+                transform: none;
+                box-shadow: none;
+            }
+        }
+
+
+
+
+        .text-image-row {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin: 40px 0;
+        }
+
+
+
+
+        .text-image-row p {
+            flex: 1;
+            font-size: 18px;
+            line-height: 28px;
+            color: #ffffffba;
+        }
+
+        .text-image-row img {
+            width: 300px;
+            height: auto;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+            filter: contrast(1.2) brightness(1.05);
+
+        }
+
+        .text-image-row img:hover {
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 768px) {
+            .text-image-row {
+                flex-direction: column;
+                align-items: center;
+                text-align: left;
+            }
+
+            .text-image-row img {
+                width: 100%;
+                max-width: 400px;
+                order: -1;
+            }
+
+            .text-image-row p {
+                font-size: 14px;
+                line-height: 24px;
+            }
+        }
+
+        .section-img {
+            width: 100%;
+            max-width: 900px;
+            height: 500px;
+            margin: 20px 0;
+            object-fit: cover;
+            object-position: center 70%;
+            filter: contrast(1.2) brightness(1.05);
+
+        }
+
+        .section-imgg {
+            width: 100%;
+            max-width: 900px;
+            height: 500px;
+            margin: 20px 0;
+            object-fit: cover;
+            object-position: center 45%;
+            filter: contrast(1.2) brightness(1.05);
+
+        }
+
+        @media (max-width: 600px) {
+            .section-img {
+                width: 100%;
+
+                margin: 15px 0;
+                height: auto;
+                object-fit: cover;
+            }
+        }
+
+        strong {
+            font-weight: 1000;
+            color: white;
+
+            font-family: monospace;
+
+        }
+
+        .pai-map {
+            margin-top: 40px;
+            padding: 20px;
+
+            font-size: 30px;
+        }
+
+        .map-container {
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-start;
+            gap: 30px;
+            flex-wrap: nowrap;
+            margin-top: 20px;
+
+        }
+
+        .map-container iframe {
+            flex: 1 1 600px;
+            max-width: 700px;
+            height: 500px;
+        }
+
+        .map-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            text-align: left;
+            justify-content: center;
+            font-size: 1rem;
+        }
+
+        .point {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: whitesmoke;
+            font-weight: 500;
+        }
+
+        .circle {
+            width: 26px;
+            height: 26px;
+            background-color: #0097b2;
+            /* Mavi yuvarlak */
+            color: white;
+            border-radius: 50%;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+
+        @media (max-width: 768px) {
+            .map-list {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                /* 2 sütun */
+                gap: 12px 24px;
+                margin-top: 15px;
+            }
+
+            .map-container {
+                flex-direction: column;
+            }
+
+            .map-container iframe {
+                width: 100%;
+                height: 300px;
+            }
+
+            .point {
+                justify-content: flex-start;
+            }
+        }
+
+        .rota-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 12px 24px;
+            border: 2px solid #F4A621;
+            border-radius: 8px;
+
+            color: #F4A621 !important;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            text-decoration: none;
+
+            transition: .25s ease;
+        }
+
+        .rota-btn:hover {
+            background: #F4A621;
+            color: #1e1e1e !important;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(244, 166, 33, .35);
+        }
+
+        .desktop-br {
+            display: inline;
+        }
+
+        @media (max-width: 900px) {
+            .desktop-br {
+                display: none;
+            }
+        }
+
+
+        .symbolized {
+            position: relative;
+            display: inline-block;
+        }
+
+
+        .symbolized::before {
+            content: "✦";
+            position: absolute;
+            left: -35px;
+            top: -0.2em;
+            transform: translateY(0);
+            font-size: 40px;
+            line-height: 1;
+            color: orange;
+            pointer-events: none;
+            white-space: nowrap;
+        }
+
+        @media (max-width: 600px) {
+            .symbolized::before {
+                left: -24px;
+                font-size: 18px;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+    <nav id="navbar">
+        <a href="index.html" class="nav-logo">
+            <img src="resimler/logoooo 2.jpeg" alt="Logo">
+            <div class="logo-text">
+                <span class="main-title">HadiGidelim</span>
+                <span class="sub-title">Kendi Ritmini Keşfet</span>
+            </div>
+        </a>
+
+        <div class="menu-toggle" id="menuToggle">&#9776;</div>
+
+        <div class="nav-links" id="navLinks">
+            <div class="nav-item"><a href="index.html" class="nav-link">ANA SAYFA</a></div>
+
+            <div class="nav-item">
+                <a href="IstikametleriGor.html" class="nav-link has-arrow">İSTİKAMET</a>
+                <div class="dropdown">
+                    <div class="nav-item has-submenu">
+                        <a href="asya.html" class="nav-link">ASYA</a>
+                        <div class="dropdown-sub">
+                            <a href="tayland.html">Tayland</a>
+                            <a href="endonezya.html">Endonezya</a>
+                        </div>
+                    </div>
+                    <a href="#">AVRUPA</a>
+                    <a href="#">TÜRKİYE</a>
+                </div>
+            </div>
+
+            <div class="nav-item"><a href="#" class="nav-link">TEMALAR</a></div>
+            <div class="nav-item"><a href="aboutus.html" class="nav-link">HAKKIMDA</a></div>
+            <div class="nav-item"><a href="#" class="nav-link rota-btn">ROTA PLANLAYICI</a></div>
+        </div>
+        <div class="nav-search">
+            <input type="text" id="searchInput" placeholder="Keşfet..." />
+            <button class="clear-btn" id="clearBtn">&times;</button>
+            <button class="go-btn" id="goBtn">&#8594;</button>
+        </div>
+    </nav>
+
+    <!-- Ana Menü Overlay (Mobil) -->
+    <div class="overlay" id="mainMenu">
+        <div class="overlay-header">
+            <div></div>
+            <div class="btn-box" id="closeMain">&times;</div>
+        </div>
+
+        <div class="overlay-content">
+            <div class="overlay-links">
+                <a href="index.html">ANA SAYFA</a>
+                <div class="istikamet-item">
+                    <a href="istikametlerigor.html" class="istikamet-link">İSTİKAMET</a>
+                    <span class="plus-btn" id="openIstikamet">
+                        <i class="fas fa-plus"></i>
+                    </span>
+                </div>
+                <div class="temalar-item">
+                    <a href="temalarigor.html" class="temalar-link">TEMALAR</a>
+                    <span class="plus-btn" id="openTemalar">
+                        <i class="fas fa-plus"></i>
+                    </span>
+                </div>
+                <a href="aboutus.html">HAKKINDA</a>
+                <a href="#">ROTA PLANLAYICI</a>
+                <a href="#">MAĞAZAMIZ <i class="fas fa-shopping-cart"></i></a>
+            </div>
+            <div class="overlay-search overlay-box">
+                <input type="text" id="searchInputMobile" placeholder="Keşfet..." />
+                <button class="clear-btn" id="clearBtnMobile">&times;</button>
+                <button class="go-btn" id="goBtnMobile">&#8594;</button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- İstikamet Overlay -->
+    <div class="overlay" id="istikametMenu">
+        <div class="overlay-header">
+            <div class="btn-box" id="backIstikamet">&#8592;</div>
+            <div class="title">İSTİKAMET</div>
+            <div></div>
+        </div>
+
+        <div class="overlay-content">
+            <div class="overlay-links">
+
+                <div class="asya-item">
+                    <a href="asya.html" class="asya-link">ASYA</a>
+                    <span class="plus-btn" id="openAsya">
+                        <i class="fas fa-plus"></i>
+                    </span>
+                </div>
+
+                <div class="avrupa-item">
+                    <a href="avrupa.html" class="avrupa-link">AVRUPA</a>
+                    <span class="plus-btn" id="openAvrupa"><i class="fas fa-plus"></i></span>
+                </div>
+
+                <div class="turkiye-item">
+                    <a href="turkiye.html" class="turkiye-link">TÜRKİYE</a>
+                    <span class="plus-btn" id="openTurkiye"><i class="fas fa-plus"></i></span>
+                </div>
+            </div>
+            <div class="overlay-search overlay-box">
+                <input type="text" id="searchInputIstikamet" placeholder="Bir istikamet ara..." />
+                <button class="clear-btn" id="clearBtnIstikamet">&times;</button>
+                <button class="go-btn" id="goBtnIstikamet">&#8594;</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="overlay" id="asyaMenu">
+        <div class="overlay-header">
+            <div class="btn-box" id="backAsya">&#8592;</div>
+            <div class="title">ASYA</div>
+            <div></div>
+        </div>
+
+        <div class="overlay-content">
+            <div class="overlay-links">
+                <a href="tayland.html">Tayland</a>
+                <a href="#">Endonezya</a>
+            </div>
+            <div class="overlay-search overlay-box">
+                <input type="text" id="searchInputAsya" placeholder="Keşfet..." />
+                <button class="clear-btn" id="clearBtnAsya">&times;</button>
+                <button class="go-btn" id="goBtnAsya">&#8594;</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+
+        <div class="content card">
+            <img src="resimler/baliyemekapak.jpeg" alt="Örnek Görsel" class="content-img">
+            <div class="top-menu">
+                <a href="index.html">ANA SAYFA</a>
+                <span>|</span>
+                <a href="asya.html">ASYA</a>
+                <span>|</span>
+                <a href="endonezya.html">ENDONEZYA</a>
+
+            </div>
+
+
+            <div class="content-textbox">
+                <h3 class="content-title">Bali'nin En Güzel Kafe ve Restoranları</h3>
+
+                <p class="content-text">
+                    Eğer bu yazıyı açtıysanız geçmiş olsun... Çünkü birazdan Bali'de "Buraya da gidelim, bunu da
+                    deneyelim." diye diye listenizi uzatacağım. Benim favori mekanlarımın hepsi burada.
+
+                    <!-- Hazırsanız sizi Bali'de keşfettiğimiz birbirinden güzel kafe ve restoranlarla 
+                     tanıştıralım. Öyle bir liste hazırladık ki, büyük ihtimalle siz de bizim gibi hangisine önce gideceğinize 
+                     karar veremeyeceksiniz. -->
+                </p>
+            </div>
+        </div> <br><br>
+
+
+        <div class="map-container">
+
+
+            <iframe src="https://www.google.com/maps/d/embed?mid=1Uzewh2YbN4bRAZ8R8j0E2Z44z5Io2t0&ehbc=2E312F"
+                width="640" height="480"></iframe>
+
+            <div class="map-list">
+                <div class="point"><span class="circle">1</span> La Brisa</div>
+                <div class="point"><span class="circle">2</span> Finns Beach Club</div>
+                <div class="point"><span class="circle">3</span> The Lawn Beach Club</div>
+                <div class="point"><span class="circle">4</span> Jungle Fish</div>
+                <div class="point"><span class="circle">5</span> Savaya Beach Club</div>
+
+
+            </div>
+        </div><br><br><br>
+
+
+        <div class="content-sections">
+            <section>
+
+                <p>
+                    Bali'de yeme içme konusu gerçekten ayrı bir dünya. Küçük aile işletmesi warunglardan şık
+                    restoranlara, vegan kafelerden üçüncü nesil kahvecilere kadar seçenek o kadar fazla ki birkaç
+                    hafta kalsanız bile listenizin sonuna gelmek pek mümkün değil. Üstelik Bali'de yalnızca
+                    Endonezya yemekleri yok. Dünyanın farklı mutfaklarından çok iyi örneklerle de karşılaşabiliyorsunuz.
+                    <br><br>
+
+                    Yine de Bali'ye kadar gelmişken yerel yemeklere mutlaka yer açın. Nereden başlayacağınıza karar
+                    veremiyorsanız farklı yemeklerin küçük porsiyonlarla aynı tabakta bulunduğu
+                    <strong>nasi campur Bali</strong> güzel bir başlangıç. Baharatlarla ağır ağır
+                    pişirilen <strong>ayam betutu</strong>, kıyılmış etin veya balığın çubuğun etrafına sarılarak
+                    pişirildiği <strong>sate lilit</strong> ve Bali'ye özgü acılı <strong>sambal matah</strong>
+                    da mutlaka denemenizi önerdiğim tatlar arasında. Daha tanıdık bir şey ararsanız
+                    <strong>nasi goreng (kızarmış pilav)</strong> ve <strong>mie goreng (kızarmış noodle)</strong>
+                    neredeyse her yerde karşınıza çıkıyor.
+                    <br><br>
+
+                    <span class="symbolized">
+                        Bali'de musluk suyu içilmiyor. Kapalı şişe su kullanın ve buz konusunda
+                        emin olmadığınız yerlerde sipariş verirken sorun. Warung seçerken hareketli, yemeklerin sık
+                        yenilendiği yerler genellikle daha iyi bir seçim oluyor. </span> <br><br>
+                    <span class="symbolized">
+                        Endonezya genelinde birçok restoran ve otelde hesaba <strong>servis ücreti</strong> ekleniyor.
+                        Bali'nin turistik bölgelerinde bu uygulamayla sık sık karşılaşacaksınız. Ücret toplam hesabın
+                        yüzdesi üzerinden hesaplandığı için sipariş tutarı arttıkça ödediğiniz miktar da artıyor.
+                        Küçük warunglarda ise çoğu zaman servis ücreti bulunmuyor.
+
+                    </span>
+                    <br><br>
+
+                    Bu küçük notları da aradan çıkardığımıza göre şimdi gelelim Bali'de deneyip gerçekten beğendiğim
+                    mekanlara. Baştan söyleyeyim, liste ilerledikçe acıkmanız oldukça olası. 😊
+                </p><br><br>
+
+                <h2>1. Zest, Ubud</h2>
+
+                <img src="resimler/zest.jpeg" alt="Zest Ubud" class="section-img">
+
+                <p>
+                    Ubud'da en sevdiğim mekanlardan biri <strong>Zest</strong> oldu. Menüsü tamamen vegan ama
+                    burayı sevmek için vegan olmanıza hiç gerek yok. Menü o kadar geniş ve tabaklar o kadar güzel
+                    görünüyor ki sipariş vermeden önce bir süre kararsız kalmanız çok normal.
+                </p>
+
+                <img src="resimler/zest1.jpeg" alt="Zest Ubud vegan yemekleri" class="section-img">
+
+                <p>
+                    Yemeklerin hepsi rengarenk, doyurucu ve gerçekten lezzetli. Hiçbiri yalnızca
+                    sağlıklı olsun diye lezzetten kısmış gibi değil. Sunumların özenli olması da insanın masaya
+                    gelen her şeyi denemek istemesine neden oluyor.
+                    <br><br>
+
+                    Zest'in en güzel taraflarından biri de ortamı. Yemyeşil ağaçların arasında, oldukça rahat ve
+                    insanı acele ettirmeyen bir havası var. Yemeğiniz bittikten sonra hemen kalkmak yerine bir içecek
+                    daha söyleyip biraz daha oturmak istiyorsunuz. Ben buranın yemeğini de ortamını da çok sevdim.
+                </p> <br><br>
+
+
+                <h2>2. This is Bali, Ubud</h2>
+
+                <img src="resimler/thisisbali1.jpeg" alt="Tis is Bali" class="section-imgg">
+
+                <p>Atmosferi gerçekten çok güzel ve enerjisi oldukça canlı bir yer. İçeride epey fazla çalışan var ve
+                    güzel bir sistem kurmuşlar; masanıza bir garson atanıyor ve yemeğiniz boyunca o kişi sizinle
+                    birebir ilgileniyor. Bu da hem hizmeti daha düzenli hem de daha kişisel hale getiriyor. <br><br>
+
+                    Menü konusunda da yardımcı oluyorlar. Ne seçeceğinize karar veremediğinizde yemekleri
+                    tek tek anlatıp damak tadınıza göre yönlendiriyorlar. Benimle ilgilenen Sulashi'nin Türkçe
+                    bilmesi de güzel bir sürpriz oldu. Türk mutfağını bildiği için bana oldukça yerinde öneriler
+                    yaptı.
+
+                    <img src="resimler/thisisbali.jpeg" alt="This is Bali" class="section-img">
+
+                    Buranın en sevdiğim tarafı ise yemek sipariş etme şekliydi. Önünüze damgalı küçük bir menü
+                    getiriliyor ve tabağınızı adım adım kendiniz oluşturuyorsunuz. Pilavdan sebzelere, sostan
+                    baharatlara kadar istediğiniz seçenekleri işaretleyip garsona veriyorsunuz. Bir süre sonra tamamen
+                    kendi seçimlerinizden oluşan tabak masaya geliyor.
+                    <br><br>
+
+                    Hem eğlenceli hem de ne yediğinizi tamamen kontrol edebildiğiniz farklı bir sistem. Özellikle
+                    Endonezya yemeklerine çok aşina değilseniz, birkaç farklı lezzeti aynı tabakta denemek için güzel
+                    bir fırsat. <br><br>
+
+                    <strong>Bir de önemli bir not</strong>: Kesinlikle rezervasyon şart. Burası yoldan geçerken
+                    uğrayayım, bir oturayım diyebileceğiniz bir yer değil. Rezervasyon için
+                    <a href="https://thisbali.com/" target="_blank" rel="noopener noreferrer"
+                        style="color: orange; text-decoration: underline;">
+                        This Is Bali'nin web sitesini
+                    </a>
+                    ya da
+                    <a href="https://www.instagram.com/thisisbali.eatery/" target="_blank" rel="noopener noreferrer"
+                        style="color: orange; text-decoration: underline;">
+                        Instagram hesabını
+                    </a>
+                    kullanabilirsiniz.
+
+
+                </p><br><br>
+
+
+
+
+
+
+                <h2>3. Locavore NXT, Ubud</h2>
+
+                <img src="resimler/locavorenxt.jpeg" alt="Locavorenxt" class="section-img">
+
+                <p>Bu listedeki diğer mekanlardan farklı olarak <strong>Locavore NXT</strong>'ye gidemedim. Yer
+                    bulamayınca biraz içimde kaldı ama yine de buradan bahsetmeden geçmek istemedim. Çünkü burası
+                    yalnızca yemek yenilen şık bir restoran değil, baştan sona düşünülmüş farklı bir deneyim.
+                    <br><br>
+                    Michelin yıldızlı restoranlarda deneyim kazanmış şefler
+                    <strong>Eelke Plasmeijer</strong> ve <strong>Ray Adriansyah</strong> tarafından kurulan bu restoran,
+                    bugün Asya'nın en iyi
+                    restoranları arasında gösteriliyor ve dünyanın dört bir yanından gastronomi tutkunlarını Ubud'a
+                    çekiyor. <br><br>
+
+                    Locavore NXT'nin en etkileyici taraflarından biri ise sürdürülebilirlik anlayışı. Menünün büyük
+                    bölümü kendi çatı bahçelerinde yetiştirdikleri ürünlerden, mantar laboratuvarlarından, fermantasyon
+                    mutfağından ve yerel üreticilerden gelen malzemelerle hazırlanıyor. Restoranda mümkün olduğunca her
+                    şey yeniden değerlendiriliyor; doğaya saygılı ve neredeyse kapalı döngü bir sistemle çalışıyorlar.
+                    Yani burada sadece yemek yemiyor, mutfağın geleceğine dair farklı bir bakış açısını da
+                    deneyimliyorsunuz. <br><br>
+
+                    Bali'ye gitmeden önce rezervasyon yapmaya çalıştım ama ne yazık ki yer bulamadım.
+                    Rezervasyonlar çoğu zaman haftalar, hatta aylar öncesinden tükeniyor. Daha sonra iptal
+                    edilen bir rezervasyon yakalarım diye birkaç kez daha kontrol ettim, yine olmadı. Burayı
+                    listenize aldıysanız seyahat tarihiniz belli olur olmaz
+                    <a href="https://locavorenxt.com/" target="_blank" rel="noopener noreferrer"
+                        style="color: orange; text-decoration: underline;">
+                        Locavore NXT'nin web sitesi
+                    </a>
+                    üzerinden yerinizi ayırın. Son dakikaya bırakılacak bir restoran değil.
+
+
+
+                </p><br><br>
+
+                <h2>4. Jungle Fish, Ubud</h2>
+
+                <img src="resimler/junglefishye.jpeg" alt="Jungle Fish Ubud" class="section-img">
+
+                <p>
+                    <strong>Jungle Fish</strong>'e ilk olarak ormanın ortasındaki sonsuzluk havuzu ve manzarası için
+                    gittim. Sonrasında yemekleri de beklediğimden çok daha iyi çıktı ve burayı yeme içme listesine
+                    eklemeden geçmek istemedim.
+                    <br><br>
+
+                    Menüde havuz başında yiyebileceğiniz hafif atıştırmalıklardan ana yemeklere, tatlılardan
+                    kokteyllere kadar birçok seçenek var. Yemeklerin hepsi birbirinden yaratıcı ve servis
+                    de hızlı. Sunumlar özenli. Yalnızca güzel görünsün diye hazırlanmış tabaklar değil,
+                    lezzetleri de harika.
+                    <br><br>
+
+                    Kokteyller için de aynısını söyleyebilirim. Masaya geldiklerinde önce fotoğraflarını çekmek
+                    istiyorsunuz ama görüntülerinin yanında tatları da oldukça başarılı. Havuz başında uzun bir gün
+                    geçirecekseniz burada yemek konusunda hayal kırıklığı yaşamazsınız.
+                </p>
+
+                <img src="resimler/jungleefish.png" alt="Jungle Fish yemek ve kokteylleri" class="section-img">
+
+                <p>
+                    Jungle Fish'in havuzu, ortamı ve gitmeden önce bilmeniz gereken diğer ayrıntılar için
+                    <a href="balibeachclub.html" target="_blank" rel="noopener noreferrer"
+                        style="color: orange; text-decoration: underline;">
+                        Bali'nin En İyi Beach Club'ları
+                    </a>
+                    yazısına da göz atabilirsiniz.
+                </p> <br><br>
+
+
+                <h2>5. Tukies Coconut Shop</h2>
+                <img src="resimler/tukies.png" alt="Tukies" class="section-img">
+                <p>Bir yer düşünün, dondurmasından külahına, üzerine serpiştirilen çıtır tanelere kadar her şey
+                    Hindistan cevizinden. Brownie’leri ve kekleri de en az dondurması kadar güzel. Kısacası, burada
+                    Hindistan cevizine doyuyorsunuz. Bali’nin sıcak günlerinde serinlemek için harika bir mola noktası.
+                    İçerinin konsepti de ayrı hoş. <br><br>
+                    <img src="resimler/tukies2.jpg" alt="Tukies" class="section-img">
+                    Çıkarken satılan Hindistan cevizli küçük atıştırmalıklara da göz atabilirsiniz. Bali’ye yolunuz
+                    düşerse Tukies Coconut Shop’a uğramadan geçmeyin derim.
+
+                </p><br><br>
+
+
+
+                <h2>6. Golden Monkey, Ubud</h2>
+
+                <img src="resimler/goldenmonkey.jpeg" alt="Golden Monkey Ubud" class="section-img">
+
+                <p>
+                    Birkaç gün yerel yemekleri denedikten sonra canınız noodle ya da dim sum çekerse
+                    <strong>Golden Monkey</strong> tam o akşamlık bir yer. Ubud'da Çin mutfağı yemek isteyenlerin
+                    uğrayabileceği bu restoran, özellikle dim sum çeşitleriyle öne çıkıyor.
+                    <br><br>
+
+                    Ben burada farklı noodle çeşitleri, dim sum'lar ve birkaç ana yemek denedim. Masaya gelenlerin
+                    hepsi oldukça lezzetliydi ama benim favorim dim sum'lar oldu.
+                    <br><br>
+
+                    Mekan şık görünmesine rağmen hiç kasıntı bir havası yok. Rahatça oturup uzun bir akşam yemeği
+                    yiyebileceğiniz, Bali'de farklı bir mutfağa geçmek istediğinizde aklınıza gelebilecek güzel
+                    yerlerden biri.
+                </p> <br><br>
+
+                <h2>7. YogaBarn</h2>
+
+                <img src="resimler/yogabarnkahvalti.png" alt="YogaBarn" class="section-img">
+
+                <p>YogaBarn'ın mutfağı, Bali'de en sevdiğimiz mutfaklardan biri oldu. Tamamen sağlıklı ve
+                    vegan ağırlıklı olmasına rağmen menü o kadar geniş ki kahvaltıdan akşam
+                    yemeğine kadar her öğünde gönül rahatlığıyla tercih edebilirsiniz. <br><br>
+
+                    Ubud'da kaldığım süre boyunca menüden birçok şey deneme fırsatım oldu. Kahvaltı tabakları,
+                    smoothie'ler, taze sıkılmış meyve suları, bowl'lar, çorbalar ve wrap'ler... Denediklerimin hepsi
+                    çok lezzetliydi. Malzemeler taze, porsiyonlar da oldukça doyurucu.
+                    <br><br>
+
+                    Menüye, derslere, etkinliklere ve konaklama seçeneklerine dair tüm ayrıntıları
+                    <a href="YogabarnUbud.html" target="_blank" rel="noopener noreferrer"
+                        style="color: orange; text-decoration: underline;">
+                        The Yoga Barn Ubud Rehberi
+                    </a>
+                    yazısında anlattım. Menü fotoğraflarını da yazının içinde bulabilirsiniz.
+
+                </p><br><br>
+
+
+
+
+
+                <h2>8. The Elephant Restaurant Bar, Ubud</h2>
+
+                <img src="resimler/elephantbar.jpeg" alt="The Elephant Bar" class="section-img">
+
+                <p>The Elephant Restaurant & Bar, Ubud’da özellikle manzarasıyla öne çıkan, oldukça keyifli bir mekan.
+                    Yemyeşil orman ve vadi manzarasına karşı oturup yemek yemek buranın en güzel tarafı. <br><br>
+
+                    Burası aynı zamanda Campuhan Ridge Walk’a da oldukça yakın. Burada güzel bir plan yapabilirsiniz;
+                    ya kahvaltınızı burada yapıp yürüyüşe buradan başlayabilirsiniz ya da Campuhan yürüyüşünü
+                    tamamladıktan sonra
+                    burada mola verip yorgunluk atabilirsiniz.
+                </p>
+
+                <img src="resimler/elephantbar1.jpeg" alt="The Elephant Bar" class="section-img">
+
+                <p> Kahvaltı tabakları çok başarılı. Özellikle kendi yaptıkları muhteşem ekmekleri var,
+                    bunu ayrıca
+                    belirtmek lazım. Bahçesi de epey keyifli; yemyeşil ortamı sayesinde saatlerce oturup vakit geçirmek
+                    isteyeceğiniz
+                    bir atmosferi var. <br><br>
+
+                    Eğer Campuhan yürüyüş yolunu daha detaylı okumak isterseniz
+                    <a href="bali.html#section9" target="_blank" style="color:orange; text-decoration:underline;">
+                        Campuhan Ridge Walk
+                    </a>yazıma göz atabilirsiniz.
+                </p><br><br>
+
+                <h2>9. Bee Cafe, Ubud</h2>
+
+                <img src="resimler/cafebee.png" alt="Bee Cafe Ubud" class="section-img">
+
+                <p>
+                    <strong>Bee Cafe</strong>, özellikle kahvaltı ve brunch için güzel seçenekleri olan ferah bir
+                    mekân. Menüde smoothie bowl'lardan kahvaltı tabaklarına, sandviçlerden kahvelere kadar birçok
+                    seçenek bulunuyor.
+                    <br><br>
+
+                    Ben burayı en çok sakinliği için sevdim. Karşınızda uzanan yemyeşil pirinç tarlalarını izleyerek
+                    yemeğinizi yiyebiliyorsunuz. Ortam oldukça sessiz olduğu için kitabınızı ya da bilgisayarınızı
+                    yanınıza alıp burada saatlerce rahatça oturabilirsiniz.
+                    <br><br>
+
+                    Portakal suyuyla ilgili küçük bir not da bırakayım. Ben taze sıkılmış olduğunu düşünerek sipariş
+                    verdim ama değildi. Taze sıkılmış meyve suyu istiyorsanız sipariş vermeden önce özellikle sorun.
+                </p><br><br>
+
+
+
+                <h2>10. Warung Citta Ovest, Ubud</h2>
+
+                <img src="resimler/warungcitta.jpeg" alt="Warung Citta Ovest pizza" class="section-img">
+
+                <p>
+                    Endonezya'da <strong>warung</strong> küçük ve yerel işletmeler için kullanılan bir kelime.
+                    Büyük restoranlardan farklı olarak daha rahat, samimi ve ev yemeği hissi veren yerler
+                    bunlar.
+                    <br><br>
+
+                    <strong>Warung Citta Ovest</strong> de bu rahat ortamı koruyor ama menüde asıl öne çıkan şey
+                    pizzaları. Taş fırından çıkan pizzalar gerçekten çok iddialı. İnce hamuru, güzel pişmiş
+                    kenarları ve bol malzemesiyle Bali'de yediğim en iyi pizzalardan biri.
+                    <br><br>
+
+                    Yerel ve samimi bir ortamda iyi bir pizza yemek isterseniz kesinlikle değerlendirin.
+                </p> <br><br>
+
+
+                <h2>11. You and Mie, Ubud</h2>
+
+                <img src="resimler/youandmie.jpeg" alt="You and Mie Ubud noodle" class="section-img">
+
+                <p>
+                    Bir diğer küçük warung olan <strong>You and Mie</strong>, Ubud'da noodle yemek isteyenler için
+                    oldukça güzel bir seçenek. Mekan küçük ve sade. İçeri girdiğiniz anda buranın asıl işinin taze
+                    noodle hazırlamak olduğu anlaşılıyor.
+                    <br><br>
+
+                    Menüde farklı noodle çeşitleri bulunuyor ve yemeğinizi kendi damak zevkinize göre
+                    şekillendirebiliyorsunuz. Denediğim noodle oldukça doyurucuydu. Sosu ağır değildi, malzemelerin
+                    tadını da gayet iyi alabildim.
+                    <br><br>
+
+                    Uzun uzun oturulan şık bir akşam yemeğinden çok, gün içinde hızlı ve lezzetli bir şeyler yemek
+                    istediğinizde uğrayabileceğiniz rahat bir yer.
+                </p><br><br>
+
+                <h2>12. Avocado Factory, Canggu </h2>
+                <img src="resimler/avocadofactory.jpeg" alt="Avocado Factory" class="section-img">
+
+                <p>Geldik Canggu bölgesine. Canggu'nun en keyifli mekanlarından biri: Avocado Factory 🥑 Daha adımınızı
+                    atar atmaz avokado konusunda ne kadar
+                    ciddi olduklarını anlıyorsunuz. 😄
+
+                    Menünün neredeyse tamamında avokado var. Kahvaltı tabakları, burgerler, tostlar, bowl'lar,
+                    salatalar, tatlılar ve hatta içecekler...</p>
+
+                <img src="resimler/avocadofactory1.jpeg" alt="Avocado Factory" class="section-img">
+
+                <p>Ben burada özellikle kahvaltıyı çok sevdim. Tabaklar hem rengarenk hem de gerçekten çok doyurucu.
+                    Taze sıkılmış meyve suları ve smoothie'ler de en az yemekler kadar başarılıydı. Eğer avokado
+                    seviyorsanız buradan büyük ihtimalle çok mutlu ayrılırsınız. Canggu'daysanız kahvaltı ya da brunch
+                    için mutlaka listenize ekleyin. <br><br>
+
+                    Avocado Factory <strong>haftanın her günü 07.00-23.00 saatleri arasında</strong> açık. Mutfakta
+                    son sipariş ise <strong>22.30'da</strong> alınıyor.
+                </p> <br><br>
+
+                <h2>13. Mason, Canggu</h2>
+
+                <img src="resimler/mason2.png" alt="Mason" class="section-img">
+
+                <p>
+                    Canggu'da güzel ve şık bir akşam yemeği yemek istiyorsanız <strong>Mason</strong>'ı listenize
+                    eklemelisiniz. Burası odun ateşinde hazırlanan yemekleri kadar tasarımıyla da öne çıkıyor.
+                    Taş, ahşap ve sıcak renklerin kullanıldığı dekorasyonuyla çok samimi bir ortama sahip.
+                    Akşam ışıkları yandığında ortam çok daha güzel bir hal alıyor.
+                    <br><br>
+
+                    Menüde kaliteli etler, taze deniz ürünleri ve paylaşmalık tabaklar bulunuyor. Yemekleri çok lezzetli
+                    ve yaratıcı.
+                    Odun ateşinin verdiği lezzet de birçok tabakta kendini belli ediyor.
+                    <br><br>
+                    <img src="resimler/mason1.png" alt="Mason" class="section-img">
+
+                    Mason gün içinde açık olsa da bence buraya akşam gidilmeli. Canggu'nun merkezinde, canlı
+                    ama rahat bir ortamda uzun uzun yemek yiyebileceğiniz güzel bir yer. Genellikle yoğun olduğu
+                    için gitmeden önce
+                    <a href="https://masonrybali.com/canggu" target="_blank" rel="noopener noreferrer"
+                        style="color: orange; text-decoration: underline;">
+                        Mason'ın web sitesi
+                    </a>
+                    üzerinden rezervasyon yaptırmanızı tavsiye ederim.
+                </p><br><br>
+
+                <h2>14. Zai Cafe</h2>
+                <img src="resimler/zaicafe.png" alt="Zai Cafe" class="section-img">
+                <p><strong>Zai Cafe</strong>'de yaratıcılık yalnızca yemeklerde değil, mekanın her köşesinde kendini
+                    gösteriyor. Ben en çok Bali motifleriyle süslenmiş duvarlarını sevdim. Bu motifler
+                    burayı Canggu'daki diğer kafelerden ayırıyor. Mutfakta da harika bir yaratıcılık var ve
+                    alışık olduğunuz malzemeler çok farklı şekillerde karşınıza çıkıyor. Ayrıca burayı sadece
+                    akşam yemeği için düşünmeyin. Kahvaltıları da çok güzel. Kısacası Zai Cafe, günün her öğününde
+                    şans verebileceğiniz kafelerden biri. <br><br>
+
+                    Çıtır tempeh ve Bali sambalı gibi lezzetlerle hafif bir başlangıç yapıp deniz ürünleri, et
+                    yemekleri ve taze vejetaryen seçeneklerle devam edebilirsiniz. Kahveleri çok güzel, tropikal
+                    meyvelerle hazırladıkları el yapımı kokteyller de çok
+                    başarılı. Tatlıları da harika, bu yüzden yemeğinizi yerken tatlıya yer kaldığından emin olun.
+                    <br><br>
+
+
+                    Zai Cafe, <strong>pazar ile perşembe günleri 08.00-23.00</strong>, <strong>cuma ve cumartesi
+                        günleri 08.00-00.00</strong> saatleri arasında açık. Güncel menüye bakmak ve rezervasyon
+                    yapmak için
+                    <a href="https://cafezai.com/" target="_blank" rel="noopener noreferrer"
+                        style="color: orange; text-decoration: underline;">
+                        Zai Cafe'nin internet sitesine
+                    </a>
+                    göz atabilirsiniz.
+
+
+                </p><br><br>
+
+                <h2>15. Desa Kitsuné, Canggu</h2>
+
+                <img src="resimler/desakitsune2.jpg" alt="Desa Kitsuné Canggu" class="section-img">
+
+                <p><strong>Desa Kitsuné</strong>, Bali'nin ortasında tam bir Paris havasına sahip. Burası sadece
+                    bir gece kulübü değil. İçinde Café Kitsuné, Ina Ré restoranı ve Maison Kitsuné mağazası da
+                    bulunuyor.
+
+                    <img src="resimler/desakitsune3.jpeg" alt="Desa Kitsuné Canggu" class="section-img">
+                    Gündüz kahvenizi içip tatlı yiyebileceğiniz sakin bir yerken akşam saatlerinde
+                    bambaşka bir eğlence mekanına dönüşüyor.
+
+                    <img src="resimler/desakitsune4.jpg" alt="Desa Kitsuné Canggu" class="section-img">
+
+                    Özellikle salı ve cuma günleri özel etkinlikler düzenleniyor. DJ performansları başladığında
+                    burası bambaşka bir yer oluyor. Bir de ortada yalnızca
+                    görüntü amaçlı yapılmış, içine girilmeyen
+                    bir havuz bulunuyor. Evet, biraz garip😄 Mekan oldukça şık ve kaliteli ama dürüst olmak gerekirse
+                    biraz mesafeli bir havası da var. Kıyafet kurallarını fazlasıyla ciddiye alıyorlar. Özellikle
+                    terlikle
+                    gitmeyi aklınızdan bile geçirmeyin, yoksa giriş sırasını boşuna beklemiş olursunuz. <br><br>
+
+                    Etkinlikler genellikle <strong>saat 20.00'de</strong> başlıyor ve giriş için
+                    <strong>21 yaş sınırı</strong> var. Mekan, etkinlikler ve bilet fiyatları için gitmeden
+                    önce
+                    <a href="https://desakitsune.com/" target="_blank" rel="noopener noreferrer"
+                        style="color: orange; text-decoration: underline;">
+                        Desa Kitsuné web sitesini
+                    </a>
+                    inceleyebilirsiniz.
+                </p> <br><br>
+
+                <h2>16. Luigi’s Hot Pizza, Canggu</h2>
+
+                <img src="resimler/luigis1.jpg" alt="Luigi's Hot Pizza Canggu" class="section-img">
+
+                <p><strong>Luigi’s Hot Pizza</strong>, Canggu'da pizza, müzik ve eğlenceyi aynı yerde bulabileceğiniz
+                    oldukça hareketli bir mekan. Buranın en güzel tarafı ise akşamın nasıl ilerleyeceğini pek
+                    kestirememeniz. Luigi’s’e pizza yemeye gidiyorsunuz ama kendinizi bir anda dans ederken
+                    buluyorsunuz.
+
+                    <img src="resimler/luigis.jpg" alt="Luigi's Hot Pizza Canggu" class="section-img">
+
+                    Taş fırınında pişen pizzaları buranın asıl yıldızı. Menüde taze hazırlanan
+                    makarnalar, burgerler, aperatifler ve tatlılar da var. Büyük ortak masaları ve
+                    geniş bahçesiyle rahat bir ortamı var. Arkadaşlarla yemek yemek, birkaç kokteyl içmek
+                    ve geceye burada devam etmek için güzel bir seçim olabilir. <br><br>
+
+                    Pazartesi günleri düzenlenen <strong>Metto Monday</strong>, çarşamba günleri <strong>Pasta &
+                        Vino</strong>,
+                    cuma günleri ise DJ performansları var. Luigi’s her gün <strong>16.00'dan gece geç saatlere
+                        kadar</strong> açık. Özellikle etkinlik akşamlarında yer bulmak zor olabildiği için
+                    <a href="https://luigishotpizza.com/" target="_blank" rel="noopener noreferrer"
+                        style="color: orange; text-decoration: underline;">
+                        önceden rezervasyon
+                    </a>
+                    yapabilirsiniz.
+                </p><br><br>
+
+
+                <span class="symbolized">
+                    Bu yazıda anlattıklarım Bali'de keşfedebileceğiniz mekanlardan yalnızca birkaçı arkadaşlar.
+                    Dediğim gibi; ada, yeme içme konusunda öyle zengin ki birkaç hafta kalsanız bile listenin sonuna
+                    gelmek pek
+                    mümkün değil. Yeni yerler keşfettikçe ben de bu yazıyı güncellemeye devam edeceğim.
+                    <br><br>
+
+                    Bali planınızı hazırlarken aklınıza takılan bir şey olursa yorumlara yazabilirsiniz.
+                    Gitmeyi düşündüğünüz mekanları, kararsız kaldığınız yerleri ya da kendi Bali listenizi benimle
+                    paylaşın. Elimden geldiğince yardımcı olmak ve sizin keşiflerinizi de duymak isterim!
+                </span>
+
+
+
+
+
+            </section>
+
+
+            <section id="yorum-yaz"
+                style="background-color: rgb(24, 24, 24); padding: 40px 20px; margin-top: 60px; color: white;">
+                <div style="max-width: 700px; margin: 0 auto;">
+                    <h2 style="text-align: left; margin-bottom: 22px;">Yorum Yaz</h2>
+                    <p style="text-align: left; font-size: 14px; color: #aaa;">
+                        E-posta adresiniz yayımlanmayacaktır. Gerekli alanlar * ile işaretlenmiştir.
+                    </p>
+                    <form action="#" method="post"
+                        style="display: flex; flex-direction: column; gap: 25px; margin-top: 20px;">
+                        <textarea name="yorum" placeholder="Yorumunuz*" required
+                            style="width: 100%; height: 250px; padding: 10px; font-size: 14px; 
+                       border: none; box-shadow: inset 0 0 0 0.5px white; background-color: rgb(24, 24, 24); color: white;"></textarea>
+                        <input type="text" name="isim" placeholder="İsim"
+                            style="width: 100%; height: 50px; padding: 10px; font-size: 14px; 
+                       border: none; box-shadow: inset 0 0 0 0.5px white; background-color: rgb(24, 24, 24); color: white;">
+                        <input type="email" name="email" placeholder="E-posta"
+                            style="width: 100%; height: 50px; padding: 10px; font-size: 14px; 
+                       border: none; box-shadow: inset 0 0 0 0.5px white; background-color: rgb(24, 24, 24); color: white;">
+                        <button type="submit" style="width: 33%; padding: 12px; background-color: transparent; color: white; 
+                       border: none; box-shadow: inset 0 0 0 0.5px white; font-size: 14px; cursor: pointer;">
+                            GÖNDER
+                        </button>
+                    </form>
+                </div>
+            </section>
+
+        </div>
+
+
+
+    </div>
+
+
+
+
+
+    <script>
+
+        const menuToggle = document.getElementById('menuToggle');
+        const mainMenu = document.getElementById('mainMenu');
+        const closeMain = document.getElementById('closeMain');
+        const openIstikamet = document.getElementById('openIstikamet');
+        const istikametMenu = document.getElementById('istikametMenu');
+        const backIstikamet = document.getElementById('backIstikamet');
+
+        menuToggle.addEventListener('click', () => {
+            mainMenu.classList.add('active');
+        });
+
+        closeMain.addEventListener('click', () => {
+            mainMenu.classList.remove('active');
+        });
+
+        openIstikamet.addEventListener('click', (e) => {
+            e.preventDefault();
+            mainMenu.classList.remove('active');
+            istikametMenu.classList.add('active');
+        });
+
+        backIstikamet.addEventListener('click', () => {
+            istikametMenu.classList.remove('active');
+            mainMenu.classList.add('active');
+        });
+
+        const searchInput = document.getElementById('searchInput');
+        const clearBtn = document.getElementById('clearBtn');
+
+        if (searchInput && clearBtn) {
+            searchInput.addEventListener('input', () => {
+                if (searchInput.value.trim() !== "") {
+                    clearBtn.style.display = 'block';
+                } else {
+                    clearBtn.style.display = 'none';
+                }
+            });
+
+            clearBtn.addEventListener('click', () => {
+                searchInput.value = "";
+                clearBtn.style.display = 'none';
+
+                searchInput.focus();
+            });
+        }
+        const goBtn = document.getElementById('goBtn');
+
+        if (searchInput && clearBtn && goBtn) {
+            searchInput.addEventListener('input', () => {
+                if (searchInput.value.trim() !== "") {
+                    clearBtn.style.display = 'block';
+                    goBtn.style.display = 'none';
+                } else {
+                    clearBtn.style.display = 'none';
+                    goBtn.style.display = 'block';
+                }
+            });
+
+            clearBtn.addEventListener('click', () => {
+                searchInput.value = "";
+                clearBtn.style.display = 'none';
+                goBtn.style.display = 'block';
+                searchInput.focus();
+            });
+        }
+        menuToggle.addEventListener('click', () => {
+            mainMenu.classList.add('active');
+            document.body.classList.add('menu-open');
+        });
+
+        closeMain.addEventListener('click', () => {
+            mainMenu.classList.remove('active');
+            document.body.classList.remove('menu-open');
+        });
+
+        //mobil için nav-search
+        const searchInputMobile = document.getElementById('searchInputMobile');
+        const clearBtnMobile = document.getElementById('clearBtnMobile');
+        const goBtnMobile = document.getElementById('goBtnMobile');
+
+        if (searchInputMobile && clearBtnMobile && goBtnMobile) {
+            searchInputMobile.addEventListener('input', () => {
+                if (searchInputMobile.value.trim() !== "") {
+                    clearBtnMobile.style.display = 'block';
+                    goBtnMobile.style.display = 'none';
+                } else {
+                    clearBtnMobile.style.display = 'none';
+                    goBtnMobile.style.display = 'block';
+                }
+            });
+
+            clearBtnMobile.addEventListener('click', () => {
+                searchInputMobile.value = "";
+                clearBtnMobile.style.display = 'none';
+                goBtnMobile.style.display = 'block';
+                searchInputMobile.focus();
+            });
+        }
+
+        // İstikamet için nav-search
+        const searchInputIstikamet = document.getElementById('searchInputIstikamet');
+        const clearBtnIstikamet = document.getElementById('clearBtnIstikamet');
+        const goBtnIstikamet = document.getElementById('goBtnIstikamet');
+
+        if (searchInputIstikamet && clearBtnIstikamet && goBtnIstikamet) {
+            searchInputIstikamet.addEventListener('input', () => {
+                if (searchInputIstikamet.value.trim() !== "") {
+                    clearBtnIstikamet.style.display = 'block';
+                    goBtnIstikamet.style.display = 'none';
+                } else {
+                    clearBtnIstikamet.style.display = 'none';
+                    goBtnIstikamet.style.display = 'block';
+                }
+            });
+
+            clearBtnIstikamet.addEventListener('click', () => {
+                searchInputIstikamet.value = "";
+                clearBtnIstikamet.style.display = 'none';
+                goBtnIstikamet.style.display = 'block';
+                searchInputIstikamet.focus();
+            });
+        }
+
+        const openAsya = document.getElementById('openAsya');
+        const asyaMenu = document.getElementById('asyaMenu');
+        const backAsya = document.getElementById('backAsya');
+
+        openAsya.addEventListener('click', (e) => {
+            e.preventDefault();
+            istikametMenu.classList.remove('active'); // İSTİKAMET overlay gizle
+            asyaMenu.classList.add('active');         // ASYA overlay göster
+        });
+
+        backAsya.addEventListener('click', () => {
+            asyaMenu.classList.remove('active');      // ASYA overlay gizle
+            istikametMenu.classList.add('active');    // İSTİKAMET overlay göster
+        });
+
+        // ASYA Overlay Search Box
+        const searchInputAsya = document.getElementById('searchInputAsya');
+        const clearBtnAsya = document.getElementById('clearBtnAsya');
+        const goBtnAsya = document.getElementById('goBtnAsya');
+
+        if (searchInputAsya && clearBtnAsya && goBtnAsya) {
+            searchInputAsya.addEventListener('input', () => {
+                if (searchInputAsya.value.trim() !== "") {
+                    clearBtnAsya.style.display = 'block';
+                    goBtnAsya.style.display = 'none';
+                } else {
+                    clearBtnAsya.style.display = 'none';
+                    goBtnAsya.style.display = 'block';
+                }
+            });
+
+            clearBtnAsya.addEventListener('click', () => {
+                searchInputAsya.value = "";
+                clearBtnAsya.style.display = 'none';
+                goBtnAsya.style.display = 'block';
+                searchInputAsya.focus();
+            });
+        }
+
+        const tocWidget = document.querySelector('.toc-widget');
+        const tocHeader = tocWidget.querySelector('.toc-header');
+
+        tocHeader.addEventListener('click', () => {
+            tocWidget.classList.toggle('open');
+        });
+
+        document.querySelectorAll('.toc-list a').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                target.scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+
+
+
+    </script>
+    <script>
+        const navbar = document.getElementById('navbar');
+        let oncekiKonum = 0;
+    
+        document.addEventListener('scroll', (e) => {
+            // Kaydırma pencerede mi yoksa body'de mi oluyor, ikisini de yakala
+            const hedef = e.target === document ? document.documentElement : e.target;
+            if (hedef !== document.documentElement && hedef !== document.body) return;
+    
+            const konum = hedef.scrollTop;
+    
+            // Çok küçük hareketleri yok say
+            if (Math.abs(konum - oncekiKonum) < 5) return;
+    
+            if (konum > oncekiKonum && konum > 70) {
+                navbar.classList.add('nav-gizli');      // aşağı iniyor: gizle
+            } else {
+                navbar.classList.remove('nav-gizli');   // yukarı çıkıyor: göster
+            }
+    
+            oncekiKonum = konum;
+        }, true);
+    </script>
+</body>
+
+</html>
