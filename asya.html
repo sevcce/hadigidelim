@@ -8,7 +8,7 @@
     <title>ASYA</title>
     <link rel="icon" type="image/png" sizes="64x64" href="resimler/logoooo 2.jpeg" />
     <link rel="icon" type="image/x-icon" href="resimler/logoooo.ico" />
-
+    <link rel="stylesheet" href="navbar.css">
     <style>
         html,
         body {
@@ -1225,7 +1225,14 @@
                         </div>
                     </div>
                     <a href="#">AVRUPA</a>
-                    <a href="#">TÜRKİYE</a>
+                    <div class="nav-item has-submenu">
+                        <a href="turkiye.html" class="nav-link">TÜRKİYE</a>
+                        <div class="dropdown-sub">
+                          <a href="bozcaada.html">Bozcaada</a>
+                          <a href="gokceada.html">Gökçeada</a>
+                          <a href="sigacik.html">Sığacık</a>
+                        </div>
+                      </div>
                 </div>
             </div>
 
@@ -1341,6 +1348,27 @@
         </div>
     </div>
 
+    <div class="overlay" id="turkiyeMenu">
+        <div class="overlay-header">
+          <div class="btn-box" id="backTurkiye">&#8592;</div>
+          <div class="title">TÜRKİYE</div>
+          <div></div>
+        </div>
+      
+        <div class="overlay-content">
+          <div class="overlay-links">
+            <a href="bozcaada.html">Bozcaada</a>
+            <a href="gokceada.html">Gökçeada</a>
+            <a href="sigacik.html">Sığacık</a>
+          </div>
+          <div class="overlay-search overlay-box">
+            <input type="text" id="searchInputTurkiye" placeholder="Keşfet..." />
+            <button class="clear-btn" id="clearBtnTurkiye">&times;</button>
+            <button class="go-btn" id="goBtnTurkiye">&#8594;</button>
+          </div>
+        </div>
+      </div>
+
     <div class="overlay" id="temalarMenu">
         <div class="overlay-header">
             <div class="btn-box" id="backTemalar">&#8592;</div>
@@ -1388,7 +1416,7 @@
             <div class="title-text">
 
                 <h1>ASYA</h1>
-                <p>En güzel seyahat paylaşımlarımızla Asya’nın zengin kültürünü<br>
+                <p>En güzel seyahat paylaşımlarımla Asya’nın zengin kültürünü<br>
                     ve doğal güzelliklerini keşfe çıkın.</p>
 
             </div>
@@ -1634,6 +1662,7 @@
 
         }
     </script>
+    <script src="navbar.js"></script>
     <script>
         const navbar = document.getElementById('navbar');
         let oncekiKonum = 0;
