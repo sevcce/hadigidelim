@@ -1147,6 +1147,37 @@
   transition: transform 1.6s ease-in-out;
 }
 
+#turkiyeMenu .overlay-links {
+  margin-top: 150px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  font-size: 20px;
+  margin-left: 30px;
+}
+
+#turkiyeMenu .overlay-links a {
+  text-decoration: none;
+  color: rgb(202, 200, 200);
+  font-family: monospace;
+  letter-spacing: 2px;
+  transition: color 0.3s ease;
+}
+
+#turkiyeMenu .overlay-links a:hover {
+  color: rgb(242, 181, 68);
+}
+
+#turkiyeMenu .overlay-content {
+  justify-content: flex-start;
+  margin-top: 70px;
+  padding-bottom: 50px;
+}
+
+#turkiyeMenu .overlay-search {
+  margin-top: auto;
+}
+
     
 
     
@@ -1180,7 +1211,14 @@
             </div>
           </div>
           <a href="#">AVRUPA</a>
-          <a href="#">TÜRKİYE</a>
+          <div class="nav-item has-submenu">
+            <a href="turkiye.html" class="nav-link">TÜRKİYE</a>
+            <div class="dropdown-sub">
+              <a href="bozcaada.html">Bozcaada</a>
+              <a href="gokceada.html">Gökçeada</a>
+              <a href="sigacik.html">Sığacık</a>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -1289,12 +1327,33 @@
     <div class="overlay-content">
       <div class="overlay-links">
         <a href="tayland.html">Tayland</a>
-        <a href="#">Endonezya</a>
+        <a href="endonezya.html">Endonezya</a>
       </div>
       <div class="overlay-search overlay-box">
         <input type="text" id="searchInputAsya" placeholder="Keşfet..." />
         <button class="clear-btn" id="clearBtnAsya">&times;</button>
         <button class="go-btn" id="goBtnAsya">&#8594;</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="overlay" id="turkiyeMenu">
+    <div class="overlay-header">
+      <div class="btn-box" id="backTurkiye">&#8592;</div>
+      <div class="title">TÜRKİYE</div>
+      <div></div>
+    </div>
+  
+    <div class="overlay-content">
+      <div class="overlay-links">
+        <a href="bozcaada.html">Bozcaada</a>
+        <a href="gokceada.html">Gökçeada</a>
+        <a href="sigacik.html">Sığacık</a>
+      </div>
+      <div class="overlay-search overlay-box">
+        <input type="text" id="searchInputTurkiye" placeholder="Keşfet..." />
+        <button class="clear-btn" id="clearBtnTurkiye">&times;</button>
+        <button class="go-btn" id="goBtnTurkiye">&#8594;</button>
       </div>
     </div>
   </div>
@@ -1355,7 +1414,7 @@
         dostu bir şekilde keşfediyor ve deneyimlerimi paylaşıyorum. <span class="desktop-br"><br></span>
         Bu harika yolculukta bana katılın…</p>
 
-        <a href="IstikametleriGor.html" class="destination-box">
+        <a href="istikametlerigor.html" class="destination-box">
           İSTİKAMETLERİ GÖR
           <span class="destination-arrow"></span>
         </a>
@@ -1734,6 +1793,48 @@ searchInput.addEventListener('keypress', function(e) {
         searchInputAsya.focus();
       });
     }
+
+    // TÜRKİYE overlay
+const openTurkiye = document.getElementById('openTurkiye');
+const turkiyeMenu = document.getElementById('turkiyeMenu');
+const backTurkiye = document.getElementById('backTurkiye');
+
+if (openTurkiye && turkiyeMenu && backTurkiye) {
+  openTurkiye.addEventListener('click', (e) => {
+    e.preventDefault();
+    istikametMenu.classList.remove('active');
+    turkiyeMenu.classList.add('active');
+  });
+
+  backTurkiye.addEventListener('click', () => {
+    turkiyeMenu.classList.remove('active');
+    istikametMenu.classList.add('active');
+  });
+}
+
+// TÜRKİYE overlay search box
+const searchInputTurkiye = document.getElementById('searchInputTurkiye');
+const clearBtnTurkiye = document.getElementById('clearBtnTurkiye');
+const goBtnTurkiye = document.getElementById('goBtnTurkiye');
+
+if (searchInputTurkiye && clearBtnTurkiye && goBtnTurkiye) {
+  searchInputTurkiye.addEventListener('input', () => {
+    if (searchInputTurkiye.value.trim() !== "") {
+      clearBtnTurkiye.style.display = 'block';
+      goBtnTurkiye.style.display = 'none';
+    } else {
+      clearBtnTurkiye.style.display = 'none';
+      goBtnTurkiye.style.display = 'block';
+    }
+  });
+
+  clearBtnTurkiye.addEventListener('click', () => {
+    searchInputTurkiye.value = "";
+    clearBtnTurkiye.style.display = 'none';
+    goBtnTurkiye.style.display = 'block';
+    searchInputTurkiye.focus();
+  });
+}
 
     // TEMALAR overlay
 const openTemalar = document.getElementById('openTemalar');

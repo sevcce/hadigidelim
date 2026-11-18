@@ -1,0 +1,2857 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <title>Gökçeada Seyahat Rehberi | HadiGidelim </title>
+    <link rel="icon" type="image/png" sizes="64x64" href="resimler/logoooo 2.jpeg" />
+    <link rel="icon" type="image/x-icon" href="resimler/logoooo.ico" />
+
+    <!-- GetYourGuide Analytics -->
+
+    <script async defer src="https://widget.getyourguide.com/dist/pa.umd.production.min.js"
+        data-gyg-partner-id="8XNX1IK"></script>
+        <link rel="stylesheet" href="navbar.css">
+    <style>
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            background: rgb(24, 24, 24);
+            flex-direction: column;
+            font-family: sans-serif;
+            overflow-x: hidden;
+        }
+
+        nav {
+            background-color: rgb(31, 31, 31);
+            color: rgb(202, 200, 200);
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            height: 70px;
+            z-index: 1000;
+            width: 100%;
+            position: sticky;
+            top: 0;
+            transition: transform 0.3s ease;
+            padding: 0 20px;
+            border-bottom: 3px solid rgb(187, 186, 186);
+        }
+
+        .nav-gizli {
+            transform: translateY(-100%);
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            margin-right: 80px;
+            margin-left: 50px;
+        }
+
+        .nav-logo img {
+            width: 56px;
+            height: 70px;
+            object-fit: cover;
+            margin-right: 5px;
+        }
+
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+            margin-left: 6px;
+        }
+
+        .logo-text .main-title {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: rgb(251, 187, 69);
+        }
+
+        .logo-text .sub-title {
+            font-size: 0.9em;
+            font-style: italic;
+            color: rgb(202, 200, 200);
+            margin-top: -3px;
+            margin-left: 9px;
+            margin-right: 10px;
+        }
+
+        .menu-toggle,
+        .menu-close,
+        .menu-back {
+            display: none;
+            /* Masaüstünde gizli */
+            font-size: 32px;
+            cursor: pointer;
+            color: white;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 1100;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            font-family: 'Times New Roman', Times, serif;
+            align-items: center;
+            flex: 1;
+        }
+
+        .nav-item {
+            position: relative;
+        }
+
+        .nav-links>.nav-item>a {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            text-decoration: none;
+            color: rgba(255, 255, 255, 0.879);
+            font-weight: 500;
+            font-size: 1em;
+            padding: 6px 12px;
+            border: 2px solid transparent;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-item>a.has-arrow::after {
+            content: "";
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            border-right: 2px solid rgba(255, 255, 255, 0.879);
+            border-bottom: 2px solid rgba(255, 255, 255, 0.879);
+            transform: rotate(45deg);
+        }
+
+        .dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: -30px;
+            background-color: rgb(242, 181, 68);
+            min-width: 180px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            text-align: left;
+            margin-left: 35px;
+            transition: all 0.5s ease-in-out;
+        }
+
+        .dropdown a {
+            display: block;
+            padding: 10px 16px;
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .dropdown a:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown a:hover {
+            background-color: rgb(249, 210, 136);
+        }
+
+        .dropdown-sub {
+            display: none;
+            position: absolute;
+            top: 0;
+            /* ASYA linki ile aynı hizada başlar */
+            left: 100%;
+            /* sağa açılır */
+            background-color: rgb(242, 181, 68);
+            min-width: 150px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: all 0.5s ease-in-out;
+        }
+
+        /* ASYA alt dropdown linkleri */
+        .dropdown-sub a {
+            display: block;
+            padding: 10px 16px;
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .dropdown-sub a:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown-sub a:hover {
+            background-color: rgb(249, 210, 136);
+        }
+
+        /* ASYA üzerine gelince alt dropdown açılır */
+        .nav-item.has-submenu:hover>.dropdown-sub {
+            display: block;
+        }
+
+        .nav-item.has-submenu {
+            position: relative;
+            /* ASYA'nın alt dropdown'u buna göre konumlanacak */
+        }
+
+        @media (min-width: 769px) {
+            .nav-item:hover .dropdown {
+                display: block;
+            }
+        }
+
+        .nav-search {
+            margin-left: auto;
+            margin-right: 50px;
+            display: flex;
+            align-items: center;
+            position: relative;
+            gap: 5px;
+        }
+
+        .nav-search input {
+            padding: 6px 36px 6px 12px;
+            border-radius: 3px;
+            border: 3px solid rgba(200, 200, 200, 0.5);
+            background-color: rgb(31, 31, 31);
+            color: white;
+            font-size: 0.9em;
+            outline: none;
+            width: 180px;
+            font-family: monospace;
+        }
+
+        .nav-search input::placeholder {
+            color: rgba(200, 200, 200, 0.7);
+        }
+
+        .nav-search input:focus {
+            color: rgba(200, 200, 200, 0.769);
+            border-color: rgba(200, 200, 200, 0.769);
+        }
+
+        .nav-search input:focus::placeholder {
+            color: rgba(200, 200, 200, 0.769);
+            /* placeholder beyazın açık tonu */
+        }
+
+        .nav-search .clear-btn,
+        .nav-search .go-btn {
+            position: absolute;
+            background: none;
+            border: none;
+            color: rgba(200, 200, 200, 0.9);
+            cursor: pointer;
+            font-size: 1em;
+            padding: 0;
+        }
+
+        .nav-search .clear-btn {
+            right: 30px;
+            /* oku biraz sola it */
+            display: none;
+            /* boşken gizle */
+
+        }
+
+        .nav-search .go-btn {
+            right: 20px;
+
+        }
+
+        /* Hover efektleri */
+        .nav-search .clear-btn:hover,
+        .nav-search .go-btn:hover {
+            color: white;
+        }
+
+        .dropdown-sub {
+            display: none;
+            position: absolute;
+            top: 0;
+            /* Ana dropdown ile aynı üst hizada */
+            left: 100%;
+            /* ASYA'nın sağında açılır */
+            background-color: rgb(242, 181, 68);
+            min-width: 180px;
+            /* Ana dropdown ile aynı genişlik */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+
+            text-align: left;
+            z-index: 1;
+            margin-top: 0;
+        }
+
+
+        .has-submenu:hover .dropdown-sub {
+            display: block;
+        }
+
+        .dropdown-sub a {
+            display: block;
+            padding: 10px 16px;
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .dropdown-sub a:hover {
+            background-color: rgb(249, 210, 136);
+        }
+
+        /* ASYA alt menüsü yan açılır */
+        .nav-item.has-submenu {
+            position: relative;
+        }
+
+        .dropdown-sub {
+            display: none;
+            position: absolute;
+            top: 0;
+            /* ASYA ile aynı hizada */
+            left: 100%;
+            /* ASYA’nın hemen sağında açılır */
+            background-color: rgb(242, 181, 68);
+            min-width: 180px;
+            /* ASYA dropdown ile aynı genişlik */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 10;
+        }
+
+        .nav-item.has-submenu:hover .dropdown-sub {
+            display: block;
+        }
+
+        .dropdown-sub a {
+            display: block;
+            padding: 10px 16px;
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+
+
+        .dropdown-sub a:hover {
+            background-color: rgb(249, 210, 136);
+        }
+
+
+        /* ----- Mobil için Hamburger ----- */
+        .menu-toggle {
+            font-size: 28px;
+            cursor: pointer;
+            display: none;
+        }
+
+        /* Overlay */
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0e0e0e;
+            color: #fff;
+            z-index: 2000;
+            flex-direction: column;
+            padding-top: 5px;
+            /* header boşluğu */
+            padding-left: 20px;
+            padding-right: 20px;
+
+        }
+
+        .overlay.active {
+            display: flex;
+        }
+
+        .overlay-header {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            /* ortalamak için */
+            width: 80%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 20px;
+            border: 1px solid rgb(187, 186, 186);
+            /* çerçeve */
+            background: transparent;
+            /* arka planı şeffaf */
+            border-radius: 6px;
+            /* hafif köşeler, istersen kaldırabilirsin */
+        }
+
+
+        .overlay-header .title {
+            font-size: 13px;
+            font-weight: 100;
+            font-family: monospace;
+            letter-spacing: 2px;
+        }
+
+
+
+        .overlay-links {
+            margin-top: 70px;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            font-size: 20px;
+            margin-left: 30px;
+        }
+
+        .overlay-links a {
+            text-decoration: none;
+            color: rgb(202, 200, 200);
+            font-family: monospace;
+            font-size: 500;
+        }
+
+        #istikametMenu .overlay-links {
+            margin-top: 150px;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            /* normal menüden biraz daha dar boşluk */
+            font-size: 20px;
+            /* biraz daha küçük */
+            margin-left: 30px;
+            /* girinti */
+        }
+
+        #istikametMenu .overlay-links a {
+            text-decoration: none;
+            color: rgb(202, 200, 200);
+            font-family: monospace;
+            transition: color 0.3s ease;
+            font-size: 500;
+            letter-spacing: 2px;
+        }
+
+        @media (max-width: 900px) {
+
+            .nav-links,
+            .nav-search {
+                display: none;
+            }
+
+            .menu-toggle {
+                display: block;
+                margin-right: 20px;
+            }
+        }
+
+        body.menu-open {
+            overflow: hidden;
+        }
+
+        /*overlay-search*/
+        .overlay-box {
+            position: relative;
+
+
+            left: 47%;
+            transform: translateX(-50%);
+            width: 81.5%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px;
+            border: 1px solid rgb(187, 186, 186);
+            background: transparent;
+            border-radius: 6px;
+            box-sizing: border-box;
+        }
+
+        .overlay-search input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            color: #fff;
+            font-size: 14px;
+            font-family: monospace;
+            letter-spacing: 1px;
+            outline: none;
+        }
+
+
+        .overlay-search .clear-btn,
+        .overlay-search .go-btn {
+            background: none;
+            border: none;
+            color: rgba(200, 200, 200, 0.9);
+            cursor: pointer;
+            font-size: 18px;
+            margin-left: 10px;
+        }
+
+        .overlay-search .clear-btn {
+            right: 32px;
+            /* input padding ile aynı */
+            display: none;
+        }
+
+        .overlay-search .go-btn {
+            right: 10px;
+            /* input padding ile aynı */
+        }
+
+
+        .overlay-content {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            /* container tüm yüksekliği kaplasın */
+            justify-content: space-between;
+            /* linkler üstte, arama kutusu altta */
+            margin-top: 70px;
+            /* overlay-header kadar boşluk */
+            padding-bottom: 50px;
+        }
+
+        /* ----- ASYA Overlay ----- */
+        #asyaMenu {
+            display: none;
+            /* başlangıçta gizli */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0e0e0e;
+            color: #fff;
+            z-index: 2000;
+            flex-direction: column;
+            padding-top: 5px;
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+        #asyaMenu.active {
+            display: flex;
+        }
+
+        #asyaMenu .overlay-header {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 20px;
+            border: 1px solid rgb(187, 186, 186);
+            background: transparent;
+            border-radius: 6px;
+        }
+
+        #asyaMenu .overlay-header .title {
+            font-size: 13px;
+            font-weight: 100;
+            font-family: monospace;
+            letter-spacing: 2px;
+        }
+
+        #asyaMenu .overlay-links {
+            margin-top: 150px;
+            /* İSTİKAMET overlay’ine uyumlu */
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            font-size: 20px;
+            margin-left: 30px;
+        }
+
+        #asyaMenu .overlay-links a {
+            text-decoration: none;
+            color: rgb(202, 200, 200);
+            font-family: monospace;
+            font-size: 500;
+            letter-spacing: 2px;
+            transition: color 0.3s ease;
+        }
+
+        #asyaMenu .overlay-links a:hover {
+            color: rgb(242, 181, 68);
+        }
+
+        #asyaMenu .overlay-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            flex: 1;
+            justify-content: flex-start;
+            margin-top: 70px;
+            /* header boşluğu */
+            padding-bottom: 50px;
+        }
+
+        #asyaMenu .overlay-search {
+            margin-top: auto;
+            /* search box’u en alta it */
+        }
+
+        .nav-logo {
+            text-decoration: none;
+            /* alt çizgiyi kaldır */
+            border: none;
+            /* varsa border kaldır */
+            color: inherit;
+            /* renk navbar ile uyumlu */
+        }
+
+        .nav-logo:hover {
+            text-decoration: none;
+            /* hover'da da çizgi olmasın */
+        }
+
+        .istikamet-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .plus-btn {
+            font-size: 18px;
+            cursor: pointer;
+            padding: 0 55px;
+            color: rgb(202, 200, 200);
+            transition: transform 0.2s ease, color 0.2s ease;
+        }
+
+        .plus-btn:hover {
+            transform: scale(1.2);
+            color: rgb(242, 181, 68);
+            /* hover rengi */
+        }
+
+        .temalar-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .asya-item,
+        .avrupa-item,
+        .turkiye-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .top-menu {
+            margin-top: 20px;
+            gap: 20px;
+            font-family: monospace;
+            font-weight: 500;
+            font-size: 14px;
+            margin-bottom: 16px;
+
+        }
+
+        .top-menu a {
+            text-decoration: none;
+            color: grey;
+            transition: color 0.3s ease;
+        }
+
+        .top-menu a:hover {
+            color: orange;
+            /* hover olunca altın rengi gibi */
+        }
+
+        .top-menu span {
+            color: grey;
+        }
+
+        /* Container */
+        .container {
+            display: flex;
+            flex-direction: column;
+            /* alt alta sıralama */
+            align-items: center;
+            /* kutuları ortala */
+            gap: 20px;
+            /* kutular arası boşluk px ile */
+            width: 600px;
+            /* container genişliği */
+            margin: 40px auto;
+            /* sayfada ortala */
+        }
+
+        /* Ortak kart */
+        .card {
+
+            border: 1px solid #ddd;
+
+            width: 900px;
+            /* ✅ sabit genişlik */
+            height: 600px;
+            /* ✅ sabit yükseklik */
+            padding: 24px;
+            /* ✅ px padding */
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+
+        }
+
+        .shop-link {
+            position: fixed;
+            right: 60px;
+            /* sağdan boşluk */
+            top: 50%;
+            /* dikey ortala */
+            transform: translateY(-50%) rotate(-90deg);
+            /* ters döndür */
+            transform-origin: top right;
+            /* dönüş merkezi */
+            font-size: 16px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.899);
+            background: none;
+            /* arka plan yok */
+            border: none;
+            font-family: monospace;
+            text-decoration: none;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: color 0.3s ease;
+            display: flex;
+            gap: 20px;
+        }
+
+        .shop-arrow {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-top: 2px solid rgba(255, 255, 255, 0.899);
+            border-left: 2px solid rgba(255, 255, 255, 0.899);
+            transform: rotate(90deg);
+            /* kuzeybatıya yön */
+            position: relative;
+        }
+
+        .shop-arrow::after {
+            content: '';
+            position: absolute;
+            width: 2px;
+            /* çizgi kalınlığı */
+            height: 14px;
+            /* ok uzunluğu */
+            background-color: currentColor;
+            left: 50%;
+            top: -2px;
+            transform: translateX(-50%) rotate(-45deg);
+            /* ok açısına hizala */
+        }
+
+        @media (max-width: 900px) {
+            .shop-link {
+                display: none;
+                /* mobilde mağazamız kaybolsun */
+            }
+        }
+
+
+
+
+        /* Sol içerik */
+        .content.card {
+            padding: 0;
+            overflow: hidden;
+            border: none;
+            height: auto;
+        }
+
+        .content-img {
+            width: 100%;
+            height: 420px;
+            object-fit: cover;
+            display: block;
+            object-position: center 60%;
+            filter: contrast(1.2) brightness(1.05);
+        }
+
+        .content-textbox {
+            padding-bottom: 30px;
+            box-sizing: border-box;
+            color: rgba(255, 255, 255, 0.85);
+            font-family: monospace;
+        }
+
+        .content-title {
+            font-size: 28px;
+            margin-bottom: 15px;
+        }
+
+        .content-text {
+            font-size: 16px;
+            line-height: 22px;
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+
+
+        .toc-widget {
+            border: 0.25px solid grey;
+            width: 900px;
+            font-family: monospace;
+            font-size: 25px;
+            margin: 20px 0;
+        }
+
+        .toc-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            padding: 40px;
+            color: rgba(255, 255, 255, 0.85);
+            border-bottom: 2px solid grey;
+            font-size: 24px;
+        }
+
+        .toc-header span:first-child {
+            margin-left: 20px;
+            /* yazıyı sağa kaydırır */
+        }
+
+        .toc-toggle {
+            display: inline-block;
+            transition: transform 0.3s ease;
+            font-size: 25px;
+        }
+
+        .toc-list {
+            list-style: none;
+            margin: 0;
+            padding: 50px 65px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            display: none;
+        }
+
+        .toc-list li {
+            margin-bottom: 1px;
+        }
+
+        .toc-list li a {
+            text-decoration: none;
+            color: grey;
+            font-size: 13px;
+        }
+
+        .toc-list li::before {
+            content: "■";
+            /* küçük kare işareti */
+            display: inline-block;
+            width: 12px;
+            /* kare boyutu */
+            margin-right: 8px;
+            /* yazı ile kare arasındaki boşluk */
+            color: grey;
+            /* kare rengi */
+            font-size: 12px;
+        }
+
+        /* Hover efekti */
+        .toc-list li a:hover {
+            color: orange;
+            /* yazı rengi değişir */
+            text-decoration: underline;
+            /* alt çizgi eklenir */
+        }
+
+        .toc-widget.open .toc-list {
+            max-height: 500px;
+            display: block;
+            /* açıldığında görünür */
+        }
+
+        .toc-widget.open .toc-toggle {
+            transform: rotate(180deg);
+        }
+
+
+        /* ✅ Mobil uyumluluk (Tablet ve telefonlar için) */
+        @media (max-width: 1024px) {
+
+            .container {
+                width: 90%;
+                gap: 16px;
+                margin: 20px auto;
+            }
+
+            .card {
+                width: 100%;
+                height: auto;
+                /* sabit yükseklik kalktı */
+                padding: 16px;
+            }
+
+            .content-img {
+                height: 200px;
+                /* görsel yüksekliği azaltıldı */
+            }
+
+            .content-title {
+                font-size: 22px;
+            }
+
+            .content-text {
+                font-size: 14px;
+                line-height: 20px;
+            }
+
+            .toc-widget {
+                width: 100%;
+                font-size: 20px;
+            }
+
+            .toc-header {
+                padding: 20px;
+                font-size: 20px;
+            }
+
+            .toc-toggle {
+                font-size: 20px;
+            }
+
+            .toc-list {
+                padding: 20px;
+            }
+
+            .toc-list li a {
+                font-size: 12px;
+            }
+        }
+
+        /* ✅ Telefonlar (dar ekranlar, <600px) */
+        @media (max-width: 600px) {
+
+            .container {
+                width: 95%;
+                gap: 12px;
+            }
+
+            .card {
+                width: 100%;
+                height: auto;
+                padding: 12px;
+            }
+
+            .content-img {
+                height: 180px;
+            }
+
+            .content-title {
+                font-size: 20px;
+            }
+
+            .content-text {
+                font-size: 13px;
+                line-height: 18px;
+            }
+
+            .toc-widget {
+                width: 100%;
+                font-size: 18px;
+            }
+
+            .toc-header {
+                padding: 16px;
+                font-size: 18px;
+            }
+
+            .toc-toggle {
+                font-size: 18px;
+            }
+
+            .toc-list {
+                padding: 16px;
+            }
+
+            .toc-list li a {
+                font-size: 12px;
+            }
+        }
+
+
+        .content-sections {
+            width: 900px;
+            margin: 40px 20px;
+            color: #ffffffba;
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            letter-spacing: 1px;
+            line-height: 28px;
+        }
+
+        .content-sections section {
+            font-size: 18px;
+            padding: 40px 0;
+        }
+
+        .content-sections h2 {
+            margin-bottom: 30px;
+            font-size: 30px;
+            color: rgb(237, 217, 182);
+            font-family: monospace;
+        }
+
+        .content-sections h4 {
+            color: whitesmoke;
+            font-size: 20px;
+        }
+
+        /* ✅ Mobil uyumluluk: content-sections */
+        @media (max-width: 1024px) {
+            .content-sections {
+                width: 90%;
+                margin: 30px auto;
+                line-height: 24px;
+            }
+
+            .content-sections section {
+                font-size: 16px;
+                padding: 30px 0;
+            }
+
+            .content-sections h2 {
+                font-size: 26px;
+                margin-bottom: 40px;
+            }
+
+            .content-sections h4 {
+                font-size: 16px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .content-sections {
+                width: 95%;
+                margin: 20px auto;
+                line-height: 22px;
+            }
+
+            .content-sections section {
+                font-size: 14px;
+                padding: 20px 0;
+            }
+
+            .content-sections h2 {
+                font-size: 22px;
+                margin-bottom: 30px;
+            }
+
+            .content-sections h4 {
+                font-size: 15px;
+            }
+        }
+
+
+        /* Üçlü resim satırı */
+        .image-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            /* resimler arası boşluk */
+            margin: 20px 0;
+
+        }
+
+        .image-row img {
+            width: 32%;
+            /* üç resim yan yana sığacak şekilde */
+            aspect-ratio: 1 / 1;
+            /* kare yapmak için */
+            object-fit: cover;
+            /* kırpmadan dolgu yap */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            filter: contrast(1.2) brightness(1.05);
+            object-position: center 85%;
+
+
+        }
+
+        @media (min-width: 769px) {
+            .image-row img:hover {
+                transform: scale(1.50);
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+                z-index: 1;
+            }
+        }
+
+        /* Mobil uyumlu */
+        @media (max-width: 768px) {
+            .image-row {
+                flex-direction: column;
+                gap: 40px;
+            }
+
+            .image-row img {
+                width: 100%;
+                aspect-ratio: 1 / 1;
+                transform: none;
+                /* mobilde büyüme yok */
+                box-shadow: none;
+                /* gölge kapalı */
+            }
+        }
+
+        .image-row-2 {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .image-row-2 img {
+            width: 49%;
+            /* iki resim yan yana sığacak şekilde */
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            filter: contrast(1.2) brightness(1.05);
+        }
+
+
+
+
+        /* Mobil uyumlu */
+        @media (max-width: 768px) {
+            .image-row-2 {
+                flex-direction: column;
+                gap: 40px;
+            }
+
+            .image-row-2 img {
+                width: 100%;
+                aspect-ratio: 1 / 1;
+                transform: none;
+                box-shadow: none;
+            }
+        }
+
+
+
+
+        .text-image-row {
+            display: flex;
+            align-items: center;
+            /* metin ve resmi üstten hizala */
+            gap: 20px;
+            /* aradaki boşluk */
+            margin: 40px 0;
+        }
+
+
+
+
+        .text-image-row p {
+            flex: 1;
+            /* yazı alanı esnek */
+            font-size: 18px;
+            line-height: 28px;
+            color: #ffffffba;
+        }
+
+        .text-image-row img {
+            width: 300px;
+            /* istediğin genişlik */
+            height: auto;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+            /* hover efekti */
+            filter: contrast(1.2) brightness(1.05);
+
+        }
+
+        .text-image-row img:hover {
+            transform: scale(1.05);
+            /* hafif büyüme */
+        }
+
+        /* Mobil uyumluluk */
+        @media (max-width: 768px) {
+            .text-image-row {
+                flex-direction: column;
+                /* alt alta geç */
+                align-items: center;
+                text-align: left;
+            }
+
+            .text-image-row img {
+                width: 100%;
+                /* tam genişlik */
+                max-width: 400px;
+                order: -1;
+            }
+
+            .text-image-row p {
+                font-size: 14px;
+                /* mobilde yazı boyutunu küçült */
+                line-height: 24px;
+                /* satır yüksekliği ile uyumlu */
+            }
+        }
+
+        /* Section resimleri */
+        .section-img {
+            width: 100%;
+            max-width: 900px;
+            /* orijinal section genişliği ile uyumlu */
+            height: 500px;
+            /* orantılı boyutlandırma */
+            margin: 20px 0;
+            /* başlık ve paragraf arasında boşluk */
+            object-fit: cover;
+            object-position: center 55%;
+            filter: contrast(1.2) brightness(1.05);
+
+        }
+
+        /* Mobil uyumlu */
+        @media (max-width: 600px) {
+            .section-img {
+                width: 100%;
+
+                margin: 15px 0;
+                height: auto;
+                /* yüksekliği otomatik yap */
+                object-fit: cover;
+            }
+        }
+
+        strong {
+            font-weight: 1000;
+            color: white;
+
+            font-family: monospace;
+
+        }
+
+        .pai-map {
+            margin-top: 40px;
+            padding: 20px;
+
+            font-size: 30px;
+        }
+
+        .map-container {
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-start;
+            gap: 30px;
+            flex-wrap: nowrap;
+            margin-top: 20px;
+
+        }
+
+        .map-container iframe {
+            flex: 1 1 600px;
+            max-width: 700px;
+            height: 500px;
+        }
+
+        .map-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            text-align: left;
+            justify-content: center;
+            font-size: 1rem;
+        }
+
+        .point {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: whitesmoke;
+            font-weight: 500;
+        }
+
+        .circle {
+            width: 26px;
+            height: 26px;
+            background-color: #0097b2;
+            /* Mavi yuvarlak */
+            color: white;
+            border-radius: 50%;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+
+        @media (max-width: 768px) {
+            .map-list {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                /* 2 sütun */
+                gap: 12px 24px;
+                margin-top: 15px;
+            }
+
+            .map-container {
+                flex-direction: column;
+            }
+
+            .map-container iframe {
+                width: 100%;
+                height: 300px;
+            }
+
+            .point {
+                justify-content: flex-start;
+            }
+        }
+
+        .symbolized {
+            position: relative;
+            display: inline-block;
+            /* önemli: hem satır içinde kalır hem referans olur */
+            /* hiç padding/left/margin eklemiyoruz — paragraf bozulmaz */
+        }
+
+
+        .symbolized::before {
+            content: "✦";
+            position: absolute;
+            left: -35px;
+            top: -0.2em;
+            transform: translateY(0);
+            font-size: 30px;
+            line-height: 1;
+            color: orange;
+            pointer-events: none;
+            white-space: nowrap;
+        }
+
+        /* Responsive ince ayar: ekran daralınca sembolü daha az sola al */
+        @media (max-width: 600px) {
+            .symbolized::before {
+                left: -24px;
+                font-size: 18px;
+            }
+        }
+
+        #temalarMenu .overlay-links {
+            margin-top: 150px;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            font-size: 20px;
+            margin-left: 30px;
+        }
+
+        #temalarMenu .overlay-links a {
+            text-decoration: none;
+            color: rgb(202, 200, 200);
+            font-family: monospace;
+            letter-spacing: 2px;
+        }
+
+        .kaynaklar-item,
+        .ekosistem-item,
+        .gastronomi-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .rota-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 12px 24px;
+            border: 2px solid #F4A621;
+            border-radius: 8px;
+
+            color: #F4A621 !important;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            text-decoration: none;
+
+            transition: .25s ease;
+        }
+
+        .rota-btn:hover {
+            background: #F4A621;
+            color: #1e1e1e !important;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(244, 166, 33, .35);
+        }
+
+        .desktop-br {
+            display: inline;
+        }
+
+        @media (max-width: 900px) {
+            .desktop-br {
+                display: none;
+            }
+        }
+
+        .circle--food {
+            background-color: #e98235;
+        }
+    </style>
+</head>
+
+<body>
+    <nav id="navbar">
+        <a href="index.html" class="nav-logo">
+            <img src="resimler/logoooo 2.jpeg" alt="Logo">
+            <div class="logo-text">
+                <span class="main-title">HadiGidelim</span>
+                <span class="sub-title">Kendi Ritmini Keşfet</span>
+            </div>
+        </a>
+
+        <div class="menu-toggle" id="menuToggle">&#9776;</div>
+
+        <div class="nav-links" id="navLinks">
+            <div class="nav-item"><a href="index.html" class="nav-link">ANA SAYFA</a></div>
+
+            <div class="nav-item">
+                <a href="IstikametleriGor.html" class="nav-link has-arrow">İSTİKAMET</a>
+                <div class="dropdown">
+                    <div class="nav-item has-submenu">
+                        <a href="asya.html" class="nav-link">ASYA</a>
+                        <div class="dropdown-sub">
+                            <a href="tayland.html">Tayland</a>
+                            <a href="endonezya.html">Endonezya</a>
+                        </div>
+                    </div>
+                    <a href="#">AVRUPA</a>
+                    <div class="nav-item has-submenu">
+                        <a href="turkiye.html" class="nav-link">TÜRKİYE</a>
+                        <div class="dropdown-sub">
+                          <a href="bozcaada.html">Bozcaada</a>
+                          <a href="gokceada.html">Gökçeada</a>
+                          <a href="sigacik.html">Sığacık</a>
+                        </div>
+                      </div>
+                </div>
+            </div>
+
+            <div class="nav-item"><a href="temalar.html" class="nav-link has-arrow">TEMALAR</a>
+                <div class="dropdown">
+                    <div class="nav-item has-submenu">
+                        <a href="seyahatkaynaklari.html" class="nav-link">SEYAHAT KAYNAKLARI</a>
+                    </div>
+                    <a href="#">EKOSİSTEM</a>
+                </div>
+
+
+            </div>
+
+            <div class="nav-item"><a href="aboutus.html" class="nav-link">HAKKIMDA</a></div>
+            <div class="nav-item"><a href="#" class="nav-link rota-btn">ROTA PLANLAYICI</a></div>
+        </div>
+        <div class="nav-search">
+            <input type="text" id="searchInput" placeholder="Keşfet..." />
+            <button class="clear-btn" id="clearBtn">&times;</button>
+            <button class="go-btn" id="goBtn">&#8594;</button>
+        </div>
+    </nav>
+
+    <!-- Ana Menü Overlay (Mobil) -->
+    <div class="overlay" id="mainMenu">
+        <div class="overlay-header">
+            <div></div>
+            <div class="btn-box" id="closeMain">&times;</div>
+        </div>
+
+        <div class="overlay-content">
+            <div class="overlay-links">
+                <a href="index.html">ANA SAYFA</a>
+                <div class="istikamet-item">
+                    <a href="istikametlerigor.html" class="istikamet-link">İSTİKAMET</a>
+                    <span class="plus-btn" id="openIstikamet">
+                        <i class="fas fa-plus"></i>
+                    </span>
+                </div>
+                <div class="temalar-item">
+                    <a href="temalarigor.html" class="temalar-link">TEMALAR</a>
+                    <span class="plus-btn" id="openTemalar">
+                        <i class="fas fa-plus"></i>
+                    </span>
+                </div>
+                <a href="aboutus.html">HAKKIMDA</a>
+                <a href="#">ROTA PLANLAYICI</a>
+                <a href="#">MAĞAZAMIZ <i class="fas fa-shopping-cart"></i></a>
+            </div>
+            <div class="overlay-search overlay-box">
+                <input type="text" id="searchInputMobile" placeholder="Keşfet..." />
+                <button class="clear-btn" id="clearBtnMobile">&times;</button>
+                <button class="go-btn" id="goBtnMobile">&#8594;</button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- İstikamet Overlay -->
+    <div class="overlay" id="istikametMenu">
+        <div class="overlay-header">
+            <div class="btn-box" id="backIstikamet">&#8592;</div>
+            <div class="title">İSTİKAMET</div>
+            <div></div>
+        </div>
+
+        <div class="overlay-content">
+            <div class="overlay-links">
+
+                <div class="asya-item">
+                    <a href="asya.html" class="asya-link">ASYA</a>
+                    <span class="plus-btn" id="openAsya">
+                        <i class="fas fa-plus"></i>
+                    </span>
+                </div>
+
+                <div class="avrupa-item">
+                    <a href="avrupa.html" class="avrupa-link">AVRUPA</a>
+                    <span class="plus-btn" id="openAvrupa"><i class="fas fa-plus"></i></span>
+                </div>
+
+                <div class="turkiye-item">
+                    <a href="turkiye.html" class="turkiye-link">TÜRKİYE</a>
+                    <span class="plus-btn" id="openTurkiye"><i class="fas fa-plus"></i></span>
+                </div>
+            </div>
+            <div class="overlay-search overlay-box">
+                <input type="text" id="searchInputIstikamet" placeholder="Bir istikamet ara..." />
+                <button class="clear-btn" id="clearBtnIstikamet">&times;</button>
+                <button class="go-btn" id="goBtnIstikamet">&#8594;</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="overlay" id="asyaMenu">
+        <div class="overlay-header">
+            <div class="btn-box" id="backAsya">&#8592;</div>
+            <div class="title">ASYA</div>
+            <div></div>
+        </div>
+
+        <div class="overlay-content">
+            <div class="overlay-links">
+                <a href="tayland.html">Tayland</a>
+                <a href="#">Endonezya</a>
+            </div>
+            <div class="overlay-search overlay-box">
+                <input type="text" id="searchInputAsya" placeholder="Keşfet..." />
+                <button class="clear-btn" id="clearBtnAsya">&times;</button>
+                <button class="go-btn" id="goBtnAsya">&#8594;</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="overlay" id="turkiyeMenu">
+        <div class="overlay-header">
+          <div class="btn-box" id="backTurkiye">&#8592;</div>
+          <div class="title">TÜRKİYE</div>
+          <div></div>
+        </div>
+      
+        <div class="overlay-content">
+          <div class="overlay-links">
+            <a href="bozcaada.html">Bozcaada</a>
+            <a href="gokceada.html">Gökçeada</a>
+            <a href="sigacik.html">Sığacık</a>
+          </div>
+          <div class="overlay-search overlay-box">
+            <input type="text" id="searchInputTurkiye" placeholder="Keşfet..." />
+            <button class="clear-btn" id="clearBtnTurkiye">&times;</button>
+            <button class="go-btn" id="goBtnTurkiye">&#8594;</button>
+          </div>
+        </div>
+      </div>
+
+    <div class="overlay" id="temalarMenu">
+        <div class="overlay-header">
+            <div class="btn-box" id="backTemalar">&#8592;</div>
+            <div class="title">TEMALAR</div>
+            <div></div>
+        </div>
+
+        <div class="overlay-content">
+            <div class="overlay-links">
+
+                <div class="kaynaklar-item">
+                    <a href="seyahatkaynaklari.html">SEYAHAT KAYNAKLARI</a>
+                    <span class="plus-btn" id="openKultur">
+                        <i class="fas fa-plus"></i>
+                    </span>
+                </div>
+
+                <div class="ekosistem-item">
+                    <a href="#">EKOSİSTEM</a>
+                    <span class="plus-btn" id="openDoga">
+                        <i class="fas fa-plus"></i>
+                    </span>
+                </div>
+
+                <div class="gastronomi-item">
+                    <a href="#">GASTRONOMİ</a>
+                    <span class="plus-btn" id="openGastronomi">
+                        <i class="fas fa-plus"></i>
+                    </span>
+                </div>
+
+            </div>
+
+            <div class="overlay-search overlay-box">
+                <input type="text" id="searchInputTemalar" placeholder="Bir tema ara..." />
+                <button class="clear-btn" id="clearBtnTemalar">&times;</button>
+                <button class="go-btn" id="goBtnTemalar">&#8594;</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+
+        <div class="content card">
+            <img src="resimler/gokceadakapak.jpg" alt="Örnek Görsel" class="content-img">
+            <div class="top-menu">
+                <a href="index.html">ANA SAYFA</a>
+                <span>|</span>
+                <a href="asya.html">TÜRKİYE</a>
+                <span>|</span>
+                <a href="tayland.html">ÇANAKKALE</a>
+
+            </div>
+
+            <div>
+                <a href="https://magazamiz.com" class="shop-link" target="_blank">
+                    MAĞAZAMIZ
+                    <span class="shop-arrow"></span>
+                </a>
+            </div>
+            <div class="content-textbox">
+                <h3 class="content-title">Gökçeada'yı Keşfedin: Sadece Bir Ada Değil, Başka Bir Zaman Dilimi</h3>
+                <p class="content-text">
+                    Öyle bir zaman dilimi ki taş sokaklarında tarih, rüzgarında özgürlük, gün batımlarında huzur,
+                    yollarında özgürce dolaşan keçiler var. Bütün bunlar sizi Gökçeada’da bambaşka bir yolculuğa
+                    çıkarıyor.
+            </div>
+        </div>
+
+        <div class="toc-widget" id="tocWidget">
+            <div class="toc-header" id="tocHeader">
+                <span>İçindekiler</span>
+                <span class="toc-toggle">&#9660;</span>
+            </div>
+            <ul class="toc-list" id="tocList">
+                <li><a href="#section1">Gökçeada Seyahat Rehberi</a></li>
+                <li><a href="#section2">Gökçeada Gezi Haritası</a></li>
+                <li><a href="#section3">Merkez, Gökçeada</a></li>
+                <li><a href="#section4">Gökçeada'nın Köyleri</a></li>
+                <li><a href="#section5">Gökçeada'nın Şapelleri</a></li>
+                <li><a href="#section6">Gökçeada'nın Plajları</a></li>
+                <li><a href="#section7">Gökçeada'nın İkonu Yan Yatık Ağaç</a></li>
+                <li><a href="#section8">Gökçeada Barajı (Zeytinli Barajı)</a></li>
+                <li><a href="#section9">Tuz Gölü</a></li>
+                <li><a href="#section10">Marmaros Şelalesi</a></li>
+                <li><a href="#section11">Zeytinlik Ormanı</a></li>
+                <li><a href="#section12">Kite Sörf Alanı (Eşelek)</a></li>
+                <li><a href="#section13">Adanın Peynir Kayalıkları</a></li>
+                <li><a href="#section14">Meteoroloji Tepesi </a></li>
+                <li><a href="#section15">Adanın Enfes Yolları </a></li>
+                <li><a href="#section16">Gökçeada Yeme - İçme Tavsiyeleri </a></li>
+
+
+            </ul>
+        </div>
+
+        <div class="content-sections">
+            <section id="section1">
+                <h2>Gökçeada Seyahat Rehberi</h2>
+                <p>Gökçeada, Rumca adıyla İmvros (Ίμβρος), Çanakkale’ye bağlı, Kuzey Ege’deki Türkiye’nin en büyük
+                    adası. Antik çağda İmbros, yakın tarihte İmroz diye anılan bu ada; Rum köylerinin taş sokaklarını,
+                    kilise ve şapelleri, camileri ve farklı dönemlerden kalan izleri hâlâ bir arada taşıyor.
+                    Gökçeada’nın geçmişi burada yalnızca eski yapılarda değil, gündelik hayatın içinde de hissediliyor.
+                    2011’de Cittaslow unvanını alarak dünyanın ilk ve tek sakin adası olmuş. <br><br>
+
+                    Ben bu adanın yollarına da aşığım. Kıvrıla kıvrıla köylere, koylara, tepelerin arasından bambaşka
+                    manzaralara uzanıyorlar. Kocaman gövdeli zeytin ağaçları, berrak deniz ve yollarda özgürce dolaşan
+                    keçiler, oğlaklar, kuzular, eşekler... Burada doğa ve günlük hayat birbirinden hiç ayrılmıyor gibi.
+                    Rum köylerinde taş sokaklar arasında yürürken adanın kendine özgü kültürünü ve geleneklerini daha
+                    yakından hissediyorsunuz.
+                    <br><br>
+
+                    Akşam olduğunda sevdiğiniz bir köşede durup güneşi uğurluyorsunuz; adanın batısında bu anın tadı bir
+                    başka. Bazı anlar fotoğrafa sığmıyor, anlatmaya da gelmiyor; ancak içindeyken hissediliyor. Gökçeada
+                    benim için sadece bir ada değil, başka bir zaman dilimi. Bu rehberde bazen gezilecek yerleri, bazen
+                    de adanın bende bıraktığı o hissi anlatacağım. Gökçeada’yı sadece gören değil, hisseden çoğalsın
+                    diye. 🍃
+                </p><br>
+
+                <h4>Gökçeada Neden Bir “Cittaslow Adası”?</h4>
+                <p>Gökçeada, 2011’de Cittaslow unvanını alarak dünyanın ilk ve tek sakin adası oldu. Cittaslow; yerel
+                    kültürü, üreticileri ve doğayı koruyup yaşam kalitesini önemseyen uluslararası bir ağ. Gökçeada’da
+                    bu yaklaşımın ne demek olduğunu günlük hayatın içinde kesinlikle daha iyi anlıyorsunuz.
+                    <br><br>
+                    Türkiye’deki diğer Cittaslow kentlerine de
+                    <a href="https://cittaslowturkiye.org/tr/uye-kentler/" target="_blank" rel="noopener noreferrer"
+                        style="color: #e67e22;">
+                        resmi üye kentler listesinden göz atabilirsiniz
+                    </a>. <br><br>
+
+                    Adanın bu kimliği tarlasında, sofrasında ve yollarında kendini gösteriyor. Zeytincilik, bağcılık ve
+                    arıcılık gibi yerel üretimler destekleniyor; keçi sütünden peynirler, zeytinyağı, kekik balı ve ada
+                    üzümlerinden yapılan şaraplar adanın sevilen ürünleri. <strong>Adada trafik lambası
+                        yok;</strong> yollarda keçilere, koyunlara, kazlara, tavuklara, oğlaklara ve kuzulara rastlamak
+                    da günlük hayatın bir parçası. Hatta bazen yolun ritmini siz değil, onlar belirliyor 🙂<br><br>
+
+                    Bütün bunlar bana Cittaslow’un Gökçeada’da yalnızca bir unvan olmadığını çok iyi gösterdi. Bu
+                    anlayış; toprağında yetişen ürünlerde, trafik lambası olmayan yollarda, özgürce dolaşan hayvanlarda
+                    ve adanın gündelik hayatında yaşıyor. <br><br>
+                </p>
+
+                <h4>Gökçeada’nın Tarihi Nedir?</h4>
+
+                <p>
+                    Gökçeada’nın hikayesi antik çağlara uzanıyor. Eski adı İmroz, Rumca adı İmvros olan ada; 1455’te
+                    Osmanlı yönetimine girdi, Balkan Savaşları döneminde Yunanistan’ın kontrolüne geçti ve 1923 Lozan
+                    Antlaşması’yla Türkiye’ye bağlandı. 1970’te adanın adı Gökçeada olarak değiştirildi. <br><br>
+
+                    Lozan Antlaşması’nda İmroz ve Bozcaada için yerli Rum nüfusun haklarını korumaya yönelik özel
+                    hükümler yer aldı; adalar Türkiye ile Yunanistan arasındaki nüfus mübadelesinin dışında tutuldu. Bu
+                    yüzden Gökçeada’nın taş köylerinde, kilise ve şapellerinde Rum Ortodoks kültürünün izleri bugün de
+                    çok güçlü. <br><br>
+
+                    Ancak 1960’lardan itibaren yaşananlar adanın Rum topluluğunun hayatını derinden değiştirdi. 1964’te
+                    Rum okulları kapatıldı; sonraki yıllarda tarım arazilerinin kamulaştırılması ve yeni yerleşim
+                    projeleriyle birçok ailenin düzeni bozuldu. Çok sayıda Rum aile adadan göç etmek zorunda
+                    kaldı. Dereköy gibi bir zamanlar kalabalık olan köylerin bugün sessizliğe bürünmesinin ardında da bu
+                    zorlu dönem var. <br><br>
+
+                    Gökçeada’nın tarihi yalnızca ayrılıkların hikayesi değil. Sonraki yıllarda bazı eski sakinler ve
+                    aileleri adaya dönüp evlerini onarmaya, geleneklerini yaşatmaya başladı. Köylerde yürürken karşınıza
+                    çıkan taş evler, kiliseler ve şapeller bana hep burada kurulmuş hayatları düşündürüyor. Gökçeada’nın
+                    geçmişi, adayı gezerken her adımda biraz daha yakından hissediliyor. <br><br>
+                </p>
+
+                <h4>Gökçeada'ya Nasıl Gidilir?</h4>
+                <p>Gökçeada’ya feribotla, Eceabat’taki Kabatepe Limanı’ndan ulaşabilirsiniz. Yaklaşık 1,5 saatlik
+                    yolculuğun ardından feribot Kuzulimanı’na yanaşıyor. Limandan ada merkezine ise yaklaşık 6
+                    kilometre. <br><br>
+
+                    Özellikle yaz sezonunda araçla geçecekseniz yer bulmak zorlaşabildiği için biletinizi GESTAŞ’ın
+                    internet sitesinden online alabilirsiniz. Yalnız online bilet fiyatı, gişe
+                    fiyatından biraz daha yüksek. Sefer saatleri mevsime ve güne göre değişebildiği için yola çıkmadan
+                    önce güncel tarifeyi kontrol etmeyi unutmayın. <br><br>
+                </p>
+
+                <h4>Gökçeada’da Araba Şart mı?</h4>
+                <p>Gökçeada büyük bir ada; bu yüzden arabasız gezmek biraz zor olabilir. Merkezden kalkan
+                    minibüslerle Kaleköy, Yıldızkoy, Kuzulimanı, Laz Koyu ve Kefalos gibi bazı noktalara gidebilirsiniz.
+                    Ancak sefer sayısı sınırlı, saatleri de planlarınıza uymayabiliyor. Üstelik adada keşfedilecek
+                    yerler
+                    bu duraklardan çok daha fazla. <br><br>
+                    Birkaç arkadaş ya da çift olarak geldiyseniz minibüslerle bazı yerleri gezebilirsiniz. Ama
+                    çocuklarla ya da kalabalık bir grupla seyahat ediyorsanız, adayı rahatça keşfetmek için araba büyük
+                    kolaylık, hatta bence şart. Kendi aracınız yoksa Gökçeada’da araç kiralama seçenekleri de var.
+                    <br><br>
+                </p>
+
+                <h4>Gökçeada’ya Ne Zaman Gidilir?</h4>
+                <p>Bana göre Gökçeada’yı keşfetmek için en güzel zamanlar mayıs, haziran ve eylül. Nisan sonundan
+                    itibaren ada yavaş yavaş canlanmaya başlıyor. İlkbaharda doğa yemyeşil oluyor; köyleri gezmek,
+                    yollara düşmek ve gün batımına yetişmek çok keyifli. Denize girmek de planınızdaysa haziran ve eylül
+                    güzel bir dengeye sahip: hava sıcak, yaz ortasına göre ada daha sakin. <br><br>
+
+                    Temmuz ve ağustosta ise ada en kalabalık günlerini yaşıyor. Plajlar, restoranlar ve feribotlar
+                    genellikle yoğun. Denizin, sörfün ve yaz enerjisinin peşindeyseniz bu aylar tam size göre olabilir.
+                    Özellikle ağustosta konaklama ve feribot işini erkenden halletmekte fayda var. <br><br>
+
+                    Kışın Gökçeada çok daha sessiz. Çoğu otel, kafe ve restoranlar kapalı; sefer sayısı da
+                    az ve sert havalarda feribotlar iptal edilebiliyor. İlk ziyaretinizde adanın köylerini,
+                    koylarını ve açık işletmelerini rahatça görmek istiyorsanız ilkbahar ya da eylül aylarını tercih
+                    etmenizi tavsiye ederim. <br><br>
+
+
+                </p>
+
+                <h4>Seyahatinizi Planlayın(Kullanışlı Bağlantılar)</h4>
+                <p>Seyahatlerimi planlarken kullandığım araçlara göz atın.
+                    Burada yer alan bağlantılar bağlı kuruluş (affiliate) linkleridir.
+                    Bu linkleri kullanarak blogumu sürdürmeme yardımcı oluyorsunuz.
+                    Sizin için herhangi bir ek maliyet oluşturmaz, ancak benim misyonumda büyük fark yaratabilir.
+                    🌿<br><br>
+                    🏨Size en uygun oteli bulun. Rezervasyonlarınızı Booking.com üzerinden yapabilirsiniz.<br>
+                    ✈️En uygun uçuş fiyatlarını Skyscanner.com adresinden bulabilirsiniz.<br>
+                    🎟️Çevrim içi tur ve etkinlik rezervasyonları için GetYourGuide.com kullanın.<br>
+                    🏕️Yürüyüş, kamp, bisiklet ve daha fazlası için Decathlon.com geniş bir yelpaze sunuyor.
+
+                </p>
+
+            </section>
+
+
+            <section id="section2" class="gokceada-map">
+                <h2>Gökçeada Gezi Haritası</h2>
+                <p></p>
+
+                <div class="map-container">
+                    <iframe src="https://www.google.com/maps/d/embed?mid=1WLShcuvtd37LMo6bLi7OApQSiO9P-yA&ehbc=2E312F"
+                        width="640" height="480"></iframe>
+
+                    <div class="map-list">
+                        <div class="map-list-group">
+                            <h4>Gezilecek Yerler</h4>
+                            <div class="point"><span class="circle">1</span> Pai Kanyon</div>
+                            <div class="point"><span class="circle">2</span> Pai Bamboo Bridge</div>
+                            <div class="point"><span class="circle">3</span> Wat Phra That Mae Yen</div>
+                            <div class="point"><span class="circle">4</span> Tham Lod Mağarası</div>
+                            <div class="point"><span class="circle">5</span> Sai Ngam Kaplıcası</div>
+                            <div class="point"><span class="circle">6</span> Pai Gece Pazarı</div>
+                            <div class="point"><span class="circle">7</span> Paradise Bar</div>
+                            <div class="point"><span class="circle">8</span> Jazz House Pai</div>
+                            <div class="point"><span class="circle">9</span> Baan Mai Kon Muang Pai Resort</div>
+                        </div>
+                        <div class="map-list-group">
+                            <h4>Yeme İçme</h4>
+                            <div class="point"><span class="circle circle--food">1</span> Monko Cafe</div>
+                            <div class="point"><span class="circle circle--food">2</span> Dream Cafe Pai</div>
+                            <div class="point"><span class="circle circle--food">3</span> Cade De Pai</div>
+                        </div>
+
+
+                    </div>
+                </div><br><br><br>
+
+
+            </section>
+
+
+            <section id="section3">
+                <h2>Merkez, Gökçeada</h2>
+
+                <p>Gökçeada’nın merkezini, adanın kalbi gibi düşünebilirsiniz. Çınarlı Mahallesi olarak geçiyor ve
+                    feribottan indiğiniz Kuzulimanı’na yaklaşık 6 kilometre uzaklıkta. Adada bir işiniz mi çıktı, soluğu
+                    hemen merkezde alıyorsunuz. Marketler, fırınlar, kasaplar, eczaneler, bankalar, kargo şubeleri,
+                    devlet hastanesi ve resmi kurumların hepsi burada. <br><br>
+
+                    Köylerin sakin havasından biraz farklı, daha düzenli ve günlük hayatın aktığı bir yer. Çınarlı’yı
+                    seviyorum çünkü sadece ihtiyaçları halledip geçeceğiniz bir yer gibi hissettirmiyor. Kafeleri, butik
+                    dükkanları, pastaneleri ve küçük restoranlarıyla özellikle yaz akşamları sokaklar çok canlı. Butik
+                    dükkanlarda ev yapımı, özgün şeylere rastlamak da işin güzel tarafı. Yerel esnafın dükkanlarında
+                    güzel peynirler, taze yumurtalar ve mevsiminde toplanmış meyve sebzeler bulmak da ayrı hoşuma
+                    gidiyor. <br><br>
+
+                    Adanın olayı merkezinde, köylerinde, dağlarında ve tepelerinde yürüyüşlere çıkmak. Gökçeada’yı adım
+                    adım keşfederken ona aşık olmak da cabası tabii ki 😊 Gelin, merkezde bir yürüyüşe çıkalım: <br><br>
+
+                <h4>1. Kent Müzesi</h4>
+                <img src="resimler/kentmuzesi.png" alt="Gokceada Merkez" class="section-img">
+                <p>Gökçeada Kent Müzesi’ne girince adayı sokaklarıyla değil, burada yaşayanların hayatından kalan
+                    izlerle tanıyorsunuz. Eski hamam binası 2017’de müzeye dönüştürülmüş. İçeride adalıların bağışladığı
+                    eşyalar ve eskiden yapılan işler hakkında ayrıntılar var; Giyim, eğitim, kahve kültürü,
+                    kılıç balığı avcılığı, süngercilik, arıcılık ve sabun üretimi... Ama beni en çok etkileyen,
+                    adalıların hikayeleri oldu.
+                    Okurken insanın içi ısınıyor. “Ne güzel adetlermiş, ne hoş insanlarmış,” diye düşünmeden
+                    edemiyorsunuz. Demem o ki,
+                    burada Gökçeada’nın geçmişini yalnızca öğrenmiyor, biraz da hissediyorsunuz. Mutlaka ziyaret edin.
+                    <br><br>
+                    Giriş ücreti yetişkin 50 TL, öğrenci 30TL'dir.
+                </p><br>
+
+
+                <h4>2. Metropolitan Kilisesi</h4>
+                <p>Fatih Mahallesi’nde bulunan Metropolitan Kilisesi, Gökçeada merkezindeki Rum Ortodoks yapılarından
+                    biri.
+                </p><br>
+
+                <h4>3. Çınarlı Camii (Osmanlı Camii)</h4>
+
+                <p>Adadaki günümüze ulaşan tek Osmanlı dönemi camisi. Sade taş cephesi ve tek
+                    minaresiyle gösterişten son derece uzak. Merkezde yürürken cami ve kiliselerin birbirine yakın
+                    sokaklarda karşınıza çıkması, adanın farklı kültürleri bir arada taşıyan geçmişini çok daha iyi
+                    hissettiriyor.</p><br>
+
+                <h4>4. Aya Panayia (Agios Panagia) Kilisesi</h4>
+
+                <p>Çınarlı Camii’nin bir alt sokağında olan Aya Panayia, 1835 yılında yapılmış ve hala
+                    kullanılan tarihi kiliselerden biri. </p><br>
+
+
+
+                <h4>4. Ada Pazarı</h4>
+                <p>Sadece Pazar günleri kurulan Gökçeada Pazarı'dır. Özellikle yaz aylarında, Çanakkale’den gelen
+                    ürünleri ve
+                    ada halkının yetiştirdiği sebze meyveleri bulabilirsiniz. Hepsi taze taze mis gibi oluyor.</p>
+
+                <br><br><br>
+
+            </section>
+
+
+            <section id="section4">
+                <h2>Gökçeada'nın Köyleri</h2>
+                <img src="resimler/koylerkapakk.png" alt="Gökçeada Köyleri" class="section-img">
+                <p>Gökçeada’nın köylerinde insanı yavaşlatan, her sokağına biraz daha yaklaştıran bir şey var. Dar
+                    sokaklarında biraz kayboluyor, taş evlerin arasından geçerken bir bakmışsınız kendinizi küçük bir
+                    meydanda buluyorsunuz. Eski Rum köylerinin izleri her köşede karşınıza çıkıyor ama her köyün kendine
+                    has bir ruhu var; kimi eski bir şarkı gibi sakin, kimi de manzarasıyla insanın içini bir anda
+                    açıyor. <br><br>
+                    Köyleri keşfetmenin en güzel yolu, acele etmeden sokaklarında yürümek. O dar sokaklarda tarihin
+                    kokusunu alırken taşların konuştuğunu hissedebilirsin. Ansızın bir keçiye, koyuna, eşeğe ya da
+                    horozlara rastlayabilir; bir kaz sürüsüne yol verebilirsin. Gizli şapelleri keşfedip kiliselerdeki
+                    ayinlere denk gelebilir ya da sadece bir tabureye oturup tatlı yiyip çay içebilirsin… <br><br>
+                    Bunları yazarken bile içim kıpır kıpır oluyor; adanın güzellikleri gözümün önünden birer birer
+                    geçiyor. Bakalım, sizin favoriniz hangi köy olacak?
+                </p><br><br>
+
+                <h4>1. Kaleköy (Kastro)</h4>
+
+                <p>Bir tarafta eski taş Rum evleri, diğer tarafta limandaki tekneler.
+                    Gün batımında ise resital veren güneş ve deniz... Burası, Gökçeada’da kıyıya kurulmuş tek köy.
+                    <br><br>
+                    Kaleköy’ü gözünüzde daha kolay canlandırabilmeniz için üç bölümde anlattım: <strong>Kaleköy Liman,
+                        Kaleköy Liman Sahili ve
+                        Yukarı Kaleköy</strong>. Hadi Kaleköy’ü birlikte gezelim.
+                    <img src="resimler/kalekoyliman.png" alt="Kaleköy" class="section-img">
+
+
+                    <strong>Kaleköy Limanı</strong>,
+                    bir zamanlar adanın denizle dış dünya arasındaki önemli bağlantı noktalarından biriyken, bugün
+                    balıkçı tekneleriyle ve kıyı boyunca sıralanan güzel kafeleri, restoranları
+                    ve meyhaneleriyle yaşıyor. <br><br><br>
+                    <img src="resimler/sahillimani.png" alt="Kaleköy" class="section-img">
+
+                    <strong>Kaleköy Limanı Sahili</strong>, limanın sol tarafına doğru ilerleyince, sandalyenizi atıp
+                    gün batımını izleyebileceğiniz harika bir
+                    nokta. Bir yanda liman, tam karşınızda Semadirek(Yunan Adası) manzarası; deniz de pırıl pırıl.
+                    Buradan artık
+                    denize girilmiyor ama manzaraya karşı oturup güneşin batışını izlemek başlı başına
+                    büyüleyici.<br><br><br>
+
+                    <img src="resimler/kalekoydarsokaklar.png" alt="Kaleköy" class="section-img">
+                    <strong>Yukarı Kaleköy</strong>’ün dar sokaklarında yürüdükçe de eski İmroz’un izlerini hissedin.
+                    Biraz
+                    dolaşın; Aya Marina Kilisesi’yle karşılaşacak, belki hemen önündeki köy kahvesine oturup çayınızı
+                    içeceksiniz. Ben yürürken iki küçük şapel de gördüm. Sokaklarda kaybolun, etrafa bakın, bırakın
+                    zaman burada yavaş aksın.<br><br><br>
+
+                    <img src="resimler/kalekoykalesi1.jpg" alt="Kaleköy" class="section-img">
+                    <img src="resimler/kalekoykalesi.jpg" alt="Kaleköy" class="section-img">
+                    Sonra şöyle bi tepelere bakın taş kalıntıları göreceksiniz. Bunlar, köyün en ikonik
+                    noktası olan Kaleköy Kalesi’ne ait. Limanın hemen üstünde, açık denizi gören stratejik bir konumda.
+                    Kale zamanında limanı ve deniz ticaretini korumak için kullanılmış.
+                    Kalıntıların arasında dolaşırken bu yüksek noktanın neden seçildiğini siz de
+                    anlayacaksınız.<br><br><br>
+                    <img src="resimler/kalekoysmath.jpg" alt="Kaleköy" class="section-img">
+
+                    <strong>Ve tepedeki manzara... Müthiş.</strong> Tam karşınızda Semadirek Adası, Rumca adıyla
+                    Samothraki. Bazen insanın
+                    tek ihtiyacı böyle bir manzaranın karşısında durup o anın içinde var olmak gibi geliyor. Güneş de
+                    burada öyle güzel batıyor ki, demedi demeyin. <br><br>
+
+                    Kale kalıntılarına hem liman tarafından hem de Yıldız Koyu tarafından çıkabilirsiniz. Hangi yolu
+                    seçerseniz seçin, patika biraz taşlı, otlu ve eğimli. Rahat bir ayakkabı giymekte fayda var.
+
+                </p><br><br><br>
+
+                <h4>2. Eski Bademli Köyü (Gliki)</h4>
+                <p>
+                    <img src="resimler/eskibademli2.png" alt="Eski Bademli" class="section-img">
+                    Eski Bademli, Gökçeada’nın en sakin ve yerel havasına çok güzel sahip çıkmış köylerinden biri.
+                    Burada
+                    gürültü yok, telaş yok. Sadece rüzgarın ve kuşların sesi var. Manzarası da resmen terapi. Yüksek
+                    konumu yüzünden buraya “adanın balkonu” deniyor. Aşağıda Kaleköy’ü ve limanı, karşıda ise
+                    Semadirek’i
+                    görebiliyorsunuz. <br><br>
+
+                    Yeni Bademli’den çok çok farklı. Yeni Bademli 1984’te kurulmuş yeni bir yerleşim yeri; Eski
+                    Bademli ise koruma altındaki eski Rum köylerinden. Eski adı Gliki. Çevresindeki badem ağaçlarından
+                    almış adını. <br><br><br>
+                    <img src="resimler/eskibademlii.png" alt="Eski Bademli" class="section-img">
+
+                    Bu ev 1913’ten kalma örneğin. Kim bilir o tarihten bu yana nelere şahit oldu. Eski Bademli’nin taş
+                    evleri ve dar sokakları arasında yürürken zaman eğilip bükülüyor, yavaşlıyor resmen.<br><br><br>
+
+                    <img src="resimler/cinareskibadem.jpg" alt="Eski Bademli" class="section-img">
+
+                    Köyün meydanındaki eski kahvehanenin duvarında 1903’ten kalma bir güneş saati var. Yanındaki dut
+                    ağacı
+                    büyüyüp güneşi kapattığından saat artık çalışmıyor. Biraz ileride heybetli, yaşlı bir çınar ve hemen
+                    yanında eski, yarı açık çamaşırhane karşınıza çıkıyor.<br><br><br>
+
+                    <img src="resimler/stenadakafe.png" alt="Eski Bademli" class="section-img">
+
+                    <strong>Bir de StenAda Kafe var</strong>. Köyde doğup büyümüş bir ailenin işlettiği bu küçük kafede
+                    kahve, soğuk
+                    içecekler, ev yapımı likörler, tatlılar ve atıştırmalıklar var. Hepsi çok lezzetli ama canım
+                    Androula Hanım’la tanışmak bile buraya uğramak için başlı başına bir sebep. Sanki Eski Bademli’nin
+                    bütün
+                    sıcaklığı onda vücut bulmuş. Dünya tatlısı bir insan.
+                </p><br><br><br>
+
+                <h4>3. Zeytinliköy (Aya Todori)</h4>
+
+                <p>
+                    <img src="resimler/zeytinli.png" alt="Zeytinliköy" class="section-img">
+                    Zeytinliköy, Gökçeada’nın koruma altındaki en eski ve en karakteristik köylerinden biri. 🌿 Ben
+                    Gökçeada’nın hiçbir köyünde Zeytinliköy’deki kadar çok begonvil görmedim. Asırlık zeytin ağaçlarının
+                    arasına renk renk begonviller karışmış, köyün her köşesine ayrı bir güzellik katmış. Rum kültürünün
+                    izlerini taşıyan bu şirin köyde taş döşeli dar sokaklarda kaybolun, rengarenk pencereli evlere
+                    hayran kalın. Her sokakta başka bir kapı, küçük bir avlu ya da içinizi açan bir manzara çıkıyor
+                    karşınıza.
+                    Bol bol yürüyün, Gökçeada’nın o kendine has ada ruhunu hissedeceksiniz. <br><br><br>
+                <div class="image-row-2">
+                    <img src="resimler/zeytinlikilise.png" alt="Wat Phra">
+                    <img src="resimler/IMG_0966.jpg" alt="Wat Phra">
+                </div>
+                Sokaklarda dolaşırken Agios Georgios Kilisesi’ne(soldaki) de rastlayabilirsiniz. Köyün geleneksel
+                dokusunun adeta
+                bir parçası. Meydanın üst tarafında bir de daha küçük kilise var, ancak genellikle kapalı oluyor.
+                <br><br>
+
+                <img src="resimler/nostos.png" alt="Zeytinliköy" class="section-img">
+                Köyün kafeleri de en az sokakları kadar şirin. Ev yapımı ürünler için Dora’ya uğrayabilirsiniz. Bir de
+                Zeytinliköy’de sakızlı muhallebi ve Rum tatlılarını tatmadan dönmeyin derim. Nostos da çok güzel bir
+                mekan. Sahibiyle sohbet ederseniz, “Nostos”un ne anlama geldiğini kendisine sorun. 😊 <br><br>
+
+                Yaz aylarında, özellikle öğle saatlerinde gelen turlar yüzünden köy oldukça kalabalık olabiliyor.
+                Sokakları daha sakin gezmek,
+                kafelerde yer bulmak ve rahat rahat fotoğraf çekmek isterseniz sabahı ya da akşamüstünü tercih
+                edin.
+                </p><br><br><br>
+
+                <h4>4. Tepeköy (Agridia)</h4>
+                <p>
+                    <img src="resimler/tepekoy1.JPG" alt="Tepeköy" class="section-img">
+                    Tepeköy, Gökçeada’nın en yüksek konumdaki köyü. Köyün hangi tarafına giderseniz başka bir manzara
+                    çıkıyor
+                    karşınıza. Bir yanda Gökçeada’nın Büyük Zeytinli Barajı, öteki yanda yemyeşil dağlar ve otlayan
+                    keçiler. Diğer yanda mitlerin adası Semadirek...
+
+                    <img src="resimler/tepekoy2.jpg" alt="Tepeköy" class="section-img">
+
+                    Bu köyde başka bir his var, en azından bana öyle
+                    geldi. Eski Rum sokaklarında taş evlerin arasında yürürken gerçekten büyülendim. Her köşede başka
+                    bir iz, başka bir hikaye çıkıyor karşınıza.
+
+                    <img src="resimler/tepekoykilise.jpg" alt="Tepeköy" class="section-img">
+                    Evangelismos Theotokos Kilisesi de köyün içinde görebileceğiniz yerlerden. 1832’de yapılmış bu küçük
+                    Rum Ortodoks kilisesinde bir ayine denk gelmiştim. Benim için çok etkileyici bir deneyimdi. <br><br>
+
+                    Madamın Asmalı Kahvesi’ne ya da Agridia Taş Kafe’ye uğrayıp bir çay içmeden, bir Rum tatlısı yemeden
+                    köyden ayrılmayın derim. Yan masanızda ada halkından Rum komşuların oturduğunu da görebilirsiniz.
+                    İnsanları gerçekten çok naif ve içten. Madamın Asmalı Kahvesi’nden çıkarken de Kavala kurabiyesi
+                    almayı unutmayın. Bana kalırsa adadaki en güzel Kavala kurabiyelerinden biri burada. <br><br>
+
+                    Tepeköy’ün tavernaları da köyün Rum kültürünü ve akşam havasını tanımanın güzel yollarından. Barba
+                    Yorgo ve Angelikis Taverna, ada yemeklerini deneyebileceğiniz, uzun bir sofrada sohbete
+                    dalabileceğiniz samimi mekanlar. Özellikle yaz akşamları burada yemek yemek, köyün canlı haline
+                    karışmanın güzel yollarından biri. Ağustos ortasında düzenlenen Meryem Ana Şenlikleri, yani Panayır,
+                    köyün
+                    meydanını
+                    bambaşka bir havaya sokuyor. 14 Ağustos’ta büyük kazanlarda yemekler pişiyor, etler halka
+                    dağıtılıyor ve dualar ediliyor. 15 Ağustos’ta ise yemek ve müzik eşliğinde kutlamalar devam ediyor.
+                    Panayır zamanına denk gelirseniz Tepeköy’ün ada ruhunu en canlı hâliyle hissedebilirsiniz.
+                    <br><br><br>
+                    <img src="resimler/cinaralti1.jpg" alt="Tepeköy" class="section-img">
+                    Köyü gezdikten sonra Çınaraltı’na geçin. Tepeköy mevkiinde bu yer, köy merkezinden devam eden yolun
+                    sağ tarafında kalıyor. Tabelası var zaten. Yaklaşık 625 yaşında tarihi çınarın dev gövdesi ve
+                    dalları
+                    insanı durup bakmaya çağırıyor. Hemen yanındaki çeşmeden dağ suyu akıyor. Buz gibi ve çok lezzetli.
+                    <br><br><br>
+                    <img src="resimler/cinaralti2.jpeg" alt="Tepeköy" class="section-img">
+                    Ve sonra tarihi çınardan manzaraya doğru yürüyün, Ege Denizi ve Semadirek tam karşınıza çıkacak.
+                    Bu kartpostal gibi görüntüye hayran kalacaksınız.
+                    <img src="resimler/cinaralti3.jpg" alt="Tepeköy" class="section-img">
+                    Burada manzaraya karşı oturabileceğiniz küçük bir kafe var. Çay, kahve ya da karadut suyu alıp
+                    oturabilir, dilerseniz de kafeden bağımsız sol tarafında taşlardan birine ilişip
+                    sessiz sakin manzaranın tadını çıkabilirsiniz. <br><br><br>
+                <div class="image-row-2">
+                    <img src="resimler/tepekoy.jpg" alt="Tepeköy">
+                    <img src="resimler/tepekoykoyun.jpg" alt="Tepeköy">
+                </div>
+
+                Buraya sabahın ilk saatlerinde de gelin derim. Bazen adada bu Tepeköy tepesinde inanılmaz
+                bir bulut olayı oluyor, şahit olabilirsiniz. Bir de sabahları kimsecikler olmuyor burada. Her yer sadece
+                koyun, keçi ve
+                oğlak. Kimisi sizin peşinizden geliyor, kimisi yol gösteriyor, kimisi de poz veriyor. 😊
+                </p><br><br><br>
+
+                <h4>5. Dereköy (Shinudi)</h4>
+
+
+                <p><img src="resimler/derekoy.jpg" alt="Dereköy" class="section-img">
+                    Dereköy, Gökçeada merkezine yaklaşık 14 kilometre uzaklıkta, adanın en batısında yer alan eski bir
+                    Rum köyü. Bir zamanlar yaklaşık iki bin hanesiyle Türkiye’nin en büyük köylerinden biriymiş. Bugünse
+                    burası “hayalet köy” olarak anılıyor. <br><br><br>
+
+                    <img src="resimler/derekoy2.jpg" alt="Dereköy" class="section-img">
+
+                    Bu sessizlik bir anda oluşmamış. Dönemin politikaları ve yaşanan zorluklar, burada yaşayan binlerce
+                    insanı evini bırakıp göç etmeye zorlamış. Şimdi köyde çok az kişi yaşıyor. Dereköy’ü gezerken
+                    çoğunlukla yıkılmış, terk edilmiş evlerin arasında yürüyorsunuz ve bir süre sonra kendinizi
+                    gerçekten bir hayalet köyde gibi hissediyorsunuz. <br><br><br>
+
+                <div class="image-row-2">
+                    <img src="resimler/derekoy5.jpg" alt="Dereköy">
+                    <img src="resimler/derekoy3.jpg" alt="Dereköy">
+                </div>
+
+                Köyün girişinde anıt bir çınar, hemen karşısında da 19. yüzyıldan kalma Rum Ortodoks kilisesi var.
+                Sokaklarda yürürken köyün bir diğer kilisesi olan Koimesis Tis Theotokos Kilisesi’ni görebilirsiniz.
+                Eski çamaşırhanesi de Dereköy’ün geçmişinden kalan izlerden biri. İçeride su kaynatılan kazanların
+                konduğu ocaklar ve çamaşırların yıkandığı taşlar hala duruyor. <br><br><br>
+
+                <img src="resimler/derekoy4.jpeg" alt="Dereköy" class="section-img">
+                Dereköy’de geçmiş yüksek sesle anlatmıyor kendini. Taş duvarların, eski evlerin ve sessiz sokakların
+                arasında usulca kulağınıza fısıldıyor. Burada insan sadece yürüyor. Her adımda Gökçeada’nın tarihini,
+                yaşanmışlıklarını ve geride kalanları tarifsiz bir hüzünle hissediyor...
+
+                </p><br><br><br>
+
+            </section>
+
+            <section id="section5">
+                <h2>Gökçeada'nın Şapelleri</h2>
+                <img src="resimler/adasapelleri.jpg" alt="Gökçeada Şapelleri" class="section-img">
+
+                <p>Gökçeada’yı gezerken yol kenarında, zeytinliklerin arasında ya da bir tepenin üzerinde küçük taş
+                    şapeller görebilirsiniz. Adada yaklaşık 360 şapel olduğu söyleniyor. Bu kadar çok olmalarının
+                    nedeni, adanın yüzyıllar boyunca şekillenen Rum Ortodoks kültürü ve aile gelenekleridir. </p>
+
+                <img src="resimler/adasapelleri1.jpg" alt="Gökçeada Şapelleri" class="section-img">
+
+                <p>Şapeller yalnızca dua etmek için yapılmamış. Kimi bir azize ya da azizeye adak, şükran veya hatıra
+                    için bir aile tarafından yaptırılmış. Hasattan önce, bağbozumundan sonra ya da yola çıkarken dua
+                    etmek için uğranan küçük duraklar olmuşlar. Aziz ya da azize günlerinde düzenlenen ayinlerin
+                    ardından insanlar bir araya gelmiş; şapeller köylerin ve ailelerin sosyal hayatında da yer tutmuş
+                    anlayacağınız. <br><br>
+
+                    Bugün bazıları onarılıp yeniden kullanılıyor, bazılarıysa taş duvarlarıyla sessizce ayakta duruyor.
+                    Her biri yalnızca küçük bir ibadet yeri değil; bir ailenin adaklarını, bir köyün buluşmalarını ve
+                    adada kuşaktan kuşağa aktarılan gelenekleri taşıyan bir hafıza gibi.
+                </p>
+                <img src="resimler/bebeksapel.jpeg" alt="Gökçeada Şapelleri" class="section-img">
+
+                <p>Tepeköy yolundaki bu şapelden özellikle bahsetmek istedim. Rum Ortodoks geleneğinde yol kenarındaki
+                    bu küçük yapılar bazen kazada hayatını kaybedenleri anmak, bazen de kazadan sağ kurtulanlar için
+                    şükretmek amacıyla yapılmış. İçlerinde çoğunlukla küçük bir ikon ve mum bulunuyor. <br><br>
+
+                    Anlatılanlara göre bu şapel de yıllar önce burada kaza geçiren Tepeköylü bir Rum için yapılmış.
+                    Hikayenin bütün ayrıntıları bilinmiyor ama yol kenarında durup ona baktığınızda, küçük taş
+                    duvarların bir hatırayı ve duayı sakladığını hissediyorsunuz. Bazen bir ikon, bir mum ve sessizce
+                    duran küçücük bir yapı bile bir insanın unutulmaması için yetiyor.
+                </p><br><br><br>
+
+            </section>
+
+
+            <section id="section6">
+                <h2>Gökçeada'nın Plajları</h2>
+                <p>Gökçeada’nın denizi çoğunlukla tertemiz ve berrak. Su sıcaklığı ise... Bazı koylarda suyun içinden
+                    taşları
+                    metrelerce aşağıda seçebiliyorsunuz. Kıyı yapısı ise koydan koya değişiyor. Kumlu bir plaj da
+                    bulabilirsiniz, çakıllı ve kayalık bir kıyı da. <br><br>
+
+                    Rüzgar Gökçeada’nın karakteridir; bazen günün plajını sizin yerinize seçer 😊 Rüzgarın yönüne göre
+                    bir koy dalgalıyken adanın başka bir tarafı daha sakin kalabiliyor. O yüzden denize gitmeden önce
+                    rüzgarın nereden estiğine bakın. Bazen plaj planını son anda değiştirmek, günün en iyi kararı
+                    oluyor.
+
+
+                </p><br><br>
+
+                <h4>1. Yıldızkoy Arkadia</h4>
+                <p>
+                    <img src="resimler/yildizkoy2.JPG" alt="Yıldızkoy" class="section-img">
+                    Yıldızkoy, Gökçeada’nın kuzeyinde, merkeze en yakın plajlardan biri. Kayalık kıyısı, berrak denizi
+                    ve sakin atmosferiyle çok
+                    güzel bir koy. Ama burası yalnızca denize girilecek bir yer değil, <strong>Türkiye’nin ilk sualtı
+                        milli
+                        parkı</strong>. Denize girdiğinizde yüzmekten çok suyun altındaki hayatı izlemek istiyorsunuz.
+                    Kayaların
+                    arasındaki canlılık gerçekten büyüleyici. <br><br><br>
+
+                <div class="image-row-2">
+                    <img src="resimler/yildizkoyjeo.jpg" alt="Dereköy">
+                    <img src="resimler/yildizkoyjeo1.jpg" alt="Dereköy">
+                </div>
+
+                Kıyıdaki kayalara da dikkatlice bakın. İlk anda sünger ya da fosili andırıyorlar. Oysa gördüğünüz
+                şekiller, denizin ve rüzgârın zaman içinde kayaları aşındırmasıyla oluşmuş; <strong>Yıldızkoy aynı
+                    zamanda
+                    önemli bir jeolojik miras alanı</strong>. Milyonlarca yıllık bu şekillere bakarken insan, doğanın
+                sabrına hayran
+                kalıyor. <br><br><br>
+
+                <img src="resimler/yildizkoy1.jpg" alt="Yıldızkoy" class="section-img">
+                Gün batımında da bambaşka güzel oluyor. Sessiz sakin oturup güneşi uğurluyorsunuz. Ne bir gürültü var ne
+                de acele. Sadece siz, deniz ve günün yavaşça bitişi. <br><br>
+
+                İpuçları: <br>
+                <ul>
+                    <li>Kumlu plajları tercih ediyorsanız Yıldızkoy size göre olmayabilir.</li>
+                    <li>Koyun en güzel kısmı, kayalardan denize girilen tarafı.</li>
+                    <li>Su altını keşfetmek için yanınıza şnorkel ya da deniz gözlüğü alın.</li>
+                    <li>Kayaların suyla buluştuğu yerler yosun nedeniyle kaygan olabilir. Dikkatli adım atın.</li>
+                </ul>
+
+                </p><br><br><br>
+
+                <h4>2. Mavi Koy </h4>
+                <p>
+                    <img src="resimler/mavikoy.jpg" alt="Mavi koy" class="section-img">
+                    Mavi Koy’a Yıldızkoy’dan yaklaşık 20–25 dakikalık yürüyüşle ulaşıyorsunuz. Yol, hafif iniş çıkışlı
+                    bir patikadan geçiyor. Ulaştığınızda iki yamaç arasına saklanmış sakin bu koy sizi tüm cazibesiyle
+                    karşılıyor.
+                    Kıyısı minik minik taşlık, denizi ise çok berrak ve tertemiz. Doğa yürüyüşünü ve pırıl pırıl denizi
+                    seviyorsanız
+                    buraya bayılacaksınız. <br><br><br>
+                    <img src="resimler/mavikooo.png" alt="Mavi koy" class="section-img"> <br><br>
+
+                    İpuçları: <br>
+                <ul>
+                    <li>Yaz aylarında sıcak bastırmadan yola çıkın, sabah erken saatleri tercih edin.</li>
+                    <li>Patikanın bazı bölümleri otluk ve taşlık. Spor ayakkabıyla yürümek daha iyi olur.</li>
+                    <li>Şnorkelinizi ve yanınıza yetecek kadar su almayı unutmayın.</li>
+                    <li>Ve bol bol manzaranın, güzelliğin tadını çıkarın.</li>
+
+                </ul>
+                </p><br><br><br>
+
+                <h4>3. Kefalos (Aydıncık) Plajı</h4>
+                <p>
+                    <img src="resimler/kefalos.jpg" alt="Kefalos" class="section-img">
+                    Gökçeada’nın en sevilen plajlarından Kefalos, yaklaşık 1,5 kilometre boyunca uzanan altın renkli,
+                    incecik kumuyla yazın adanın en hareketli noktalarından biri. Plaj çevresinde konaklama seçenekleri,
+                    kamp alanları ve yeme içme yerleri var; deniz keyfinizi bütün güne yayabilirsiniz.<br><br><br>
+                    <img src="resimler/kefalos1.jpg" alt="Kefalos" class="section-img">
+                    Rüzgarı sayesinde sörfçülerin de uğrak noktası olan Kefalos’ta sörf dersi alabileceğiniz yerler
+                    bulunuyor.
+                    Gün batımını Kefalos’ta izlemek de çok güzel. Akşam saatlerinde hava sakinleşiyor, plajın kalabalığı
+                    azalıyor. Denizin kenarında günü daha sessiz bir ortamda bitirebiliyorsunuz. <br><br>
+
+                    İpuçları: <br>
+                <ul>
+                    <li>Gitmeden önce rüzgar durumuna mutlaka bakın. Rüzgarın yönüne ve şiddetine göre deniz bazen
+                        dalgalı, bazen daha sakin olabiliyor.</li>
+                    <li>Geniş ve kumlu sahiliyle Kefalos, çocuklu aileler için de uygun bir plaj.</li>
+                    <li>Gün batımını izlemek istiyorsanız akşama doğru sahilde kalın. Hava sakinleşiyor, kalabalık da
+                        azalıyor.</li>
+                    <li>Plaj, adanın birçok yeri gibi bakir. Şemsiye ve şezlong bulunmuyor, bu yüzden hazırlıklı gelin.
+                    </li>
+
+                </ul>
+                </p><br><br><br>
+
+                <h4>4. Laz Koyu </h4>
+                <p>
+                    <img src="resimler/lazkoyu.jpg" alt="Laz Koyu" class="section-img">
+                    Laz Koyu, Gökçeada’nın güney kıyısında, merkezden yaklaşık 20 kilometre uzaklıkta küçük ve korunaklı
+                    bir koy. Dereköy sınırlarında kalan bu koyun eski adı Sinapida. Kuzey rüzgarı estiğinde diğer
+                    kıyılara göre daha sakin kalması da sevilen yanlarından. Koyun doğal yapısı büyük ölçüde korunmuş.
+                    <br><br><br>
+
+                    <img src="resimler/lazkoyu1.jpg" alt="Laz Koyu" class="section-img">
+                    Sahilde bir tesis de bulunuyor. Burada şemsiye ve şezlong kiralayıp yemek yiyebilirsiniz. Yolun
+                    büyük bölümü asfalt, tabeladan sonraki son kısım ise kısa bir toprak yol. Yaz aylarında park yeri
+                    bulmak biraz zorlaşabiliyor. <br><br>
+
+                    İpuçları: <br>
+                <ul>
+                    <li>Yazın park yeri çabuk dolabiliyor. Yer bulmak için erken saatlerde gitmek iyi olur.</li>
+                    <li>Küçük ve korunaklı koy yapısıyla çocuklu aileler için de güzel bir seçenek.</li>
+                    <li>Tesisin olduğu bölümde şezlong ve şemsiye kiralayabilirsiniz. Koyun bakir kalan kısmında vakit
+                        geçirecekseniz kendi şemsiyenizi ve suyunuzu yanınıza alın.</li>
+                    <li>Adada kuzey rüzgarı estiğinde deniz diğer kıyılara göre çok daha sakin oluyor.</li>
+
+
+                </ul>
+
+                </p><br><br><br>
+
+                <h4>5. Uğurlu Plajı</h4>
+                <p><img src="resimler/ugurluplaji.jpg" alt="Uğurlu Plajı" class="section-img">
+                    Uğurlu Plajı, adanın en batısında, Uğurlu Köyü sınırlarında yer alıyor. Merkezden yaklaşık 25
+                    kilometre uzakta. Uzun ve geniş kumsalı sayesinde kalabalık günlerde bile kendinize yer
+                    bulabilirsiniz. Denize girişi çoğunlukla sığ ve kumluk, suyu da tertemiz, berrak ve turkuaz.
+                    Yazın sezonda plajda
+                    işletmeler açık oluyor, yine de yanınıza su ve atıştırmalık almak iyi fikir.
+                    <br><br><br>
+
+                    <img src="resimler/gizlimagara.jpg" alt="Uğurlu Plajı" class="section-img">
+                    Uğurlu Plajı’nın hemen sonunda, Gizli Liman’ın yanı başında saklı bir mağara var. Kıyı boyunca
+                    yürürken karşınıza çıkıyor. İçinden yüzerek geçip denize açılabiliyorsunuz. <br><br>
+
+
+                    İpuçları: <br>
+                <ul>
+                    <li>Uğurlu Plajı merkeze uzak. Yaz sezonunda toplu taşıma da gidiyor fakat kendi aracınızla gitmek
+                        çok daha konforlu.</li>
+                    <li>Plaj geniş ve doğal, gölge alan yok. İsterseniz plaj işletmelerinin şezlong ve şemsiye
+                        hizmetinden
+                        faydalanabilir, isterseniz de kendi şemsiyenizi getirip sahilde dilediğiniz yerde denize
+                        girebilirsiniz.</li>
+                    <li>Rüzgara göre deniz dalgalanabiliyor. Gitmeden önce rüzgar durumuna göz atın.</li>
+                    <li>Adada kuzey rüzgarı estiğinde deniz diğer kıyılara göre çok daha sakin oluyor.</li>
+
+                </ul>
+                </p><br><br><br>
+
+                <h4>6. Gizli Liman</h4>
+                <p><img src="resimler/gizliliman.jpg" alt="Gizli Liman" class="section-img">
+
+                    Uğurlu Plajı’nın sonundan yürüyerek Gizli Liman’a geçebilirsiniz. Uzun sahili, berrak denizi ve
+                    sakinliğiyle burada kendinize güzel bir yer bulup günün tadını çıkarın. Koyun ucunda, Türkiye’nin en
+                    batı noktası olan İnce Burun (Avlaka Burnu) var. Burada güneşi batırmanızı tavsiye ederim.
+
+
+                </p><br><br><br>
+
+            </section>
+
+            <section id="section7">
+                <h2>Gökçeada'nın İkonu Yan Yatık Ağaç</h2>
+                <img src="resimler/gokceadakapak.jpg" alt="Yan Yatık Ağaç" class="section-img">
+                <p>Yıldızkoy’a giderken yolun sağında, gövdesi yana yatmış bu ağacı göreceksiniz. Gökçeada’nın ikonu
+                    haline gelen bu ağacın, adanın kuvvetli rüzgarlarıyla zaman içinde bu şekli almış olması mümkün. İlk
+                    kez görenler şaşırıyor, çoğu da yanında fotoğraf çektirmeden geçmiyor. <br><br>
+                    Benim gördüklerim arasında en yakını ve en büyüğü bu. Ama Gökçeada’nın dağlarında, tepelerinde,
+                    bağlarında bayırlarında başka yan yatık ağaçlara da rastlayabilirsiniz. Gezerken gözünüzü biraz da
+                    yamaçlara çevirin derim.
+                </p>
+
+                <br><br><br>
+
+            </section>
+
+            <section id="section8">
+                <h2>Gökçeada Barajı (Zeytinli Barajı)</h2>
+                <img src="resimler/baraj.jpg" alt="Gökçeada Barajı" class="section-img">
+                <p>Gökçeada’nın su ihtiyacını karşılayan Zeytinli Barajı, adada en sevdiğim yerlerden biri.
+                    Çevresinde, ana yollar
+                    üzerinde, baraj manzarasına karşı piknik ve mangal alanları var. Özellikle bahar ve yaz
+                    aylarında adalılar da buraya geliyor. <br><br>
+                <div class="image-row-2">
+                    <img src="resimler/baraj1.jpg" alt="Gökçeada Barajı">
+                    <img src="resimler/baraj2.jpg" alt="Gökçeada Barajı">
+                </div>
+
+                Ben piknik alanlarından çok baraj kıyısını tercih ettim. Kıyıya inen yollar var ama yönlendirme tabelası
+                yok, biraz keşfederek buluyorsunuz. Barajın kenarında manzara ve sessizlik çok güzel. Ada çok rüzgarlı
+                olduğunda baraj kıyısı, adanın ortasında ve daha alçakta kaldığı için rüzgarı daha az alıyor. Böyle
+                günlerde burada oturmak ayrı keyifli.
+
+                </p><br><br><br>
+            </section>
+
+
+            <section id="section9">
+                <h2>Tuz Gölü</h2>
+                <img src="resimler/tuzgolu1.jpg" alt="Tuz Gölü" class="section-img">
+
+                <p>Aydıncık ve Kefalos plajlarının arasında kalan Tuz Gölü, iki yandan rüzgarın biriktirdiği kumların
+                    ortasında oluşmuş. Gölü besleyen bir dere yok, deniz suyu ve yağmurlarla oluşuyor. Her yıl göç
+                    döneminde adaya uğrayan flamingo sürülerini burada görmek mümkün. Zamanlamanız denk gelirse, gölün
+                    üzerinde süzülen flamingoların oluşturduğu inanılmaz bir şölene tanıklık edebilirsiniz. <br><br>
+                    <img src="resimler/tuzgolu.jpg" alt="Tuz Gölü" class="section-img">
+                    Yazın su seviyesi düşünce göl kıyısında balçık kalıyor. Bazı kişiler bunu ciltlerine sürüyor
+                    ama atık su ve hijyenle ilgili endişeler nedeniyle adalılar bunu hiç önermiyor. Manzaranın ve
+                    flamingoların keyfini çıkarın, balçığı cildinize sürmeyin derim.
+                </p><br><br><br>
+
+            </section>
+
+
+            <section id="section10">
+                <h2>Marmaros Şelalesi</h2>
+                <img src="resimler/marmarosselale.png" alt="Marmaros Şelalesi" class="section-img">
+                <p>Marmaros Şelalesi, adanın kuzeybatısında, Marmaros Koyu yolunun yakınında. Uğurlu yönüne giderken
+                    Marmaros Koyu tabelasından sapıyorsunuz. Aracı yolun bittiği yerde bırakıp şelaleye doğru yaklaşık
+                    20–30 dakika yürümeniz gerekiyor. Bu yol inanılmaz güzel.
+                    Etrafınız hep yeşille çevrili, kuş sesleri eşliğinde yürürken gerçekten doğayla baş başa
+                    hissediyorsunuz kendinizi.
+                    Patika yer yer taşlı ve kayalık, spor ayakkabıyla gitmek iyi olur. <br><br>
+
+                    Yaklaşık 40 metre yükseklikten dökülen şelalenin suyu mevsime göre değişiyor. Kış sonu ve ilkbahar
+                    başında, yağışlardan sonra daha coşkulu akıyor. Yazın suyu azalabiliyor, bazen ince bir akışa
+                    dönüşüyor. Bu yüzden güçlü aktığı halini görmek istiyorsanız yağışlı dönemden hemen sonra gitmek
+                    daha
+                    iyi olur.
+                </p><br><br><br>
+            </section>
+
+            <section id="section11">
+                <h2>Zeytinlik Ormanı</h2>
+
+
+                <img src="resimler/zeytinlikormani.jpg" alt="Zeytinlik Ormanı" class="section-img">
+
+                <p>Gökçeada’nın güneyindeki bu zeytinlik ormanda genç yaşlı pek çok zeytin ağacı var; kıvrım kıvrım
+                    gövdeleriyle her biri ayrı güzel.</p>
+
+                <img src="resimler/ormankeci.jpg" alt="Zeytinlik Ormanı" class="section-img">
+                <p>Keçiler de her yerde, ağaçların arasında dolaşıp birbirlerine sesleniyorlar. Acele etmeden yürüyün,
+                    patikalarda biraz kaybolup ormanı keşfedin. Tam ortasında küçük bir şapel var; belki gezinirken
+                    bulursunuz.</p>
+                <img src="resimler/zeytinlikormani1.jpg" alt="Zeytinlik Ormanı" class="section-img">
+                <p>Ormanın neresine giderseniz gidin, manzara ayrı güzel.</p>
+
+                <br><br><br>
+
+
+
+            </section>
+
+
+
+            <section id="section12">
+                <h2>Kite Sörf Alanı (Eşelek)</h2>
+                <p>Çoğu kişi Gökçeada’ya denize girmek, köyleri gezmek ya da gün batımını izlemek için geliyor. Ama
+                    adanın bir de rüzgarla yaşayan hali var. Aydıncık (Eşelek) Plajı, düzenli rüzgqrıyla dünyanın farklı
+                    yerlerinden windsurf ve kitesurf tutkunlarını buraya çekiyor. İlk kez denemek isteyenler için eğitim
+                    alabileceğiniz ve ekipman kiralayabileceğiniz sörf okulları da var. <br><br>
+
+                    Plajın en sevdiğim kısımlarından biri de arka tarafı. Karavanlarıyla gelen sörfçülerle dolu; farklı
+                    ülkelerden insanların aynı
+                    rüzgarın peşinden buraya gelmesi ortama ayrı bir hava katıyor. Gökyüzünü rengarenk uçurtmalar
+                    doldururken kıyıdan onları izlemek bile çok keyifli.
+                </p><br><br><br>
+
+
+            </section>
+
+
+
+            <section id="section13">
+                <h2>Adanın Peynir Kayalıkları</h2>
+                <img src="resimler/peynirkayaliklari.png" alt="Peynir Kayalıkları" class="section-img">
+                <p>Bu kayalıklar adanın kuzeyinde Kaşkaval burnundadır. Adada bir çok Jeolojik
+                    oluşum, Jeomorfolojik yapılar vardır. Heykelsi kaya oluşumu olan peynir kayalıkları bunların başında
+                    gelir. Üst üste yığılmış peynir kalıplarını andırdığı için bu ad verilmiştir. Rüzgar ve dalga
+                    aşındırması sonucu oluşmuştur. <br><br>
+                    Bu güzelliği karadan görmek mümkün değil; denizden ulaşmak için Kuzulimanı ya da
+                    Kaleköy’deki balıkçı tekneleriyle anlaşabilirsiniz. Kuzulimanı’ndan tekneyle yaklaşık 5, Kaleköy’den
+                    ise 15 dakika sürüyor. Kaleköy’den kalkan ada turlarında da kayalıkları görebilirsiniz; yalnız bu
+                    turlar başka koylara da uğruyor.
+                </p><br><br><br>
+
+            </section>
+
+
+            <section id="section14">
+                <h2>Meteoroloji Tepesi</h2>
+
+                <div class="image-row-2">
+                    <img src="resimler/meteorolojitepesi.jpg" alt="Meteoroloji Tepesi">
+                    <img src="resimler/meteorolojitepesi3.jpg" alt="Meteoroloji Tepesi">
+                </div>
+
+                <p>Meteoroloji Tepesi, adanın yarısından fazlasını kuşbakışı görebileceğiniz bir noktada. Arabayla
+                    çıkmaya uygun beton bir yolu var. Özellikle gün doğumunu ya da gün batımını burada izlemek
+                    gerçekten muazzam.</p>
+
+                <div class="image-row-2">
+                    <img src="resimler/meteorolojitepesi1.jpg" alt="Meteoroloji Tepesi">
+                    <img src="resimler/meteorolojitepesi2.jpg" alt="Meteoroloji Tepesi">
+                </div>
+
+                <p>Gitmeden önce günün rüzgar şiddetini mutlaka kontrol edin. Adanın en yüksek noktalarından biri olduğu
+                    için tepede beklediğinizden çok daha kuvvetli bir rüzgarla karşılaşabilirsiniz. <br><br>
+
+                    Bir de küçük bir not: Etraf dağ kekiğiyle dolu; yanınıza küçük bir torba ve bıçak alıp tüketeceğiniz
+                    kadarını toplayabilirsiniz.</p>
+                <br><br><br>
+
+            </section>
+
+            <section id="section15">
+                <h2>Adanın Enfes Yolları</h2>
+                <img src="resimler/adayol1.jpg" alt="Yollar" class="section-img">
+                <p>Ben genel olarak yollara aşığım ama Gökçeada’nın yollarına ayrı bir aşık oldum. Bazı günler bir yere
+                    varmak için değil, sırf yolda olmak için çıkıyordum. Çünkü güne doğarken de, güneş tam tepedeyken
+                    de, gün batımına doğru da yollar birbirinden güzel. “Hepsi mi güzel olur?” Olur.</p>
+                <img src="resimler/yolharita1.png" alt="Yollar" class="section-img">
+                <p>
+                    Özellikle adanın güney rotasının yeri bende ayrı. Güney tarafına gelenlerin çoğu Laz Koyu için
+                    geliyor ama koy bu rotanın üzerinde değil; oraya gitmek isterseniz ayrı bir gün ayırın. Tepeköy
+                    sapağını geçip güneye doğru devam ederek Kefalos’a kadar ilerleyin. Kefalos’tan sonra yeniden
+                    merkeze dönebilirsiniz. Rota yaklaşık 45 km ama benim tamamlamam dört saat sürdü. Siz düşünün 🙂 Yol
+                    boyunca durup manzaranın tadını çıkarmadan geçmek kolay değil. <br>
+
+                    <img src="resimler/adayol.jpg" alt="Yollar" class="section-img">
+                    Daracık, tek şeritli yolda çoğu zaman etrafta kimse olmuyor (keçiler hariç 🙂). Yol kıvrım kıvrım
+                    uzayıp gidiyor, etraf buram buram kekik kokuyor. Bir yanda önünüzde açılan sonsuz manzara, bir yanda
+                    o güzel yol... Hangisine bakacağınızı şaşırıyorsunuz. <br>
+                <div class="image-row-2">
+                    <img src="resimler/adayol2.jpg" alt="Pai Kanyon">
+                    <img src="resimler/adasapelleri.jpg" alt="Pai Kanyon">
+                </div>
+                Bu rota denize girmekten çok yolda olma hâli var; Zeytinlik Ormanı’ndan
+                geçebilir, Ayios Yorgos Şapeli’ne de uğrayabilirsiniz.
+                </p>
+
+                <img src="resimler/esekliyol.jpg" alt="Yollar" class="section-img">
+                <p>Yeşillerin, bulutların ve dağların arasında ilerlerken keçiler, atlar ve eşekler de yolculuğunuza
+                    eşlik ediyor. Bazen durup bir ağacın gövdesine yaslanıyor, gölgesinde biraz dinleniyorsunuz. Yerdeki
+                    keçiler yetmezmiş gibi ağaç dallarına tünemiş olanlarla da vakit geçiriyorsunuz.
+
+                </p>
+                <img src="resimler/adayol5.jpg" alt="Yollar" class="section-img">
+
+                <p>Sonra başınızı kaldırıp dağlarla bulutların şölenine dalıyorsunuz.
+                    Gökçeada’nın yolları bana uzun zaman sonra yolun kendisinin de başlı başına bir güzellik
+                    olabileceğini hatırlattı resmen.
+                    Benim tavsiyem, Gökçeada’da kendinizi yollara bırakın. Planınız olmasa da olur; çünkü Gökçeada’da en
+                    güzel duraklar bazen önceden planladıklarınız değil, yolda içinizden geldiği için durduklarınız
+                    oluyor.
+                </p><br><br><br>
+
+            </section>
+
+
+
+
+            <section id="section16">
+                <h2>Gökçeada Yeme - İçme Tavsiyeleri</h2> <br>
+                <h4>1. StenAda Cafe</h4>
+                <img src="resimler/StenAdacafe1.jpg" alt="StenAda Cafe" class="section-img">
+                <p>Eski Bademli’deki StenAda Kafe, restore edilmiş eski taş binası ve köy manzaralı ufak terasıyla kahve
+                    içip ev yapımı lezzetler denemek için çok tatlı bir yer. Menüdeki her şey el yapımı: damla sakızlı
+                    muhallebi, dondurma, bademli kurabiye, karadut suyu, dondurmalı frappe, özel kahveler ve likörler.
+                    Tattığım her şey aşırı lezzetliydi; özellikle Androula Hanım'ın likörlerini mutlaka deneyin.
+                    <br><br>
+                    Androula Hanım ise köyde doğup büyümüş, mekanın sahibi. Kendisiyle sohbet etmeyi de ihmal etmeyin; o
+                    kadar sıcak ve samimi biri ki, buradan aklınızda yedikleriniz kadar onun hoş sohbeti de kalıyor.
+                    Haftanın her günü 11.00–20.00 arasında açık.
+
+                </p><br><br>
+
+                <h4>2. Nostos Cafe </h4>
+                <img src="resimler/nostos.png" alt="Nostos Cafe" class="section-img">
+
+                <p>Zeytinliköy’ün merkezindeki Nostos Cafe, köyün cıvıl cıvıl havasının tam içinde. Damla sakızlı
+                    muhallebisini ve Rum tatlılarını mutlaka deneyin; yanına söyleyeceğiniz kahve de çok lezzetli.
+                    Sahibiyle sohbet ederseniz “Nostos”un ne anlama geldiğini de sorun. Açıkçası ben anlamına bayıldım
+                    😊</p><br><br>
+
+                <h4>3. Angelikis Taverna</h4>
+                <img src="resimler/tepekytaverna.png" alt="Angelikis Taverna" class="section-img">
+                <p>Taverna akşamlarının güzelliği, ortaya söylenen mezeleri paylaşırken sohbetin uzamasında; müzik varsa
+                    geceye dansın da karışmasındadır. İşte tam böyle bir taverna: <strong>Angelikis Taverna</strong>,
+                    Tepeköy meydanında bu havayı yaşayabileceğiniz
+                    yerlerden biri. Menüsünde Rum ve Ege mezeleri, deniz ürünleri ve oğlak tandır var. Hepsi çok
+                    lezzetli ve
+                    çalışanlar çok ilgili.
+                    Müzik programı akşamdan akşama değişebiliyor. Bu yüzden gitmeden önce sorun ve mutlaka rezervasyon
+                    yaptırın.</p>
+                <br><br>
+
+
+                <h4>4. Poseidon</h4>
+                <p>Poseidon, Kaleköy’deki en sevdiğim meyhane. Manzarası inanılmaz; deniz ayaklarınızın altına, güneş
+                    tam karşıda.
+                    Gün batımına yakın gelin, yemeğinizi yerken güneşi burada uğurlayın. Manzaralı güzel
+                    masalar için rezervasyon şart; en iyileri aylar öncesinden doluyor. Fiyatlar da ada ortalamasına
+                    göre bir tık yüksek, aklınızda olsun. <br><br>
+
+                    Çalışanlar çok samimi ve içten. Mekan oldukça büyük olmasına rağmen ihtiyaç duyduğunuz anda masanıza
+                    yetişiyorlar. İmza mezeleri harika; çalışanlara mutlaka sorun. Müzikleri de
+                    çok başarılı, sevdiğiniz bir şarkıyı istek de yapabilirsiniz. Genç yaşlı, çoluk çocuk herkesin
+                    keyifle eğlendiği bir yer burası.
+                </p>
+
+
+            </section>
+
+
+
+
+            <section id="yorum-yaz"
+                style="background-color: rgb(24, 24, 24); padding: 40px 20px; margin-top: 60px; color: white;">
+                <div style="max-width: 700px; margin: 0 auto;">
+                    <h2 style="text-align: left; margin-bottom: 22px;">Yorum Yaz</h2>
+                    <p style="text-align: left; font-size: 14px; color: #aaa;">
+                        E-posta adresiniz yayımlanmayacaktır. Gerekli alanlar * ile işaretlenmiştir.
+                    </p>
+                    <form action="#" method="post"
+                        style="display: flex; flex-direction: column; gap: 25px; margin-top: 20px;">
+                        <textarea name="yorum" placeholder="Yorumunuz*" required
+                            style="width: 100%; height: 250px; padding: 10px; font-size: 14px; 
+                   border: none; box-shadow: inset 0 0 0 0.5px white; background-color: rgb(24, 24, 24); color: white;"></textarea>
+                        <input type="text" name="isim" placeholder="İsim"
+                            style="width: 100%; height: 50px; padding: 10px; font-size: 14px; 
+                   border: none; box-shadow: inset 0 0 0 0.5px white; background-color: rgb(24, 24, 24); color: white;">
+                        <input type="email" name="email" placeholder="E-posta"
+                            style="width: 100%; height: 50px; padding: 10px; font-size: 14px; 
+                   border: none; box-shadow: inset 0 0 0 0.5px white; background-color: rgb(24, 24, 24); color: white;">
+                        <button type="submit" style="width: 33%; padding: 12px; background-color: transparent; color: white; 
+                   border: none; box-shadow: inset 0 0 0 0.5px white; font-size: 14px; cursor: pointer;">
+                            GÖNDER
+                        </button>
+                    </form>
+                </div>
+            </section>
+
+        </div>
+    </div>
+
+    <script>
+
+        const menuToggle = document.getElementById('menuToggle');
+        const mainMenu = document.getElementById('mainMenu');
+        const closeMain = document.getElementById('closeMain');
+        const openIstikamet = document.getElementById('openIstikamet');
+        const istikametMenu = document.getElementById('istikametMenu');
+        const backIstikamet = document.getElementById('backIstikamet');
+
+        menuToggle.addEventListener('click', () => {
+            mainMenu.classList.add('active');
+        });
+
+        closeMain.addEventListener('click', () => {
+            mainMenu.classList.remove('active');
+        });
+
+        openIstikamet.addEventListener('click', (e) => {
+            e.preventDefault();
+            mainMenu.classList.remove('active');
+            istikametMenu.classList.add('active');
+        });
+
+        backIstikamet.addEventListener('click', () => {
+            istikametMenu.classList.remove('active');
+            mainMenu.classList.add('active');
+        });
+
+        const searchInput = document.getElementById('searchInput');
+        const clearBtn = document.getElementById('clearBtn');
+
+        if (searchInput && clearBtn) {
+            searchInput.addEventListener('input', () => {
+                if (searchInput.value.trim() !== "") {
+                    clearBtn.style.display = 'block';
+                } else {
+                    clearBtn.style.display = 'none';
+                }
+            });
+
+            clearBtn.addEventListener('click', () => {
+                searchInput.value = "";
+                clearBtn.style.display = 'none';
+
+                searchInput.focus();
+            });
+        }
+        const goBtn = document.getElementById('goBtn');
+
+        if (searchInput && clearBtn && goBtn) {
+            searchInput.addEventListener('input', () => {
+                if (searchInput.value.trim() !== "") {
+                    clearBtn.style.display = 'block';
+                    goBtn.style.display = 'none';
+                } else {
+                    clearBtn.style.display = 'none';
+                    goBtn.style.display = 'block';
+                }
+            });
+
+            clearBtn.addEventListener('click', () => {
+                searchInput.value = "";
+                clearBtn.style.display = 'none';
+                goBtn.style.display = 'block';
+                searchInput.focus();
+            });
+        }
+        menuToggle.addEventListener('click', () => {
+            mainMenu.classList.add('active');
+            document.body.classList.add('menu-open');
+        });
+
+        closeMain.addEventListener('click', () => {
+            mainMenu.classList.remove('active');
+            document.body.classList.remove('menu-open');
+        });
+
+        //mobil için nav-search
+        const searchInputMobile = document.getElementById('searchInputMobile');
+        const clearBtnMobile = document.getElementById('clearBtnMobile');
+        const goBtnMobile = document.getElementById('goBtnMobile');
+
+        if (searchInputMobile && clearBtnMobile && goBtnMobile) {
+            searchInputMobile.addEventListener('input', () => {
+                if (searchInputMobile.value.trim() !== "") {
+                    clearBtnMobile.style.display = 'block';
+                    goBtnMobile.style.display = 'none';
+                } else {
+                    clearBtnMobile.style.display = 'none';
+                    goBtnMobile.style.display = 'block';
+                }
+            });
+
+            clearBtnMobile.addEventListener('click', () => {
+                searchInputMobile.value = "";
+                clearBtnMobile.style.display = 'none';
+                goBtnMobile.style.display = 'block';
+                searchInputMobile.focus();
+            });
+        }
+
+        // İstikamet için nav-search
+        const searchInputIstikamet = document.getElementById('searchInputIstikamet');
+        const clearBtnIstikamet = document.getElementById('clearBtnIstikamet');
+        const goBtnIstikamet = document.getElementById('goBtnIstikamet');
+
+        if (searchInputIstikamet && clearBtnIstikamet && goBtnIstikamet) {
+            searchInputIstikamet.addEventListener('input', () => {
+                if (searchInputIstikamet.value.trim() !== "") {
+                    clearBtnIstikamet.style.display = 'block';
+                    goBtnIstikamet.style.display = 'none';
+                } else {
+                    clearBtnIstikamet.style.display = 'none';
+                    goBtnIstikamet.style.display = 'block';
+                }
+            });
+
+            clearBtnIstikamet.addEventListener('click', () => {
+                searchInputIstikamet.value = "";
+                clearBtnIstikamet.style.display = 'none';
+                goBtnIstikamet.style.display = 'block';
+                searchInputIstikamet.focus();
+            });
+        }
+
+        const openAsya = document.getElementById('openAsya');
+        const asyaMenu = document.getElementById('asyaMenu');
+        const backAsya = document.getElementById('backAsya');
+
+        openAsya.addEventListener('click', (e) => {
+            e.preventDefault();
+            istikametMenu.classList.remove('active'); // İSTİKAMET overlay gizle
+            asyaMenu.classList.add('active');         // ASYA overlay göster
+        });
+
+        backAsya.addEventListener('click', () => {
+            asyaMenu.classList.remove('active');      // ASYA overlay gizle
+            istikametMenu.classList.add('active');    // İSTİKAMET overlay göster
+        });
+
+        // ASYA Overlay Search Box
+        const searchInputAsya = document.getElementById('searchInputAsya');
+        const clearBtnAsya = document.getElementById('clearBtnAsya');
+        const goBtnAsya = document.getElementById('goBtnAsya');
+
+        if (searchInputAsya && clearBtnAsya && goBtnAsya) {
+            searchInputAsya.addEventListener('input', () => {
+                if (searchInputAsya.value.trim() !== "") {
+                    clearBtnAsya.style.display = 'block';
+                    goBtnAsya.style.display = 'none';
+                } else {
+                    clearBtnAsya.style.display = 'none';
+                    goBtnAsya.style.display = 'block';
+                }
+            });
+
+            clearBtnAsya.addEventListener('click', () => {
+                searchInputAsya.value = "";
+                clearBtnAsya.style.display = 'none';
+                goBtnAsya.style.display = 'block';
+                searchInputAsya.focus();
+            });
+        }
+
+        const tocWidget = document.querySelector('.toc-widget');
+        const tocHeader = tocWidget.querySelector('.toc-header');
+
+        tocHeader.addEventListener('click', () => {
+            tocWidget.classList.toggle('open');
+        });
+
+        document.querySelectorAll('.toc-list a').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                target.scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // TEMALAR overlay
+        const openTemalar = document.getElementById('openTemalar');
+        const temalarMenu = document.getElementById('temalarMenu');
+        const backTemalar = document.getElementById('backTemalar');
+
+        if (openTemalar && temalarMenu && backTemalar) {
+
+            openTemalar.addEventListener('click', (e) => {
+                e.preventDefault();
+                mainMenu.classList.remove('active');
+                temalarMenu.classList.add('active');
+            });
+
+            backTemalar.addEventListener('click', () => {
+                temalarMenu.classList.remove('active');
+                mainMenu.classList.add('active');
+            });
+
+        }
+
+
+
+
+    </script>
+    <script src="navbar.js"></script>
+    <script>
+        const navbar = document.getElementById('navbar');
+        let oncekiKonum = 0;
+
+        document.addEventListener('scroll', (e) => {
+            // Kaydırma pencerede mi yoksa body'de mi oluyor, ikisini de yakala
+            const hedef = e.target === document ? document.documentElement : e.target;
+            if (hedef !== document.documentElement && hedef !== document.body) return;
+
+            const konum = hedef.scrollTop;
+
+            // Çok küçük hareketleri yok say
+            if (Math.abs(konum - oncekiKonum) < 5) return;
+
+            if (konum > oncekiKonum && konum > 70) {
+                navbar.classList.add('nav-gizli');      // aşağı iniyor: gizle
+            } else {
+                navbar.classList.remove('nav-gizli');   // yukarı çıkıyor: göster
+            }
+
+            oncekiKonum = konum;
+        }, true);
+    </script>
+</body>
+
+</html>
